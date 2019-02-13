@@ -1,6 +1,81 @@
-Hello World hchgchgc
-<script src="http://cdn.socket.io/socket.io-1.4.5.js"></script>
+<div id="signDiv">
+	Username: <input id="signDiv-username" type="text"></input><br>
+	Password: <input id="signDiv-password" type="password"></input>
+	<button id="signDiv-signIn">Sign In</button>
+	<button id="signDiv-signUp">Sign Up</button>
+</div>
+
+<div id="gameDiv" style="display:none;">
+	<div id="game" style="position:absolute;width:1280px;height:720px">
+		<canvas id="ctx" width="1280" height="720" style="position:absolute;border:1px solid #000000;"></canvas>
+		<canvas id="ctx-ui" width="1280" height="720" style="position:absolute;border:1px solid #000000;"></canvas>
+	</div>
+</div>
+
+<div id="levelEditor" style="display:none;">
+	<div id="game" style="position:absolute;width:1280px;height:720px">
+		<canvas id="ctx" width="1280" height="720" style="position:absolute;border:1px solid #000000;"></canvas>
+		<canvas id="ctx-ui" width="1280" height="720" style="position:absolute;border:1px solid #000000;"></canvas>
+	</div>
+      <select>
+            <option value="asset1"></option>
+            <option value="asset2"></option>
+            <option value="asset3"></option>
+      </select>
+</div>
+
+<div id="mainMenu" style="display:none;">
+      <button id="newGame">New Game</button>
+      <button id="loadGame">Load Game</button>
+      <button id="levelEditor">Level Editor</button>
+</div>
+<!-- All files had the same id
+      Will need to connect to database -->
+<div id="loadFile" style="display:none;">
+      <button id="file">File One</button>
+      <button id="file">File Two</button>
+      <button id="file">File Three</button>
+</div>
+
 <script>
-  var socket=io();
-  socket.emit('happy');
+
+      let signDivSignIn = document.getElementById('signDiv-signIn');
+      let signDivSignUp = document.getElementById('signDiv-signUp');
+      let newGame = document.getElementById('newGame');
+      let loadGame = document.getElementById('loadGame');
+      let levelEditor = document.getElementById('levelEditor');
+      let loadFile = document.getElementById('loadFile');
+      let file = document.getElementById('file');
+
+
+      signDivSignIn.onclick = function() {
+            signDiv.style.display = 'none';
+            //gameDiv.style.display = 'inline-block';
+            mainMenu.style.display = 'inline-block';
+	}
+
+      signDivSignUp.onlclick = function() {
+
+      }
+
+      newGame.onclick = function() {
+            mainMenu.style.display = 'none';
+            gameDiv.style.display = 'inline-block';
+      }
+
+      loadGame.onclick = function() {
+            mainMenu.style.display = 'none';
+            loadFile.style.display = 'inline-block';
+      }
+
+      file.onclick = function () {
+            loadFile.style.display = 'none';
+            gameDiv.style.display = 'inline-block';
+      }
+
+
+
+
+
+
 </script>
