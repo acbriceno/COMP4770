@@ -1,3 +1,6 @@
+<!-- levelEditor button does not work for some reason -->
+
+
 <div id="signDiv">
 	Username: <input id="signDiv-username" type="text"></input><br>
 	Password: <input id="signDiv-password" type="password"></input>
@@ -12,22 +15,28 @@
 	</div>
 </div>
 
+
 <div id="levelEditor" style="display:none;">
-	<div id="game" style="position:absolute;width:1280px;height:720px">
-		<canvas id="ctx" width="1280" height="720" style="position:absolute;border:1px solid #000000;"></canvas>
-		<canvas id="ctx-ui" width="1280" height="720" style="position:absolute;border:1px solid #000000;"></canvas>
+	<div id="editor" style="position:absolute;width:1280px;height:720px">
+		<canvas id="ctxLE" width="1280" height="720" style="position:absolute;border:1px solid #000000;"></canvas>
+		<canvas id="ctx-uiLE" width="1280" height="720" style="position:absolute;border:1px solid #000000;"></canvas>
 	</div>
+
+</div>
+
+<div id="selections" style ="display:none;">
       <select>
-            <option value="asset1"></option>
-            <option value="asset2"></option>
-            <option value="asset3"></option>
+            <option value="asset1">asset1</option>
+            <option value="asset2">asset2</option>
+            <option value="asset3">asset3</option>
       </select>
 </div>
+
 
 <div id="mainMenu" style="display:none;">
       <button id="newGame">New Game</button>
       <button id="loadGame">Load Game</button>
-      <button id="levelEditor">Level Editor</button>
+      <button id="levelEditorB">Level Editor</button>
 </div>
 <!-- All files had the same id
       Will need to connect to database -->
@@ -43,12 +52,13 @@
       let signDivSignUp = document.getElementById('signDiv-signUp');
       let newGame = document.getElementById('newGame');
       let loadGame = document.getElementById('loadGame');
-      let levelEditor = document.getElementById('levelEditor');
+      let levelEditorB = document.getElementById('levelEditorB');
       let loadFile = document.getElementById('loadFile');
       let file = document.getElementById('file');
 
 
       signDivSignIn.onclick = function() {
+            console.log("signDivSignIn HIT")
             signDiv.style.display = 'none';
             //gameDiv.style.display = 'inline-block';
             mainMenu.style.display = 'inline-block';
@@ -59,18 +69,28 @@
       }
 
       newGame.onclick = function() {
+            console.log("newGame HIT")
             mainMenu.style.display = 'none';
             gameDiv.style.display = 'inline-block';
       }
 
       loadGame.onclick = function() {
+            console.log("loadGame HIT")
             mainMenu.style.display = 'none';
             loadFile.style.display = 'inline-block';
       }
 
       file.onclick = function () {
+            console.log("file HIT")
             loadFile.style.display = 'none';
             gameDiv.style.display = 'inline-block';
+      }
+
+      levelEditorB.onclick = function() {
+            console.log("levelEditorB HIT");
+            mainMenu.style.display = 'none';
+            levelEditor.style.display = 'inline-block';
+             selections.style.display = 'inline';
       }
 
 
@@ -79,3 +99,10 @@
 
 
 </script>
+<style>
+      selections {
+            position: absolute;
+            right: 1290px;
+
+      }
+</style>
