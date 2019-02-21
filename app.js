@@ -7,6 +7,8 @@ app.get('/',function(req,res){
   res.sendFile(__dirname + '/client/index.html')
 });
 
+app.use("/js", express.static(__dirname + '/client/js/'));
+
 serv.listen(2000);
 //edit
 var io = require('socket.io')(serv,{});
