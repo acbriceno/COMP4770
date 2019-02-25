@@ -1,4 +1,4 @@
-require('./server/DBConnect.js');
+var dbManager = require('./server/DBManager.js');
 var express = require('express')
 var app = express();
 var serv = require('http').Server(app);
@@ -14,4 +14,5 @@ serv.listen(2000);
 var io = require('socket.io')(serv,{});
 io.sockets.on('connection',function(socket){
   console.log('socket connection');
+  //  dbManager.connectDatabase(); // call to connect to database
 });
