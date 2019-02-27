@@ -45,7 +45,7 @@ Entity=function(type,id,x,y,w,h,img){
 	return self;
 }
 
-Actor=function(type,id,x,y,w,h,img,hp,atkSpd){
+Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
 	let self=Entity(type,id,x,y,w,h,img);
 	self.hp=hp;
 	self.atkSpd=atkSpd;
@@ -56,6 +56,8 @@ Actor=function(type,id,x,y,w,h,img,hp,atkSpd){
 	self.leftPress=false;
 	self.rightPress=false;
 	self.maxSpd=0;
+	self.dmg=dmg;
+	self.code=code;
 	
 	self.draw=function() {}
 	
@@ -69,10 +71,10 @@ Actor=function(type,id,x,y,w,h,img,hp,atkSpd){
 	
 }
 
-Enemy=function(type,id,x,y,w,h,img,hp,atkSpd){
-	let self=Actor('e',id,x,y,w,h,img,hp,atkSpd);
+Enemy=function(id,x,y,w,h,img,hp,atkSpd,dmg,code){
+	let self=Actor('enemy',id,x,y,w,h,img,hp,atkSpd,dmg,code);
 	Enemy.list[id]=self;
-	self.toRemove=flase;
+	self.remove=flase;
 	
 	let super_update=self.update;
 	self.update=function(){
@@ -104,8 +106,13 @@ Enemy.update=function(){
 		Enemy.list[key].update();
 	}
 	for(let key in Enemy.list){
-		if(Enemy.list[key].toRemove)
+		if(Enemy.list[key].toRemove){
+			let rand=(Math.random())*10
+			if(rand>=5){
+				Upgrade.generate(Enemy.list[key])
+			}
 			delete Enemy.list[key];
+		}
 	}
 }
 
@@ -125,6 +132,127 @@ Player=function(){
 	return self;
 }
 
-Bullet=function(id,x,y,spdX,spdY,w,h,hostile){
-	let self=Entity('b',)
+Projectile=function(id,x,y,spdX,spdY,w,h,hostile){
+	let self=Entity('projectile',id,x,y,w,h,Img.projectile);
+	self.timer=0;
+	self.hostile=hostile;
+	self.spdX=spdX;
+	self.spdY=spdY;
+	self.remove=false;
+	
+	let super_update=self.update;
+	self.update=function(){
+		super_update();
+		self.timer++;
+		self.remove=false;
+		if(self.timer>80)
+			self.remove=true;
+		if(self.hostile==false){
+			for(let key2 in Enemy.list){
+				if(self.testCollision(Enemy.list[key2])){
+					self.remove=true;
+					Enemy.list[key2].hp-=1;
+				}
+			}
+		}
+		else if(self.hstile==true){
+			if(self.testCollision(player)){
+				self.remove=true;
+				player.hp-=0;
+			}
+		}
+		for(let key3 in Platform.list){
+			if(self.testCollision(Platform.list[key3])){
+				if(Platform.list[key2].imp){
+					self.remove=true;
+				}
+			}
+		}
+	}
+	
+	self.updatePosition=function(){
+		self.x+=self.spdX;
+		self.y+=self.spdY;
+	}
+	
+	Projectile.list[id]=self;
 }
+
+Projectile.list={};
+
+Projectile.update=function(){
+	for(let key4 in Projectile.list){
+		let p = Projectile.list[key4];
+		p.update();
+		if(p.remove){
+			delete Projectile.list[key4];
+		}
+	}
+}
+
+Projectile.generate = function(actor,aim){
+	let x=actor.x;
+	let y=actor.y;
+	let h=20;
+	let w=40;
+	let id=Math.random();
+	let hostile=true;
+	let angle;
+	if(aim!==undefined){
+		angle=aim;
+	}
+	else {
+		angle=actor.aimAngle;
+	}
+	
+	if(actor.type!==p){
+		hostile=false;
+	}
+	
+	let spdX=Math.cos(angle/180*Math.PI)*5;
+	let spdY=Math.sin(angle/180*Math.PI)*5;
+	Projectile(id,x,y,spdX,spdY,w,h,hostile);
+}
+
+Upgrade=function(id,x,y,w,h,cat,img){
+		let self=Entity('upgrade',id,x,w,img);
+		self.cat=cat;
+		Upgrade.list[id]=self;
+}
+
+Upgrade.list={}
+
+Upgrade.update=function(){
+	for(var key5 in Upgrade.list){
+		Upgrade,list[key5].update();
+		let collision=player.testCollision(Upgrade.list[key5]);
+		if(collision){
+			//add information fro what happens based on what kind of upgrade
+			delete Upgrade.list[key5];
+		}
+	}
+}
+
+Upgrade.generate=function(enemy){
+	let x=enemy.x;
+	let y=enemy.y;
+	let h=32;
+	let w=32;
+	let id=Math.random();
+	//ad logic for choosing the type of upgrade
+	let cat;
+	let img;
+	
+	Upgrade(id,x,y,cat,img)
+	
+}
+
+Platform=function(type,id,x,y,img,code,smash,imp){
+	let self=Entity(type,id,x,y,64,64,img);
+	let code=code;
+	lef smash=smash;
+	let imp=imp;
+	Platform.list[id]=self;
+}
+
+Platform.list={};
