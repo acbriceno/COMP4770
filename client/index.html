@@ -1,8 +1,12 @@
 <!-- levelEditor button does not work for some reason -->
-
-<head>
+<!DOCTYPE HTML>
+<HTML>
+<!-- <head>
       <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-</head>
+      <script  async src="js/entity.js"></script>
+      <script type="text/javascript;charset=utf-8" async src="js/inventory.js"></script>
+</head> -->
+<script src="js/entity.js"></script>
 <body>
 <div id="signDiv">
 	Username: <input id="signDiv-username" type="text"></input><br>
@@ -49,12 +53,10 @@
       <button id="file">File Three</button>
 </div>
 
-<script type="text/javascript;charset=utf-8" src="/js/entity.js"></script>
-<script type="text/javascript;charset=utf-8" src="js/inventory.js"></script>
+
 
 
 <script>
-
       let signDivSignIn = document.getElementById('signDiv-signIn');
       let signDivSignUp = document.getElementById('signDiv-signUp');
       let newGame = document.getElementById('newGame');
@@ -62,6 +64,10 @@
       let levelEditorB = document.getElementById('levelEditorB');
       let loadFile = document.getElementById('loadFile');
       let file = document.getElementById('file');
+
+      var Img = {};
+      Img.player = new Image();
+      Img.player.src = "img/Armature_Idle_12.png";
 
 
       signDivSignIn.onclick = function() {
@@ -104,14 +110,26 @@
 
       let ctx = document.getElementById('ctx').getContext('2d');
 
-      let player = {
-            x:50,
-            y:50,
+      // let player = {
+      //       x:50,
+      //       y:50,
+      // };
+      player = Player();
+
+      var img = new Image()
+
+      img.onload = function() {
+
+
+          ctx.drawImage(img, 0, 0);
+
       };
 
+      img.src = "img/Armature_Idle_12.png";
 
 
-      ctx.fillRect(player.x, player.y, 20, 20);
+
+      //ctx.fillRect(Player.x, player.y, 20, 20);
 
 
 
@@ -125,3 +143,4 @@
 
       }
 </style> -->
+</HTML>
