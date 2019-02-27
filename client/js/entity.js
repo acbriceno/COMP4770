@@ -1,3 +1,5 @@
+let player;
+
 Entity=function(type,id,x,y,w,h,img){
 	let self={
 		type:type,
@@ -121,4 +123,8 @@ Player=function(){
 	self.onDeath=function(){}
 	
 	return self;
+}
+
+Bullet=function(id,x,y,spdX,spdY,w,h,hostile){
+	let self=Entity('b',)
 }
