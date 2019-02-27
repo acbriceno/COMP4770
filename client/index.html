@@ -100,7 +100,18 @@
              selections.style.display = 'inline';
       }
 
+      // <!--  drawing to canvus and moving -->
 
+      let ctx = document.getElementById('ctx').getContext('2d');
+
+      let player = {
+            x:50,
+            y:50,
+      };
+
+
+
+      ctx.fillRect(player.x, player.y, 20, 20);
 
 
 
