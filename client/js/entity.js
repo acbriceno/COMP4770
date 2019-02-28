@@ -16,7 +16,10 @@ Entity=function(type,id,x,y,w,h,img){
 		self.draw();
 	}
 	
-	self.draw=function(){}
+	self.draw=function(){
+		ctx.save();
+		
+	}
 	
 	self.getDistance=function(entity2){
 		let delx=self.x-entity2.x;
@@ -37,7 +40,7 @@ Entity=function(type,id,x,y,w,h,img){
 			width:entity2.w,
 			height:entity2.h,
 		}
-		
+		return testCollisionRects(rect1,rect2);
 	}
 	
 	self.updatePosition=function(){}
@@ -58,14 +61,35 @@ Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
 	self.maxSpd=0;
 	self.dmg=dmg;
 	self.code=code;
+	self.atkCnt=0;
 	
-	self.draw=function() {}
+	self.draw=function() {
+		ctx.save();
+		//add logic for drawing
+		ctx.restore();
+		
+	}
 	
-	self.updatePosition=function() {}
+	self.updatePosition=function() {
+		//add logic to move and take into account collision
+	}
+	
+	let super_update=self.update:
+	self.update=function(){
+		super_update();
+		if(self.hp<=0){
+			self.onDeath();
+		}
+	}
 	
 	self.onDeath=function(){}
 	
-	self.performAttack=function(){}
+	self.performAttack=function(){
+		if(self.atkCnt>25){
+			self.atkCnt=0;
+			Projectile.generate(self);
+		}
+	}
 	
 	return self;
 	
@@ -74,13 +98,13 @@ Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
 Enemy=function(id,x,y,w,h,img,hp,atkSpd,dmg,code){
 	let self=Actor('enemy',id,x,y,w,h,img,hp,atkSpd,dmg,code);
 	Enemy.list[id]=self;
-	self.remove=flase;
+	self.remove=false;
 	
 	let super_update=self.update;
 	self.update=function(){
 		super_update();
 		self.updateAim();
-		self.updateKeypress();
+		self.updateKey();
 		self.performAttack();
 	}
 	
@@ -89,7 +113,13 @@ Enemy=function(id,x,y,w,h,img,hp,atkSpd,dmg,code){
 	self.updateKey=function(){}
 	
 	let super_draw=self.draw;
-	self.draw=function(){}
+	self.draw=function(){
+		super_draw();
+		
+		ctx.save();
+		//logic for drawing enemies
+		ctx.restore();
+	}
 	
 	self.onDeath=function(){
 		self.toRemove=true;
@@ -106,7 +136,7 @@ Enemy.update=function(){
 		Enemy.list[key].update();
 	}
 	for(let key in Enemy.list){
-		if(Enemy.list[key].toRemove){
+		if(Enemy.list[key].remove){
 			let rand=(Math.random())*10
 			if(rand>=5){
 				Upgrade.generate(Enemy.list[key])
@@ -116,18 +146,83 @@ Enemy.update=function(){
 	}
 }
 
+Assignment=function(id,x,y,w,h,img,hp,dmg,code){
+	let self=Enemy(id,x,y,w,h,img,hp,dmg,code);
+	Assignment.list[id]=self;
+	self.remove=false;
+}
+
+Assignment.update=function(){
+	for(let key7 in Assignment.List){
+		Assignment.list[key7].update();
+	}
+	for(let key7 in Assignment.list){
+		if(Assignment.list[key7].remove){
+			player.asgScore++;
+			delete Assignment.list[key7];
+		}
+	}
+}
+
+Assignment.list={};
+
+Midterm=function(id,x,y,w,h,img,hp,dmg,code){
+	let self=Enemy(id,x,y,w,h,img,hp,dmg,code);
+	Midterm.list[id]=self;
+	self.remove=false;
+}
+
+Midterm.update=function(){
+	for(let key8 in Midterm.List){
+		Midterm.list[key8].update();
+	}
+	for(let key8 in Midterm.list){
+		if(Midterm.list[key8].remove){
+			//logic to save progress
+			player.mid=true;
+			delete Midterm.list[key8];
+		}
+	}
+}
+
+Midterm.list={};
+
+Final=function(id,x,y,w,h,img,hp,dmg,code){
+	let self=Enemy(id,x,y,w,h,img,hp,dmg,code);
+	Final.list[id]=self;
+}
+
+Final.update=function(){
+	for(let key9 in Final.List){
+		Final.list[key9].update();
+	}
+	for(let key9 in Final.list){
+		if(Final.list[key9].remove){
+			//logic to end the level
+		}
+	}
+}
+
+Final.list={};
+
+
+
 Player=function(){
 	let self=Actor('p','myId',50,40,50*1.5,70*1.5,Img.player,10,1);
 	self.maxSpd=10;
 	self.lMouseClick=false;
 	self.rMouseClick=false;
+	self.asgScore=0;
+	self.mid=false;
 	
 	let super_update=self.update;
 	self.update=function(){
 		super_update();
 	}
 	
-	self.onDeath=function(){}
+	self.onDeath=function(){
+		//logic to end level on player death
+	}
 	
 	return self;
 }
@@ -250,7 +345,7 @@ Upgrade.generate=function(enemy){
 Platform=function(type,id,x,y,img,code,smash,imp){
 	let self=Entity(type,id,x,y,64,64,img);
 	let code=code;
-	lef smash=smash;
+	let smash=smash;
 	let imp=imp;
 	Platform.list[id]=self;
 }
