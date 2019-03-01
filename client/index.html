@@ -76,7 +76,7 @@
 		&& rect1.y <= rect2.y + rect2.height
 		&& rect2.y <= rect1.y + rect1.height;
 }
-	  
+
 	//action listeners, logic tbd
 	document.onmousedown=function(mouse){}
 	document.onmouseup=function(mouse){}
@@ -84,13 +84,15 @@
 		mouse.preventDefault();
 	}
 	document.onmousemove=function(mouse){}
-	document.onkeydown=function(event){}
+	document.onkeydown=function(event){
+            
+      }
 	document.onkeyup=function(event){}
-	
+
 	//update for in game, logic tbd
 	update=function(){}
-	
-	
+
+
       signDivSignIn.onclick = function() {
             console.log("signDivSignIn HIT")
             signDiv.style.display = 'none';
