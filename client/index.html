@@ -64,7 +64,12 @@
       let levelEditorB = document.getElementById('levelEditorB');
       let loadFile = document.getElementById('loadFile');
       let file = document.getElementById('file');
-
+	let keyUp=68;
+	let keyDown=65;
+	let keyRight=83;
+	let keyLeft=87;
+	let keyPause=80;
+	let keyGrapple=32;
       var Img = {};
       Img.player = new Image();
       Img.player.src = "img/Armature_Idle_12.png";
@@ -85,9 +90,33 @@
 	}
 	document.onmousemove=function(mouse){}
 	document.onkeydown=function(event){
-            
-      }
-	document.onkeyup=function(event){}
+		if(event.keyCode==keyUp)
+			player.upPress=true;
+		else if(event.keyCode==keyDown)
+			player.downPress=true;
+		else if(event.keyCode==keyRight)
+			player.rightPress=true;
+		else if(event.keyCode==keyLeft)
+			player.leftPress=true;
+		else if(event.keyCode==keyPause)
+			//add logic to pause
+		else if(event.keyCode==keyGrapple)
+			player.grapplePress=true;
+	}
+	document.onkeyup=function(event){
+		if(event.keyCode==keyUp)
+			player.upPress=false;
+		else if(event.keyCode==keyDown)
+			player.downPress=false;
+		else if(event.keyCode==keyRight)
+			player.rightPress=false;
+		else if(event.keyCode==keyLeft)
+			player.leftPress=false;
+		else if(event.keyCode==keyPause)
+			//add logic to pause
+		else if(event.keyCode==keyGrapple)
+			player.grapplePress=false;
+	}
 
 	//update for in game, logic tbd
 	update=function(){}
