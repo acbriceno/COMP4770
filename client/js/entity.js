@@ -10,23 +10,23 @@ Entity=function(type,id,x,y,w,h,img){
 		h:h,
 		img:img,
 	};
-	
+
 	self.update=function(){
 		self.updatePosition();
 		self.draw();
 	}
-	
+
 	self.draw=function(){
 		ctx.save();
-		
+
 	}
-	
+
 	self.getDistance=function(entity2){
 		let delx=self.x-entity2.x;
 		let dely=self.y-entity2.y;
 		return Math.sqrt(delx*delx+dely*dely);
 	}
-	
+
 	self.testCollision=function(entity2){
 		let rect1={
 			x:self.x-self.w/2,
@@ -42,9 +42,9 @@ Entity=function(type,id,x,y,w,h,img){
 		}
 		return testCollisionRects(rect1,rect2);
 	}
-	
+
 	self.updatePosition=function(){}
-	
+
 	return self;
 }
 
@@ -62,44 +62,44 @@ Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
 	self.dmg=dmg;
 	self.code=code;
 	self.atkCnt=0;
-	
+
 	self.draw=function() {
 		ctx.save();
 		//add logic for drawing
 		ctx.restore();
-		
+
 	}
-	
+
 	self.updatePosition=function() {
 		//add logic to move and take into account collision
 	}
-	
-	let super_update=self.update:
+
+	let super_update=self.update;
 	self.update=function(){
 		super_update();
 		if(self.hp<=0){
 			self.onDeath();
 		}
 	}
-	
+
 	self.onDeath=function(){}
-	
+
 	self.performAttack=function(){
 		if(self.atkCnt>25){
 			self.atkCnt=0;
 			Projectile.generate(self);
 		}
 	}
-	
+
 	return self;
-	
+
 }
 
 Enemy=function(id,x,y,w,h,img,hp,atkSpd,dmg,code){
 	let self=Actor('enemy',id,x,y,w,h,img,hp,atkSpd,dmg,code);
 	Enemy.list[id]=self;
 	self.remove=false;
-	
+
 	let super_update=self.update;
 	self.update=function(){
 		super_update();
@@ -107,26 +107,26 @@ Enemy=function(id,x,y,w,h,img,hp,atkSpd,dmg,code){
 		self.updateKey();
 		self.performAttack();
 	}
-	
+
 	self.updateAim=function(){}
-	
+
 	self.updateKey=function(){}
-	
+
 	let super_draw=self.draw;
 	self.draw=function(){
 		super_draw();
-		
+
 		ctx.save();
 		//logic for drawing enemies
 		ctx.restore();
 	}
-	
+
 	self.onDeath=function(){
 		self.toRemove=true;
 	}
-	
+
 	return self;
-	
+
 }
 
 Enemy.list={};
@@ -214,16 +214,16 @@ Player=function(){
 	self.rMouseClick=false;
 	self.asgScore=0;
 	self.mid=false;
-	
+
 	let super_update=self.update;
 	self.update=function(){
 		super_update();
 	}
-	
+
 	self.onDeath=function(){
 		//logic to end level on player death
 	}
-	
+
 	return self;
 }
 
@@ -234,7 +234,7 @@ Projectile=function(id,x,y,spdX,spdY,w,h,hostile){
 	self.spdX=spdX;
 	self.spdY=spdY;
 	self.remove=false;
-	
+
 	let super_update=self.update;
 	self.update=function(){
 		super_update();
@@ -264,12 +264,12 @@ Projectile=function(id,x,y,spdX,spdY,w,h,hostile){
 			}
 		}
 	}
-	
+
 	self.updatePosition=function(){
 		self.x+=self.spdX;
 		self.y+=self.spdY;
 	}
-	
+
 	Projectile.list[id]=self;
 }
 
@@ -299,11 +299,11 @@ Projectile.generate = function(actor,aim){
 	else {
 		angle=actor.aimAngle;
 	}
-	
+
 	if(actor.type!==p){
 		hostile=false;
 	}
-	
+
 	let spdX=Math.cos(angle/180*Math.PI)*5;
 	let spdY=Math.sin(angle/180*Math.PI)*5;
 	Projectile(id,x,y,spdX,spdY,w,h,hostile);
@@ -337,9 +337,9 @@ Upgrade.generate=function(enemy){
 	//ad logic for choosing the type of upgrade
 	let cat;
 	let img;
-	
+
 	Upgrade(id,x,y,cat,img)
-	
+
 }
 
 Platform=function(type,id,x,y,img,code,smash,imp){
