@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+
+
+</head>
+
+<body >
+<div id="signDiv">
+	Username: <input id="signDiv-username" type="text"></input><br>
+	Password: <input id="signDiv-password" type="password"></input>
+	<button id="signDiv-signIn">Sign In</button>
+	<button id="signDiv-signUp">Sign Up</button>
+</div>
+
+
+
+
+
+
+
+<div id="gameDiv" style="display:none;">
+	<div id="game" style="position:absolute;width:1280px;height:720px">
+		<canvas id="ctx" width="1280" height="720" style="position:absolute;border:1px solid #000000;"></canvas>
+		<canvas id="ctx-ui" width="1280" height="720" style="position:absolute;border:1px solid #000000;"></canvas>
+	</div>
+</div>
+
+<div id="fileOneDiv" style="display:none;">
+	<div id="game" style="position:absolute;width:1280px;height:720px">
+		<canvas id="ctx" width="1280" height="720" style="position:absolute;border:1px solid #000000;"></canvas>
+		<canvas id="ctx-ui" width="1280" height="720" style="position:absolute;border:1px solid #000000;"></canvas>
+	</div>
+</div>
+
+
+<div id="fileTwoDiv" style="display:none;">
+	<div id="game" style="position:absolute;width:1280px;height:720px">
+		<canvas id="ctx" width="1280" height="720" style="position:absolute;border:1px solid #000000;"></canvas>
+		<canvas id="ctx-ui" width="1280" height="720" style="position:absolute;border:1px solid #000000;"></canvas>
+	</div>
+</div>
+
+<div id="fileThreeDiv" style="display:none;">
+	<div id="game" style="position:absolute;width:1280px;height:720px">
+		<canvas id="ctx" width="1280" height="720" style="position:absolute;border:1px solid #000000;"></canvas>
+		<canvas id="ctx-ui" width="1280" height="720" style="position:absolute;border:1px solid #000000;"></canvas>
+	</div>
+</div>
+
+
+<div id="levelEditor" style="display:none;">
+	<div id="editor" style="position:absolute;width:1280px;height:720px">
+		<canvas id="ctxLE" width="1280" height="720" style="position:absolute;border:1px solid #000000;"></canvas>
+		<canvas id="ctx-uiLE" width="1280" height="720" style="position:absolute;border:1px solid #000000;"></canvas>
+	</div>
+
+</div>
+
+<div id="selections" style ="display:none;">
+      <select id="mySelect">
+            <option value="asset1" onclick="myFunction()">asset1</option>
+            <option value="asset2">asset2</option>
+            <option value="asset3">asset3</option>
+      </select>
+	  
+
+	  
+	  
+</div>
+
+
+<div id="back" style ="display:none;">
+      
+          <button onclick="backMainMenu()">Back</button>
+      
+</div>
+
+<div id="createDiv" style ="display:none;">
+      
+          <button onclick="create()">Create</button>
+      
+</div>
+
+<div id="setXDiv" style ="display:none;">
+         set Xd
+         <input type="number" id="setX" name="setX" value="50"
+			min="10" max="100" >
+      
+</div>
+
+
+
+<div id="setYDiv" style ="display:none;">
+		set Yd
+         <input type="number" id="setY" name="setY" value="50"
+			min="10" max="100" set Yd>
+      
+</div>
+
+
+
+
+<div id="setWidthDiv" style ="display:none;">
+		set Width
+         <input type="number" id="width" name="width" value="50"
+			min="10" max="100" set Yd>
+      
+</div>
+
+
+
+<div id="setHeightDiv" style ="display:none;">
+		set Height
+         <input type="number" id="height" name="height" value="50"
+			min="10" max="100" set Yd>
+      
+</div>
+
+
+<div id="selectImage" style ="display:none;">
+		Select files: <input type="file" name="myFile" accept="image/png, image/jpeg"><br><br>
+      
+</div>
+
+
+<div id="mainMenu" style="display:none;">
+      <button id="newGame">New Game</button>
+      <button id="loadGame">Load Game</button>
+      <button id="levelEditorB">Level Editor</button>
+</div>
+<!-- All files had the same id
+      Will need to connect to database -->
+<div id="loadFile" style="display:none;">
+      <button id="file">File One</button>
+      <button id="file2">File Two</button>
+      <button id="file3">File Three</button>
+</div>
+
+
+
+<script>
+	  
+	  let signDivSignIn = document.getElementById('signDiv-signIn');
+      let signDivSignUp = document.getElementById('signDiv-signUp');
+      let newGame = document.getElementById('newGame');
+      let loadGame = document.getElementById('loadGame');
+      let levelEditorB = document.getElementById('levelEditorB');
+      let loadFile = document.getElementById('loadFile');
+      let file = document.getElementById('file');
+	  let back = document.getElementById('back'); 	
+	  let go= document.getElementById('create'); 	
+	  let count=0;
+	  
+	  let player;
+	  let player2;
+	  let player3;
+	  let player4;
+	  let levelEdit=[];
+	  
+	  
+	  
+	  
+	 
+	  
+	  function backMainMenu(){
+		   	if (count==1){
+			 mainMenu.style.display = 'none';
+			back.style.display = 'none';
+			 signDiv.style.display = 'inline-block';
+			 count=0;
+			
+			}
+			
+			else{
+			levelEditor.style.display = 'none';
+            selections.style.display = 'none';
+			loadFile.style.display = 'none';
+			gameDiv.style.display = 'none';
+			setXDiv.style.display = 'none';
+			setYDiv.style.display = 'none';
+			setWidthDiv.style.display = 'none';
+			setHeightDiv.style.display = 'none';
+			selectFilesDiv.style.display = 'none';
+			back.style.display = 'none';
+			createDiv.style.display = 'none';
+			//gameDiv.style.display = 'inline-block';
+            mainMenu.style.display = 'inline-block';
+			back.style.display = 'inline';
+			count=1;
+			}
+			//console.log("count " + count);
+			
+	  
+	  }
+	  
+	  let c=0;
+	  
+	  function create(){
+		    var object = document.getElementById("mySelect").selectedIndex;
+			var x =document.getElementById("setX").value;
+			var y =document.getElementById("setY").value;
+			var width=document.getElementById("width").value;
+			var height=document.getElementById("height").value;
+			var img=document.getElementById("file").value;
+			
+			
+			
+			
+			
+			console.log(x);
+			
+			if (object=="0"){
+								
+				
+				
+				
+				let actor=new Actor('a','myId',x,y,width,height,img);
+				actor.draw();
+				
+			
+			}
+			else if (object=="1"){
+				
+				levelEdit.push(new Enemy('e','myId',60,40,50*1.5,70*1.5,null));
+				levelEdit[levelEdit.length-1].draw();
+			
+			
+			
+			}
+			
+			
+			
+			
+			
+			
+			
+			c=c+10;
+			
+	  }
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  signDivSignIn.onclick = function() {
+            console.log("signDivSignIn HIT")
+            signDiv.style.display = 'none';
+            //gameDiv.style.display = 'inline-block';
+            mainMenu.style.display = 'inline-block';
+			back.style.display = 'inline';
+			count=1;
+	  }
+
+      signDivSignUp.onlclick = function() {
+		
+      }
+
+      newGame.onclick = function() {
+            console.log("newGame HIT")
+            mainMenu.style.display = 'none';
+            gameDiv.style.display = 'inline-block';
+			back.style.display = 'inline';
+			count=2;
+      }
+
+      loadGame.onclick = function() {
+            console.log("loadGame HIT")
+            mainMenu.style.display = 'none';
+            loadFile.style.display = 'inline-block';
+			back.style.display = 'inline';
+			count=2;
+      }
+
+      file.onclick = function () {
+            console.log("file HIT")
+            loadFile.style.display = 'none';
+            fileOneDiv.style.display = 'inline-block';
+			
+      }
+	  
+	   file2.onclick = function () {
+            console.log("file HIT")
+            loadFile.style.display = 'none';
+            fileTwoDiv.style.display = 'inline-block';
+			
+      }
+	  
+	  file3.onclick = function () {
+            console.log("file HIT")
+            loadFile.style.display = 'none';
+            fileThreeDiv.style.display = 'inline-block';
+			
+      }
+
+
+      levelEditorB.onclick = function() {
+            console.log("levelEditorB HIT");
+            mainMenu.style.display = 'none';
+            levelEditor.style.display = 'inline-block';
+            selections.style.display = 'inline';
+			createDiv.style.display = 'inline';
+			back.style.display = 'inline';
+			
+			setWidthDiv.style.display = 'inline';
+			setHeightDiv.style.display = 'inline';
+			setXDiv.style.display = 'inline';
+			setYDiv.style.display = 'inline';
+			selectImage.style.display = 'inline';
+			count=2;
+      }
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+
+Entity=function(type,id,x,y,w,h,img){
+	let self={
+		type:type,
+		id:id,
+		x:x,
+		y:y,
+		w:w,
+		h:h,
+		img:img,
+	};
+	
+	self.update=function(){
+		self.updatePosition();
+		self.draw();
+	}
+	
+	self.draw=function(){}
+	
+	self.getDistance=function(entity2){
+		let delx=self.x-entity2.x;
+		let dely=self.y-entity2.y;
+		return Math.sqrt(delx*delx+dely*dely);
+	}
+	
+	self.testCollision=function(entity2){
+		let rect1={
+			x:self.x-self.w/2,
+			y:self.y-self.h/2,
+			width:self.w,
+			height:self.h,
+		}
+		let rect2={
+			x:entity2.x-entity2.w/2,
+			y:entity2.y-entity2.h/2,
+			width:entity2.w,
+			height:entity2.h,
+		}
+		
+	}
+	
+	self.updatePosition=function(){}
+	
+	return self;
+}
+
+
+let c1=0
+
+Actor=function(type,id,x,y,w,h,img,hp,atkSpd){
+	let self=Entity(type,id,x,y,w,h,img);
+	self.hp=hp;
+	self.atkSpd=atkSpd;
+	self.aimAngle=0;
+	self.spriteCnt=0;
+	self.downPress=false;
+	self.upPress=false;
+	self.leftPress=false;
+	self.rightPress=false;
+	self.maxSpd=0;
+	
+	
+	
+	
+	self.draw=function() {
+	
+		let ctxLe = document.getElementById('ctxLE').getContext('2d');
+		var img = img;
+		
+	    ctxLe.drawImage(img, x, y);
+		
+		ctxLe.fillRect(x, y, w, h);
+		c1=c1=+10;
+	
+	}
+	
+	self.updatePosition=function() {}
+	
+	self.onDeath=function(){}
+	
+	self.performAttack=function(){}
+	
+	return self;
+	
+}
+
+let c3=0
+
+Enemy=function(type,id,x,y,w,h,img,hp,atkSpd){
+	
+	
+	
+	
+	
+	
+	
+	self.update=function(){
+		super_update();
+		self.updateAim();
+		self.updateKeypress();
+		self.performAttack();
+	}
+	
+	self.updateAim=function(){}
+	
+	self.updateKey=function(){}
+	
+	
+	
+	self.draw=function(){
+		self.draw=function() {
+	
+		let ctxLe = document.getElementById('ctxLE').getContext('2d');
+
+		ctxLe.fillRect(x, y, 20+c3, 20);
+		c3=c3=+100;
+	
+	}
+	
+	
+	
+	}
+	
+	self.onDeath=function(){
+		self.toRemove=true;
+	}
+	
+	return self;
+	
+}
+
+Enemy.list={};
+
+Enemy.update=function(){
+	for(let key in Enemy.list){
+		Enemy.list[key].update();
+	}
+	for(let key in Enemy.list){
+		if(Enemy.list[key].toRemove)
+			delete Enemy.list[key];
+	}
+}
+
+Player=function(){
+	let self=Actor('p','myId',50,40,50*1.5,70*1.5,null,10,1);
+	self.maxSpd=10;
+	self.lMouseClick=false;
+	self.rMouseClick=false;
+	
+	let super_update=self.update;
+	self.update=function(){
+		super_update();
+	}
+	
+	self.onDeath=function(){}
+	
+	return self;
+}
+
+Bullet=function(id,x,y,spdX,spdY,w,h,hostile){
+	let self=Entity('b',)
+}
+
+
+
+
+
+</script>
+
+
+</body>
+
+
+
+<style>
+      selections {
+            position: absolute;
+            right: 1290px;
+
+      }
+</style>
+
+
+</html>
+
+
+
