@@ -58,7 +58,7 @@ Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
 	self.upPress=false;
 	self.leftPress=false;
 	self.rightPress=false;
-	self.maxSpd=0;
+	self.maxSpd=15;
 	self.dmg=dmg;
 	self.code=code;
 	self.atkCnt=0;
@@ -71,7 +71,14 @@ Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
 	}
 
 	self.updatePosition=function() {
-		//add logic to move and take into account collision
+		if(self.rightPress)
+			self.x+=self.maxSpd;
+		else if(self.leftPress)
+			self.x-=self.maxSpd
+		else if(self.upPress)
+			self.y+=self.maxSpd
+		else if(self.downPress)
+			self.y-=self.maxSpd
 	}
 
 	let super_update=self.update;
