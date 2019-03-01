@@ -90,18 +90,24 @@
 	}
 	document.onmousemove=function(mouse){}
 	document.onkeydown=function(event){
-		if(event.keyCode==keyUp)
+		if(event.keyCode==keyUp) {
 			player.upPress=true;
-		else if(event.keyCode==keyDown)
+            }
+		else if(event.keyCode==keyDown) {
 			player.downPress=true;
-		else if(event.keyCode==keyRight)
+            }
+		else if(event.keyCode==keyRight){
 			player.rightPress=true;
-		else if(event.keyCode==keyLeft)
+            }
+		else if(event.keyCode==keyLeft) {
 			player.leftPress=true;
-		else if(event.keyCode==keyPause)
+            }
+		else if(event.keyCode==keyPause) {
 			//add logic to pause
-		else if(event.keyCode==keyGrapple)
+            }
+		else if(event.keyCode==keyGrapple) {
 			player.grapplePress=true;
+            }
 	}
 	document.onkeyup=function(event){
 		if(event.keyCode==keyUp)
@@ -112,14 +118,18 @@
 			player.rightPress=false;
 		else if(event.keyCode==keyLeft)
 			player.leftPress=false;
-		else if(event.keyCode==keyPause)
+		else if(event.keyCode==keyPause) {
 			//add logic to pause
+            }
 		else if(event.keyCode==keyGrapple)
 			player.grapplePress=false;
 	}
 
 	//update for in game, logic tbd
-	update=function(){}
+	update=function(){
+            player.updatePosition();
+            console.log("Player (X,Y): " + "(" + player.x + ", " + player.y + ")");
+      }
 
 
       signDivSignIn.onclick = function() {
@@ -180,6 +190,7 @@
       img.src = "img/Armature_Idle_12.png";
 
 
+      setInterval(update, 30);
 
       //ctx.fillRect(Player.x, player.y, 20, 20);
 
