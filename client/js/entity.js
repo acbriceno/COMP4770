@@ -153,6 +153,20 @@ Enemy.update=function(){
 	}
 }
 
+Enemy.generate=function(x,y,img,code){
+	let x=x;
+	let y=y;
+	let h=32;
+	let w=32;
+	let id=Math.random();
+	let img=img;
+	let hp=10;
+	let atkSpd=20;
+	let dmg=1;
+	let code=code;
+	Enemy(id,x,y,w,h,img,hp,atkSpd,dmg,code);
+}
+
 Assignment=function(id,x,y,w,h,img,hp,dmg,code){
 	let self=Enemy(id,x,y,w,h,img,hp,dmg,code);
 	Assignment.list[id]=self;
