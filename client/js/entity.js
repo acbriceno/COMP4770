@@ -214,6 +214,7 @@ Player=function(){
 	self.rMouseClick=false;
 	self.asgScore=0;
 	self.mid=false;
+	self.grapplePress=false;
 
 	let super_update=self.update;
 	self.update=function(){
