@@ -130,9 +130,9 @@ Enemy=function(id,x,y,w,h,img,hp,atkSpd,dmg,code){
 	self.draw=function(){
 		super_draw();
 
-		ctx.save();
+		//ctx.save();
 		//logic for drawing enemies
-		ctx.restore();
+		//ctx.restore();
 	}
 
 	self.onDeath=function(){
