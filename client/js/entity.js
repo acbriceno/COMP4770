@@ -160,17 +160,17 @@ Enemy.update=function(){
 	}
 }
 
-Enemy.generate=function(x1,y1,img,code){
+Enemy.generate=function(x1,y1,img1,code1){
 	let x=x1;
 	let y=y1;
 	let h=32;
 	let w=32;
 	let id=Math.random();
-	let img=img;
+	let img=img1;
 	let hp=10;
 	let atkSpd=20;
 	let dmg=1;
-	let code=code;
+	let code=code1;
 	Enemy(id,x,y,w,h,img,hp,atkSpd,dmg,code);
 }
 
