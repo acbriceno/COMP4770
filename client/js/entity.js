@@ -66,13 +66,13 @@ Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
 
 	self.draw=function() {
 		ctx.save();
-		let x=self.x-player.x;
-		let y=self.y-player.y;
-		x+=W/2;
-		y+=H/2;
-		x-=self.w/2;
-		y-=self.h/2;
-		ctx.drawImage(self.img,x,y,self.w,self.h);
+		let x1=self.x-player.x;
+		let y1=self.y-player.y;
+		x1+=W/2;
+		y1+=H/2;
+		x1-=self.w/2;
+		y1-=self.h/2;
+		ctx.drawImage(self.img,x1,y1,self.w,self.h);
 		ctx.restore();
 
 	}
