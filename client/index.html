@@ -127,7 +127,8 @@
 
 	//update for in game, logic tbd
 	update=function(){
-            player.updatePosition();
+            ctx.clearRect(0, 0, 1280, 720);
+            player.update();
             console.log("Player (X,Y): " + "(" + player.x + ", " + player.y + ")");
       }
 
@@ -180,12 +181,12 @@
 
       var img = new Image()
 
-      img.onload = function() {
-
-
-          ctx.drawImage(img, 0, 0);
-
-      };
+      // img.onload = function() {
+      //
+      //
+      //     ctx.drawImage(img, 0, 0);
+      //
+      // };
 
       img.src = "img/Armature_Idle_12.png";
 

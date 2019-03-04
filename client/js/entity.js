@@ -66,9 +66,8 @@ Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
 
 	self.draw=function() {
 		ctx.save();
-		
+
 		ctx.drawImage(self.img,self.x,self.y,self.w,self.h);
-		
 		ctx.restore();
 
 	}
