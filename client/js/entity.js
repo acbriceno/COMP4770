@@ -66,8 +66,13 @@ Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
 
 	self.draw=function() {
 		ctx.save();
-
-		ctx.drawImage(self.img,self.x,self.y,self.w,self.h);
+		let x=self.x-player.x;
+		let y=self.y-player.y;
+		x+=W/2;
+		y+=H/2;
+		x-=self.w/2;
+		y-=self.h/2;
+		ctx.drawImage(self.img,x,y,self.w,self.h);
 		ctx.restore();
 
 	}
@@ -231,7 +236,7 @@ Final.list={};
 
 
 Player=function(){
-	let self=Actor('p','myId',50,40,50*1.5,70*1.5,Img.player,10,1);
+	let self=Actor('p','myId',50,40,32,32,Img.player,10,1);
 	self.maxSpd=10;
 	self.lMouseClick=false;
 	self.rMouseClick=false;
