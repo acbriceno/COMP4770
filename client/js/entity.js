@@ -18,7 +18,8 @@ Entity=function(type,id,x,y,w,h,img){
 
 	self.draw=function(){
 		ctx.save();
-
+		//logic to draw entity
+		ctx.restore();
 	}
 
 	self.getDistance=function(entity2){
@@ -65,7 +66,9 @@ Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
 
 	self.draw=function() {
 		ctx.save();
-		//add logic for drawing
+		
+		ctx.drawImage(self.img,self.x,self.y,self.w,self.h);
+		
 		ctx.restore();
 
 	}
