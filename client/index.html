@@ -131,6 +131,7 @@
 	update=function(){
             ctx.clearRect(0, 0, 1280, 720);
             player.update();
+			Enemy.update();
             console.log("Player (X,Y): " + "(" + player.x + ", " + player.y + ")");
       }
 
@@ -180,7 +181,7 @@
       //       y:50,
       // };
       player = Player();
-
+	Enemy.generate(0,0,img,e);
       var img = new Image()
 
       // img.onload = function() {

@@ -236,7 +236,7 @@ Final.list={};
 
 
 Player=function(){
-	let self=Actor('p','myId',50,40,32,32,Img.player,10,1);
+	let self=Actor('p','myId',50,40,64,64,Img.player,10,1);
 	self.maxSpd=10;
 	self.lMouseClick=false;
 	self.rMouseClick=false;
