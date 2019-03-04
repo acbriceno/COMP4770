@@ -78,14 +78,16 @@ Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
 	}
 
 	self.updatePosition=function() {
-		if(self.rightPress)
-			self.x+=self.maxSpd;
-		else if(self.leftPress)
-			self.x-=self.maxSpd
-		else if(self.upPress)
-			self.y-=self.maxSpd
-		else if(self.downPress)
-			self.y+=self.maxSpd
+		if(overworld){
+			if(self.rightPress)
+				self.x+=self.maxSpd;
+			else if(self.leftPress)
+				self.x-=self.maxSpd
+			else if(self.upPress)
+				self.y-=self.maxSpd
+			else if(self.downPress)
+				self.y+=self.maxSpd
+		}
 	}
 
 	let super_update=self.update;
