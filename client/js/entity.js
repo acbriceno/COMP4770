@@ -160,9 +160,9 @@ Enemy.update=function(){
 	}
 }
 
-Enemy.generate=function(x,y,img,code){
-	let x=x;
-	let y=y;
+Enemy.generate=function(x1,y1,img,code){
+	let x=x1;
+	let y=y1;
 	let h=32;
 	let w=32;
 	let id=Math.random();
