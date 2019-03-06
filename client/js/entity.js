@@ -18,7 +18,16 @@ Entity=function(type,id,x,y,w,h,img){
 
 	self.draw=function(){
 		ctx.save();
-		//logic to draw entity
+		let x = self.x - player.x;
+		let y = self.y - player.y;
+		x += W/2;
+		y += H/2;
+		x -= self.w/2;
+		y -= self.h/2;
+		ctx.drawImage(self.img,
+			0,0,self.img.width,self.img.height,
+			x,y,self.width,self.height
+		);
 		ctx.restore();
 	}
 
@@ -70,13 +79,13 @@ Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
 
 	self.draw=function() {
 		ctx.save();
-		let x1=self.x-player.x;
-		let y1=self.y-player.y;
-		x1+=W/2;
-		y1+=H/2;
-		x1-=self.w/2;
-		y1-=self.h/2;
-		ctx.drawImage(self.img,x1,y1,self.w,self.h);
+		let x=self.x-player.x;
+		let y=self.y-player.y;
+		x+=W/2;
+		y+=H/2;
+		x-=self.w/2;
+		y-=self.h/2;
+		ctx.drawImage(self.img,x,y,self.w,self.h);
 		ctx.restore();
 
 	}
@@ -285,7 +294,7 @@ Player=function(x,y){
 	let super_update=self.update;
 	self.update=function(){
 		super_update();
-		if(self.downPress){
+		if(self.grapplePress){
 			self.performAttack();
 		}
 	}
