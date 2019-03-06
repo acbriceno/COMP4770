@@ -30,7 +30,7 @@
 	</div>
       <div id="selections" style ="position: fixed; bottom: 1280; right: 0;">
             <select>
-                  <option value="asset1">asset1</option>
+                  <option value="asset1"selected="selected">asset1</option>
                   <option value="asset2">asset2</option>
                   <option value="asset3">asset3</option>
             </select>
@@ -71,8 +71,7 @@
       let levelEditorB = document.getElementById('levelEditorB');
       let loadFile = document.getElementById('loadFile');
       let file = document.getElementById('file');
-      // let a1 = document.getElementById('selections');
-      // let sel = a1.options[a1.selectedIndex].value;
+      let a1 = document.getElementById('selections');
 	let keyUp=87;
 	let keyDown=83;
 	let keyRight=68;
@@ -180,6 +179,11 @@
             mainMenu.style.display = 'none';
             selections.style.display = 'inline';
             levelEditor.style.display = 'inline-block';
+      }
+
+      a1.onclick = function() {
+            let sel = a1.options[a1.selectedIndex].value;
+            console.log(sel);
       }
 
       // <!--  drawing to canvus and moving -->
