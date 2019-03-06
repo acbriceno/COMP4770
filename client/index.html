@@ -64,6 +64,7 @@
 
 
 <script>
+	let canvas=document.getElementById("ctx");
       let signDivSignIn = document.getElementById('signDiv-signIn');
       let signDivSignUp = document.getElementById('signDiv-signUp');
       let newGame = document.getElementById('newGame');
@@ -100,8 +101,8 @@
 		mouse.preventDefault();
 	}
 	document.onmousemove=function(mouse){
-	let mouseX = mouse.clientX - ctx.getBoundingClientRect().left;
-	let mouseY = mouse.clientY - ctx.getBoundingClientRect().top;
+	let mouseX = mouse.clientX - canvas.getBoundingClientRect().left;
+	let mouseY = mouse.clientY - canvas.getBoundingClientRect().top;
 
 	mouseX -= W/2;
 	mouseY -= H/2;
