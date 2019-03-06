@@ -162,17 +162,14 @@ Enemy.update=function(){
 	}
 }
 
-Enemy.generate=function(x1,y1,img1,code1){
-	let x=x1;
-	let y=y1;
-	let h=32;
-	let w=32;
+Enemy.generate=function(x,y,code){
+	let h=64;
+	let w=64;
 	let id=Math.random();
-	let img=img1;
 	let hp=10;
-	let atkSpd=20;
+	let atkSpd=2;
 	let dmg=1;
-	let code=code1;
+	let img=Img.player;
 	Enemy(id,x,y,w,h,img,hp,atkSpd,dmg,code);
 }
 
@@ -196,6 +193,18 @@ Assignment.update=function(){
 
 Assignment.list={};
 
+Assignment.generate=function(x,y,code){
+	let h=64;
+	let w=64;
+	let id=Math.random();
+	let hp=30;
+	let atkSpd=3;
+	let dmg=3;
+	//using player img as placeholder
+	let img=Img.player;
+	Assignment(id,x,y,w,h,img,hp,dmg,code);
+}
+
 Midterm=function(id,x,y,w,h,img,hp,dmg,code){
 	let self=Enemy(id,x,y,w,h,img,hp,dmg,code);
 	Midterm.list[id]=self;
@@ -217,6 +226,18 @@ Midterm.update=function(){
 
 Midterm.list={};
 
+Midterm.generate=function(x,y,code){
+	let h=64;
+	let w=64;
+	let id=Math.random();
+	let hp=50;
+	let atkSpd=5;
+	let dmg=7;
+	//using player img as placeholder
+	let img=Img.player;
+	Midterm(id,x,y,w,h,img,hp,dmg,code);
+}
+
 Final=function(id,x,y,w,h,img,hp,dmg,code){
 	let self=Enemy(id,x,y,w,h,img,hp,dmg,code);
 	Final.list[id]=self;
@@ -235,10 +256,20 @@ Final.update=function(){
 
 Final.list={};
 
+Final.generate=function(x,y,code){
+	let h=64;
+	let w=64;
+	let id=Math.random();
+	let hp=100;
+	let atkSpd=10;
+	let dmg=15;
+	//using player img as placeholder
+	let img=Img.player;
+	Final(id,x,y,w,h,img,hp,dmg,code);
+}
 
-
-Player=function(){
-	let self=Actor('p','myId',50,40,64,64,Img.player,10,1);
+Player=function(x,y,w,h){
+	let self=Actor('p','myId',x,y,w,h,Img.player,100,5,5,'p');
 	self.maxSpd=10;
 	self.lMouseClick=false;
 	self.rMouseClick=false;
@@ -256,6 +287,12 @@ Player=function(){
 	}
 
 	return self;
+}
+
+Player.generate=function(x,y){
+	let w=64;
+	let h=64;
+	Player(x,y,w,h);
 }
 
 Projectile=function(id,x,y,spdX,spdY,w,h,hostile){
@@ -331,7 +368,7 @@ Projectile.generate = function(actor,aim){
 		angle=actor.aimAngle;
 	}
 
-	if(actor.type!==p){
+	if(actor.type==p){
 		hostile=false;
 	}
 
@@ -382,3 +419,5 @@ Platform=function(type,id,x,y,img,code,smash,imp){
 }
 
 Platform.list={};
+
+Platform.generate=function(x,y,code)
