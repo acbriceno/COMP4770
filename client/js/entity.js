@@ -285,7 +285,7 @@ Player=function(x,y){
 	let super_update=self.update;
 	self.update=function(){
 		super_update();
-		if(self.lMouseClick){
+		if(self.downPress){
 			self.performAttack();
 		}
 	}
