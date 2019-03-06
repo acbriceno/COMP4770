@@ -99,7 +99,15 @@
 	document.oncontextmenu=function(mouse){
 		mouse.preventDefault();
 	}
-	document.onmousemove=function(mouse){}
+	document.onmousemove=function(mouse){
+	let mouseX = mouse.clientX - canvas.getBoundingClientRect().left;
+	let mouseY = mouse.clientY - canvas.getBoundingClientRect().top;
+
+	mouseX -= W/2;
+	mouseY -= H/2;
+
+	player.aimAngle = Math.atan2(mouseY,mouseX) / Math.PI * 180;
+	}
 	document.onkeydown=function(event){
 		if(event.keyCode==keyUp) {
 			player.upPress=true;

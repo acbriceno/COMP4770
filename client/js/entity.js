@@ -97,6 +97,7 @@ Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
 	let super_update=self.update;
 	self.update=function(){
 		super_update();
+		self.atkCnt+=atkSpd;
 		if(self.hp<=0){
 			self.onDeath();
 		}
@@ -284,6 +285,9 @@ Player=function(x,y){
 	let super_update=self.update;
 	self.update=function(){
 		super_update();
+		if(self.lMouseClick){
+			self.performAttack();
+		}
 	}
 
 	self.onDeath=function(){
@@ -298,7 +302,7 @@ Player.generate=function(x,y){
 }
 
 Projectile=function(id,x,y,spdX,spdY,w,h,hostile){
-	let self=Entity('projectile',id,x,y,w,h,Img.projectile);
+	let self=Entity('projectile',id,x,y,w,h,Img.player);
 	self.timer=0;
 	self.hostile=hostile;
 	self.spdX=spdX;
@@ -359,7 +363,7 @@ Projectile.generate = function(actor,aim){
 	let x=actor.x;
 	let y=actor.y;
 	let h=20;
-	let w=40;
+	let w=20;
 	let id=Math.random();
 	let hostile=true;
 	let angle;
@@ -423,5 +427,12 @@ Platform=function(type,id,x,y,img,code,smash,imp){
 Platform.list={};
 
 Platform.generate=function(x,y,code){
-	
+	imp=false;
+	smash=flase;
+	id=Math.random();
+	type='plat';
+	//player img as placeholder
+	img=Img.player;
+	//logic to take code and change breakable and impermiable if needed
+	Platform(type,id,x,y,code,smash,imp);
 }
