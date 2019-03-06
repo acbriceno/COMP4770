@@ -374,7 +374,7 @@ Projectile.generate = function(actor,aim){
 		angle=actor.aimAngle;
 	}
 
-	if(actor.type==p){
+	if(actor.type=='p'){
 		hostile=false;
 	}
 
