@@ -28,16 +28,23 @@
 		<canvas id="ctxLE" width="1280" height="720" style="position:absolute;border:1px solid #000000;"></canvas>
 		<canvas id="ctx-uiLE" width="1280" height="720" style="position:absolute;border:1px solid #000000;"></canvas>
 	</div>
+      <div id="selections" style ="position: fixed; bottom: 1280; right: 0;">
+            <select>
+                  <option value="asset1">asset1</option>
+                  <option value="asset2">asset2</option>
+                  <option value="asset3">asset3</option>
+            </select>
+      </div>
 
 </div>
 
-<div id="selections" style ="display:none;">
+<!-- <div id="selections" style ="display:none;">
       <select>
             <option value="asset1">asset1</option>
             <option value="asset2">asset2</option>
             <option value="asset3">asset3</option>
       </select>
-</div>
+</div> -->
 
 
 <div id="mainMenu" style="display:none;">
@@ -169,8 +176,8 @@
       levelEditorB.onclick = function() {
             console.log("levelEditorB HIT");
             mainMenu.style.display = 'none';
+            selections.style.display = 'inline';
             levelEditor.style.display = 'inline-block';
-             selections.style.display = 'inline';
       }
 
       // <!--  drawing to canvus and moving -->
@@ -195,7 +202,7 @@
       img.src = "img/Armature_Idle_12.png";
 
 
-      setInterval(update, 30);
+      // setInterval(update, 30);
 
       //ctx.fillRect(Player.x, player.y, 20, 20);
 
