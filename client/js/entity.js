@@ -62,6 +62,7 @@ Entity.list={};
 Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
 	let self=Entity(type,id,x,y,w,h,img);
 	self.hp=hp;
+	self.hpTot=hp;
 	self.atkSpd=atkSpd;
 	self.aimAngle=0;
 	self.spriteCnt=0;
@@ -82,7 +83,27 @@ Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
 		y+=H/2;
 		x-=self.w/2;
 		y-=self.h/2;
-		ctx.drawImage(self.img,x,y,self.w,self.h);
+		let framew=self.img.width/4;
+		let frameh=self.img.height/7
+		/*let aim=self.aimAngle;
+		if(aim<0){
+			aim=aim+360;;
+		}
+		console.log("aim= "+aim);
+		let dir=0;
+		if(aim>=90&&aim<180){
+			dir=1;
+		}
+		console.log("dir= "+dir);
+		if(dir=1){
+			self.img=Img.playerGL;
+		}
+		else{
+			self.img=Img.playerGR;
+		}
+		console.log(img);*/
+		let cnt=Math.floor(self.spriteCnt)%4;
+		ctx.drawImage(self.img,cnt*framew,6*frameh,framew,frameh,x,y,self.w,self.h);
 		ctx.restore();
 
 	}
@@ -280,8 +301,8 @@ Final.generate=function(x,y,code){
 	Final(id,x,y,w,h,img,hp,dmg,code);
 }
 
-Player=function(x,y){
-	let img=Img.playerGL;
+Player=function(x,y,weap,dir){
+	let img=Img.playerGR;
 	let self=Actor('p','myId',x,y,64,64,img,100,5,5,'p');
 	self.maxSpd=10;
 	self.lMouseClick=false;
@@ -293,6 +314,9 @@ Player=function(x,y){
 	let super_update=self.update;
 	self.update=function(){
 		super_update();
+		if(self.rightPress||self.leftPress||self.upPress||self.downPress){
+			self.spriteCnt+=0.2;
+		}
 		if(self.lMouseClick){
 			self.performAttack();
 		}
@@ -300,6 +324,10 @@ Player=function(x,y){
 
 	self.onDeath=function(){
 		//logic to end level on player death
+	}
+	
+	self.changeImg=function(){
+		self
 	}
 
 	return self;
@@ -385,7 +413,7 @@ Projectile.generate = function(actor){
 	if(actor.type=='p'){
 		hostile=false;
 	}
-	console.log("Angle: "+angle);
+	//console.log("Angle: "+angle);
 	let spdX=Math.cos(angle/180*Math.PI)*5;
 	let spdY=Math.sin(angle/180*Math.PI)*5;
 	Projectile(id,x,y,spdX,spdY,w,h,hostile);
