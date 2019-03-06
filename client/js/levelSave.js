@@ -1,4 +1,4 @@
-saveLevel=function(w,h,diff){
+saveLevel=function(w,h,fac){
 	let level;
 	let x=0;
 	let y=0;

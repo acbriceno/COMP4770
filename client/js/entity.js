@@ -272,8 +272,8 @@ Final.generate=function(x,y,code){
 	Final(id,x,y,w,h,img,hp,dmg,code);
 }
 
-Player=function(x,y,w,h){
-	let self=Actor('p','myId',x,y,w,h,Img.player,100,5,5,'p');
+Player=function(x,y){
+	let self=Actor('p','myId',x,y,64,64,Img.player,100,5,5,'p');
 	self.maxSpd=10;
 	self.lMouseClick=false;
 	self.rMouseClick=false;
@@ -294,9 +294,7 @@ Player=function(x,y,w,h){
 }
 
 Player.generate=function(x,y){
-	let w=64;
-	let h=64;
-	Player(x,y,w,h);
+	Player(x,y);
 }
 
 Projectile=function(id,x,y,spdX,spdY,w,h,hostile){
