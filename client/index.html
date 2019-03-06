@@ -100,8 +100,8 @@
 		mouse.preventDefault();
 	}
 	document.onmousemove=function(mouse){
-	let mouseX = mouse.clientX - canvas.getBoundingClientRect().left;
-	let mouseY = mouse.clientY - canvas.getBoundingClientRect().top;
+	let mouseX = mouse.clientX - ctx.getBoundingClientRect().left;
+	let mouseY = mouse.clientY - ctx.getBoundingClientRect().top;
 
 	mouseX -= W/2;
 	mouseY -= H/2;
