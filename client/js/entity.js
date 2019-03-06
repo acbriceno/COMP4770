@@ -46,8 +46,12 @@ Entity=function(type,id,x,y,w,h,img){
 
 	self.updatePosition=function(){}
 
+	Entity.list[id]=self;
+	
 	return self;
 }
+
+Entity.list={};
 
 Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
 	let self=Entity(type,id,x,y,w,h,img);
@@ -420,4 +424,6 @@ Platform=function(type,id,x,y,img,code,smash,imp){
 
 Platform.list={};
 
-Platform.generate=function(x,y,code)
+Platform.generate=function(x,y,code){
+	
+}
