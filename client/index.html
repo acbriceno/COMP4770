@@ -71,6 +71,8 @@
       let levelEditorB = document.getElementById('levelEditorB');
       let loadFile = document.getElementById('loadFile');
       let file = document.getElementById('file');
+      // let a1 = document.getElementById('selections');
+      // let sel = a1.options[a1.selectedIndex].value;
 	let keyUp=87;
 	let keyDown=83;
 	let keyRight=68;
@@ -188,7 +190,7 @@
       //       x:50,
       //       y:50,
       // };
-      player = Player();
+      player = Player(190, 620);
 	Enemy.generate(0,0,'e');
       var img = new Image()
 
@@ -202,7 +204,7 @@
       img.src = "img/Armature_Idle_12.png";
 
 
-      // setInterval(update, 30);
+       setInterval(update, 30);
 
       //ctx.fillRect(Player.x, player.y, 20, 20);
 
