@@ -84,8 +84,14 @@
 	let H=720;
 	let overworld=true;
       var Img = {};
-      Img.player = new Image();
-      Img.player.src = "img/Armature_Idle_12.png";
+      Img.playerGL = new Image();
+      Img.playerGL.src = "img/gun_left.png";
+	  Img.playerGR = new Image();
+      Img.playerGR.src = "img/gun_right.png";
+	  Img.playerBL = new Image();
+      Img.playerBL.src = "img/book_left.png";
+	  Img.playerBR = new Image();
+      Img.playerBR.src = "img/book_right.png";
 
 	//testing collision of rectangles
 	testCollisionRects = function(rect1,rect2){
@@ -96,8 +102,22 @@
 }
 
 	//action listeners, logic tbd
-	document.onmousedown=function(mouse){}
-	document.onmouseup=function(mouse){}
+	document.onmousedown=function(mouse){
+		if(mouse.which==1){
+			player.lMouseClick=true;
+		}
+		else{
+			player.rMouseClick=true;
+		}
+	}
+	document.onmouseup=function(mouse){
+		if(mouse.which==1){
+			player.lMouseClick=false;
+		}
+		else{
+			player.rMouseClick=false;
+		}
+	}
 	document.oncontextmenu=function(mouse){
 		mouse.preventDefault();
 	}
@@ -151,14 +171,18 @@
             ctx.clearRect(0, 0, 1280, 720);
             player.update();
 			Enemy.update();
-            console.log("Player (X,Y): " + "(" + player.x + ", " + player.y + ")");
+			Projectile.update();
+            //console.log("Player (X,Y): " + "(" + player.x + ", " + player.y + ")");
+			//console.log("Player aim angle is: "+player.aimAngle);
+			//console.log("Grapple key = "+player.grapplePress);
+			//console.log("Attack Speed: "+player.atkSpd+" Attack Counter: "+player.atkCnt);
       }
 
 
       signDivSignIn.onclick = function() {
             console.log("signDivSignIn HIT")
             signDiv.style.display = 'none';
-            gameDiv.style.display = 'inline-block';
+            //gameDiv.style.display = 'inline-block';
             mainMenu.style.display = 'inline-block';
 	}
 
@@ -206,7 +230,7 @@
       // };
       player = Player(190, 620);
 	Enemy.generate(0,0,'e');
-      var img = new Image()
+      //var img = new Image()
 
       // img.onload = function() {
       //
@@ -215,7 +239,7 @@
       //
       // };
 
-      img.src = "img/Armature_Idle_12.png";
+      //img.src = "img/Armature_Idle_12.png";
 
 
        setInterval(update, 30);

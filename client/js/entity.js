@@ -24,10 +24,7 @@ Entity=function(type,id,x,y,w,h,img){
 		y += H/2;
 		x -= self.w/2;
 		y -= self.h/2;
-		ctx.drawImage(self.img,
-			0,0,self.img.width,self.img.height,
-			x,y,self.width,self.height
-		);
+		ctx.drawImage(self.img,x,y,self.w,self.h);
 		ctx.restore();
 	}
 
@@ -106,7 +103,7 @@ Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
 	let super_update=self.update;
 	self.update=function(){
 		super_update();
-		self.atkCnt+=atkSpd;
+		self.atkCnt+=self.atkSpd;
 		if(self.hp<=0){
 			self.onDeath();
 		}
@@ -152,7 +149,7 @@ Enemy=function(id,x,y,w,h,img,hp,atkSpd,dmg,code){
 	}
 
 	self.onDeath=function(){
-		self.toRemove=true;
+		self.remove=true;
 	}
 
 	return self;
@@ -181,9 +178,10 @@ Enemy.generate=function(x,y,code){
 	let w=64;
 	let id=Math.random();
 	let hp=10;
-	let atkSpd=2;
+	let atkSpd=0.5;
 	let dmg=1;
-	let img=Img.player;
+	//using player img as placeholder
+	let img=Img.playerGL;
 	Enemy(id,x,y,w,h,img,hp,atkSpd,dmg,code);
 }
 
@@ -215,7 +213,7 @@ Assignment.generate=function(x,y,code){
 	let atkSpd=3;
 	let dmg=3;
 	//using player img as placeholder
-	let img=Img.player;
+	let img=Img.playerGL;
 	Assignment(id,x,y,w,h,img,hp,dmg,code);
 }
 
@@ -248,7 +246,7 @@ Midterm.generate=function(x,y,code){
 	let atkSpd=5;
 	let dmg=7;
 	//using player img as placeholder
-	let img=Img.player;
+	let img=Img.playerGL;
 	Midterm(id,x,y,w,h,img,hp,dmg,code);
 }
 
@@ -278,12 +276,13 @@ Final.generate=function(x,y,code){
 	let atkSpd=10;
 	let dmg=15;
 	//using player img as placeholder
-	let img=Img.player;
+	let img=Img.playerGL;
 	Final(id,x,y,w,h,img,hp,dmg,code);
 }
 
 Player=function(x,y){
-	let self=Actor('p','myId',x,y,64,64,Img.player,100,5,5,'p');
+	let img=Img.playerGL;
+	let self=Actor('p','myId',x,y,64,64,img,100,5,5,'p');
 	self.maxSpd=10;
 	self.lMouseClick=false;
 	self.rMouseClick=false;
@@ -294,7 +293,7 @@ Player=function(x,y){
 	let super_update=self.update;
 	self.update=function(){
 		super_update();
-		if(self.grapplePress){
+		if(self.lMouseClick){
 			self.performAttack();
 		}
 	}
@@ -311,7 +310,7 @@ Player.generate=function(x,y){
 }
 
 Projectile=function(id,x,y,spdX,spdY,w,h,hostile){
-	let self=Entity('projectile',id,x,y,w,h,Img.player);
+	let self=Entity('projectile',id,x,y,w,h,Img.playerGL);
 	self.timer=0;
 	self.hostile=hostile;
 	self.spdX=spdX;
@@ -368,25 +367,25 @@ Projectile.update=function(){
 	}
 }
 
-Projectile.generate = function(actor,aim){
+Projectile.generate = function(actor){
 	let x=actor.x;
 	let y=actor.y;
 	let h=20;
 	let w=20;
 	let id=Math.random();
 	let hostile=true;
-	let angle;
-	if(aim!==undefined){
-		angle=aim;
-	}
-	else {
-		angle=actor.aimAngle;
-	}
+	let angle=actor.aimAngle;
+	//if(aim!==undefined){
+	//	angle=aim;
+	//}
+	//else {
+	//	angle=actor.aimAngle;
+	//}
 
 	if(actor.type=='p'){
 		hostile=false;
 	}
-
+	console.log("Angle: "+angle);
 	let spdX=Math.cos(angle/180*Math.PI)*5;
 	let spdY=Math.sin(angle/180*Math.PI)*5;
 	Projectile(id,x,y,spdX,spdY,w,h,hostile);
