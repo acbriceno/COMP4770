@@ -80,18 +80,13 @@
 	let keyLeft=65;
 	let keyPause=80;
 	let keyGrapple=32;
+	let keyChange=67;
 	let W=1280;
 	let H=720;
 	let overworld=true;
       var Img = {};
-      Img.playerGL = new Image();
-      Img.playerGL.src = "img/gun_left.png";
-	  Img.playerGR = new Image();
-      Img.playerGR.src = "img/gun_right.png";
-	  Img.playerBL = new Image();
-      Img.playerBL.src = "img/book_left.png";
-	  Img.playerBR = new Image();
-      Img.playerBR.src = "img/book_right.png";
+      Img.playerLevel = new Image();
+      Img.playerLevel.src = "img/player_level.png";
 
 	//testing collision of rectangles
 	testCollisionRects = function(rect1,rect2){
@@ -149,6 +144,14 @@
 		else if(event.keyCode==keyGrapple) {
 			player.grapplePress=true;
             }
+		else if(event.keyCode==keyChange){
+			if(player.weap==0){
+				player.weap=1;
+			}
+			else{
+				player.weap=0;
+			}
+		}
 	}
 	document.onkeyup=function(event){
 		if(event.keyCode==keyUp)

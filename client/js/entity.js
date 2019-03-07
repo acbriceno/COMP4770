@@ -74,6 +74,7 @@ Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
 	self.dmg=dmg;
 	self.code=code;
 	self.atkCnt=0;
+	self.weap=1;
 
 	self.draw=function() {
 		ctx.save();
@@ -84,26 +85,39 @@ Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
 		x-=self.w/2;
 		y-=self.h/2;
 		let framew=self.img.width/4;
-		let frameh=self.img.height/7
-		/*let aim=self.aimAngle;
+		let frameh=self.img.height/28;
+		/*if(self.type='p'){
+			frameh=frameh/2
+		}*/
+		let aim=self.aimAngle;
 		if(aim<0){
 			aim=aim+360;;
 		}
 		console.log("aim= "+aim);
 		let dir=0;
-		if(aim>=90&&aim<180){
+		if(aim>=90&&aim<270){
 			dir=1;
 		}
-		console.log("dir= "+dir);
-		if(dir=1){
-			self.img=Img.playerGL;
+		//console.log(img);
+		let cnt=Math.floor(self.spriteCnt)%4;
+		if(self.weap==0){
+			if(dir==0){
+				dir=6;
+			}
+			else{
+				dir=13;
+			}
 		}
 		else{
-			self.img=Img.playerGR;
+			if(dir==0){
+				dir=20;
+			}
+			else{
+				dir=27;
+			}
 		}
-		console.log(img);*/
-		let cnt=Math.floor(self.spriteCnt)%4;
-		ctx.drawImage(self.img,cnt*framew,6*frameh,framew,frameh,x,y,self.w,self.h);
+		console.log("dir= "+dir);
+		ctx.drawImage(self.img,cnt*framew,dir*frameh,framew,frameh,x,y,self.w,self.h);
 		ctx.restore();
 
 	}
@@ -202,7 +216,7 @@ Enemy.generate=function(x,y,code){
 	let atkSpd=0.5;
 	let dmg=1;
 	//using player img as placeholder
-	let img=Img.playerGL;
+	let img=Img.playerLevel;
 	Enemy(id,x,y,w,h,img,hp,atkSpd,dmg,code);
 }
 
@@ -302,7 +316,7 @@ Final.generate=function(x,y,code){
 }
 
 Player=function(x,y,weap,dir){
-	let img=Img.playerGR;
+	let img=Img.playerLevel;
 	let self=Actor('p','myId',x,y,64,64,img,100,5,5,'p');
 	self.maxSpd=10;
 	self.lMouseClick=false;
@@ -310,6 +324,7 @@ Player=function(x,y,weap,dir){
 	self.asgScore=0;
 	self.mid=false;
 	self.grapplePress=false;
+	self.weap=1;
 
 	let super_update=self.update;
 	self.update=function(){
@@ -325,10 +340,6 @@ Player=function(x,y,weap,dir){
 	self.onDeath=function(){
 		//logic to end level on player death
 	}
-	
-	self.changeImg=function(){
-		self
-	}
 
 	return self;
 }
@@ -338,7 +349,7 @@ Player.generate=function(x,y){
 }
 
 Projectile=function(id,x,y,spdX,spdY,w,h,hostile){
-	let self=Entity('projectile',id,x,y,w,h,Img.playerGL);
+	let self=Entity('projectile',id,x,y,w,h,Img.playerLevel);
 	self.timer=0;
 	self.hostile=hostile;
 	self.spdX=spdX;
