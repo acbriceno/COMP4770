@@ -7,6 +7,7 @@
       <script type="text/javascript;charset=utf-8" async src="js/inventory.js"></script>
 </head> -->
 <script src="js/entity.js"></script>
+<script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
 <body>
 <div id="signDiv">
 	Username: <input id="signDiv-username" type="text"></input><br>
@@ -20,6 +21,10 @@
 		<canvas id="ctx" width="1280" height="720" style="position:absolute;border:1px solid #000000;"></canvas>
 		<canvas id="ctx-ui" width="1280" height="720" style="position:absolute;border:1px solid #000000;"></canvas>
 	</div>
+</div>
+
+<div id="back" style ="display:none;">
+      <button onclick="backMainMenu()">Back</button>
 </div>
 
 
@@ -60,20 +65,17 @@
       <button id="file">File Three</button>
 </div>
 
-
-
-
 <script>
 	let canvas=document.getElementById('ctx');
 	let ctx=canvas.getContext('2d');
-      let signDivSignIn = document.getElementById('signDiv-signIn');
-      let signDivSignUp = document.getElementById('signDiv-signUp');
-      let newGame = document.getElementById('newGame');
-      let loadGame = document.getElementById('loadGame');
-      let levelEditorB = document.getElementById('levelEditorB');
-      let loadFile = document.getElementById('loadFile');
-      let file = document.getElementById('file');
-      let a1 = document.getElementById('selections');
+    let signDivSignIn = document.getElementById('signDiv-signIn');
+    let signDivSignUp = document.getElementById('signDiv-signUp');
+    let newGame = document.getElementById('newGame');
+    let loadGame = document.getElementById('loadGame');
+    let levelEditorB = document.getElementById('levelEditorB');
+    let loadFile = document.getElementById('loadFile');
+    let file = document.getElementById('file');
+    let a1 = document.getElementById('selections');
 	let keyUp=87;
 	let keyDown=83;
 	let keyRight=68;
@@ -84,9 +86,11 @@
 	let W=1280;
 	let H=720;
 	let overworld=true;
-      var Img = {};
-      Img.playerLevel = new Image();
-      Img.playerLevel.src = "img/player_level.png";
+	let count=0;
+	
+    var Img = {};
+    Img.playerLevel = new Image();
+    Img.playerLevel.src = "img/player_level.png";
 
 	//testing collision of rectangles
 	testCollisionRects = function(rect1,rect2){
@@ -94,7 +98,7 @@
 		&& rect2.x <= rect1.x+rect1.width
 		&& rect1.y <= rect2.y + rect2.height
 		&& rect2.y <= rect1.y + rect1.height;
-}
+	}
 
 	//action listeners, logic tbd
 	document.onmousedown=function(mouse){
@@ -181,14 +185,72 @@
 			//console.log("Attack Speed: "+player.atkSpd+" Attack Counter: "+player.atkCnt);
       }
 
-
-      signDivSignIn.onclick = function() {
+    function valid(userName,pass){
+			if (!isEmpty(userName) && !isEmpty(pass) ){
+					return true;
+				}
+				
+			}
+	function isEmpty(str) {
+		return (!str || 0 === str.length);
+	} 
+	  
+	  
+	signDivSignIn.onclick = function() {
             console.log("signDivSignIn HIT")
-            signDiv.style.display = 'none';
-            //gameDiv.style.display = 'inline-block';
-            mainMenu.style.display = 'inline-block';
+			user=document.getElementById('signDiv-username').value;
+			pass=document.getElementById('signDiv-password').value;
+			if (valid(user,pass)){
+				var socket = io();
+				 console.log("hit");
+				socket.emit('username',{
+				msg:user,
+		
+				});
+		
+				socket.emit('pass',{
+				msg:pass,
+		
+				});
+			
+				document.getElementById('signDiv-password').value;
+				signDiv.style.display = 'none';
+				mainMenu.style.display = 'inline-block';
+				back.style.display = 'inline';
+				count=1;
+				}
+				
+				count=1;
+			
 	}
-
+	  
+	function backMainMenu(){
+		if (count==1){
+			mainMenu.style.display = 'none';
+			back.style.display = 'none';
+			 signDiv.style.display = 'inline-block';
+			 count=0;
+			
+		}
+			
+		else{
+			levelEditor.style.display = 'none';
+            selections.style.display = 'none';
+			loadFile.style.display = 'none';
+			gameDiv.style.display = 'none';
+			
+			back.style.display = 'none';
+			
+			//gameDiv.style.display = 'inline-block';
+            mainMenu.style.display = 'inline-block';
+			back.style.display = 'inline';
+			count=1;
+		}
+			//console.log("count " + count);
+			
+	  
+	}
+	  
       signDivSignUp.onlclick = function() {
 
       }
@@ -197,12 +259,14 @@
             console.log("newGame HIT")
             mainMenu.style.display = 'none';
             gameDiv.style.display = 'inline-block';
+			count=2;
       }
 
       loadGame.onclick = function() {
             console.log("loadGame HIT")
             mainMenu.style.display = 'none';
             loadFile.style.display = 'inline-block';
+			count=2;
       }
 
       file.onclick = function () {
@@ -216,11 +280,12 @@
             mainMenu.style.display = 'none';
             selections.style.display = 'inline';
             levelEditor.style.display = 'inline-block';
+			count=2;
       }
 
       a1.onclick = function() {
-            let sel = a1.options[a1.selectedIndex].value;
-            console.log(sel);
+            //let sel = a1.options[a1.selectedIndex].value;
+            //console.log(sel);
       }
 
       // <!--  drawing to canvus and moving -->
