@@ -77,7 +77,7 @@
     let levelEditorB = document.getElementById('levelEditorB');
     let loadFile = document.getElementById('loadFile');
     let file = document.getElementById('file');
-    // let a1 = document.getElementById('selections');
+    let a1 = document.getElementById('selections');
 	let keyUp=87;
 	let keyDown=83;
 	let keyRight=68;
@@ -181,6 +181,7 @@
             player.update();
 			Enemy.update();
 			Projectile.update();
+			Platform.update();
             //console.log("Player (X,Y): " + "(" + player.x + ", " + player.y + ")");
 			//console.log("Player aim angle is: "+player.aimAngle);
 			//console.log("Grapple key = "+player.grapplePress);
@@ -300,6 +301,7 @@
       // };
       player = Player(190, 620);
 	Enemy.generate(0,0,'e');
+	Platform.generate(128,128,'f');
       //var img = new Image()
 
       // img.onload = function() {
