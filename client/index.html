@@ -181,6 +181,7 @@
             player.update();
 			Enemy.update();
 			Projectile.update();
+			Platform.update();
             //console.log("Player (X,Y): " + "(" + player.x + ", " + player.y + ")");
 			//console.log("Player aim angle is: "+player.aimAngle);
 			//console.log("Grapple key = "+player.grapplePress);
@@ -301,6 +302,7 @@
       // };
       player = Player(190, 620);
 	Enemy.generate(0,0,'e');
+	Platform.generate(128,128,'f');
       //var img = new Image()
 
       // img.onload = function() {

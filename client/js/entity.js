@@ -121,16 +121,61 @@ Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
 	}
 
 	self.updatePosition=function() {
-		if(overworld){
-			if(self.rightPress)
-				self.x+=self.maxSpd;
-			else if(self.leftPress)
-				self.x-=self.maxSpd
-			else if(self.upPress)
-				self.y-=self.maxSpd
-			else if(self.downPress)
-				self.y+=self.maxSpd
-		}
+		//if(overworld){
+			let move=true;
+			if(self.rightPress){
+				for(let key11 in Platform.list){
+					if(self.testCollision(Platform.list[key11])){
+						move=false;
+					}
+				}
+				if(move){
+					self.x+=self.maxSpd;
+				}
+				else{
+					self.x-=self.maxSpd;
+				}
+			}
+			else if(self.leftPress){
+				for(let key11 in Platform.list){
+					if(self.testCollision(Platform.list[key11])){
+						move=false;
+					}
+				}
+				if(move){
+					self.x-=self.maxSpd;
+				}
+				else{
+					self.x+=self.maxSpd;
+				}
+			}
+			else if(self.upPress){
+				for(let key11 in Platform.list){
+					if(self.testCollision(Platform.list[key11])){
+						move=false;
+					}
+				}
+				if(move){
+					self.y-=self.maxSpd;
+				}
+				else{
+					self.y+=self.maxSpd;
+				}
+			}
+			else if(self.downPress){
+				for(let key11 in Platform.list){
+					if(self.testCollision(Platform.list[key11])){
+						move=false;
+					}
+				}
+				if(move){
+					self.y+=self.maxSpd;
+				}
+				else{
+					self.y-=self.maxSpd;
+				}
+			}
+		//}
 	}
 
 	let super_update=self.update;
@@ -313,7 +358,7 @@ Final.generate=function(x,y,code){
 	Final(id,x,y,w,h,img,hp,dmg,code);
 }
 
-Player=function(x,y,weap,dir){
+Player=function(x,y){
 	let img=Img.playerLevel;
 	let self=Actor('p','myId',x,y,64,64,img,100,5,5,'p');
 	self.maxSpd=10;
@@ -346,13 +391,14 @@ Player.generate=function(x,y){
 	Player(x,y);
 }
 
-Projectile=function(id,x,y,spdX,spdY,w,h,hostile){
+Projectile=function(id,x,y,spdX,spdY,w,h,hostile,dmg){
 	let self=Entity('projectile',id,x,y,w,h,Img.playerLevel);
 	self.timer=0;
 	self.hostile=hostile;
 	self.spdX=spdX;
 	self.spdY=spdY;
 	self.remove=false;
+	self.dmg=dmg;
 
 	let super_update=self.update;
 	self.update=function(){
@@ -377,7 +423,7 @@ Projectile=function(id,x,y,spdX,spdY,w,h,hostile){
 		}
 		for(let key3 in Platform.list){
 			if(self.testCollision(Platform.list[key3])){
-				if(Platform.list[key2].imp){
+				if(Platform.list[key3].imp==false){
 					self.remove=true;
 				}
 			}
@@ -412,6 +458,7 @@ Projectile.generate = function(actor){
 	let id=Math.random();
 	let hostile=true;
 	let angle=actor.aimAngle;
+	let dmg=actor.dmg;
 	//if(aim!==undefined){
 	//	angle=aim;
 	//}
@@ -425,7 +472,7 @@ Projectile.generate = function(actor){
 	//console.log("Angle: "+angle);
 	let spdX=Math.cos(angle/180*Math.PI)*5;
 	let spdY=Math.sin(angle/180*Math.PI)*5;
-	Projectile(id,x,y,spdX,spdY,w,h,hostile);
+	Projectile(id,x,y,spdX,spdY,w,h,hostile,dmg);
 }
 
 Upgrade=function(id,x,y,w,h,cat,img){
@@ -437,8 +484,8 @@ Upgrade=function(id,x,y,w,h,cat,img){
 Upgrade.list={}
 
 Upgrade.update=function(){
-	for(var key5 in Upgrade.list){
-		Upgrade,list[key5].update();
+	for(let key5 in Upgrade.list){
+		Upgrade.list[key5].update();
 		let collision=player.testCollision(Upgrade.list[key5]);
 		if(collision){
 			//add information fro what happens based on what kind of upgrade
@@ -457,27 +504,40 @@ Upgrade.generate=function(enemy){
 	let cat;
 	let img;
 
-	Upgrade(id,x,y,cat,img)
+	Upgrade(id,x,y,cat,img);
 
 }
 
 Platform=function(type,id,x,y,img,code,smash,imp){
 	let self=Entity(type,id,x,y,64,64,img);
-	let code=code;
-	let smash=smash;
-	let imp=imp;
+	self.code=code;
+	self.smash=smash;
+	self.imp=imp;
 	Platform.list[id]=self;
+	
 }
 
 Platform.list={};
 
+Platform.update=function(){
+	for(let key4 in Platform.list){
+		let p = Platform.list[key4];
+		p.update();
+	}
+}
+
 Platform.generate=function(x,y,code){
 	imp=false;
-	smash=flase;
+	smash=false;
 	id=Math.random();
 	type='plat';
 	//player img as placeholder
-	img=Img.player;
+	img=Img.playerLevel;
 	//logic to take code and change breakable and impermiable if needed
+<<<<<<< HEAD
 	Platform(type,id,x,y,code,smash,imp);
 }
+=======
+	Platform(type,id,x,y,img,code,smash,imp);
+}
+>>>>>>> 06d4b4a9b4170da1593909f10a52cb95f2d9f9e4
