@@ -35,8 +35,8 @@
 		<canvas id="ctxLE" width="1280" height="720" style="position:absolute;border:1px solid #000000;"></canvas>
 		<canvas id="ctx-uiLE" width="1280" height="720" style="position:absolute;border:1px solid #000000;"></canvas>
 	</div>
-      <div id="selections" style ="position: fixed; bottom: 1280; right: 0;">
-            <select>
+      <div id="aSelect1" style ="position: fixed; bottom: 1280; right: 0;">
+            <select id="selections"onchange="assets();">
                   <option value="asset1"selected="selected">asset1</option>
                   <option value="asset2">asset2</option>
                   <option value="asset3">asset3</option>
@@ -77,7 +77,7 @@
     let levelEditorB = document.getElementById('levelEditorB');
     let loadFile = document.getElementById('loadFile');
     let file = document.getElementById('file');
-    // let a1 = document.getElementById('selections');
+    let a1 = document.getElementById('selections');
 	let keyUp=87;
 	let keyDown=83;
 	let keyRight=68;
@@ -199,12 +199,10 @@
 
 
 	signDivSignIn.onclick = function() {
-            console.log("signDivSignIn HIT")
 			user=document.getElementById('signDiv-username').value;
 			pass=document.getElementById('signDiv-password').value;
 			if (valid(user,pass)){
 				var socket = io();
-				 console.log("hit");
 				socket.emit('username',{
 				msg:user,
 
@@ -258,36 +256,39 @@
       }
 
       newGame.onclick = function() {
-            console.log("newGame HIT")
             mainMenu.style.display = 'none';
             gameDiv.style.display = 'inline-block';
 			count=2;
       }
 
       loadGame.onclick = function() {
-            console.log("loadGame HIT")
             mainMenu.style.display = 'none';
             loadFile.style.display = 'inline-block';
 			count=2;
       }
 
       file.onclick = function () {
-            console.log("file HIT")
             loadFile.style.display = 'none';
             gameDiv.style.display = 'inline-block';
       }
 
       levelEditorB.onclick = function() {
-            console.log("levelEditorB HIT");
             mainMenu.style.display = 'none';
             selections.style.display = 'inline';
             levelEditor.style.display = 'inline-block';
 			count=2;
       }
+// mouseX is undefined
+      function assets() {
+            let mouseX = mouse.clientX - canvas.getBoundingClientRect().left;
+            let mouseY = mouse.clientY - canvas.getBoundingClientRect().top;
 
-      a1.onclick = function() {
-            //let sel = a1.options[a1.selectedIndex].value;
-            //console.log(sel);
+            mouseX -= W/2;
+            mouseY -= H/2;
+            let selected = selections.options[selections.selectedIndex].value;
+            if (selected === "asset1") {
+                  ctx.fillRect(mouseX, mouseY, 20,20);
+            }
       }
 
       // <!--  drawing to canvus and moving -->

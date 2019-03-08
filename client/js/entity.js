@@ -53,7 +53,7 @@ Entity=function(type,id,x,y,w,h,img){
 	self.updatePosition=function(){}
 
 	Entity.list[id]=self;
-	
+
 	return self;
 }
 
@@ -93,7 +93,6 @@ Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
 		if(aim<0){
 			aim=aim+360;;
 		}
-		console.log("aim= "+aim);
 		let dir=0;
 		if(aim>=90&&aim<270){
 			dir=1;
@@ -116,7 +115,6 @@ Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
 				dir=27;
 			}
 		}
-		console.log("dir= "+dir);
 		ctx.drawImage(self.img,cnt*framew,dir*frameh,framew,frameh,x,y,self.w,self.h);
 		ctx.restore();
 
