@@ -371,7 +371,7 @@ Projectile=function(id,x,y,spdX,spdY,w,h,hostile){
 				}
 			}
 		}
-		else if(self.hstile==true){
+		else if(self.hostile==true){
 			if(self.testCollision(player)){
 				self.remove=true;
 				player.hp-=0;
