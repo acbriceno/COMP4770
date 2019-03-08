@@ -6,9 +6,13 @@ var dbManager = require('./DBManager.js');
 module.exports.createUser = function(username, password, callback){
 
     auth.isUsernameTaken(username, function(taken){
-        let accountStatus = false;
+        let accountStatus = {
+            accountCreated : false,
+            usernameStatus: "",
+        };
         if(taken){
             console.log("Username taken");
+            accountStatus.usernameStatus = "Username taken";
             return callback(accountStatus);
         }
         else{
@@ -19,7 +23,8 @@ module.exports.createUser = function(username, password, callback){
                 hash: encrypted.passwordHash,
                 };  
             dbManager.insertUser(userAccount);
-            accountStatus = true;
+            accountStatus.accountCreated = true;
+            accountStatus.usernameStatus = "Username available and used";
             return callback(accountStatus);
         }
     });

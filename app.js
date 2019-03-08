@@ -24,7 +24,8 @@ io.sockets.on('connection',function(socket){
     socket.on('signUp', function(message){
       account.createUser(message.username, message.password, function(status){
           socket.emit('accountCreated',{
-            accountCreated: status,
+            accountCreated: status.accountCreated,
+            usernameStatus: status.usernameStatus,
           });
           console.log(status);
       });
