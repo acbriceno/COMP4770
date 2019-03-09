@@ -199,30 +199,68 @@
 	}
 
 
+	signDivSignUp.onclick = function() {
+		user=document.getElementById('signDiv-username').value;
+		pass=document.getElementById('signDiv-password').value;
+		
+		if (valid(user,pass)){
+			var socket = io();
+			socket.emit('signUp',{
+			username:user, password:pass ,
+			});
+			
+			socket.on('accountCreated', function(message){
+				console.log(message);
+				msg=message;
+				if (message.accountCreated==true){
+				
+				 console.log("account Created");
+				
+				}
+			});
+		
+		}
+		
+    	} 
+	  
+	  
+	  
 	signDivSignIn.onclick = function() {
+            console.log("signDivSignIn HIT")
 			user=document.getElementById('signDiv-username').value;
 			pass=document.getElementById('signDiv-password').value;
+			let msg;
+			
 			if (valid(user,pass)){
+				
 				var socket = io();
-				socket.emit('username',{
-				msg:user,
-
+				
+				socket.emit('signIn',{
+				username:user, password:pass ,
+		
 				});
-
-				socket.emit('pass',{
-				msg:pass,
-
-				});
-
-				document.getElementById('signDiv-password').value;
-				signDiv.style.display = 'none';
-				mainMenu.style.display = 'inline-block';
-				back.style.display = 'inline';
-				count=1;
+				
+				socket.on('signedIn', function(message){
+					console.log(message);
+					msg=message;
+					
+					if (message.signedIn==true){
+				
+					document.getElementById('signDiv-password').value;
+					signDiv.style.display = 'none';
+					mainMenu.style.display = 'inline-block';
+					back.style.display = 'inline';
+					count=1;
+				
 				}
-
+					
+		
+				});
+		
+				}
+				
 				count=1;
-
+			
 	}
 
 	function backMainMenu(){
@@ -252,10 +290,7 @@
 
 	}
 
-      signDivSignUp.onlclick = function() {
-
-      }
-
+      
       newGame.onclick = function() {
             mainMenu.style.display = 'none';
             gameDiv.style.display = 'inline-block';
