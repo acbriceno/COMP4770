@@ -126,10 +126,18 @@
 	let mouseX = mouse.clientX - canvas.getBoundingClientRect().left;
 	let mouseY = mouse.clientY - canvas.getBoundingClientRect().top;
 
-	mouseX -= W/2;
-	mouseY -= H/2;
 
-	player.aimAngle = Math.atan2(mouseY,mouseX) / Math.PI * 180;
+
+      if (levelEditorB.style.display == "none") {
+            mouseX -= W/2;
+      	mouseY -= H/2;
+            player.aimAngle = Math.atan2(mouseY,mouseX) / Math.PI * 180;
+      }
+      else {
+            mousePos = MousePos(mouseX, mouseY);
+            // console.log("mouseX: " + mouseX + "mouseY: " + mouseY);
+      }
+
 	}
 	document.onkeydown=function(event){
 		if(event.keyCode==keyUp) {
@@ -202,65 +210,65 @@
 	signDivSignUp.onclick = function() {
 		user=document.getElementById('signDiv-username').value;
 		pass=document.getElementById('signDiv-password').value;
-		
+
 		if (valid(user,pass)){
 			var socket = io();
 			socket.emit('signUp',{
 			username:user, password:pass ,
 			});
-			
+
 			socket.on('accountCreated', function(message){
 				console.log(message);
 				msg=message;
 				if (message.accountCreated==true){
-				
+
 				 console.log("account Created");
-				
+
 				}
 			});
-		
+
 		}
-		
-    	} 
-	  
-	  
-	  
+
+    	}
+
+
+
 	signDivSignIn.onclick = function() {
             console.log("signDivSignIn HIT")
 			user=document.getElementById('signDiv-username').value;
 			pass=document.getElementById('signDiv-password').value;
 			let msg;
-			
+
 			if (valid(user,pass)){
-				
+
 				var socket = io();
-				
+
 				socket.emit('signIn',{
 				username:user, password:pass ,
-		
+
 				});
-				
+
 				socket.on('signedIn', function(message){
 					console.log(message);
 					msg=message;
-					
+
 					if (message.signedIn==true){
-				
+
 					document.getElementById('signDiv-password').value;
 					signDiv.style.display = 'none';
 					mainMenu.style.display = 'inline-block';
 					back.style.display = 'inline';
 					count=1;
-				
+
 				}
-					
-		
+
+
 				});
-		
+
 				}
-				
+
 				count=1;
-			
+
 	}
 
 	function backMainMenu(){
@@ -290,7 +298,7 @@
 
 	}
 
-      
+
       newGame.onclick = function() {
             mainMenu.style.display = 'none';
             gameDiv.style.display = 'inline-block';
@@ -316,14 +324,11 @@
       }
 // mouseX is undefined
       function assets() {
-            let mouseX = mouse.clientX - canvas.getBoundingClientRect().left;
-            let mouseY = mouse.clientY - canvas.getBoundingClientRect().top;
-
-            mouseX -= W/2;
-            mouseY -= H/2;
             let selected = selections.options[selections.selectedIndex].value;
+            console.log(selected);
             if (selected === "asset1") {
-                  ctx.fillRect(mouseX, mouseY, 20,20);
+                  console.log(mousePos.x);
+                  // ctx.fillRect(mousePos.x, mousePos.y, 20,20);
             }
       }
 
