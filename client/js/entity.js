@@ -534,10 +534,5 @@ Platform.generate=function(x,y,code){
 	//player img as placeholder
 	img=Img.playerLevel;
 	//logic to take code and change breakable and impermiable if needed
-<<<<<<< HEAD
-	Platform(type,id,x,y,code,smash,imp);
-}
-=======
 	Platform(type,id,x,y,img,code,smash,imp);
 }
->>>>>>> 06d4b4a9b4170da1593909f10a52cb95f2d9f9e4
