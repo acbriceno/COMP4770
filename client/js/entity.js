@@ -49,7 +49,17 @@ Entity=function(type,id,x,y,w,h,img){
 		}
 		return testCollisionRects(rect1,rect2);
 	}
-
+	
+	self.testCollisionBB=function(rect,entity){
+		let rect2={
+			x:entity.x-entity.w/2,
+			y:entity.y-entity.h/2,
+			width:entity.w,
+			height:entity.h,
+		}
+		return testCollisionRects(rect,rect2);
+	}
+	
 	self.updatePosition=function(){}
 
 	Entity.list[id]=self;
@@ -121,11 +131,16 @@ Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
 	}
 
 	self.updatePosition=function() {
-		//if(overworld){
+		//if(!overworld){
 			let move=true;
+			let leftBump={x:self.x-32,y:self.y,width:10,height:10};
+			let rightBump={x:self.x+32,y:self.y,width:10,height:10};
+			let upBump={x:self.x,y:self.y-32,width:10,height:10};
+			let downBump={x:self.x,y:self.y+32,width:10,height:10};
+			
 			if(self.rightPress){
 				for(let key11 in Platform.list){
-					if(self.testCollision(Platform.list[key11])){
+					if(self.testCollisionBB(rightBump,Platform.list[key11])){
 						move=false;
 					}
 				}
@@ -138,7 +153,7 @@ Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
 			}
 			else if(self.leftPress){
 				for(let key11 in Platform.list){
-					if(self.testCollision(Platform.list[key11])){
+					if(self.testCollisionBB(leftBump,Platform.list[key11])){
 						move=false;
 					}
 				}
@@ -151,7 +166,7 @@ Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
 			}
 			else if(self.upPress){
 				for(let key11 in Platform.list){
-					if(self.testCollision(Platform.list[key11])){
+					if(self.testCollisionBB(upBump,Platform.list[key11])){
 						move=false;
 					}
 				}
@@ -164,7 +179,7 @@ Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
 			}
 			else if(self.downPress){
 				for(let key11 in Platform.list){
-					if(self.testCollision(Platform.list[key11])){
+					if(self.testCollisionBB(downBump,Platform.list[key11])){
 						move=false;
 					}
 				}
