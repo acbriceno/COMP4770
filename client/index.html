@@ -8,6 +8,9 @@
 </head> -->
 <script src="js/entity.js"></script>
 <script src="js/levelEditor.js"></script>
+<script src="js/levelLoad.js"></script>
+<script src="js/levelSave.js"></script>
+<script src="js/inventory.js"></script>
 
 <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
 <body>
@@ -25,11 +28,6 @@
 	</div>
 </div>
 
-<div id="back" style ="display:none;">
-      <button onclick="backMainMenu()">Back</button>
-</div>
-
-
 <div id="levelEditor" style="display:none;">
 	<div id="editor" style="position:absolute;width:1280px;height:720px">
 		<canvas id="ctxLE" width="1280" height="720" style="position:absolute;border:1px solid #000000;"></canvas>
@@ -42,9 +40,14 @@
                   <option value="asset3">asset3</option>
             </select>
       </div>
-
+	<div id="backLE" style="display:none;position:absolute;top:750px;">
+		<button onclick="backMainMenu()">Back</button>
+	</div>
 </div>
 
+<div id="back" style ="display:none;">
+      <button onclick="backMainMenu()">Back</button>
+</div>
 <!-- <div id="selections" style ="display:none;">
       <select>
             <option value="asset1">asset1</option>
@@ -70,6 +73,8 @@
 <script>
 	let canvas=document.getElementById('ctx');
 	let ctx=canvas.getContext('2d');
+	let canvasLE=document.getElementById('ctxLE');
+	let ctxLE=canvasLE.getContext('2d');
     let signDivSignIn = document.getElementById('signDiv-signIn');
     let signDivSignUp = document.getElementById('signDiv-signUp');
     let newGame = document.getElementById('newGame');
@@ -105,7 +110,12 @@
 	//action listeners, logic tbd
 	document.onmousedown=function(mouse){
 		if(mouse.which==1){
-			player.lMouseClick=true;
+			if (levelEditor.style.display == "none") {
+				player.lMouseClick=true;
+			}
+			else{
+				assets();
+			}
 		}
 		else{
 			player.rMouseClick=true;
@@ -128,13 +138,14 @@
 
 
 
-      if (levelEditorB.style.display == "none") {
+      if (levelEditor.style.display == "none") {
             mouseX -= W/2;
-      	mouseY -= H/2;
+			mouseY -= H/2;
             player.aimAngle = Math.atan2(mouseY,mouseX) / Math.PI * 180;
       }
       else {
-            mousePos = MousePos(mouseX, mouseY);
+            mousePos.x=mouseX-8;
+			mousePos.y=mouseY-22;
             // console.log("mouseX: " + mouseX + "mouseY: " + mouseY);
       }
 
@@ -229,7 +240,7 @@
 
 		}
 
-    	}
+    }
 
 
 
@@ -238,7 +249,9 @@
 			user=document.getElementById('signDiv-username').value;
 			pass=document.getElementById('signDiv-password').value;
 			let msg;
-
+			signDiv.style.display = 'none';
+					mainMenu.style.display = 'inline-block';
+					back.style.display = 'inline';
 			if (valid(user,pass)){
 
 				var socket = io();
@@ -275,6 +288,7 @@
 		if (count==1){
 			mainMenu.style.display = 'none';
 			back.style.display = 'none';
+			backLE.style.display = 'none';
 			 signDiv.style.display = 'inline-block';
 			 count=0;
 
@@ -320,15 +334,17 @@
             mainMenu.style.display = 'none';
             selections.style.display = 'inline';
             levelEditor.style.display = 'inline-block';
+			back.style.display="none";
+			backLE.style.display="inline";
 			count=2;
       }
 // mouseX is undefined
       function assets() {
-            let selected = selections.options[selections.selectedIndex].value;
-            console.log(selected);
-            if (selected === "asset1") {
+            let selection = selections.options[selections.selectedIndex].value;
+            console.log(selection);
+            if (selection === "asset1") {
                   console.log(mousePos.x);
-                  // ctx.fillRect(mousePos.x, mousePos.y, 20,20);
+                  ctxLE.fillRect(mousePos.x, mousePos.y, 20,20);
             }
       }
 
@@ -340,9 +356,10 @@
       //       x:50,
       //       y:50,
       // };
-      player = Player(190, 620);
+    player = Player(190, 620);
 	Enemy.generate(0,0,'e');
 	Platform.generate(128,128,'f');
+	mousePos=MousePos(0,0,'p');
       //var img = new Image()
 
       // img.onload = function() {
@@ -354,8 +371,9 @@
 
       //img.src = "img/Armature_Idle_12.png";
 
-
+	if(gameDiv.style.display!="none"){
        setInterval(update, 30);
+	}
 
       //ctx.fillRect(Player.x, player.y, 20, 20);
 

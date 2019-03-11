@@ -1,4 +1,4 @@
-saveLevel=function(w,h,fac){
+saveLevel=function(w,h,fac,level2d){
 	let level;
 	let x=0;
 	let y=0;
