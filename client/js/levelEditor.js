@@ -7,6 +7,25 @@ MousePos = function(x, y, code) {
 		code:code,
 	};
 	
+	self.draw=function(){
+		console.log('mousepos.draw is working');
+		if(self.code='p'){
+			player.x=self.x;
+			player.y=self.y;
+			
+			player.update();
+			
+		}
+		else if(self.code='e'){
+			Enemy.generate(self.x,self.y);
+			Enemy.update();
+		}
+		else if(self.code='f'){
+			Platform.generate(self.x,self.y,self.code);
+			Platform.update();
+		}
+	}
+	
 	return self;
 }
 
@@ -23,3 +42,4 @@ CurrentLevel=function(){
 	}
 	
 }
+

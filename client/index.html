@@ -34,10 +34,10 @@
 		<canvas id="ctx-uiLE" width="1280" height="720" style="position:absolute;border:1px solid #000000;"></canvas>
 	</div>
       <div id="aSelect1" style ="position: fixed; bottom: 1280; right: 0;">
-            <select id="selections"onchange="assets();">
-                  <option value="asset1"selected="selected">asset1</option>
-                  <option value="asset2">asset2</option>
-                  <option value="asset3">asset3</option>
+            <select id="selections";>
+                  <option value="p"selected="selected">Player</option>
+                  <option value="e">Enemies</option>
+                  <option value="f">Platform</option>
             </select>
       </div>
 	<div id="backLE" style="display:none;position:absolute;top:750px;">
@@ -92,7 +92,7 @@
 	let keyChange=67;
 	let W=1280;
 	let H=720;
-	let overworld=true;
+	let screen='sign';
 	let count=0;
 
     var Img = {};
@@ -114,7 +114,10 @@
 				player.lMouseClick=true;
 			}
 			else{
-				assets();
+				let selection = selections.options[selections.selectedIndex].value;
+				mousePos.code=selection;
+				console.log(mousePos.code);
+				mousePos.draw();
 			}
 		}
 		else{
@@ -249,9 +252,14 @@
 			user=document.getElementById('signDiv-username').value;
 			pass=document.getElementById('signDiv-password').value;
 			let msg;
+			screen='menu';
 			signDiv.style.display = 'none';
-					mainMenu.style.display = 'inline-block';
-					back.style.display = 'inline';
+			
+			
+			mainMenu.style.display = 'inline-block';
+			back.style.display = 'inline';
+			
+			
 			if (valid(user,pass)){
 
 				var socket = io();
@@ -336,6 +344,8 @@
             levelEditor.style.display = 'inline-block';
 			back.style.display="none";
 			backLE.style.display="inline";
+			screen='le';
+			console.log(screen);
 			count=2;
       }
 // mouseX is undefined
@@ -343,7 +353,7 @@
             let selection = selections.options[selections.selectedIndex].value;
             console.log(selection);
             if (selection === "asset1") {
-                  console.log(mousePos.x);
+                  //console.log(mousePos.x);
                   ctxLE.fillRect(mousePos.x, mousePos.y, 20,20);
             }
       }
@@ -371,9 +381,9 @@
 
       //img.src = "img/Armature_Idle_12.png";
 
-	if(gameDiv.style.display!="none"){
+	//if(gameDiv.style.display!="none"){
        setInterval(update, 30);
-	}
+	//}
 
       //ctx.fillRect(Player.x, player.y, 20, 20);
 
