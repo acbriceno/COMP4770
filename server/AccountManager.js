@@ -21,6 +21,105 @@ module.exports.createUser = function(username, password, callback){
                 username: username,
                 salt: encrypted.salt,
                 hash: encrypted.passwordHash,
+                levels:  [
+				
+				{
+					"level" :  1,
+					"length" : 0,
+					"background": 0,
+					"data " : "",
+					"diffuculty" : 0,
+				
+				},
+			    {
+					"level" :  2,
+					"length" : 0,
+					"background": 0,
+					"data " : "",
+					"diffuculty" : 0,
+				
+				
+				},
+				{
+					"level" :  3,
+					"length" : 0,
+					"background": 0,
+					"data " : "",
+					"diffuculty" : 0,
+				
+				
+				}
+				{
+					"level" :  4,
+					"length" : 0,
+					"background": 0,
+					"data " : "",
+					"diffuculty" : 0,
+				
+				
+				}
+				{
+					"level" :  5,
+					"length" : 0,
+					"background": 0,
+					"data " : "",
+					"diffuculty" : 0,
+				
+				
+				}
+				{
+					"level" :  6,
+					"length" : 0,
+					"background": 0,
+					"data " : "",
+					"diffuculty" : 0,
+				
+				
+				}
+				{
+					"level" :  7,
+					"length" : 0,
+					"background": 0,
+					"data " : "",
+					"diffuculty" : 0,
+				
+				
+				}
+				{
+					"level" :  8,
+					"length" : 0,
+					"background": 0,
+					"data " : "",
+					"diffuculty" : 0,
+				
+				
+				}
+				{
+					"level" :  9,
+					"length" : 0,
+					"background": 0,
+					"data " : "",
+					"diffuculty" : 0,
+				
+				
+				}
+				
+				
+				{
+					"level" :  10,
+					"length" : 0,
+					"background": 0,
+					"data " : "",
+					"diffuculty" : 0,
+				
+				
+				}
+				
+				
+				
+				]
+                
+                
                 };  
             dbManager.insertUser(userAccount);
             accountStatus.accountCreated = true;
