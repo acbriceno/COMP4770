@@ -2,6 +2,7 @@
 
 var auth = require('./Authentication.js');
 var dbManager = require('./DBManager.js');
+let dbLevelManager = require('./DBLevelManager.js');
 
 module.exports.createUser = function(username, password, callback){
 
@@ -155,3 +156,26 @@ module.exports.signOut = function(username, token, callback){
     });
 
 }
+
+module.exports.saveLevel = function(username, token,level, callback){
+    auth.authenticateWithToken(username, token, function(status){
+        if(status){
+            
+			
+			
+			dbLevelManager.insertLevel(username,token,level);
+			
+			
+			
+            return callback(status);
+        }
+        return callback(status);
+    });
+
+}
+
+
+
+
+
+
