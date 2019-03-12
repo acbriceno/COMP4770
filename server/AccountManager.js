@@ -21,7 +21,7 @@ module.exports.createUser = function(username, password, callback){
                 username: username,
                 salt: encrypted.salt,
                 hash: encrypted.passwordHash,
-                levels:  [
+               levels:  [
 				
 				{
 					"level" :  1,
@@ -48,7 +48,7 @@ module.exports.createUser = function(username, password, callback){
 					"diffuculty" : 0,
 				
 				
-				}
+				},
 				{
 					"level" :  4,
 					"length" : 0,
@@ -57,7 +57,7 @@ module.exports.createUser = function(username, password, callback){
 					"diffuculty" : 0,
 				
 				
-				}
+				},
 				{
 					"level" :  5,
 					"length" : 0,
@@ -66,7 +66,7 @@ module.exports.createUser = function(username, password, callback){
 					"diffuculty" : 0,
 				
 				
-				}
+				},
 				{
 					"level" :  6,
 					"length" : 0,
@@ -75,7 +75,7 @@ module.exports.createUser = function(username, password, callback){
 					"diffuculty" : 0,
 				
 				
-				}
+				},
 				{
 					"level" :  7,
 					"length" : 0,
@@ -84,7 +84,7 @@ module.exports.createUser = function(username, password, callback){
 					"diffuculty" : 0,
 				
 				
-				}
+				},
 				{
 					"level" :  8,
 					"length" : 0,
@@ -93,7 +93,7 @@ module.exports.createUser = function(username, password, callback){
 					"diffuculty" : 0,
 				
 				
-				}
+				},
 				{
 					"level" :  9,
 					"length" : 0,
@@ -102,7 +102,7 @@ module.exports.createUser = function(username, password, callback){
 					"diffuculty" : 0,
 				
 				
-				}
+				},
 				
 				
 				{
