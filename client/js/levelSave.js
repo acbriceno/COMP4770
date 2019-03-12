@@ -2,6 +2,8 @@ saveLevel=function(w,h,fac,level2d){
 	let level;
 	let x=0;
 	let y=0;
+	let s="hello";
+	
 	for(let i=0;i<w*h;i++){
 		let code=0;
 		for(let key in Entity.list){
@@ -18,5 +20,8 @@ saveLevel=function(w,h,fac,level2d){
 			y+=64;
 		}
 	}
+	
+	console.log("save Level LevelSave.js hit");
+	return s;
 	//logic to pass to the database
 }

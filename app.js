@@ -48,6 +48,19 @@ io.sockets.on('connection',function(socket){
 
     });
   });
+  
+  
+  
+  socket.on('saveLevel', function(message){
+      console.log("canvas" + message.save);
+	  console.log("save levelEdit hit");
+	  
+  });
+  
+  
+  
+  
+  
 
 
 
