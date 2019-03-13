@@ -128,7 +128,7 @@
 
 
 
-      if (levelEditorB.style.display == "none") {
+      if (levelEditor.style.display == "none") {
             mouseX -= W/2;
       	mouseY -= H/2;
             player.aimAngle = Math.atan2(mouseY,mouseX) / Math.PI * 180;
@@ -323,11 +323,11 @@
 			count=2;
       }
 // mouseX is undefined
-      function assets() {
+      assets = function() {
             let selected = selections.options[selections.selectedIndex].value;
             console.log(selected);
             if (selected === "asset1") {
-                  console.log(mousePos.x);
+                  console.log(mousePos.getCoord());
                   // ctx.fillRect(mousePos.x, mousePos.y, 20,20);
             }
       }
