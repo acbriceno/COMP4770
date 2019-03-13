@@ -1,5 +1,6 @@
 let player;
 
+
 Entity=function(type,id,x,y,w,h,img){
 	let self={
 		type:type,
@@ -17,15 +18,25 @@ Entity=function(type,id,x,y,w,h,img){
 	}
 
 	self.draw=function(){
-		ctx.save();
-		let x = self.x - player.x;
-		let y = self.y - player.y;
-		x += W/2;
-		y += H/2;
-		x -= self.w/2;
-		y -= self.h/2;
-		ctx.drawImage(self.img,x,y,self.w,self.h);
-		ctx.restore();
+		if(screen='game'){
+			ctx.save();
+			let x = self.x - player.x;
+			let y = self.y - player.y;
+			x += W/2;
+			y += H/2;
+			x -= self.w/2;
+			y -= self.h/2;
+			ctx.drawImage(self.img,x,y,self.w,self.h);
+			ctx.restore();
+		}
+		if(screen='le'){
+			//console.log('good so far');
+			ctxLE.save();
+			let x = self.x;
+			let y = self.y;
+			ctxLE.drawImage(self.img,x,y,self.w,self.h);
+			ctxLE.restore();
+		}
 	}
 
 	self.getDistance=function(entity2){
@@ -87,15 +98,21 @@ Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
 	self.weap=1;
 
 	self.draw=function() {
-		ctx.save();
-		let x=self.x-player.x;
-		let y=self.y-player.y;
-		x+=W/2;
-		y+=H/2;
-		x-=self.w/2;
-		y-=self.h/2;
+		if(screen='game')
+			ctx.save();
+		else if(screen='le')
+			ctxLE.save();
+		if(screen='game'){
+			let x=self.x-player.x;
+			let y=self.y-player.y;
+			x+=W/2;
+			y+=H/2;
+			x-=self.w/2;
+			y-=self.h/2;
+		}
 		let framew=self.img.width/4;
 		let frameh=self.img.height/28;
+		//console.log('can i find');
 		/*if(self.type='p'){
 			frameh=frameh/2
 		}*/
@@ -125,9 +142,15 @@ Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
 				dir=27;
 			}
 		}
-		ctx.drawImage(self.img,cnt*framew,dir*frameh,framew,frameh,x,y,self.w,self.h);
-		ctx.restore();
-
+		if(screen='game'){
+			ctx.drawImage(self.img,cnt*framew,dir*frameh,framew,frameh,x,y,self.w,self.h);
+			ctx.restore();
+		}
+		else if(screen='le'){
+			//console.log('here?');
+			ctxLE.drawImage(self.img,cnt*framew,dir*frameh,framew,frameh,self.x,self.y,self.w,self.h);
+			ctxLE.restore();
+		}
 	}
 
 	self.updatePosition=function() {
@@ -266,7 +289,7 @@ Enemy.update=function(){
 	}
 }
 
-Enemy.generate=function(x,y,code){
+Enemy.generate=function(x,y){
 	let h=64;
 	let w=64;
 	let id=Math.random();
@@ -275,7 +298,8 @@ Enemy.generate=function(x,y,code){
 	let dmg=1;
 	//using player img as placeholder
 	let img=Img.playerLevel;
-	Enemy(id,x,y,w,h,img,hp,atkSpd,dmg,code);
+	console.log('found');
+	Enemy(id,x,y,w,h,img,hp,atkSpd,dmg,'e');
 }
 
 Assignment=function(id,x,y,w,h,img,hp,dmg,code){

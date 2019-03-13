@@ -8,6 +8,9 @@
 </head> -->
 <script src="js/entity.js"></script>
 <script src="js/levelEditor.js"></script>
+<script src="js/levelLoad.js"></script>
+<script src="js/levelSave.js"></script>
+<script src="js/inventory.js"></script>
 
 <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
 <body>
@@ -25,25 +28,31 @@
 	</div>
 </div>
 
-<div id="back" style ="display:none;">
-      <button onclick="backMainMenu()">Back</button>
-</div>
-
-
 <div id="levelEditor" style="display:none;">
 	<div id="editor" style="position:absolute;width:1280px;height:720px">
 		<canvas id="ctxLE" width="1280" height="720" style="position:absolute;border:1px solid #000000;"></canvas>
 		<canvas id="ctx-uiLE" width="1280" height="720" style="position:absolute;border:1px solid #000000;"></canvas>
 	</div>
       <div id="aSelect1" style ="position: fixed; bottom: 1280; right: 0;">
-            <select id="selections"onchange="assets();">
-                  <option value="asset1"selected="selected">asset1</option>
-                  <option value="asset2">asset2</option>
-                  <option value="asset3">asset3</option>
+            <select id="selections";>
+                  <option value="p"selected="selected">Player</option>
+                  <option value="e">Enemies</option>
+                  <option value="f">Platform</option>
             </select>
       </div>
-
+	<div id="backLE" style="display:none;position:absolute;top:750px;">
+		<button onclick="backMainMenu()">Back</button>
+	</div>
 </div>
+
+<div id="back" style ="display:none;">
+      <button onclick="backMainMenu()">Back</button>
+</div>
+
+<div id="save" style ="display:none;">
+      <button onclick="saveEdit()">Save</button>
+</div>
+
 
 <!-- <div id="selections" style ="display:none;">
       <select>
@@ -70,6 +79,8 @@
 <script>
 	let canvas=document.getElementById('ctx');
 	let ctx=canvas.getContext('2d');
+	let canvasLE=document.getElementById('ctxLE');
+	let ctxLE=canvasLE.getContext('2d');
     let signDivSignIn = document.getElementById('signDiv-signIn');
     let signDivSignUp = document.getElementById('signDiv-signUp');
     let newGame = document.getElementById('newGame');
@@ -78,6 +89,7 @@
     let loadFile = document.getElementById('loadFile');
     let file = document.getElementById('file');
     let a1 = document.getElementById('selections');
+	let save = document.getElementById('save');
 	let keyUp=87;
 	let keyDown=83;
 	let keyRight=68;
@@ -87,7 +99,7 @@
 	let keyChange=67;
 	let W=1280;
 	let H=720;
-	let overworld=true;
+	let screen='sign';
 	let count=0;
 
     var Img = {};
@@ -105,7 +117,15 @@
 	//action listeners, logic tbd
 	document.onmousedown=function(mouse){
 		if(mouse.which==1){
-			player.lMouseClick=true;
+			if (levelEditor.style.display == "none") {
+				player.lMouseClick=true;
+			}
+			else{
+				let selection = selections.options[selections.selectedIndex].value;
+				mousePos.code=selection;
+				//console.log(mousePos.code);
+				mousePos.draw();
+			}
 		}
 		else{
 			player.rMouseClick=true;
@@ -130,11 +150,12 @@
 
       if (levelEditor.style.display == "none") {
             mouseX -= W/2;
-      	mouseY -= H/2;
+			mouseY -= H/2;
             player.aimAngle = Math.atan2(mouseY,mouseX) / Math.PI * 180;
       }
       else {
-            mousePos = MousePos(mouseX, mouseY);
+            mousePos.x=mouseX-8;
+			mousePos.y=mouseY-22;
             // console.log("mouseX: " + mouseX + "mouseY: " + mouseY);
       }
 
@@ -229,7 +250,7 @@
 
 		}
 
-    	}
+    }
 
 
 
@@ -238,7 +259,14 @@
 			user=document.getElementById('signDiv-username').value;
 			pass=document.getElementById('signDiv-password').value;
 			let msg;
-
+			screen='menu';
+			signDiv.style.display = 'none';
+			
+			
+			mainMenu.style.display = 'inline-block';
+			back.style.display = 'inline';
+			
+			
 			if (valid(user,pass)){
 
 				var socket = io();
@@ -275,6 +303,7 @@
 		if (count==1){
 			mainMenu.style.display = 'none';
 			back.style.display = 'none';
+			backLE.style.display = 'none';
 			 signDiv.style.display = 'inline-block';
 			 count=0;
 
@@ -297,6 +326,22 @@
 
 
 	}
+	
+	
+	function saveEdit(){
+		
+		var socket = io();
+		socket.emit('saveLevel',{
+				save:saveLevel(0,0,0,0), 
+
+				});
+		
+
+	}
+	
+	
+	
+	//console.log("string :" + saveLevel(0,0,0,0));
 
 
       newGame.onclick = function() {
@@ -320,15 +365,29 @@
             mainMenu.style.display = 'none';
             selections.style.display = 'inline';
             levelEditor.style.display = 'inline-block';
+			save.style.display = 'inline-block'; 
+			back.style.display="none";
+			backLE.style.display="inline";
+			screen='le';
+			console.log(screen);
 			count=2;
       }
 // mouseX is undefined
+<<<<<<< HEAD
       assets = function() {
             let selected = selections.options[selections.selectedIndex].value;
             console.log(selected);
             if (selected === "asset1") {
                   console.log(mousePos.getCoord());
                   // ctx.fillRect(mousePos.x, mousePos.y, 20,20);
+=======
+      function assets() {
+            let selection = selections.options[selections.selectedIndex].value;
+            console.log(selection);
+            if (selection === "asset1") {
+                  //console.log(mousePos.x);
+                  ctxLE.fillRect(mousePos.x, mousePos.y, 20,20);
+>>>>>>> 95cf9af59c8136c5bd0b7cc90f1c6b21bed1cabc
             }
       }
 
@@ -340,9 +399,10 @@
       //       x:50,
       //       y:50,
       // };
-      player = Player(190, 620);
+    player = Player(190, 620);
 	Enemy.generate(0,0,'e');
 	Platform.generate(128,128,'f');
+	mousePos=MousePos(0,0,'p');
       //var img = new Image()
 
       // img.onload = function() {
@@ -354,8 +414,9 @@
 
       //img.src = "img/Armature_Idle_12.png";
 
-
+	//if(gameDiv.style.display!="none"){
        setInterval(update, 30);
+	//}
 
       //ctx.fillRect(Player.x, player.y, 20, 20);
 

@@ -2,6 +2,7 @@
 
 var auth = require('./Authentication.js');
 var dbManager = require('./DBManager.js');
+let dbLevelManager = require('./DBLevelManager.js');
 
 module.exports.createUser = function(username, password, callback){
 
@@ -21,6 +22,105 @@ module.exports.createUser = function(username, password, callback){
                 username: username,
                 salt: encrypted.salt,
                 hash: encrypted.passwordHash,
+               levels:  [
+				
+				{
+					"level" :  1,
+					"length" : 0,
+					"background": 0,
+					"data " : "",
+					"diffuculty" : 0,
+				
+				},
+			    {
+					"level" :  2,
+					"length" : 0,
+					"background": 0,
+					"data " : "",
+					"diffuculty" : 0,
+				
+				
+				},
+				{
+					"level" :  3,
+					"length" : 0,
+					"background": 0,
+					"data " : "",
+					"diffuculty" : 0,
+				
+				
+				},
+				{
+					"level" :  4,
+					"length" : 0,
+					"background": 0,
+					"data " : "",
+					"diffuculty" : 0,
+				
+				
+				},
+				{
+					"level" :  5,
+					"length" : 0,
+					"background": 0,
+					"data " : "",
+					"diffuculty" : 0,
+				
+				
+				},
+				{
+					"level" :  6,
+					"length" : 0,
+					"background": 0,
+					"data " : "",
+					"diffuculty" : 0,
+				
+				
+				},
+				{
+					"level" :  7,
+					"length" : 0,
+					"background": 0,
+					"data " : "",
+					"diffuculty" : 0,
+				
+				
+				},
+				{
+					"level" :  8,
+					"length" : 0,
+					"background": 0,
+					"data " : "",
+					"diffuculty" : 0,
+				
+				
+				},
+				{
+					"level" :  9,
+					"length" : 0,
+					"background": 0,
+					"data " : "",
+					"diffuculty" : 0,
+				
+				
+				},
+				
+				
+				{
+					"level" :  10,
+					"length" : 0,
+					"background": 0,
+					"data " : "",
+					"diffuculty" : 0,
+				
+				
+				}
+				
+				
+				
+				]
+                
+                
                 };  
             dbManager.insertUser(userAccount);
             accountStatus.accountCreated = true;
@@ -56,3 +156,26 @@ module.exports.signOut = function(username, token, callback){
     });
 
 }
+
+module.exports.saveLevel = function(username, token,level, callback){
+    auth.authenticateWithToken(username, token, function(status){
+        if(status){
+            
+			
+			
+			dbLevelManager.insertLevel(username,token,level);
+			
+			
+			
+            return callback(status);
+        }
+        return callback(status);
+    });
+
+}
+
+
+
+
+
+
