@@ -126,6 +126,8 @@
 </div>
 
 <script>
+	var username = "";
+	var token = "";
 	let canvas=document.getElementById('ctx');
 	let ctx=canvas.getContext('2d');
 	let canvasLE=document.getElementById('ctxLE');
@@ -333,6 +335,7 @@
 				socket.on('signedIn', function(message){
 					console.log(message);
 					msg=message;
+					token = message.token;
 
 					if (message.signedIn==true){
 
@@ -387,6 +390,8 @@
 		var socket = io();
 		socket.emit('saveLevel',{
 				save:saveLevel(0,0,0,0),
+				username: username,
+				token : token, 
 
 				});
 
