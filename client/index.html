@@ -261,12 +261,12 @@
 			let msg;
 			screen='menu';
 			signDiv.style.display = 'none';
-			
-			
+
+
 			mainMenu.style.display = 'inline-block';
 			back.style.display = 'inline';
-			
-			
+
+
 			if (valid(user,pass)){
 
 				var socket = io();
@@ -326,21 +326,21 @@
 
 
 	}
-	
-	
+
+
 	function saveEdit(){
-		
+
 		var socket = io();
 		socket.emit('saveLevel',{
-				save:saveLevel(0,0,0,0), 
+				save:saveLevel(0,0,0,0),
 
 				});
-		
+
 
 	}
-	
-	
-	
+
+
+
 	//console.log("string :" + saveLevel(0,0,0,0));
 
 
@@ -365,7 +365,7 @@
             mainMenu.style.display = 'none';
             selections.style.display = 'inline';
             levelEditor.style.display = 'inline-block';
-			save.style.display = 'inline-block'; 
+			save.style.display = 'inline-block';
 			back.style.display="none";
 			backLE.style.display="inline";
 			screen='le';
@@ -373,21 +373,12 @@
 			count=2;
       }
 // mouseX is undefined
-<<<<<<< HEAD
-      assets = function() {
-            let selected = selections.options[selections.selectedIndex].value;
-            console.log(selected);
-            if (selected === "asset1") {
-                  console.log(mousePos.getCoord());
-                  // ctx.fillRect(mousePos.x, mousePos.y, 20,20);
-=======
       function assets() {
             let selection = selections.options[selections.selectedIndex].value;
             console.log(selection);
             if (selection === "asset1") {
                   //console.log(mousePos.x);
                   ctxLE.fillRect(mousePos.x, mousePos.y, 20,20);
->>>>>>> 95cf9af59c8136c5bd0b7cc90f1c6b21bed1cabc
             }
       }
 
