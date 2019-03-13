@@ -9,19 +9,20 @@ MousePos = function(x, y, code) {
 
 	self.draw=function(){
 		console.log('mousepos.draw is working');
-            console.log(self.x + ", " + self.y + ", " + self.code);
-		if(self.code='p'){
-			// player.x=self.x;
-			// player.y=self.y;
-			// player.update();
-                  ctxLE.fillRect(self.x, self.y, 20, 20);
+		
+		if(self.code=='p'){
+			console.log('player should draw');
+			player.x=self.x;
+			player.y=self.y;
+			console.log(player.x+", "+player.y);
+			player.update();
 
 		}
-		else if(self.code='e'){
+		else if(self.code=='e'){
 			Enemy.generate(self.x,self.y);
 			Enemy.update();
 		}
-		else if(self.code='f'){
+		else if(self.code=='f'){
 			Platform.generate(self.x,self.y,self.code);
 			Platform.update();
 		}
