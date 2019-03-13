@@ -9,11 +9,12 @@ MousePos = function(x, y, code) {
 
 	self.draw=function(){
 		console.log('mousepos.draw is working');
+            console.log(self.x + ", " + self.y + ", " + self.code);
 		if(self.code='p'){
-			player.x=self.x;
-			player.y=self.y;
-
-			player.update();
+			// player.x=self.x;
+			// player.y=self.y;
+			// player.update();
+                  ctxLE.fillRect(self.x, self.y, 20, 20);
 
 		}
 		else if(self.code='e'){
@@ -25,7 +26,7 @@ MousePos = function(x, y, code) {
 			Platform.update();
 		}
 	}
-	
+
 	return self;
 }
 
