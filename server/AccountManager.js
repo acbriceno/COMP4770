@@ -19,18 +19,18 @@ module.exports.createUser = function(username, password, callback){
         else{
             let encrypted = auth.encryptPassword(password);
             let userAccount = {
-                username: username,
+                userName: username,
                 salt: encrypted.salt,
                 hash: encrypted.passwordHash,
-               levels:  [
-				
+                levels:  [
+
 				{
 					"level" :  1,
 					"length" : 0,
 					"background": 0,
 					"data " : "",
 					"diffuculty" : 0,
-				
+
 				},
 			    {
 					"level" :  2,
@@ -38,8 +38,8 @@ module.exports.createUser = function(username, password, callback){
 					"background": 0,
 					"data " : "",
 					"diffuculty" : 0,
-				
-				
+
+
 				},
 				{
 					"level" :  3,
@@ -47,8 +47,8 @@ module.exports.createUser = function(username, password, callback){
 					"background": 0,
 					"data " : "",
 					"diffuculty" : 0,
-				
-				
+
+
 				},
 				{
 					"level" :  4,
@@ -56,8 +56,8 @@ module.exports.createUser = function(username, password, callback){
 					"background": 0,
 					"data " : "",
 					"diffuculty" : 0,
-				
-				
+
+
 				},
 				{
 					"level" :  5,
@@ -65,8 +65,8 @@ module.exports.createUser = function(username, password, callback){
 					"background": 0,
 					"data " : "",
 					"diffuculty" : 0,
-				
-				
+
+
 				},
 				{
 					"level" :  6,
@@ -74,8 +74,8 @@ module.exports.createUser = function(username, password, callback){
 					"background": 0,
 					"data " : "",
 					"diffuculty" : 0,
-				
-				
+
+
 				},
 				{
 					"level" :  7,
@@ -83,8 +83,8 @@ module.exports.createUser = function(username, password, callback){
 					"background": 0,
 					"data " : "",
 					"diffuculty" : 0,
-				
-				
+
+
 				},
 				{
 					"level" :  8,
@@ -92,8 +92,8 @@ module.exports.createUser = function(username, password, callback){
 					"background": 0,
 					"data " : "",
 					"diffuculty" : 0,
-				
-				
+
+
 				},
 				{
 					"level" :  9,
@@ -101,28 +101,29 @@ module.exports.createUser = function(username, password, callback){
 					"background": 0,
 					"data " : "",
 					"diffuculty" : 0,
-				
-				
+
+
 				},
-				
-				
+
+
 				{
 					"level" :  10,
 					"length" : 0,
 					"background": 0,
 					"data " : "",
 					"diffuculty" : 0,
-				
-				
+
+
 				}
-				
-				
-				
+
+
+
 				]
-                
-                
-                };  
+
+
+                };
             dbManager.insertUser(userAccount);
+            accountStatus.userName= username;
             accountStatus.accountCreated = true;
             accountStatus.usernameStatus = "Username available and used";
             return callback(accountStatus);
@@ -133,13 +134,18 @@ module.exports.createUser = function(username, password, callback){
 module.exports.signIn = function(username, password, callback){
     auth.authenticateUser(username, password, function(authenticated){
         let status = {
+            userName:username,
             signedIn : false,
             token : "",
+
         }
         if(authenticated){
+
            status.token = auth.generateToken();
            dbManager.insertToken(username, status.token);
+
            status.signedIn = true;
+
            return callback(status);
         }
         return callback(status);
@@ -160,22 +166,16 @@ module.exports.signOut = function(username, token, callback){
 module.exports.saveLevel = function(username, token,level, callback){
     auth.authenticateWithToken(username, token, function(status){
         if(status){
-            
-			
-			
-			dbLevelManager.insertLevel(username,token,level);
-			
-			
-			
+
+
+
+			dbLevelManager.insertLevel(username,level);
+
+
+
             return callback(status);
         }
         return callback(status);
     });
 
 }
-
-
-
-
-
-

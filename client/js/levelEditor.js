@@ -8,7 +8,7 @@ MousePos = function(x, y, code) {
 	};
 	
 	self.draw=function(){
-		console.log('mousepos.draw is working');
+		//console.log('mousepos.draw is working');
 		if(self.code='p'){
 			player.x=self.x;
 			player.y=self.y;

@@ -16,7 +16,7 @@ module.exports.connectDatabase = function (){
 	});
 }
 
-module.exports.insertLevel = function(account){
+module.exports.insertLevel = function(username,level){
 const client = new MongoClient(url,{useNewUrlParser: true} );
 client.connect(function(err, client) {
   assert.equal(null, err);
@@ -25,7 +25,7 @@ client.connect(function(err, client) {
   const db = client.db(dbName);
 
   // Insert a single document
-  db.collection('Level').insertOne({username: account.username, salt: account.salt, hash: account.hash, levels:account.levels}, function(err, r) {
+  db.collection('Level').insertOne({username: username, levels:levels}, function(err, r) {
     assert.equal(null, err);
     assert.equal(1, r.insertedCount);
     console.log("Inserted user to database ");

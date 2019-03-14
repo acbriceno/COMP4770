@@ -45,12 +45,24 @@
 	</div>
 </div>
 
+<div id="playerProfile" style ="display:none;">
+	 UserName : <input type="text" id="username" value=username>
+	 token : <input type="text" id="token" value=token>
+
+</div>
+
+
 <div id="back" style ="display:none;">
       <button onclick="backMainMenu()">Back</button>
 </div>
 
 <div id="save" style ="display:none;">
       <button onclick="saveEdit()">Save</button>
+</div>
+
+
+<div id="profileDiv" style ="display:none;">
+      <button onclick="showProfile()">Profile</button>
 </div>
 
 
@@ -64,8 +76,9 @@
 
 
 <div id="mainMenu" style="display:none;">
-      <button id="newGame">New Game</button>
-      <button id="loadGame">Load Game</button>
+			<button id="profile">Profile </button>
+			<button id="newGame">New Game</button>
+			<button id="loadGame">Load Game</button>
       <button id="levelEditorB">Level Editor</button>
 </div>
 <!-- All files had the same id
@@ -81,15 +94,18 @@
 	let ctx=canvas.getContext('2d');
 	let canvasLE=document.getElementById('ctxLE');
 	let ctxLE=canvasLE.getContext('2d');
-    let signDivSignIn = document.getElementById('signDiv-signIn');
-    let signDivSignUp = document.getElementById('signDiv-signUp');
-    let newGame = document.getElementById('newGame');
-    let loadGame = document.getElementById('loadGame');
-    let levelEditorB = document.getElementById('levelEditorB');
-    let loadFile = document.getElementById('loadFile');
-    let file = document.getElementById('file');
-    let a1 = document.getElementById('selections');
+  let signDivSignIn = document.getElementById('signDiv-signIn');
+  let signDivSignUp = document.getElementById('signDiv-signUp');
+  let newGame = document.getElementById('newGame');
+  let loadGame = document.getElementById('loadGame');
+  let levelEditorB = document.getElementById('levelEditorB');
+  let loadFile = document.getElementById('loadFile');
+  let file = document.getElementById('file');
+  let a1 = document.getElementById('selections');
 	let save = document.getElementById('save');
+	let usernameText=document.getElementById('username');
+	let profile=document.getElementById('profile');
+	let tokenText=document.getElementById('token');
 	let keyUp=87;
 	let keyDown=83;
 	let keyRight=68;
@@ -101,6 +117,8 @@
 	let H=720;
 	let screen='sign';
 	let count=0;
+	let username="";
+	let token="";
 
     var Img = {};
     Img.playerLevel = new Image();
@@ -240,8 +258,17 @@
 
 			socket.on('accountCreated', function(message){
 				console.log(message);
-				msg=message;
+
 				if (message.accountCreated==true){
+
+			//	console.log("welcome "  +message["token"]);
+
+
+
+			//	var x={"key":value , "key2" :value};
+			//	console.log("foo "  + x[0]);
+
+
 
 				 console.log("account Created");
 
@@ -258,15 +285,15 @@
             console.log("signDivSignIn HIT")
 			user=document.getElementById('signDiv-username').value;
 			pass=document.getElementById('signDiv-password').value;
-			let msg;
+
 			screen='menu';
 			signDiv.style.display = 'none';
-			
-			
+
+
 			mainMenu.style.display = 'inline-block';
 			back.style.display = 'inline';
-			
-			
+
+
 			if (valid(user,pass)){
 
 				var socket = io();
@@ -276,16 +303,31 @@
 
 				});
 
-				socket.on('signedIn', function(message){
+				socket.on('signedIn', function(message){            //AccountManager
 					console.log(message);
-					msg=message;
 
+					console.log(message.signedIn);
 					if (message.signedIn==true){
+
+
+					username=message.userName;
+					token=message.token;
+					tokenText.value=token;
+					usernameText.value=username;
+
+
+
+					console.log("welcome  : "  +message.userName  ) ;
+					console.log("your token is  :"  +message.token);
+
+
 
 					document.getElementById('signDiv-password').value;
 					signDiv.style.display = 'none';
 					mainMenu.style.display = 'inline-block';
+					//playerProfile.style.display = 'inline-block';
 					back.style.display = 'inline';
+
 					count=1;
 
 				}
@@ -304,6 +346,7 @@
 			mainMenu.style.display = 'none';
 			back.style.display = 'none';
 			backLE.style.display = 'none';
+			playerProfile.style.display = 'none';
 			 signDiv.style.display = 'inline-block';
 			 count=0;
 
@@ -326,21 +369,22 @@
 
 
 	}
-	
-	
+
+
 	function saveEdit(){
-		
+
 		var socket = io();
-		socket.emit('saveLevel',{
-				save:saveLevel(0,0,0,0), 
+		socket.on('saveLevel', function(message){
+				save:saveLevel(0,0,0,0)
+
 
 				});
-		
+
 
 	}
-	
-	
-	
+
+
+
 	//console.log("string :" + saveLevel(0,0,0,0));
 
 
@@ -361,11 +405,16 @@
             gameDiv.style.display = 'inline-block';
       }
 
+			profile.onclick= function  () {
+            playerProfile.style.display = 'inline-block';
+						console.log("profile hit");
+      }
+
       levelEditorB.onclick = function() {
             mainMenu.style.display = 'none';
             selections.style.display = 'inline';
             levelEditor.style.display = 'inline-block';
-			save.style.display = 'inline-block'; 
+			save.style.display = 'inline-block';
 			back.style.display="none";
 			backLE.style.display="inline";
 			screen='le';

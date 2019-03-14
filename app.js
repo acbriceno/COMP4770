@@ -1,5 +1,6 @@
 
 let dbManager = require('./server/DBManager.js');
+let dbLevelManager = require('./server/DBLevelManager.js');
 var express = require('express');
 var app = express();
 var serv = require('http').Server(app);
@@ -34,6 +35,7 @@ io.sockets.on('connection',function(socket){
     socket.on('signIn', function(message){
       account.signIn(message.username, message.password, function(status){
         socket.emit('signedIn', {
+          userName : message.username,
           token: status.token,
           signedIn: status.signedIn,
       });
@@ -48,20 +50,17 @@ io.sockets.on('connection',function(socket){
 
     });
   });
-  
-  
-  
+
+
+
   socket.on('saveLevel', function(message){
-      console.log("canvas" + message.save);
-	  console.log("save levelEdit hit");
-	  
+      account.saveLevel(message.username, message.token, message.level, function(status){
+        socket.emit('save', {
+          signedOut: status,
+      });
+
+	 });
   });
-  
-  
-  
-  
-  
 
 
-
-});
+  });
