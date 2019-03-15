@@ -172,7 +172,7 @@ Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
 			}
 		}
 		if(moveG){
-			self.y+=1;
+			self.y+=2;
 		}
 
 		if(self.rightPress){
@@ -214,17 +214,19 @@ Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
 				self.y+=self.maxSpd;
 			}
 		}
-		if(self.downPress){
-			for(let key11 in Platform.list){
-				if(self.testCollisionBB(downBump,Platform.list[key11])){
-					move=false;
+		if(screen=='overworld'){
+			if(self.downPress){
+				for(let key11 in Platform.list){
+					if(self.testCollisionBB(downBump,Platform.list[key11])){
+						move=false;
+					}
 				}
-			}
-			if(move){
-				self.y+=self.maxSpd;
-			}
-			else{
-				self.y-=self.maxSpd;
+				if(move){
+					self.y+=self.maxSpd;
+				}
+				else{
+					self.y-=self.maxSpd;
+				}
 			}
 		}
 	}
