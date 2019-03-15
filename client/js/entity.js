@@ -92,32 +92,33 @@ Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
 	self.upPress=false;
 	self.leftPress=false;
 	self.rightPress=false;
-	self.maxSpd=15;
+	self.maxSpd=2;
 	self.dmg=dmg;
 	self.code=code;
 	self.atkCnt=0;
 	self.weap=1;
 
-	self.draw=function() {
-		if(levelEditor.style.display == "none"){	
+	/*self.draw=function() {
+		if(screen=='game'){	
 			ctx.save();
-		//console.log('here');
-			let x=self.x-player.x;
-			let y=self.y-player.y;
-			x+=W/2;
-			y+=H/2;
-			x-=self.w/2;
-			y-=self.h/2;
 		}
-		else{
+		else if(screen=='le'){
 			ctxLE.save();
 		}
+		let x=self.x-player.x;
+		let y=self.y-player.y;
+		x+=W/2;
+		y+=H/2;
+		x-=self.w/2;
+		y-=self.h/2;
+		
+		
 		let framew=self.img.width/4;
 		let frameh=self.img.height/28;
 		//console.log('can i find');
 		/*if(self.type='p'){
 			frameh=frameh/2
-		}*/
+		}*//*
 		let aim=self.aimAngle;
 		if(aim<0){
 			aim=aim+360;;
@@ -144,18 +145,21 @@ Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
 				dir=27;
 			}
 		}
-		if(levelEditor.style.display == "none"){
+		if(screen=='game'){
 			ctx.drawImage(self.img,cnt*framew,dir*frameh,framew,frameh,x,y,self.w,self.h);
 			ctx.restore();
 		}
-		else{
+		else if(screen=='le'){
 			ctxLE.drawImage(self.img,cnt*framew,dir*frameh,framew,frameh,self.x,self.y,self.w,self.h);
 			ctxLE.restore();
 		}
-	}
+	}*/
 
 	self.updatePosition=function() {
 		let move=true;
+		if(screen=='le'){
+			move=false;
+		}
 		let leftBump={x:self.x-32,y:self.y,width:10,height:10};
 		let rightBump={x:self.x+32,y:self.y,width:10,height:10};
 		let upBump={x:self.x,y:self.y-32,width:10,height:10};
@@ -174,45 +178,45 @@ Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
 				self.x-=self.maxSpd;
 			}
 		}
-		else if(self.leftPress){
-				for(let key11 in Platform.list){
-					if(self.testCollisionBB(leftBump,Platform.list[key11])){
-						move=false;
-					}
-				}
-				if(move){
-					self.x-=self.maxSpd;
-				}
-				else{
-					self.x+=self.maxSpd;
+		if(self.leftPress){
+			for(let key11 in Platform.list){
+				if(self.testCollisionBB(leftBump,Platform.list[key11])){
+					move=false;
 				}
 			}
-			else if(self.upPress){
-				for(let key11 in Platform.list){
-					if(self.testCollisionBB(upBump,Platform.list[key11])){
-						move=false;
-					}
-				}
-				if(move){
-					self.y-=self.maxSpd;
-				}
-				else{
-					self.y+=self.maxSpd;
+			if(move){
+				self.x-=self.maxSpd;
+			}
+			else{
+				self.x+=self.maxSpd;
+			}
+		}
+		if(self.upPress){
+			for(let key11 in Platform.list){
+				if(self.testCollisionBB(upBump,Platform.list[key11])){
+					move=false;
 				}
 			}
-			else if(self.downPress){
-				for(let key11 in Platform.list){
-					if(self.testCollisionBB(downBump,Platform.list[key11])){
-						move=false;
-					}
-				}
-				if(move){
-					self.y+=self.maxSpd;
-				}
-				else{
-					self.y-=self.maxSpd;
+			if(move){
+				self.y-=self.maxSpd;
+			}
+			else{
+				self.y+=self.maxSpd;
+			}
+		}
+		if(self.downPress){
+			for(let key11 in Platform.list){
+				if(self.testCollisionBB(downBump,Platform.list[key11])){
+					move=false;
 				}
 			}
+			if(move){
+				self.y+=self.maxSpd;
+			}
+			else{
+				self.y-=self.maxSpd;
+			}
+		}
 	}
 	
 
@@ -228,9 +232,11 @@ Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
 	self.onDeath=function(){}
 
 	self.performAttack=function(){
-		if(self.atkCnt>25){
-			self.atkCnt=0;
-			Projectile.generate(self);
+		if(screen=='game'){
+			if(self.atkCnt>25){
+				self.atkCnt=0;
+				Projectile.generate(self);
+			}
 		}
 	}
 
@@ -251,18 +257,31 @@ Enemy=function(id,x,y,w,h,img,hp,atkSpd,dmg,code){
 		self.performAttack();
 	}
 
-	self.updateAim=function(){}
+	self.updateAim=function(){
+		var diffX = player.x - self.x;
+		var diffY = player.y - self.y;
+		
+		self.aimAngle = Math.atan2(diffY,diffX) / Math.PI * 180
+	}
 
-	self.updateKey=function(){}
+	self.updateKey=function(){
+		var diffX = player.x - self.x;
+		var diffY = player.y - self.y;
 
-	let super_draw=self.draw;
-	self.draw=function(){
-		super_draw();
+		self.rightPress = diffX > 3;
+		self.leftPress = diffX < -3;
+		self.downPress = diffY > 3;
+		self.upPress = diffY < -3;
+	}
+		
+	//let super_draw=self.draw;
+	//self.draw=function(){
+	//	super_draw();
 
 		//ctx.save();
 		//logic for drawing enemies
 		//ctx.restore();
-	}
+	//}
 
 	self.onDeath=function(){
 		self.remove=true;
@@ -297,7 +316,7 @@ Enemy.generate=function(x,y){
 	let atkSpd=0.5;
 	let dmg=1;
 	//using player img as placeholder
-	let img=Img.playerLevel;
+	let img=Img.philEnemy;
 	console.log('found');
 	Enemy(id,x,y,w,h,img,hp,atkSpd,dmg,'e');
 }
@@ -327,7 +346,7 @@ Assignment.generate=function(x,y,code){
 	let w=64;
 	let id=Math.random();
 	let hp=30;
-	let atkSpd=3;
+	let atkSpd=1;
 	let dmg=3;
 	//using player img as placeholder
 	let img=Img.playerGL;
@@ -360,7 +379,7 @@ Midterm.generate=function(x,y,code){
 	let w=64;
 	let id=Math.random();
 	let hp=50;
-	let atkSpd=5;
+	let atkSpd=1;
 	let dmg=7;
 	//using player img as placeholder
 	let img=Img.playerGL;
@@ -390,7 +409,7 @@ Final.generate=function(x,y,code){
 	let w=64;
 	let id=Math.random();
 	let hp=100;
-	let atkSpd=10;
+	let atkSpd=2;
 	let dmg=15;
 	//using player img as placeholder
 	let img=Img.playerGL;
@@ -400,7 +419,7 @@ Final.generate=function(x,y,code){
 Player=function(x,y){
 	let img=Img.playerLevel;
 	let self=Actor('p','myId',x,y,64,64,img,100,5,5,'p');
-	self.maxSpd=10;
+	self.maxSpd=5;
 	self.lMouseClick=false;
 	self.rMouseClick=false;
 	self.asgScore=0;
@@ -419,6 +438,63 @@ Player=function(x,y){
 		}
 	}
 
+	self.draw=function(){
+		if(screen=='game'){	
+			ctx.save();
+		}
+		else if(screen=='le'){
+			ctxLE.save();
+		}
+		let x=self.x-player.x;
+		let y=self.y-player.y;
+		x+=W/2;
+		y+=H/2;
+		x-=self.w/2;
+		y-=self.h/2;
+		
+		
+		let framew=self.img.width/4;
+		let frameh=self.img.height/28;
+		//console.log('can i find');
+		/*if(self.type='p'){
+			frameh=frameh/2
+		}*/
+		let aim=self.aimAngle;
+		if(aim<0){
+			aim=aim+360;;
+		}
+		let dir=0;
+		if(aim>=90&&aim<270){
+			dir=1;
+		}
+		//console.log(img);
+		let cnt=Math.floor(self.spriteCnt)%4;
+		if(self.weap==0){
+			if(dir==0){
+				dir=6;
+			}
+			else{
+				dir=13;
+			}
+		}
+		else{
+			if(dir==0){
+				dir=20;
+			}
+			else{
+				dir=27;
+			}
+		}
+		if(screen=='game'){
+			ctx.drawImage(self.img,cnt*framew,dir*frameh,framew,frameh,x,y,self.w,self.h);
+			ctx.restore();
+		}
+		else if(screen=='le'){
+			ctxLE.drawImage(self.img,cnt*framew,dir*frameh,framew,frameh,self.x,self.y,self.w,self.h);
+			ctxLE.restore();
+		}
+	}
+	
 	self.onDeath=function(){
 		//logic to end level on player death
 	}
@@ -430,8 +506,8 @@ Player.generate=function(x,y){
 	Player(x,y);
 }
 
-Projectile=function(id,x,y,spdX,spdY,w,h,hostile,dmg){
-	let self=Entity('projectile',id,x,y,w,h,Img.playerLevel);
+Projectile=function(id,x,y,spdX,spdY,w,h,img,hostile,dmg){
+	let self=Entity('projectile',id,x,y,w,h,img);
 	self.timer=0;
 	self.hostile=hostile;
 	self.spdX=spdX;
@@ -492,26 +568,36 @@ Projectile.update=function(){
 Projectile.generate = function(actor){
 	let x=actor.x;
 	let y=actor.y;
-	let h=20;
-	let w=20;
+	let h=5;
+	let w=32;
 	let id=Math.random();
 	let hostile=true;
-	let angle=actor.aimAngle;
+	let aim=actor.aimAngle;
 	let dmg=actor.dmg;
-	//if(aim!==undefined){
-	//	angle=aim;
-	//}
-	//else {
-	//	angle=actor.aimAngle;
-	//}
-
+	if(aim<0){
+		aim=aim+360;;
+	}
+	let dir=0;
+	if(aim>=90&&aim<270){
+		dir=1;
+	}
+	let img1=Img.penLeft;
+	let img2=Img.penRight;
+	if(dir==1){
+		img=Img.penLeft;
+	}
 	if(actor.type=='p'){
 		hostile=false;
 	}
 	//console.log("Angle: "+angle);
-	let spdX=Math.cos(angle/180*Math.PI)*5;
-	let spdY=Math.sin(angle/180*Math.PI)*5;
-	Projectile(id,x,y,spdX,spdY,w,h,hostile,dmg);
+	let spdX=Math.cos(aim/180*Math.PI)*7;
+	let spdY=Math.sin(aim/180*Math.PI)*7;
+	if(dir==1){
+		Projectile(id,x,y,spdX,spdY,w,h,img1,hostile,dmg);
+	}
+	else{
+		Projectile(id,x,y,spdX,spdY,w,h,img2,hostile,dmg);	
+	}
 }
 
 Upgrade=function(id,x,y,w,h,cat,img){

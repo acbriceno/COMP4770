@@ -29,7 +29,7 @@
 </div>
 
 <div id="levelEditor" style="display:none;">
-	<div id="editor" style="position:absolute;width:1280px;height:720px">
+	<div id="editor" style="position:absolute;width:1280px;height:720px; overflow: scroll;">
 		<canvas id="ctxLE" width="1280" height="720" style="position:absolute;border:1px solid #000000;"></canvas>
 		<canvas id="ctx-uiLE" width="1280" height="720" style="position:absolute;border:1px solid #000000;"></canvas>
 	</div>
@@ -45,7 +45,10 @@
 	</div>
 	<div id="save" style ="display:none;position:absolute;top:750px;left:50px">
       <button onclick="saveEdit()">Save</button>
-</div>
+	</div>
+	<div id="play" style="display:none;position:absolute;top:750px;left:100px;">
+		<button id="play">Play</button>
+	</div>
 </div>
 
 <div id="playerProfile" style ="display:none;">
@@ -97,6 +100,7 @@
 	let ctx=canvas.getContext('2d');
 	let canvasLE=document.getElementById('ctxLE');
 	let ctxLE=canvasLE.getContext('2d');
+
   let signDivSignIn = document.getElementById('signDiv-signIn');
   let signDivSignUp = document.getElementById('signDiv-signUp');
   let newGame = document.getElementById('newGame');
@@ -105,6 +109,8 @@
   let loadFile = document.getElementById('loadFile');
   let file = document.getElementById('file');
   let a1 = document.getElementById('selections');
+
+   
 	let save = document.getElementById('save');
 	let usernameText=document.getElementById('username');
 	let profile=document.getElementById('profile');
@@ -118,13 +124,19 @@
 	let keyChange=67;
 	let W=1280;
 	let H=720;
-	let screen=1;
+	let screen='sign';
 	let count=0;
 
 
     var Img = {};
     Img.playerLevel = new Image();
     Img.playerLevel.src = "img/player_level.png";
+	Img.penLeft=new Image();
+	Img.penLeft.src="img/pen_left.png";
+	Img.penRight=new Image();
+	Img.penRight.src="img/pen_right.png";
+	Img.philEnemy=new Image();
+	Img.philEnemy.src="img/philEnemy.png";
 
 	//testing collision of rectangles
 	testCollisionRects = function(rect1,rect2){
@@ -181,30 +193,32 @@
 
 	}
 	document.onkeydown=function(event){
-		if(event.keyCode==keyUp) {
-			player.upPress=true;
-            }
-		else if(event.keyCode==keyDown) {
-			player.downPress=true;
-            }
-		else if(event.keyCode==keyRight){
-			player.rightPress=true;
-            }
-		else if(event.keyCode==keyLeft) {
-			player.leftPress=true;
-            }
-		else if(event.keyCode==keyPause) {
-			//add logic to pause
-            }
-		else if(event.keyCode==keyGrapple) {
-			player.grapplePress=true;
-            }
-		else if(event.keyCode==keyChange){
-			if(player.weap==0){
-				player.weap=1;
+		if(screen=='game'){
+			if(event.keyCode==keyUp) {
+				player.upPress=true;
+				}
+			else if(event.keyCode==keyDown) {
+				player.downPress=true;
+				}
+			else if(event.keyCode==keyRight){
+				player.rightPress=true;
+				}
+			else if(event.keyCode==keyLeft) {
+				player.leftPress=true;
 			}
-			else{
-				player.weap=0;
+			else if(event.keyCode==keyPause) {
+				//add logic to pause
+            }
+			else if(event.keyCode==keyGrapple) {
+				player.grapplePress=true;
+            }
+			else if(event.keyCode==keyChange){
+				if(player.weap==0){
+					player.weap=1;
+				}
+				else{
+					player.weap=0;
+				}
 			}
 		}
 	}
@@ -395,25 +409,42 @@
 				username: username,
 
 
+
+				token : token,
+
+
 				});
 
 
 
-});
+});}
 
 
 	//console.log("string :" + saveLevel(0,0,0,0));
 
+	play.onclick=function(){
+		gameDiv.style.display="inline-block";
+		levelEditor.style.display = 'none';
+		save.style.display = 'none';
+		backLE.style.display="none";
+		play.style.display="none";
+		screen='game';
+	}
 
       newGame.onclick = function() {
-            mainMenu.style.display = 'none';
-            gameDiv.style.display = 'inline-block';
-			count=2;
+        mainMenu.style.display = 'none';
+        gameDiv.style.display = 'inline-block';
+		screen='game';
+		count=2;
+		player = Player(190, 620);
+		Enemy.generate(0,0,'e');
+		Platform.generate(128,128,'f');
       }
 
       loadGame.onclick = function() {
             mainMenu.style.display = 'none';
             loadFile.style.display = 'inline-block';
+			screen='game';
 			count=2;
       }
 
@@ -433,7 +464,8 @@
             levelEditor.style.display = 'inline-block';
 			save.style.display = 'inline-block';
 			back.style.display="none";
-			backLE.style.display="inline";
+			backLE.style.display="inline-block";
+			play.style.display="inline-block";
 			screen='le';
 			console.log(screen);
 			count=2;
@@ -457,8 +489,6 @@
       //       y:50,
       // };
     player = Player(190, 620);
-	Enemy.generate(0,0,'e');
-	Platform.generate(128,128,'f');
 	mousePos=MousePos(0,0,'p');
       //var img = new Image()
 
@@ -476,9 +506,6 @@
 	//}
 
       //ctx.fillRect(Player.x, player.y, 20, 20);
-
-
-
 
 </script>
 </body>
