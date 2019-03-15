@@ -61,7 +61,7 @@ Entity=function(type,id,x,y,w,h,img){
 		}
 		return testCollisionRects(rect1,rect2);
 	}
-	
+
 	self.testCollisionBB=function(rect,entity){
 		let rect2={
 			x:entity.x-entity.w/2,
@@ -71,7 +71,7 @@ Entity=function(type,id,x,y,w,h,img){
 		}
 		return testCollisionRects(rect,rect2);
 	}
-	
+
 	self.updatePosition=function(){}
 
 	Entity.list[id]=self;
@@ -99,7 +99,7 @@ Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
 	self.weap=1;
 
 	/*self.draw=function() {
-		if(screen=='game'){	
+		if(screen=='game'){
 			ctx.save();
 		}
 		else if(screen=='le'){
@@ -111,8 +111,8 @@ Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
 		y+=H/2;
 		x-=self.w/2;
 		y-=self.h/2;
-		
-		
+
+
 		let framew=self.img.width/4;
 		let frameh=self.img.height/28;
 		//console.log('can i find');
@@ -164,7 +164,16 @@ Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
 		let rightBump={x:self.x+32,y:self.y,width:10,height:10};
 		let upBump={x:self.x,y:self.y-32,width:10,height:10};
 		let downBump={x:self.x,y:self.y+32,width:10,height:10};
-			
+
+            self.y += 0.8;
+            for(let key11 in Platform.list){
+                  if(self.testCollisionBB(downBump,Platform.list[key11])){
+                        move=false;
+                  }
+            }
+
+
+
 		if(self.rightPress){
 			for(let key11 in Platform.list){
 				if(self.testCollisionBB(rightBump,Platform.list[key11])){
@@ -218,7 +227,7 @@ Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
 			}
 		}
 	}
-	
+
 
 	let super_update=self.update;
 	self.update=function(){
@@ -260,7 +269,7 @@ Enemy=function(id,x,y,w,h,img,hp,atkSpd,dmg,code){
 	self.updateAim=function(){
 		var diffX = player.x - self.x;
 		var diffY = player.y - self.y;
-		
+
 		self.aimAngle = Math.atan2(diffY,diffX) / Math.PI * 180
 	}
 
@@ -273,7 +282,7 @@ Enemy=function(id,x,y,w,h,img,hp,atkSpd,dmg,code){
 		self.downPress = diffY > 3;
 		self.upPress = diffY < -3;
 	}
-		
+
 	//let super_draw=self.draw;
 	//self.draw=function(){
 	//	super_draw();
@@ -439,7 +448,7 @@ Player=function(x,y){
 	}
 
 	self.draw=function(){
-		if(screen=='game'){	
+		if(screen=='game'){
 			ctx.save();
 		}
 		else if(screen=='le'){
@@ -451,8 +460,8 @@ Player=function(x,y){
 		y+=H/2;
 		x-=self.w/2;
 		y-=self.h/2;
-		
-		
+
+
 		let framew=self.img.width/4;
 		let frameh=self.img.height/28;
 		//console.log('can i find');
@@ -494,7 +503,7 @@ Player=function(x,y){
 			ctxLE.restore();
 		}
 	}
-	
+
 	self.onDeath=function(){
 		//logic to end level on player death
 	}
@@ -596,7 +605,7 @@ Projectile.generate = function(actor){
 		Projectile(id,x,y,spdX,spdY,w,h,img1,hostile,dmg);
 	}
 	else{
-		Projectile(id,x,y,spdX,spdY,w,h,img2,hostile,dmg);	
+		Projectile(id,x,y,spdX,spdY,w,h,img2,hostile,dmg);
 	}
 }
 

@@ -30,7 +30,7 @@
 
 <div id="levelEditor" style="display:none;">
 	<div id="editor" style="position:absolute;width:1280px;height:720px; overflow: scroll;">
-		<canvas id="ctxLE" width="1280" height="720" style="position:absolute;border:1px solid #000000;"></canvas>
+		<canvas id="ctxLE" width="3000" height="720" style="position:absolute;border:1px solid #000000;"></canvas>
 		<canvas id="ctx-uiLE" width="1280" height="720" style="position:absolute;border:1px solid #000000;"></canvas>
 	</div>
       <div id="aSelect1" style ="position: fixed; bottom: 1280; right: 0;">
@@ -383,6 +383,7 @@
 		player = Player(190, 620);
 		Enemy.generate(0,0,'e');
 		Platform.generate(128,128,'f');
+            Platform.generate(190,684,'f');
       }
 
       loadGame.onclick = function() {
