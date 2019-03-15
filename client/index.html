@@ -54,6 +54,9 @@
 <div id="playerProfile" style ="display:none;">
 	 UserName : <input type="text" id="username" value=username>
 	 token : <input type="text" id="token" value=token>
+	 levelEditorString : <input type="text" id="level" value=saveLevel()>
+
+
 
 </div>
 
@@ -110,11 +113,12 @@
   let file = document.getElementById('file');
   let a1 = document.getElementById('selections');
 
-   
+
 	let save = document.getElementById('save');
 	let usernameText=document.getElementById('username');
 	let profile=document.getElementById('profile');
 	let tokenText=document.getElementById('token');
+	let saveLevelText=document.getElementById('level');
 	let keyUp=87;
 	let keyDown=83;
 	let keyRight=68;
@@ -126,6 +130,7 @@
 	let H=720;
 	let screen='sign';
 	let count=0;
+	let check=true
 
 
     var Img = {};
@@ -276,52 +281,26 @@
 			socket.emit('signUp',{
 			username:user, password:pass ,
 			});
-
-			socket.on('accountCreated', function(message){
+    	socket.on('accountCreated', function(message){
 				console.log(message);
-
-				if (message.accountCreated==true){
-
-			//	console.log("welcome "  +message["token"]);
-
-
-
-			//	var x={"key":value , "key2" :value};
-			//	console.log("foo "  + x[0]);
-
-
-
-				 console.log("account Created");
-
-				}
+				if (message.accountCreated==true) console.log("account Created");
 			});
-
 		}
-
-    }
-
-
+  }
 
 	signDivSignIn.onclick = function() {
-            console.log("signDivSignIn HIT")
+      console.log("signDivSignIn HIT")
 			user=document.getElementById('signDiv-username').value;
 			pass=document.getElementById('signDiv-password').value;
 
-			screen='menu';
-			signDiv.style.display = 'none';
 
+			let check=true
 
-			mainMenu.style.display = 'inline-block';
-			back.style.display = 'inline';
-
-
-			if (valid(user,pass)){
-
+			if (valid(user,pass && check)){
+				check=false;
 				var socket = io();
-
 				socket.emit('signIn',{
 				username:user, password:pass ,
-
 				});
 
 				socket.on('signedIn', function(message){            //AccountManager
@@ -334,26 +313,23 @@
 					console.log(message.signedIn);
 					if (message.signedIn==true){
 
-
 					username=message.userName;
 					token=message.token;
 					tokenText.value=token;
 					usernameText.value=username;
-
-
+					console.log(saveLevel(0,0,0,0));
+				 saveLevelText.value=saveLevel(0,0,0,0);
 
 					console.log("welcome  : "  +message.userName  ) ;
 					console.log("your token is  :"  +message.token);
-
-
 
 					document.getElementById('signDiv-password').value;
 					signDiv.style.display = 'none';
 					mainMenu.style.display = 'inline-block';
 					//playerProfile.style.display = 'inline-block';
 					back.style.display = 'inline';
+					screen='menu';
 
-					count=1;
 
 				}
 
@@ -362,33 +338,32 @@
 
 				}
 
-				count=1;
+
 
 	}
 
 	function backMainMenu(){
-		if (count==1){
+   console.log("s " + screen);
+		if (screen=="menu"){
 			mainMenu.style.display = 'none';
 			back.style.display = 'none';
 			backLE.style.display = 'none';
 			playerProfile.style.display = 'none';
-			 signDiv.style.display = 'inline-block';
-			 count=0;
-
+			signDiv.style.display = 'inline-block';
 		}
 
-		else{
+		if (screen=="le" || screen =="game"){
 			levelEditor.style.display = 'none';
-            selections.style.display = 'none';
+      selections.style.display = 'none';
 			loadFile.style.display = 'none';
 			gameDiv.style.display = 'none';
 
 			back.style.display = 'none';
 
 			//gameDiv.style.display = 'inline-block';
-            mainMenu.style.display = 'inline-block';
+      mainMenu.style.display = 'inline-block';
 			back.style.display = 'inline';
-			count=1;
+			screen="menu";
 		}
 			//console.log("count " + count);
 
@@ -407,17 +382,11 @@
 		socket.emit('saveLevel',{
 				save:saveLevel(0,0,0,0),
 				username: username,
-
-
-
 				token : token,
-
-
 				});
+});
+}
 
-
-
-});}
 
 
 	//console.log("string :" + saveLevel(0,0,0,0));
@@ -435,7 +404,6 @@
         mainMenu.style.display = 'none';
         gameDiv.style.display = 'inline-block';
 		screen='game';
-		count=2;
 		player = Player(190, 620);
 		Enemy.generate(0,0,'e');
 		Platform.generate(128,128,'f');
@@ -445,8 +413,7 @@
       loadGame.onclick = function() {
             mainMenu.style.display = 'none';
             loadFile.style.display = 'inline-block';
-			screen='game';
-			count=2;
+		      	screen='game';
       }
 
       file.onclick = function () {
@@ -460,16 +427,15 @@
       }
 
       levelEditorB.onclick = function() {
-            mainMenu.style.display = 'none';
-            selections.style.display = 'inline';
-            levelEditor.style.display = 'inline-block';
-			save.style.display = 'inline-block';
-			back.style.display="none";
-			backLE.style.display="inline-block";
-			play.style.display="inline-block";
-			screen='le';
-			console.log(screen);
-			count=2;
+      	mainMenu.style.display = 'none';
+      	selections.style.display = 'inline';
+      	levelEditor.style.display = 'inline-block';
+				save.style.display = 'inline-block';
+				back.style.display="inline-bloce";
+				backLE.style.display="inline-block";
+			//play.style.display="inline-block";
+			 screen='le';
+		 	console.log(screen);
       }
 // mouseX is undefined
       function assets() {

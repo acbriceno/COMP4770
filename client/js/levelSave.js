@@ -22,6 +22,6 @@ saveLevel=function(w,h,fac,level2d){
 	}
 
 	console.log("save Level LevelSave.js hit");
-	return level;
+	return s;
 	//logic to pass to the database
 }
