@@ -176,10 +176,12 @@ Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
 			}
 		}
 		if(moveG){
-			self.ySpd+=0.5;
-			self.y+=self.ySpd;
+			self.ySpd-=1;
+			self.y-=self.ySpd;
 		}
-
+		if(self.ySpd<-10){
+			self.ySpd=-10;
+		}
 		if(self.rightPress){
 			for(let key11 in Platform.list){
 				if(self.testCollisionBB(rightBump,Platform.list[key11])){
@@ -218,6 +220,7 @@ Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
 				}
 				if(move){
 					self.ySpd=3*self.maxSpd;
+					self.y-=self.maxSpd;
 					self.y-=self.ySpd;
 				}
 				else{
