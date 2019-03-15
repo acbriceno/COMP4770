@@ -29,7 +29,7 @@
 </div>
 
 <div id="levelEditor" style="display:none;">
-	<div id="editor" style="position:absolute;width:1280px;height:720px">
+	<div id="editor" style="position:absolute;width:1280px;height:720px; overflow: scroll;">
 		<canvas id="ctxLE" width="1280" height="720" style="position:absolute;border:1px solid #000000;"></canvas>
 		<canvas id="ctx-uiLE" width="1280" height="720" style="position:absolute;border:1px solid #000000;"></canvas>
 	</div>
@@ -226,7 +226,7 @@
 			}
 			else{
 				ctxLE.clearRect(0,0,1280,720);
-			}	
+			}
             player.update();
 			Enemy.update();
 			Projectile.update();
@@ -355,7 +355,7 @@
 		socket.emit('saveLevel',{
 				save:saveLevel(0,0,0,0),
 				username: username,
-				token : token, 
+				token : token,
 
 				});
 
@@ -459,4 +459,3 @@
       }
 </style> -->
 </HTML>
-
