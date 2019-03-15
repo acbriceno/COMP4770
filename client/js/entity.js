@@ -92,7 +92,7 @@ Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
 	self.upPress=false;
 	self.leftPress=false;
 	self.rightPress=false;
-	self.maxSpd=15;
+	self.maxSpd=2;
 	self.dmg=dmg;
 	self.code=code;
 	self.atkCnt=0;
@@ -178,45 +178,45 @@ Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
 				self.x-=self.maxSpd;
 			}
 		}
-		else if(self.leftPress){
-				for(let key11 in Platform.list){
-					if(self.testCollisionBB(leftBump,Platform.list[key11])){
-						move=false;
-					}
-				}
-				if(move){
-					self.x-=self.maxSpd;
-				}
-				else{
-					self.x+=self.maxSpd;
+		if(self.leftPress){
+			for(let key11 in Platform.list){
+				if(self.testCollisionBB(leftBump,Platform.list[key11])){
+					move=false;
 				}
 			}
-			else if(self.upPress){
-				for(let key11 in Platform.list){
-					if(self.testCollisionBB(upBump,Platform.list[key11])){
-						move=false;
-					}
-				}
-				if(move){
-					self.y-=self.maxSpd;
-				}
-				else{
-					self.y+=self.maxSpd;
+			if(move){
+				self.x-=self.maxSpd;
+			}
+			else{
+				self.x+=self.maxSpd;
+			}
+		}
+		if(self.upPress){
+			for(let key11 in Platform.list){
+				if(self.testCollisionBB(upBump,Platform.list[key11])){
+					move=false;
 				}
 			}
-			else if(self.downPress){
-				for(let key11 in Platform.list){
-					if(self.testCollisionBB(downBump,Platform.list[key11])){
-						move=false;
-					}
-				}
-				if(move){
-					self.y+=self.maxSpd;
-				}
-				else{
-					self.y-=self.maxSpd;
+			if(move){
+				self.y-=self.maxSpd;
+			}
+			else{
+				self.y+=self.maxSpd;
+			}
+		}
+		if(self.downPress){
+			for(let key11 in Platform.list){
+				if(self.testCollisionBB(downBump,Platform.list[key11])){
+					move=false;
 				}
 			}
+			if(move){
+				self.y+=self.maxSpd;
+			}
+			else{
+				self.y-=self.maxSpd;
+			}
+		}
 	}
 	
 
@@ -257,10 +257,23 @@ Enemy=function(id,x,y,w,h,img,hp,atkSpd,dmg,code){
 		self.performAttack();
 	}
 
-	self.updateAim=function(){}
+	self.updateAim=function(){
+		var diffX = player.x - self.x;
+		var diffY = player.y - self.y;
+		
+		self.aimAngle = Math.atan2(diffY,diffX) / Math.PI * 180
+	}
 
-	self.updateKey=function(){}
+	self.updateKey=function(){
+		var diffX = player.x - self.x;
+		var diffY = player.y - self.y;
 
+		self.rightPress = diffX > 3;
+		self.leftPress = diffX < -3;
+		self.downPress = diffY > 3;
+		self.upPress = diffY < -3;
+	}
+		
 	//let super_draw=self.draw;
 	//self.draw=function(){
 	//	super_draw();
@@ -333,7 +346,7 @@ Assignment.generate=function(x,y,code){
 	let w=64;
 	let id=Math.random();
 	let hp=30;
-	let atkSpd=3;
+	let atkSpd=1;
 	let dmg=3;
 	//using player img as placeholder
 	let img=Img.playerGL;
@@ -366,7 +379,7 @@ Midterm.generate=function(x,y,code){
 	let w=64;
 	let id=Math.random();
 	let hp=50;
-	let atkSpd=5;
+	let atkSpd=1;
 	let dmg=7;
 	//using player img as placeholder
 	let img=Img.playerGL;
@@ -396,7 +409,7 @@ Final.generate=function(x,y,code){
 	let w=64;
 	let id=Math.random();
 	let hp=100;
-	let atkSpd=10;
+	let atkSpd=2;
 	let dmg=15;
 	//using player img as placeholder
 	let img=Img.playerGL;
@@ -406,7 +419,7 @@ Final.generate=function(x,y,code){
 Player=function(x,y){
 	let img=Img.playerLevel;
 	let self=Actor('p','myId',x,y,64,64,img,100,5,5,'p');
-	self.maxSpd=10;
+	self.maxSpd=5;
 	self.lMouseClick=false;
 	self.rMouseClick=false;
 	self.asgScore=0;
@@ -577,8 +590,8 @@ Projectile.generate = function(actor){
 		hostile=false;
 	}
 	//console.log("Angle: "+angle);
-	let spdX=Math.cos(aim/180*Math.PI)*5;
-	let spdY=Math.sin(aim/180*Math.PI)*5;
+	let spdX=Math.cos(aim/180*Math.PI)*7;
+	let spdY=Math.sin(aim/180*Math.PI)*7;
 	if(dir==1){
 		Projectile(id,x,y,spdX,spdY,w,h,img1,hostile,dmg);
 	}
