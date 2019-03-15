@@ -97,7 +97,9 @@ Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
 	self.code=code;
 	self.atkCnt=0;
 	self.weap=1;
-
+	self.xSpd=0;
+	self.ySpd=0;
+	
 	/*self.draw=function() {
 		if(screen=='game'){
 			ctx.save();
@@ -162,6 +164,7 @@ Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
 			move=false;
 			moveG=false;
 		}
+		console.log(self.ySpd);
 		let leftBump={x:self.x-32,y:self.y,width:10,height:10};
 		let rightBump={x:self.x+32,y:self.y,width:10,height:10};
 		let upBump={x:self.x,y:self.y-32,width:10,height:10};
@@ -169,10 +172,12 @@ Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
 		for(let key11 in Platform.list){
 			if(self.testCollisionBB(downBump,Platform.list[key11])){
 				moveG=false;
+				self.ySpd=0;
 			}
 		}
 		if(moveG){
-			self.y+=2;
+			self.ySpd+=0.5;
+			self.y+=self.ySpd;
 		}
 
 		if(self.rightPress){
@@ -201,17 +206,23 @@ Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
 				self.x+=self.maxSpd;
 			}
 		}
-		if(self.upPress){
-			for(let key11 in Platform.list){
-				if(self.testCollisionBB(upBump,Platform.list[key11])){
-					move=false;
+		if(screen=='game'){
+			if(self.upPress){
+				for(let key11 in Platform.list){
+					if(self.testCollisionBB(upBump,Platform.list[key11])){
+						move=false;
+					}
+					if(self.ySpd!==0){
+							move=false;
+						}
 				}
-			}
-			if(move){
-				self.y-=3*self.maxSpd;
-			}
-			else{
-				self.y+=self.maxSpd;
+				if(move){
+					self.ySpd=3*self.maxSpd;
+					self.y-=self.ySpd;
+				}
+				else{
+					//self.y+=self.maxSpd;
+				}
 			}
 		}
 		if(screen=='overworld'){
@@ -442,11 +453,18 @@ Player=function(x,y){
 	let super_update=self.update;
 	self.update=function(){
 		super_update();
-		if(self.rightPress||self.leftPress||self.upPress||self.downPress){
-			self.spriteCnt+=0.2;
+		if(screen=='game'){
+			if(self.rightPress||self.leftPress){
+				self.spriteCnt+=0.2;
+			}
+			if(self.lMouseClick){
+				self.performAttack();
+			}
 		}
-		if(self.lMouseClick){
-			self.performAttack();
+		if(screen=='overworld'){
+			if(self.rightPress||self.leftPress||self.upPress||self.downPress){
+				self.spriteCnt+=0.2;
+			}
 		}
 	}
 
