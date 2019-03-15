@@ -2,30 +2,32 @@ let mousePos;
 let currentLevel;
 
 MousePos = function(x, y, code) {
-    let self ={x:x, 
-		y:y, 
+    let self ={x:x,
+		y:y,
 		code:code,
 	};
-	
+
 	self.draw=function(){
-		//console.log('mousepos.draw is working');
-		if(self.code='p'){
+		console.log('mousepos.draw is working');
+		
+		if(self.code=='p'){
+			console.log('player should draw');
 			player.x=self.x;
 			player.y=self.y;
-			
+			console.log(player.x+", "+player.y);
 			player.update();
-			
+
 		}
-		else if(self.code='e'){
+		else if(self.code=='e'){
 			Enemy.generate(self.x,self.y);
 			Enemy.update();
 		}
-		else if(self.code='f'){
+		else if(self.code=='f'){
 			Platform.generate(self.x,self.y,self.code);
 			Platform.update();
 		}
 	}
-	
+
 	return self;
 }
 
@@ -38,8 +40,7 @@ CurrentLevel=function(){
 	};
 	//logic to send level data to to levelSave.js
 	self.save=function(){
-		
-	}
-	
-}
 
+	}
+
+}

@@ -18,7 +18,8 @@ Entity=function(type,id,x,y,w,h,img){
 	}
 
 	self.draw=function(){
-		if(screen='game'){
+		if(levelEditor.style.display == "none"){
+			//console.log('hi');
 			ctx.save();
 			let x = self.x - player.x;
 			let y = self.y - player.y;
@@ -29,7 +30,7 @@ Entity=function(type,id,x,y,w,h,img){
 			ctx.drawImage(self.img,x,y,self.w,self.h);
 			ctx.restore();
 		}
-		if(screen='le'){
+		else{
 			//console.log('good so far');
 			ctxLE.save();
 			let x = self.x;
@@ -98,17 +99,18 @@ Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
 	self.weap=1;
 
 	self.draw=function() {
-		if(screen='game')
+		if(levelEditor.style.display == "none"){	
 			ctx.save();
-		else if(screen='le')
-			ctxLE.save();
-		if(screen='game'){
+		//console.log('here');
 			let x=self.x-player.x;
 			let y=self.y-player.y;
 			x+=W/2;
 			y+=H/2;
 			x-=self.w/2;
 			y-=self.h/2;
+		}
+		else{
+			ctxLE.save();
 		}
 		let framew=self.img.width/4;
 		let frameh=self.img.height/28;
@@ -142,39 +144,37 @@ Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
 				dir=27;
 			}
 		}
-		if(screen='game'){
+		if(levelEditor.style.display == "none"){
 			ctx.drawImage(self.img,cnt*framew,dir*frameh,framew,frameh,x,y,self.w,self.h);
 			ctx.restore();
 		}
-		else if(screen='le'){
-			//console.log('here?');
+		else{
 			ctxLE.drawImage(self.img,cnt*framew,dir*frameh,framew,frameh,self.x,self.y,self.w,self.h);
 			ctxLE.restore();
 		}
 	}
 
 	self.updatePosition=function() {
-		//if(!overworld){
-			let move=true;
-			let leftBump={x:self.x-32,y:self.y,width:10,height:10};
-			let rightBump={x:self.x+32,y:self.y,width:10,height:10};
-			let upBump={x:self.x,y:self.y-32,width:10,height:10};
-			let downBump={x:self.x,y:self.y+32,width:10,height:10};
+		let move=true;
+		let leftBump={x:self.x-32,y:self.y,width:10,height:10};
+		let rightBump={x:self.x+32,y:self.y,width:10,height:10};
+		let upBump={x:self.x,y:self.y-32,width:10,height:10};
+		let downBump={x:self.x,y:self.y+32,width:10,height:10};
 			
-			if(self.rightPress){
-				for(let key11 in Platform.list){
-					if(self.testCollisionBB(rightBump,Platform.list[key11])){
-						move=false;
-					}
-				}
-				if(move){
-					self.x+=self.maxSpd;
-				}
-				else{
-					self.x-=self.maxSpd;
+		if(self.rightPress){
+			for(let key11 in Platform.list){
+				if(self.testCollisionBB(rightBump,Platform.list[key11])){
+					move=false;
 				}
 			}
-			else if(self.leftPress){
+			if(move){
+				self.x+=self.maxSpd;
+			}
+			else{
+				self.x-=self.maxSpd;
+			}
+		}
+		else if(self.leftPress){
 				for(let key11 in Platform.list){
 					if(self.testCollisionBB(leftBump,Platform.list[key11])){
 						move=false;
@@ -213,8 +213,8 @@ Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
 					self.y-=self.maxSpd;
 				}
 			}
-		//}
 	}
+	
 
 	let super_update=self.update;
 	self.update=function(){

@@ -43,6 +43,9 @@
 	<div id="backLE" style="display:none;position:absolute;top:750px;">
 		<button onclick="backMainMenu()">Back</button>
 	</div>
+	<div id="save" style ="display:none;position:absolute;top:750px;left:50px">
+      <button onclick="saveEdit()">Save</button>
+</div>
 </div>
 
 <div id="playerProfile" style ="display:none;">
@@ -56,9 +59,7 @@
       <button onclick="backMainMenu()">Back</button>
 </div>
 
-<div id="save" style ="display:none;">
-      <button onclick="saveEdit()">Save</button>
-</div>
+
 
 
 <div id="profileDiv" style ="display:none;">
@@ -90,6 +91,8 @@
 </div>
 
 <script>
+	var username = "";
+	var token = "";
 	let canvas=document.getElementById('ctx');
 	let ctx=canvas.getContext('2d');
 	let canvasLE=document.getElementById('ctxLE');
@@ -115,10 +118,9 @@
 	let keyChange=67;
 	let W=1280;
 	let H=720;
-	let screen='sign';
+	let screen=1;
 	let count=0;
-	let username="";
-	let token="";
+
 
     var Img = {};
     Img.playerLevel = new Image();
@@ -141,7 +143,7 @@
 			else{
 				let selection = selections.options[selections.selectedIndex].value;
 				mousePos.code=selection;
-				//console.log(mousePos.code);
+				console.log(mousePos.code);
 				mousePos.draw();
 			}
 		}
@@ -224,7 +226,12 @@
 
 	//update for in game, logic tbd
 	update=function(){
-            ctx.clearRect(0, 0, 1280, 720);
+			if(levelEditor.style.display == "none"){
+				ctx.clearRect(0, 0, 1280, 720);
+			}
+			else{
+				ctxLE.clearRect(0,0,1280,720);
+			}
             player.update();
 			Enemy.update();
 			Projectile.update();
@@ -306,6 +313,10 @@
 				socket.on('signedIn', function(message){            //AccountManager
 					console.log(message);
 
+					msg=message;
+					token = message.token;
+
+
 					console.log(message.signedIn);
 					if (message.signedIn==true){
 
@@ -374,15 +385,21 @@
 	function saveEdit(){
 
 		var socket = io();
+
 		socket.on('saveLevel', function(message){
 				save:saveLevel(0,0,0,0)
+
+
+		socket.emit('saveLevel',{
+				save:saveLevel(0,0,0,0),
+				username: username,
 
 
 				});
 
 
-	}
 
+});
 
 
 	//console.log("string :" + saveLevel(0,0,0,0));
