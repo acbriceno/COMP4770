@@ -157,13 +157,16 @@ Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
 
 	self.updatePosition=function() {
 		let move=true;
+		let moveG=true;
 		if(screen=='le'){
 			move=false;
+			moveG=false;
 		}
 		let leftBump={x:self.x-32,y:self.y,width:10,height:10};
 		let rightBump={x:self.x+32,y:self.y,width:10,height:10};
 		let upBump={x:self.x,y:self.y-32,width:10,height:10};
 		let downBump={x:self.x,y:self.y+32,width:10,height:10};
+<<<<<<< HEAD
 
             self.y += 0.8;
             for(let key11 in Platform.list){
@@ -174,6 +177,17 @@ Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
 
 
 
+=======
+		for(let key11 in Platform.list){
+			if(self.testCollisionBB(downBump,Platform.list[key11])){
+				moveG=false;
+			}
+		}
+		if(moveG){
+			self.y+=1;
+		}
+		
+>>>>>>> 1bb927fe459fe2b205aca1cc66e2c5d000dbc9db
 		if(self.rightPress){
 			for(let key11 in Platform.list){
 				if(self.testCollisionBB(rightBump,Platform.list[key11])){
@@ -207,7 +221,7 @@ Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
 				}
 			}
 			if(move){
-				self.y-=self.maxSpd;
+				self.y-=3*self.maxSpd;
 			}
 			else{
 				self.y+=self.maxSpd;
