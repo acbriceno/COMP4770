@@ -169,7 +169,7 @@ module.exports.saveLevel = function(username, token,level, callback){
 
 
 
-			dbLevelManager.insertLevel(username,level);
+			dbLevelManager.insertLevel(level);
 
 
 

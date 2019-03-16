@@ -99,7 +99,7 @@ Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
 	self.weap=1;
 	self.xSpd=0;
 	self.ySpd=0;
-	
+
 	/*self.draw=function() {
 		if(screen=='game'){
 			ctx.save();
@@ -164,7 +164,7 @@ Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
 			move=false;
 			moveG=false;
 		}
-		console.log(self.ySpd);
+		//console.log(self.ySpd);
 		let leftBump={x:self.x-32,y:self.y,width:10,height:10};
 		let rightBump={x:self.x+32,y:self.y,width:10,height:10};
 		let upBump={x:self.x,y:self.y-32,width:10,height:10};

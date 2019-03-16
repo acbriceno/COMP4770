@@ -54,12 +54,10 @@ io.sockets.on('connection',function(socket){
 
 
   socket.on('saveLevel', function(message){
-      account.saveLevel(message.username, message.token, message.level, function(status){
-        socket.emit('save', {
-          signedOut: status,
-      });
 
-	 });
+      dbLevelManager.insertLevel(message.levels);
+
+      console.log("save level server hit")
   });
 
 

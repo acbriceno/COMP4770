@@ -44,7 +44,7 @@
 		<button onclick="backMainMenu()">Back</button>
 	</div>
 	<div id="save" style ="display:none;position:absolute;top:750px;left:50px">
-      <button onclick="saveEdit()">Save</button>
+
 	</div>
 	<div id="play" style="display:none;position:absolute;top:750px;left:100px;">
 		<button id="play">Play</button>
@@ -87,6 +87,7 @@
 			<button id="newGame">New Game</button>
 			<button id="loadGame">Load Game</button>
       <button id="levelEditorB">Level Editor</button>
+		  <button id="savebutton">Save</button>
 </div>
 <!-- All files had the same id
       Will need to connect to database -->
@@ -114,7 +115,7 @@
   let a1 = document.getElementById('selections');
 
 
-	let save = document.getElementById('save');
+	let save = document.getElementById('savebutton');
 	let usernameText=document.getElementById('username');
 	let profile=document.getElementById('profile');
 	let tokenText=document.getElementById('token');
@@ -133,9 +134,9 @@
 	let check=true
 
 
-    var Img = {};
-    Img.playerLevel = new Image();
-    Img.playerLevel.src = "img/player_level.png";
+  var Img = {};
+  Img.playerLevel = new Image();
+  Img.playerLevel.src = "img/player_level.png";
 	Img.penLeft=new Image();
 	Img.penLeft.src="img/pen_left.png";
 	Img.penRight=new Image();
@@ -317,8 +318,13 @@
 					token=message.token;
 					tokenText.value=token;
 					usernameText.value=username;
-					console.log(saveLevel(0,0,0,0));
-				 saveLevelText.value=saveLevel(0,0,0,0);
+					let playerName="mario";
+					let diffuculty="hard";
+					let progress="false"   ; //used for mid-term
+					let inventory="1001";
+
+
+				  saveLevelText.value=saveLevel("john","mario","mission","hard","true","10001",0,0,0,0);
 
 					console.log("welcome  : "  +message.userName  ) ;
 					console.log("your token is  :"  +message.token);
@@ -326,6 +332,8 @@
 					document.getElementById('signDiv-password').value;
 					signDiv.style.display = 'none';
 					mainMenu.style.display = 'inline-block';
+
+
 					//playerProfile.style.display = 'inline-block';
 					back.style.display = 'inline';
 					screen='menu';
@@ -371,20 +379,19 @@
 	}
 
 
-	function saveEdit(){
 
-		var socket = io();
 
-		socket.on('saveLevel', function(message){
-				save:saveLevel(0,0,0,0)
 
+	save.onclick=function(){
+
+		let socket=io();
+		console.log("save button HIT");
 
 		socket.emit('saveLevel',{
-				save:saveLevel(0,0,0,0),
-				username: username,
-				token : token,
+				levels: saveLevelText.value,
+
 				});
-});
+
 }
 
 
