@@ -7,23 +7,27 @@ MousePos = function(x, y, code) {
 		code:code,
 	};
 
+	
+	
 	self.draw=function(){
+		let x=(self.x%64)*64;
+		let y=(self.y%64)*64;
 		console.log('mousepos.draw is working');
 		
 		if(self.code=='p'){
 			console.log('player should draw');
-			player.x=self.x;
-			player.y=self.y;
+			player.x=x;
+			player.y=y;
 			console.log(player.x+", "+player.y);
 			player.update();
 
 		}
 		else if(self.code=='e'){
-			Enemy.generate(self.x,self.y);
+			Enemy.generate(x,y);
 			Enemy.update();
 		}
 		else if(self.code=='f'){
-			Platform.generate(self.x,self.y,self.code);
+			Platform.generate(x,y,self.code);
 			Platform.update();
 		}
 	}
