@@ -375,7 +375,7 @@ Assignment.generate=function(x,y,code){
 	let atkSpd=1;
 	let dmg=3;
 	//using player img as placeholder
-	let img=Img.playerGL;
+	let img=Img.philEnemy;
 	Assignment(id,x,y,w,h,img,hp,dmg,code);
 }
 
