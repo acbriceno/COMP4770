@@ -29,9 +29,9 @@
 </div>
 
 <div id="levelEditor" style="display:none;">
-	<div id="editor" style="position:absolute;width:1280px;height:720px; overflow: scroll;">
-		<canvas id="ctxLE" width="3000" height="720" style="position:absolute;border:1px solid #000000;"></canvas>
-		<canvas id="ctx-uiLE" width="1280" height="720" style="position:absolute;border:1px solid #000000;"></canvas>
+	<div id="editor" style="position:absolute;width:1280px;height:720px;">
+		<canvas id="ctxLE" width="1280" height="720" style="position:absolute;border:1px solid #000000;"></canvas>
+		<canvas id="ctx_uiLE" width="1280" height="720" style="position:absolute;border:1px solid #000000;"></canvas>
 	</div>
       <div id="aSelect1" style ="position: fixed; bottom: 1280; right: 0;">
             <select id="selections";>
@@ -101,9 +101,11 @@
 	var username = "";
 	var token = "";
 	let canvas=document.getElementById('ctx');
+      let canvasG=document.getElementById('ctx_uiLE');
 	let ctx=canvas.getContext('2d');
 	let canvasLE=document.getElementById('ctxLE');
 	let ctxLE=canvasLE.getContext('2d');
+      let ctx_uiLE = canvasG.getContext('2d');
 
   let signDivSignIn = document.getElementById('signDiv-signIn');
   let signDivSignUp = document.getElementById('signDiv-signUp');
@@ -440,18 +442,23 @@
 				save.style.display = 'inline-block';
 				back.style.display="inline-bloce";
 				backLE.style.display="inline-block";
+                        for (let i = 0; i < 1280; i += 64) {
+                              ctx_uiLE.beginPath();
+                              ctx_uiLE.moveTo(i, 0)
+                              ctx_uiLE.lineTo(i, 720);
+                              ctx_uiLE.stroke();
+                        }
+                        for (let i = 0; i < 720; i+= 64) {
+                              ctx_uiLE.beginPath();
+                              ctx_uiLE.moveTo(0, i);
+                              ctx_uiLE.lineTo(1280, i);
+                              ctx_uiLE.stroke();
+                        }
+
+
 			//play.style.display="inline-block";
 			 screen='le';
 		 	console.log(screen);
-      }
-// mouseX is undefined
-      function assets() {
-            let selection = selections.options[selections.selectedIndex].value;
-            console.log(selection);
-            if (selection === "asset1") {
-                  //console.log(mousePos.x);
-                  ctxLE.fillRect(mousePos.x, mousePos.y, 20,20);
-            }
       }
 
       // <!--  drawing to canvus and moving -->
