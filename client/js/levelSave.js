@@ -1,5 +1,6 @@
 saveLevel=function(username,playername,difficulty,progress,inventory,w,h,fac,level2d){
-	var level;
+      console.log("saveLevel gets called")
+	level;
 	let x=0;
 	let y=0;
 	let levelString="eeep";

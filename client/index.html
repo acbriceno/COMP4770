@@ -118,7 +118,7 @@
   let a1 = document.getElementById('selections');
 
 
-	let save = document.getElementById('savebutton');
+	let save = document.getElementById('save');
 	let usernameText=document.getElementById('username');
 	let profile=document.getElementById('profile');
 	let tokenText=document.getElementById('token');
@@ -389,9 +389,8 @@
 
 		let socket=io();
 		console.log("save button HIT");
-
 		socket.emit('saveLevel',{
-				levels: saveLevelText.value,
+				levels: saveLevel(),
 
 				});
 
@@ -441,7 +440,7 @@
       	selections.style.display = 'inline';
       	levelEditor.style.display = 'inline-block';
 				save.style.display = 'inline-block';
-				back.style.display="inline-bloce";
+				back.style.display="inline-block";
 				backLE.style.display="inline-block";``
                         for (let i = 0; i < 1280; i += 64) {
                               ctx_uiLE.beginPath();
