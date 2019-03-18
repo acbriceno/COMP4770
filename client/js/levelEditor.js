@@ -7,13 +7,13 @@ MousePos = function(x, y, code) {
 		code:code,
 	};
 
-
-
+	
+	
 	self.draw=function(){
 		let x=(Math.floor(self.x/64))*64;
 		let y=(Math.floor(self.y/64))*64;
 		console.log('mousepos.draw is working');
-
+		
 		if(self.code=='p'){
 			console.log('player should draw');
 			player.x=x;
@@ -29,6 +29,10 @@ MousePos = function(x, y, code) {
 		else if(self.code=='f'){
 			Platform.generate(x,y,self.code);
 			Platform.update();
+		}
+		else if(self.code=='a'){
+			Assignment.generate(x,y,self.code);
+			Assignment.update();
 		}
 	}
 
@@ -47,4 +51,12 @@ CurrentLevel=function(){
 
 	}
 
+}
+
+MoveScreen=function(left,right){
+	let self={
+		left:left,
+		right:right,
+	}
+	
 }
