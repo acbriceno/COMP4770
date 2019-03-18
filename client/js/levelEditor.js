@@ -10,8 +10,8 @@ MousePos = function(x, y, code) {
 	
 	
 	self.draw=function(){
-		let x=(self.x%64)*64;
-		let y=(self.y%64)*64;
+		let x=(Math.floor(self.x/64))*64;
+		let y=(Math.floor(self.y/64))*64;
 		console.log('mousepos.draw is working');
 		
 		if(self.code=='p'){
