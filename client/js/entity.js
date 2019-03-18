@@ -559,14 +559,14 @@ Projectile=function(id,x,y,spdX,spdY,w,h,img,hostile,dmg){
 			for(let key2 in Enemy.list){
 				if(self.testCollision(Enemy.list[key2])){
 					self.remove=true;
-					Enemy.list[key2].hp-=1;
+					Enemy.list[key2].hp-=self.dmg;
 				}
 			}
 		}
 		else if(self.hostile==true){
 			if(self.testCollision(player)){
 				self.remove=true;
-				player.hp-=0;
+				player.hp-=self.dmg;
 			}
 		}
 		for(let key3 in Platform.list){
