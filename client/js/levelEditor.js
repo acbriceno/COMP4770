@@ -7,13 +7,13 @@ MousePos = function(x, y, code) {
 		code:code,
 	};
 
-	
-	
+
+
 	self.draw=function(){
 		let x=(Math.floor(self.x/64))*64;
 		let y=(Math.floor(self.y/64))*64;
 		console.log('mousepos.draw is working');
-		
+
 		if(self.code=='p'){
 			console.log('player should draw');
 			player.x=x;
