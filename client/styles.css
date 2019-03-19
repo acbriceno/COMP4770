@@ -1,0 +1,15 @@
+body {
+    background-image: url("./img/background_mainmenu.png");
+  }
+
+#logoIMG {
+    margin-bottom: 25px;
+}
+
+#menuWrapper{
+    text-align: center;
+}
+
+#menuDiv{
+    display: inline-block;
+}
