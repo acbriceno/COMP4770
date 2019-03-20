@@ -1,13 +1,11 @@
 <!-- levelEditor button does not work for some reason -->
 <!DOCTYPE HTML>
 <HTML>
- <head>
+<!-- <head>
       <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-	<link rel="stylesheet" type="text/css" href="styles.css">
-	<script  async src="js/entity.js"></script>
+      <script  async src="js/entity.js"></script>
       <script type="text/javascript;charset=utf-8" async src="js/inventory.js"></script>
-</head> <!-- I uncommented head to import styles.css, not sure why it was commented out in first place -->
-
+</head> -->
 <script src="js/entity.js"></script>
 <script src="js/levelEditor.js"></script>
 <script src="js/levelLoad.js"></script>
@@ -16,20 +14,11 @@
 
 <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
 <body>
-
-<div id=menuWrapper> <!-- wrapper for centering menuDiv -->
-	<div id=menuDiv> 
-		<div id ="logoIMG">
-			<img src="./img/Uni_X.png" alt="game logo">
-		</div>	
-
-		<div id="signDiv">
-			<input id="signDiv-username" type="text" placeholder="Gamertag"></input><br>
-			<input id="signDiv-password" type="password" placeholder="Password"></input>
-			<button class="button" id="signDiv-signIn">Sign In</button>
-			<button class="button" id="signDiv-signUp">Sign Up</button>
-		</div>
-	</div>
+<div id="signDiv">
+	Username: <input id="signDiv-username" type="text"></input><br>
+	Password: <input id="signDiv-password" type="password"></input>
+	<button id="signDiv-signIn">Sign In</button>
+	<button id="signDiv-signUp">Sign Up</button>
 </div>
 
 <div id="gameDiv" style="display:none;">
