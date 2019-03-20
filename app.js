@@ -6,6 +6,7 @@ var app = express();
 var serv = require('http').Server(app);
 let auth = require('./server/Authentication.js');
 let account = require('./server/AccountManager.js');
+let game = require('./server/GameManager.js');
 
 app.get('/',function(req,res){
   res.sendFile(__dirname + '/client/index.html')
@@ -70,6 +71,26 @@ io.sockets.on('connection',function(socket){
           console.log(campaign);
       });
     });
-
-
+	
+	socket.on('getCampaign', function(message){
+		game.getUserCampaign(message.username, message.campaignNumber, function(campaign){
+			socket.emit('campaign', {
+				campaign : campaign
+			});
+		});
+	});
+	
+	// var info = {
+	// 	difficulty : 1,
+	// 	playerName : "john"
+	// };
+	//
+	//  game.createCampaign("user",info , function(campaign){
+	// 	 console.log(campaign);
+	//  });
+	// game.getUserCampaign("user", 4, function(campaign){
+	// 	console.log(campaign);
+	// });
+	
+	
   });

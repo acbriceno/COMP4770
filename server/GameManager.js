@@ -22,7 +22,7 @@ module.exports.createCampaign = function(user, info, callback){
 		]
 	};
 	let campaignSet = [
-				{
+				{	campaignNumber : 1,
 					playerName: info.playerName,
 					difficulty: info.difficulty,
 					SaveFile: saveFiles,
@@ -36,6 +36,7 @@ module.exports.createCampaign = function(user, info, callback){
 			return callback(campaignSet[0]);
 		}else{
 			let newCampaign = {
+				campaignNumber : campaigns.length + 1,
 				playerName: info.playerName,
 				difficulty: info.difficulty,
 				SaveFile: saveFiles,
@@ -103,6 +104,12 @@ module.exports.loadSystemCourseLevel = function(courseName, callback){
 module.exports.insertSystemCourseLevel = function(courseLevel, callback){
 	dbManager.insertSystemCourseLevel(courseLevel, function(status){
 		return callback(status);
+	});
+}
+
+module.exports.getUserCampaign = function(username, campaignNumber, callback){
+	dbManager.findUserCampaign(username, campaignNumber, function(campaign){
+		return callback(campaign);
 	});
 }
 

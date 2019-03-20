@@ -210,3 +210,30 @@ module.exports.addCampaigns = function(username, campaigns){
   });
 
 }
+
+module.exports.findUserCampaign = function(user, campaignNumber, callback){
+    const client = new MongoClient(url,{useNewUrlParser: true} );
+   	client.connect(function(err, client) {
+     assert.equal(null, err);
+     console.log("Connected correctly to Database");
+    
+     const db = client.db(dbName);
+        
+     let query = { username: user };
+     db.collection("users").find(query, { projection: { campaigns : 1} }).toArray(function(err, result) {
+       if (err) throw err;
+       client.close();
+       //return callback(result.campaigns[campaignNumber]);
+	   return callback(result[0].campaigns[campaignNumber - 1]);
+     });
+    });
+}
+
+
+
+
+
+
+
+
+
