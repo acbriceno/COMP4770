@@ -59,6 +59,6 @@ MoveScreen=function(right,down){
 	let self={
 		right:right,
 		down:down,
-	}
+	};
 	
 }
