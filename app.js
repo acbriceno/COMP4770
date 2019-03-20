@@ -29,6 +29,7 @@ io.sockets.on('connection',function(socket){
             accountCreated: status.accountCreated,
             usernameStatus: status.usernameStatus,
           });
+		  //sconsole.log(message);
           console.log(status);
       });
     });

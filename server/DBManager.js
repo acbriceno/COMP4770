@@ -23,9 +23,9 @@ client.connect(function(err, client) {
   console.log("Connected correctly to Database");
 
   const db = client.db(dbName);
-
+  console.log(account);
   // Insert a single document
-  db.collection('users').insertOne({username: account.username, salt: account.salt, hash: account.hash, levels:account.levels}, function(err, r) {
+  db.collection('users').insertOne({username: account.username, salt: account.salt, hash: account.hash}, function(err, r) {
     assert.equal(null, err);
     assert.equal(1, r.insertedCount);
     console.log("Inserted user to database ");
