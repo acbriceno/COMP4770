@@ -18,7 +18,7 @@ Entity=function(type,id,x,y,w,h,img){
 	}
 
 	self.draw=function(){
-		if(levelEditor.style.display == "none"){
+		if(screen=='game'||screen=='overworld'){
 			//console.log('hi');
 			ctx.save();
 			let x = self.x - player.x;
@@ -229,6 +229,19 @@ Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
 			}
 		}
 		if(screen=='overworld'){
+			if(self.upPress){
+				for(let key11 in Platform.list){
+					if(self.testCollisionBB(downBump,Platform.list[key11])){
+						move=false;
+					}
+				}
+				if(move){
+					self.y-=self.maxSpd;
+				}
+				else{
+					self.y+=self.maxSpd;
+				}
+			}
 			if(self.downPress){
 				for(let key11 in Platform.list){
 					if(self.testCollisionBB(downBump,Platform.list[key11])){
