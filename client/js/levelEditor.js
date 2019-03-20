@@ -61,4 +61,5 @@ MoveScreen=function(right,down){
 		down:down,
 	};
 	
+	return self;
 }
