@@ -35,6 +35,8 @@ Entity=function(type,id,x,y,w,h,img){
 			ctxLE.save();
 			let x = self.x;
 			let y = self.y;
+			x+=moveScreen.right*64;
+			y+=moveScreen.left*64;
 			ctxLE.drawImage(self.img,x,y,self.w,self.h);
 			ctxLE.restore();
 		}

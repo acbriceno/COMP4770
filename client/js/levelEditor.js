@@ -53,10 +53,12 @@ CurrentLevel=function(){
 
 }
 
-MoveScreen=function(left,right){
+let moveScreen=MoveScreen(0,0);
+
+MoveScreen=function(right,down){
 	let self={
-		left:left,
 		right:right,
+		down:down,
 	}
 	
 }
