@@ -104,3 +104,59 @@ module.exports.findUser = function(user, callback){
    });
   });
 }
+
+module.exports.createCampaign = function(user, campaign, callback){
+	
+	const client = new MongoClient(url, {useNewUrlParser: true});
+	client.connect(function(err, client){
+		assert.equal(null, err);
+		console.log("Connect to DB");
+		const db = client.db(dbName);
+		var status = false;
+	    var myquery = { username: user};
+	    var newvalues = { $set: { campaigns: campaign} };
+	    db.collection("users").updateOne(myquery, newvalues, function(err, res) {
+	      if (err) throw err;
+	      console.log("1 document updated");
+	      client.close();
+		  return callback(status);
+		  
+	    });
+		
+		
+	});	
+}
+
+module.exports.findSystemCourseLevel = function(courseName, callback){
+    const client = new MongoClient(url,{useNewUrlParser: true} );
+   	client.connect(function(err, client) {
+    	assert.equal(null, err);
+     	console.log("Connected correctly to Database");
+    
+    	const db = client.db(dbName);
+    	let query = { courseName: courseName };
+    	db.collection("courses").findOne(query, function(err, result) {
+      	  if (err) throw err;
+      	client.close();
+      	return callback(result);
+    	});
+	});
+}
+
+module.exports.insertSystemCourseLevel = function(courseLevel, callback){
+	const client = new MongoClient(url,{useNewUrlParser: true} );
+	client.connect(function(err, client) {
+	  assert.equal(null, err);
+	  console.log("Connected correctly to Database");
+
+	  const db = client.db(dbName);
+	  status = false;
+	  // Insert a single document
+	  db.collection('courses').insertOne({course: courseLevel}, function(err, r) {
+	    assert.equal(null, err);
+	    assert.equal(1, r.insertedCount);
+	    console.log("Inserted system course level to database ");
+		return callback(status);
+	  });
+	});
+}
