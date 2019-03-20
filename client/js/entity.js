@@ -312,16 +312,6 @@ Enemy=function(id,x,y,w,h,img,hp,atkSpd,dmg,code){
 		self.downPress = diffY > 3;
 		self.upPress = diffY < -3;
 	}
-
-	//let super_draw=self.draw;
-	//self.draw=function(){
-	//	super_draw();
-
-		//ctx.save();
-		//logic for drawing enemies
-		//ctx.restore();
-	//}
-
 	self.onDeath=function(){
 		self.remove=true;
 	}
@@ -380,7 +370,7 @@ Assignment.update=function(){
 
 Assignment.list={};
 
-Assignment.generate=function(x,y,code){
+Assignment.generate=function(x,y){
 	let h=64;
 	let w=64;
 	let id=Math.random();
@@ -389,7 +379,7 @@ Assignment.generate=function(x,y,code){
 	let dmg=3;
 	//using player img as placeholder
 	let img=Img.philEnemy;
-	Assignment(id,x,y,w,h,img,hp,dmg,code);
+	Assignment(id,x,y,w,h,img,hp,dmg,'a');
 }
 
 Midterm=function(id,x,y,w,h,img,hp,dmg,code){
@@ -413,7 +403,7 @@ Midterm.update=function(){
 
 Midterm.list={};
 
-Midterm.generate=function(x,y,code){
+Midterm.generate=function(x,y){
 	let h=64;
 	let w=64;
 	let id=Math.random();
@@ -422,7 +412,7 @@ Midterm.generate=function(x,y,code){
 	let dmg=7;
 	//using player img as placeholder
 	let img=Img.playerGL;
-	Midterm(id,x,y,w,h,img,hp,dmg,code);
+	Midterm(id,x,y,w,h,img,hp,dmg,'m');
 }
 
 Final=function(id,x,y,w,h,img,hp,dmg,code){
@@ -443,7 +433,7 @@ Final.update=function(){
 
 Final.list={};
 
-Final.generate=function(x,y,code){
+Final.generate=function(x,y){
 	let h=64;
 	let w=64;
 	let id=Math.random();
@@ -452,7 +442,7 @@ Final.generate=function(x,y,code){
 	let dmg=15;
 	//using player img as placeholder
 	let img=Img.playerGL;
-	Final(id,x,y,w,h,img,hp,dmg,code);
+	Final(id,x,y,w,h,img,hp,dmg,'l');
 }
 
 Player=function(x,y){
@@ -704,6 +694,9 @@ Platform.generate=function(x,y,code){
 	type='plat';
 	//player img as placeholder
 	img=Img.playerLevel;
+	if(code=='b'){
+		smash=true;
+	}
 	//logic to take code and change breakable and impermiable if needed
 	Platform(type,id,x,y,img,code,smash,imp);
 }
