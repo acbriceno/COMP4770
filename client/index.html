@@ -190,12 +190,12 @@
 
 
 
-      if (levelEditor.style.display == "none") {
+      if (screen=='game'||screen=='overworld') {
             mouseX -= W/2;
 			mouseY -= H/2;
             player.aimAngle = Math.atan2(mouseY,mouseX) / Math.PI * 180;
       }
-      else {
+      else id(screen=='le'){
             mousePos.x=mouseX-8;
 			mousePos.y=mouseY-130;
             // console.log("mouseX: " + mouseX + "mouseY: " + mouseY);
@@ -203,7 +203,7 @@
 
 	}
 	document.onkeydown=function(event){
-		if(screen=='game'){
+		if(screen=='game'||screen=='overworld'){
 			if(event.keyCode==keyUp) {
 				player.upPress=true;
 				}
@@ -229,6 +229,20 @@
 				else{
 					player.weap=0;
 				}
+			}
+		}
+		else if(screen=='le'){
+			if(event.keyCode==keyUp){
+				moveScreen.down--;
+			}
+			else if(event.keyCode==keyDown){
+				moveScreen.down++;
+			}
+			else if(event.keyCode==keyRight){
+				moveScreen.right++;
+			}
+			else if(event.keyCode==keyLeft){
+				moveScreen.right--;
 			}
 		}
 	}
