@@ -105,25 +105,21 @@ module.exports.findUser = function(user, callback){
   });
 }
 
-module.exports.createCampaign = function(user, campaign, callback){
+module.exports.createCampaign = function(user, campaign){
 	
 	const client = new MongoClient(url, {useNewUrlParser: true});
 	client.connect(function(err, client){
 		assert.equal(null, err);
 		console.log("Connect to DB");
 		const db = client.db(dbName);
-		var status = false;
 	    var myquery = { username: user};
 	    var newvalues = { $set: { campaigns: campaign} };
 	    db.collection("users").updateOne(myquery, newvalues, function(err, res) {
 	      if (err) throw err;
 	      console.log("1 document updated");
 	      client.close();
-		  return callback(status);
 		  
-	    });
-		
-		
+	    });	
 	});	
 }
 
@@ -136,7 +132,7 @@ module.exports.findSystemCourseLevel = function(courseName, callback){
     	const db = client.db(dbName);
     	let query = { courseName: courseName };
     	db.collection("courses").findOne(query, function(err, result) {
-      	  if (err) throw err;
+      	 if (err) throw err;
       	client.close();
       	return callback(result);
     	});
@@ -159,4 +155,58 @@ module.exports.insertSystemCourseLevel = function(courseLevel, callback){
 		return callback(status);
 	  });
 	});
+}
+
+module.exports.findAllSystemCourseLevels = function(callback){
+const client = new MongoClient(url,{useNewUrlParser: true} );
+ client.connect(function(err, client) {
+   assert.equal(null, err);
+   console.log("Connected correctly to Database");
+    
+   const db = client.db(dbName);
+        
+    db.collection("courses").find({}).toArray(function(err, result) {
+      if (err) throw err;
+ 
+     client.close();
+     return callback(result);
+                                            
+                                        
+    });
+  });
+}
+
+module.exports.findUserCampaigns = function(user, callback){
+    const client = new MongoClient(url,{useNewUrlParser: true} );
+   	client.connect(function(err, client) {
+     assert.equal(null, err);
+     console.log("Connected correctly to Database");
+    
+     const db = client.db(dbName);
+        
+     let query = { username: user };
+     db.collection("users").findOne(query, function(err, result) {
+       if (err) throw err;
+       client.close();
+       return callback(result.campaigns);
+     });
+    });
+}
+
+
+module.exports.addCampaigns = function(username, campaigns){
+  const client = new MongoClient(url,{useNewUrlParser: true} );
+  client.connect(function(err, client) {
+    assert.equal(null, err);
+    console.log("Connected correctly to Database");
+    const db = client.db(dbName);
+    var myquery = { username: username};
+    var newvalues = { $set: { campaigns: campaigns} };
+    db.collection("users").updateOne(myquery, newvalues, function(err, res) {
+      if (err) throw err;
+      console.log("1 document updated");
+      client.close();
+    });
+  });
+
 }
