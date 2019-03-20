@@ -60,7 +60,7 @@ io.sockets.on('connection',function(socket){
 
       console.log("save level server hit")
   });
-
+  
   socket.on('createCampaign', function(message){
       game.createCampaign(message.username, message.info, function(campaign){
           socket.emit('campaignCreated',{
