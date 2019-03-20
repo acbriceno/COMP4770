@@ -13,6 +13,7 @@ app.get('/',function(req,res){
 
 app.use("/js", express.static(__dirname + '/client/js/'));
 app.use("/img", express.static(__dirname + '/client/img/'));
+app.use("/css", express.static(__dirname, + '/client/css/'));
 
 serv.listen(2000);
 
