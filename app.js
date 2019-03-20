@@ -13,7 +13,7 @@ app.get('/',function(req,res){
 
 app.use("/js", express.static(__dirname + '/client/js/'));
 app.use("/img", express.static(__dirname + '/client/img/'));
-app.use("/css", express.static(__dirname, + '/client/css/'));
+app.use("/css", express.static(__dirname + '/client/css/'));
 
 serv.listen(2000);
 
@@ -60,7 +60,7 @@ io.sockets.on('connection',function(socket){
 
       console.log("save level server hit")
   });
-  
+
   socket.on('createCampaign', function(message){
       game.createCampaign(message.username, message.info, function(campaign){
           socket.emit('campaignCreated',{
