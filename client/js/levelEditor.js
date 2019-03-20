@@ -1,7 +1,6 @@
 let mousePos;
 let currentLevel;
 let moveScreen;
-moveScreen=MoveScreen(0,0);
 
 MousePos = function(x, y, code) {
     let self ={x:x,
