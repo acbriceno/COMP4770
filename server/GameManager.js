@@ -1,7 +1,7 @@
 'use strict';
 var dbManager = require('./DBManager.js');
 
-module.exports.createCampaign = function(user, campaign callback){
+module.exports.createCampaign = function(user, campaign, callback){
 	var courses = [];
 	var inventory = [];
 	var saveFiles = {
