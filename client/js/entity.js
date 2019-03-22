@@ -486,17 +486,17 @@ Player=function(x,y){
 		else if(screen=='le'){
 			ctxLE.save();
 		}
+		let x=self.x;
+		let y=self.y;
 		if(screen=='game'||screen=='overworld'){
-			let x=self.x-player.x;
-			let y=self.y-player.y;
+			x=x-player.x;
+			y=y-player.y;
 			x+=W/2;
 			y+=H/2;
 			x-=self.w/2;
 			y-=self.h/2;
 		}
 		else if(screen=='le'){
-			let x=self.x;
-			let y=self.y;
 			x+=moveScreen.right*64;
 			y+=moveScreen.down*64;
 		}
