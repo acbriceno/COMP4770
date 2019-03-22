@@ -477,18 +477,26 @@ Player=function(x,y){
 	}
 
 	self.draw=function(){
-		if(screen=='game'){
+		if(screen=='game'||screen=='overworld'){
 			ctx.save();
 		}
 		else if(screen=='le'){
 			ctxLE.save();
 		}
-		let x=self.x-player.x;
-		let y=self.y-player.y;
-		x+=W/2;
-		y+=H/2;
-		x-=self.w/2;
-		y-=self.h/2;
+		if(screen=='game'||screen=='overworld'){
+			let x=self.x-player.x;
+			let y=self.y-player.y;
+			x+=W/2;
+			y+=H/2;
+			x-=self.w/2;
+			y-=self.h/2;
+		}
+		else if(screen=='le'){
+			let x=self.x;
+			let y=self.y;
+			x+=moveScreen.right*64;
+			y+=moveScreen.left*64;
+		}
 
 
 		let framew=self.img.width/4;
@@ -528,7 +536,7 @@ Player=function(x,y){
 			ctx.restore();
 		}
 		else if(screen=='le'){
-			ctxLE.drawImage(self.img,cnt*framew,dir*frameh,framew,frameh,self.x,self.y,self.w,self.h);
+			ctxLE.drawImage(self.img,cnt*framew,dir*frameh,framew,frameh,x,y,self.w,self.h);
 			ctxLE.restore();
 		}
 	}
