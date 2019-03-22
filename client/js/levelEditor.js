@@ -35,6 +35,15 @@ MousePos = function(x, y, code) {
 			Assignment.generate(x,y,self.code);
 			Assignment.update();
 		}
+		else if(self.code=='d'){
+			for(let key in Entity.list){
+				if(Entity.list[key].x==x&&Entity.list[key].y==y){
+					if(Entity.list[key].type!='Player'){
+						Entity.list[key].remove=true;
+					}
+				}
+			}
+		}
 	}
 
 	return self;

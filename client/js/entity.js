@@ -452,7 +452,7 @@ Final.generate=function(x,y){
 
 Player=function(x,y){
 	let img=Img.playerLevel;
-	let self=Actor('p','myId',x,y,64,64,img,100,5,5,'p');
+	let self=Actor('Player','myId',x,y,64,64,img,100,5,5,'p');
 	self.maxSpd=5;
 	self.lMouseClick=false;
 	self.rMouseClick=false;
@@ -687,6 +687,7 @@ Platform=function(type,id,x,y,img,code,smash,imp){
 	self.code=code;
 	self.smash=smash;
 	self.imp=imp;
+	self.remove=false;
 	Platform.list[id]=self;
 
 }
@@ -697,6 +698,9 @@ Platform.update=function(){
 	for(let key4 in Platform.list){
 		let p = Platform.list[key4];
 		p.update();
+		if(p.remove){
+			delete p;
+		}
 	}
 }
 
