@@ -38,11 +38,14 @@ MousePos = function(x, y, code) {
 		}
 		else if(self.code=='d'){
 			for(let key in Entity.list){
+
 				if(Entity.list[key].x==x&&Entity.list[key].y==y){
 					if(Entity.list[key].type!='Player'){
 						Entity.list[key].remove=true;
+
 					}
 				}
+                        console.log("key:" + key)
 			}
 		}
 	}

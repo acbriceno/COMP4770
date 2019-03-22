@@ -39,6 +39,7 @@
                   <option value="p"selected="selected">Player</option>
                   <option value="e">Enemies</option>
                   <option value="f">Platform</option>
+                  <option values="d">Delete</option>
             </select>
       </div>
 	<div id="backLE" style="display:none;position:absolute;top:750px;">
@@ -200,7 +201,7 @@
             mousePos.x=mouseX-8-moveScreen.right*64;
 		// mousePos.y=mouseY-3+moveScreen.left*64;
             mousePos.y = mouseY-3-moveScreen.down*64;
-            console.log("mouseX: " + mouseX + "mouseY: " + mouseY);
+            // console.log("mouseX: " + mouseX + "mouseY: " + mouseY);
       }
 
 	}
@@ -433,6 +434,7 @@
 		player = Player(190, 620);
 		Enemy.generate(0,0,'e');
 		Platform.generate(128,128,'f');
+            Platform.generate(190,684,'f');
             Platform.generate(190,684,'f');
       }
 
