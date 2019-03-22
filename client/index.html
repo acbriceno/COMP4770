@@ -197,9 +197,10 @@
             player.aimAngle = Math.atan2(mouseY,mouseX) / Math.PI * 180;
       }
       else if(screen=='le'){
-            mousePos.x=mouseX-8+moveScreen.right*64;
-			mousePos.y=mouseY-3+moveScreen.left*64;
-            // console.log("mouseX: " + mouseX + "mouseY: " + mouseY);
+            mousePos.x=mouseX-8-moveScreen.right*64;
+		// mousePos.y=mouseY-3+moveScreen.left*64;
+            mousePos.y = mouseY-3-moveScreen.down*64;
+            console.log("mouseX: " + mouseX + "mouseY: " + mouseY);
       }
 
 	}
