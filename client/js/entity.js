@@ -163,8 +163,10 @@ Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
 		let move=true;
 		let moveG=true;
 		if(screen=='le'){
-			move=false;
-			moveG=false;
+			self.downPress=false;
+			self.upPress=false;
+			self.leftPress=false;
+			self.rightPress=false;
 		}
 		//console.log(self.ySpd);
 		let leftBump={x:self.x-32,y:self.y,width:10,height:10};
