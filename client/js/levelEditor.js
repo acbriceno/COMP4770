@@ -37,13 +37,15 @@ MousePos = function(x, y, code) {
 			Assignment.update();
 		}
 		else if(self.code=='d'){
-			for(let key in Entity.list){
-
-				if(Entity.list[key].x==x&&Entity.list[key].y==y){
-					if(Entity.list[key].type!='Player'){
-						Entity.list[key].remove=true;
-
-					}
+			for(let key in Enemy.list){
+				if(Enemy.list[key].x==x&&Enemy.list[key].y==y){
+					Entity.list[key].remove=true;
+				}
+                        console.log("key:" + key)
+			}
+			for(let key1 in Platform.list){
+				if(Platform.list[key1].x==x&&Platform.list[key1].y==y){
+					Platform.list[key1].remove=true;
 				}
                         console.log("key:" + key)
 			}
