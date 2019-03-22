@@ -167,6 +167,7 @@ Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
 			self.upPress=false;
 			self.leftPress=false;
 			self.rightPress=false;
+			moveG=false;
 		}
 		//console.log(self.ySpd);
 		let leftBump={x:self.x-32,y:self.y,width:10,height:10};
