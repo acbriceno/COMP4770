@@ -194,7 +194,7 @@ module.exports.findUserCampaigns = function(user, callback){
 }
 
 
-module.exports.addCampaigns = function(username, campaigns){
+module.exports.updateCampaigns = function(username, campaigns){
   const client = new MongoClient(url,{useNewUrlParser: true} );
   client.connect(function(err, client) {
     assert.equal(null, err);

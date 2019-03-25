@@ -80,17 +80,17 @@ io.sockets.on('connection',function(socket){
 		});
 	});
 	
-	// var info = {
-	// 	difficulty : 1,
-	// 	playerName : "john"
-	// };
-	//
-	//  game.createCampaign("user",info , function(campaign){
-	// 	 console.log(campaign);
-	//  });
-	// game.getUserCampaign("user", 4, function(campaign){
-	// 	console.log(campaign);
-	// });
+	socket.on('saveCurrentGame', function(message){
+		game.saveCurrentGame(message.username, message.campaignNumber, message.save.saveNumber, message.save);
+	});
+	
+	
+	socket.on('saveNewSave', function(message){
+		game.saveNewSave(message.username, message.campaignNumber, message.save);
+	});
+	
+	
+	
 	
 	
   });

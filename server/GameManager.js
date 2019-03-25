@@ -6,12 +6,15 @@ module.exports.createCampaign = function(user, info, callback){
 	let campaign = generateCampaign(info.difficulty);
 	console.log(campaign);
 	console.log(info.difficulty);	
+	let date = Date();
 	let courses = [];
 	let inventory = [];
 	let saveFiles = {
 		saves: [
 		{
 			playerName: info.playerName,
+			saveNumber : 1,
+			saveDate : date,
 			money : campaign.money, 
 			gammaHP : campaign.gammaHP,
 			dadCredit : campaign.dadCredit,
@@ -42,7 +45,7 @@ module.exports.createCampaign = function(user, info, callback){
 				SaveFile: saveFiles,
 			};
 			campaigns.push(newCampaign);
-			dbManager.addCampaigns(user, campaigns);
+			dbManager.updateCampaigns(user, campaigns);
 			return callback(newCampaign);
 		}
 		
@@ -110,6 +113,36 @@ module.exports.insertSystemCourseLevel = function(courseLevel, callback){
 module.exports.getUserCampaign = function(username, campaignNumber, callback){
 	dbManager.findUserCampaign(username, campaignNumber, function(campaign){
 		return callback(campaign);
+	});
+}
+
+module.exports.saveCurrentGame = function(username, campaignNumber, saveNumber, save){
+	dbManager.findUserCampaigns(username, function(campaigns){
+		if(campaigns == null){
+			
+			
+		}else{
+
+			campaigns[campaignNumber -1].SaveFile.saves[saveNumber -1] = save;
+			dbManager.updateCampaigns(username, campaigns);
+			
+		}
+		
+	});
+}
+
+module.exports.saveNewSave = function(username, campaignNumber, save){
+	dbManager.findUserCampaigns(username, function(campaigns){
+		if(campaigns == null){
+			
+			
+		}else{
+
+			campaigns[campaignNumber -1].SaveFile.saves.push(save);
+			dbManager.updateCampaigns(username, campaigns);
+			
+		}
+		
 	});
 }
 
