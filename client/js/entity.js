@@ -348,15 +348,15 @@ Enemy.generate=function(x,y){
 	let id=Math.random();
 	let hp=10;
 	let atkSpd=0.5;
-	let dmg=1;
+	let dmg=100;
 	//using player img as placeholder
 	let img=Img.philEnemy;
 	console.log('found');
 	Enemy(id,x,y,w,h,img,hp,atkSpd,dmg,'e');
 }
 
-Assignment=function(id,x,y,w,h,img,hp,dmg,code){
-	let self=Enemy(id,x,y,w,h,img,hp,dmg,code);
+Assignment=function(id,x,y,w,h,img,hp,dmg){
+	let self=Enemy(id,x,y,w,h,img,hp,dmg,'a');
 	Assignment.list[id]=self;
 	self.remove=false;
 }
@@ -384,11 +384,11 @@ Assignment.generate=function(x,y){
 	let dmg=3;
 	//using player img as placeholder
 	let img=Img.philEnemy;
-	Assignment(id,x,y,w,h,img,hp,dmg,'a');
+	Assignment(id,x,y,w,h,img,hp,dmg);
 }
 
-Midterm=function(id,x,y,w,h,img,hp,dmg,code){
-	let self=Enemy(id,x,y,w,h,img,hp,dmg,code);
+Midterm=function(id,x,y,w,h,img,hp,dmg){
+	let self=Enemy(id,x,y,w,h,img,hp,dmg,'m');
 	Midterm.list[id]=self;
 	self.remove=false;
 }
@@ -417,12 +417,16 @@ Midterm.generate=function(x,y){
 	let dmg=7;
 	//using player img as placeholder
 	let img=Img.playerGL;
-	Midterm(id,x,y,w,h,img,hp,dmg,'m');
+	Midterm(id,x,y,w,h,img,hp,dmg);
 }
 
-Final=function(id,x,y,w,h,img,hp,dmg,code){
-	let self=Enemy(id,x,y,w,h,img,hp,dmg,code);
+Final=function(id,x,y,w,h,img,hp,dmg){
+	let self=Enemy(id,x,y,w,h,img,hp,dmg,'l');
 	Final.list[id]=self;
+	
+	self.onDeath=function(){
+		levelCompleted();
+	}
 }
 
 Final.update=function(){
@@ -431,7 +435,7 @@ Final.update=function(){
 	}
 	for(let key9 in Final.list){
 		if(Final.list[key9].remove){
-			//logic to end the level
+			levelCompleted();
 		}
 	}
 }
@@ -442,12 +446,12 @@ Final.generate=function(x,y){
 	let h=64;
 	let w=64;
 	let id=Math.random();
-	let hp=100;
+	let hp=10;
 	let atkSpd=2;
 	let dmg=15;
 	//using player img as placeholder
-	let img=Img.playerGL;
-	Final(id,x,y,w,h,img,hp,dmg,'l');
+	let img=Img.philEnemy;
+	Final(id,x,y,w,h,img,hp,dmg);
 }
 
 Player=function(x,y){
@@ -545,7 +549,7 @@ Player=function(x,y){
 	}
 
 	self.onDeath=function(){
-		//logic to end level on player death
+		levelFailed();
 	}
 
 	return self;
@@ -635,7 +639,7 @@ Projectile.generate = function(actor){
 	if(dir==1){
 		img=Img.penLeft;
 	}
-	if(actor.type=='p'){
+	if(actor.type=='Player'){
 		hostile=false;
 	}
 	//console.log("Angle: "+angle);
