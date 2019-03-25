@@ -33,8 +33,16 @@ MousePos = function(x, y, code) {
 			Platform.update();
 		}
 		else if(self.code=='a'){
-			Assignment.generate(x,y,self.code);
+			Assignment.generate(x,y);
 			Assignment.update();
+		}
+		else if(self.code=='l'){
+			Final.generate(x,y);
+			Final.update();
+		}
+		else if(self.code=='m'){
+			Midterm.generate(x,y);
+			Midterm.update();
 		}
 		else if(self.code=='d'){
 			for(let key in Enemy.list){
