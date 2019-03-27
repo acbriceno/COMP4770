@@ -37,8 +37,9 @@
       <div id="aSelect1" style ="position: fixed; bottom: 1280; right: 0;">
             <select id="selections";>
                   <option value="p"selected="selected">Player</option>
-                  <option value="e">Enemies</option>
+                  <option value="e">Enemy</option>
                   <option value="f">Platform</option>
+				  <option value="b">Breakable</option>
 				  <option value="a">Assignment</option>
 				  <option value="m">Midterm</option>
 				  <option value="l">Fianl</option>
@@ -150,6 +151,9 @@
 	let screen='sign';
 	let count=0;
 	let check=true
+	let leDraw=false;
+
+	//moveScreen=MoveScreen(0,0,);
 	let campaign;
 	let campaignInput = document.getElementById('campaignInput');
 	let startNewGame = document.getElementById('startNewGame');
@@ -164,6 +168,14 @@
 	Img.penRight.src="img/pen_right.png";
 	Img.philEnemy=new Image();
 	Img.philEnemy.src="img/philEnemy.png";
+	Img.platform=new Image();
+	Img.platform.src="img/tile.png";
+	Img.breakable=new Image();
+	Img.breakable.src="img/break_tile.png";
+	Img.midterm=new Image();
+	Img.midterm.src="img/midterm.png";
+	Img.upgrade=new Image();
+	Img.upgrade.src="img/powerup.png";
 
 	//testing collision of rectangles
 	testCollisionRects = function(rect1,rect2){
@@ -176,14 +188,19 @@
 	//action listeners, logic tbd
 	document.onmousedown=function(mouse){
 		if(mouse.which==1){
-			if (levelEditor.style.display == "none") {
+			if (screen=='game'||screen=='overworld') {
 				player.lMouseClick=true;
 			}
-			else{
+			else if(screen=='le'){
 				let selection = selections.options[selections.selectedIndex].value;
 				mousePos.code=selection;
 				console.log(mousePos.code);
-				mousePos.draw();
+				//let x=mousePos.x-moveScreen.right*64;
+				//let y=mousePos.y-moveScreen.down*64;
+				//console.log(x+', '+y);
+				if(leDraw){
+					mousePos.draw();
+				}
 			}
 		}
 		else{
@@ -213,10 +230,16 @@
             player.aimAngle = Math.atan2(mouseY,mouseX) / Math.PI * 180;
       }
       else if(screen=='le'){
-            mousePos.x=mouseX-moveScreen.right*64;
-		// mousePos.y=mouseY-3+moveScreen.left*64;
-            mousePos.y = mouseY-20-moveScreen.down*64;
-             console.log("mouseX: " + mouseX + "mouseY: " + mouseY);
+			if(mouseY>18&&mouseY<738&&mouseX>0&&mouseX<1280){
+				mousePos.x=mouseX;
+				// mousePos.y=mouseY-3+moveScreen.left*64;
+				mousePos.y = mouseY-20;
+				console.log("mouseX: " + mouseX + "mouseY: " + mouseY);
+				leDraw=true;
+			}
+			else{
+			leDraw=false;
+			}
       }
 
 	}
@@ -251,16 +274,16 @@
 		}
 		else if(screen=='le'){
 			if(event.keyCode==keyUp){
-				moveScreen.down--;
+				mousePos.yoff--;
 			}
 			else if(event.keyCode==keyDown){
-				moveScreen.down++;
+				mousePos.yoff++;
 			}
 			else if(event.keyCode==keyRight){
-				moveScreen.right++;
+				mousePos.xoff++;
 			}
 			else if(event.keyCode==keyLeft){
-				moveScreen.right--;
+				mousePos.xoff--;
 			}
 		}
 	}
@@ -292,6 +315,7 @@
 			Enemy.update();
 			Projectile.update();
 			Platform.update();
+			Upgrade.update();
             //console.log("Player (X,Y): " + "(" + player.x + ", " + player.y + ")");
 			//console.log("Player aim angle is: "+player.aimAngle);
 			//console.log("Grapple key = "+player.grapplePress);
@@ -543,7 +567,7 @@
       //       y:50,
       // };
     player = Player(190, 620);
-	mousePos=MousePos(0,0,'p');
+	mousePos=MousePos(0,0,0,0,'p');
       //var img = new Image()
 
       // img.onload = function() {
