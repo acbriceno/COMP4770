@@ -2,20 +2,31 @@ let mousePos;
 let currentLevel;
 let moveScreen;
 
-MousePos = function(x, y, code) {
+MousePos = function(x,y,xoff,yoff,code) {
     let self ={x:x,
 		y:y,
+		xoff:xoff,
+		yoff:yoff,
 		code:code,
 	};
 
 
 
 	self.draw=function(){
-		let x=(Math.floor(self.x/64))*64;
-		let y=(Math.floor(self.y/64))*64;
+		let x=self.x+(self.xoff*64);
+		let y=self.y+(self.yoff*64);
+		x=(Math.floor(x/64))*64;
+		y=(Math.floor(y/64))*64;
 		console.log('mousepos.draw is working');
-            console.log(x + "," + y);
+        console.log(x + "," + y);
 
+		for(let key1 in Entity.list){
+			let e=Entity.list[key1];
+			if(e.x==x&e.y==y){
+				e.remove=true;
+			}
+		}
+			
 		if(self.code=='p'){
 			console.log('player should draw');
 			player.x=x;
@@ -28,7 +39,7 @@ MousePos = function(x, y, code) {
 			Enemy.generate(x,y);
 			Enemy.update();
 		}
-		else if(self.code=='f'){
+		else if(self.code=='f'||self.code=='b'){
 			Platform.generate(x,y,self.code);
 			Platform.update();
 		}
@@ -45,17 +56,11 @@ MousePos = function(x, y, code) {
 			Midterm.update();
 		}
 		else if(self.code=='d'){
-			for(let key in Enemy.list){
-				if(Enemy.list[key].x==x&&Enemy.list[key].y==y){
-					Entity.list[key].remove=true;
+			for(let key in Entity.list){
+				let e=Entity.list[key];
+				if(e.x==x&&e.y==y){
+					e.remove=true;
 				}
-                        console.log("key:" + key)
-			}
-			for(let key1 in Platform.list){
-				if(Platform.list[key1].x==x&&Platform.list[key1].y==y){
-					Platform.list[key1].remove=true;
-				}
-                        console.log("key:" + key)
 			}
 		}
 	}
