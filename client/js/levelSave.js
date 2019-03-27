@@ -25,7 +25,7 @@ saveLevel=function(username,playername,difficulty,progress,inventory,w,h,fac,lev
 	}
 
 
-	let levelData={Username: username , Levelname: levelname, Difficulty : difficulty, 				W:w,H:h, Fac: fac, Level : level  	
+	let levelData={Username: username , Difficulty : difficulty, W:w,H:h, Fac: fac, Level : level  	
 		  
 		      };
 	
