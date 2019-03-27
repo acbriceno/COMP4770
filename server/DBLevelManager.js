@@ -33,3 +33,23 @@ client.connect(function(err, client) {
   });
 });
 }
+
+module.exports.findLevel = function(username,levelName, callback){
+    const client = new MongoClient(url,{useNewUrlParser: true} );
+   	client.connect(function(err, client) {
+    	assert.equal(null, err);
+     	console.log("Connected correctly to Database");
+    	console.log("find level Hit");
+    	const db = client.db(dbName);
+    	let query = { Username : username };
+    	db.collection("Level").findOne(query, function(err, result) {
+      	 if (err) throw err;
+      	client.close();
+	//console.log("result" + result["Levelname"] );
+      	return callback(result);
+    	});
+	});
+}
+
+
+
