@@ -70,6 +70,16 @@
       <button onclick="backMainMenu()">Back</button>
 </div>
 
+<div id="campaignInput" style="display:none;"> 
+	<form>
+	  <input type="text" id="playerName" placeholder="Player Name"><br>
+	  <input type="radio"  name="difficulty" value="0" checked> Easy<br>
+	  <input type="radio"  name="difficulty" value="1"> Medium<br>
+	  <input type="radio"  name="difficulty" value="2"> Hard
+  </form>
+	  <button id="startNewGame">Start New Game</button>
+</div>
+
 
 
 
@@ -140,9 +150,10 @@
 	let screen='sign';
 	let count=0;
 	let check=true
-
+	let campaign;
+	let campaignInput = document.getElementById('campaignInput');
+	let startNewGame = document.getElementById('startNewGame');
 	moveScreen=MoveScreen(0,0,);
-
 
   var Img = {};
   Img.playerLevel = new Image();
@@ -448,16 +459,38 @@
 	}
 
       newGame.onclick = function() {
-        mainMenu.style.display = 'none';
-        gameDiv.style.display = 'inline-block';
-		screen='game';
-		player = Player(190, 620);
-		Enemy.generate(0,0,'e');
-		Platform.generate(128,128,'f');
-            Platform.generate(190,684,'f');
-            Platform.generate(190,684,'f');
+		  campaignInput.style.display = "flex";
+  		
+		  
+		//         mainMenu.style.display = 'none';
+		//         gameDiv.style.display = 'inline-block';
+		// screen='game';
+		// player = Player(190, 620);
+		// Enemy.generate(0,0,'e');
+		// Platform.generate(128,128,'f');
+		//         Platform.generate(190,684,'f');
+		//         Platform.generate(190,684,'f');
       }
 
+
+	  startNewGame.onclick = function(){
+    	let socket=io();
+  		let info = {
+  			playerName : document.getElementById('playerName').value,
+  			difficulty : document.querySelector('input[name=difficulty]:checked').value
+  		};
+		console.log(info);
+    		socket.emit('createCampaign',{
+  			username: username,
+  			info : info
+
+    		});
+			
+			socket.on('campaignCreated', function(message){
+				console.log(message);
+			});
+	  }
+	  
       loadGame.onclick = function() {
             mainMenu.style.display = 'none';
             loadFile.style.display = 'inline-block';

@@ -61,41 +61,34 @@ var generateCampaign = function(difficulty){
 		dadCredit : 5000,
 		workCredit : 0,
     };
-	
-	switch (difficulty) {
-	//easy
-	case 0:
+
+	if(difficulty == 0){
 		campaign["money"] = 1000;
-		campaign["gammaHP"] = 0,
+		campaign["gammaHP"] = 0;
 		campaign["dadCredit"] = 5000;
 		campaign["workCredit"] = 0;
-		return campaign;
-		break;
-	//medium
-	case 1:
+		console.log("test");
+	}
+	if(difficulty == 1){
 		campaign["money"] = 500;
-		campaign["gammaHP"] = 0,
+		campaign["gammaHP"] = 0;
 		campaign["dadCredit"] = 3000;
 		campaign["workCredit"] = 0;
-		return campaign;
-		break;
-	//hard
-	case 2:
+	}
+	if(difficulty == 2){
 		campaign["money"] = 0;
-		campaign["gammaHP"] = 0,
+		campaign["gammaHP"] = 0;
 		campaign["dadCredit"] = 1000;
 		campaign["workCredit"] = 0;
-		return campaign;
-		break;
-	//cheats
-	case 4:
+	}
+	if(difficulty == 3){
 		campaign["money"] = 100000;
-		campaign["gammaHP"] = 0,
+		campaign["gammaHP"] = 0;
 		campaign["dadCredit"] = 5000000;
 		campaign["workCredit"] = 0;
-		return campaign;
-		break;
 	}
+	
+	return campaign;
 }
 
 module.exports.loadSystemCourseLevel = function(courseName, callback){

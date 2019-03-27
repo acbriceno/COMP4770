@@ -64,6 +64,7 @@ io.sockets.on('connection',function(socket){
   });
   
   socket.on('createCampaign', function(message){
+	  console.log(message);
       game.createCampaign(message.username, message.info, function(campaign){
           socket.emit('campaignCreated',{
 			  campaign : campaign
