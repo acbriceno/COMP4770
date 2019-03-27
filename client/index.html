@@ -55,6 +55,9 @@
 	<div id="play" style="display:none;position:absolute;top:750px;left:100px;">
 		<button id="play">Play</button>
 	</div>
+	<div id="load" style ="display:none;position:absolute;top:750px;left:150px">
+            <button id="loadbutton">Load</button>
+	</div>
 </div>
 
 <div id="playerProfile" style ="display:none;">
@@ -132,7 +135,7 @@
   let loadFile = document.getElementById('loadFile');
   let file = document.getElementById('file');
   let a1 = document.getElementById('selections');
-
+	let loadButton= document.getElementById('loadbutton')
 	let play=document.getElementById('play');
 	let save = document.getElementById('save');
 	let usernameText=document.getElementById('username');
@@ -442,18 +445,39 @@
 
 
 
-	save.onclick=function(){
-
-		let socket=io();
+     save.onclick=function(){
+		var socket = io();
 		console.log("save button HIT");
+		console.log("save level data " + saveLevel());
 		socket.emit('saveLevel',{
-				levels: saveLevel(),
+				levels: saveLevel(username,"sandbox","hard",200,11,"cs"),
+				
+		
+		});
+     }
 
+	
+	loadButton.onclick = function() {
+            
+		let socket=io();
+		console.log("load button HIT");
+		
+		socket.emit('loadLevel',{
+				username: username,
+				
+				levels: saveLevel(username,"sandbox","hard",200,11,"cs"), 
+				
 				});
 
-}
+		socket.on('levelfound', function(message){     
+			loadLevel(message.Level, message.W);
 
+		});
 
+	}
+	
+	
+	
 	levelFailed=function(){
 		gameDiv.style.display='none';
 		signDiv.style.display = 'none';
