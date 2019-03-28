@@ -11,6 +11,7 @@
 <script src="js/levelLoad.js"></script>
 <script src="js/levelSave.js"></script>
 <script src="js/inventory.js"></script>
+<script src="js/CampaignManager.js"></script>
 
 <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
 <body>
@@ -479,6 +480,10 @@
   			playerName : document.getElementById('playerName').value,
   			difficulty : document.querySelector('input[name=difficulty]:checked').value
   		};
+		//let playerNameCheat = checkCampaignPlayerNameCheat(document.getElementById('playerName').value);
+		if (checkCampaignPlayerNameCheat(document.getElementById('playerName').value) == true){
+			info.difficulty = 3;
+		}
 		console.log(info);
     		socket.emit('createCampaign',{
   			username: username,
