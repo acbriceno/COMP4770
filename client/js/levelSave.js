@@ -1,9 +1,9 @@
 saveLevel=function(username,playername,difficulty,progress,inventory,w,h,fac,level2d){
       console.log("saveLevel gets called")
-	level;
+	level="";
 	let x=0;
 	let y=0;
-	let levelString="eeep";
+	
 
 
 	for(let i=0;i<w*h;i++){
@@ -25,11 +25,9 @@ saveLevel=function(username,playername,difficulty,progress,inventory,w,h,fac,lev
 	}
 
 
-	let updatedLevelString=username + "," + playername + "," + difficulty + "," + progress + "," + inventory  +  "," + levelString;
-
-	console.log(updatedLevelString);
-	console.log("save Level LevelSave.js hit");
-      console.log(level)
-	return updatedLevelString;                           //return level string here
-	//logic to pass to the database
+	let levelData={Username: username , Difficulty : difficulty, W:w,H:h, Fac: fac, Level : level  	
+		  
+		      };
+	
+	return levelData; 
 }

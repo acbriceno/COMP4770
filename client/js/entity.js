@@ -30,13 +30,13 @@ Entity=function(type,id,x,y,w,h,img){
 			ctx.drawImage(self.img,x,y,self.w,self.h);
 			ctx.restore();
 		}
-		else{
+		else if(screen=='le'){
 			//console.log('good so far');
 			ctxLE.save();
 			let x = self.x;
 			let y = self.y;
-			x+=moveScreen.right*64;
-			y+=moveScreen.down*64;
+			x+=mousePos.xoff*64;
+			y+=mousePos.yoff*64;
 			ctxLE.drawImage(self.img,x,y,self.w,self.h);
 			ctxLE.restore();
 		}
@@ -416,7 +416,7 @@ Midterm.generate=function(x,y){
 	let atkSpd=1;
 	let dmg=7;
 	//using player img as placeholder
-	let img=Img.playerGL;
+	let img=Img.midterm;
 	Midterm(id,x,y,w,h,img,hp,dmg);
 }
 
@@ -501,8 +501,8 @@ Player=function(x,y){
 			y-=self.h/2;
 		}
 		else if(screen=='le'){
-			x+=moveScreen.right*64;
-			y+=moveScreen.down*64;
+			x+=mousePos.xoff*64;
+			y+=mousePos.yoff*64;
 		}
 
 
@@ -654,7 +654,7 @@ Projectile.generate = function(actor){
 }
 
 Upgrade=function(id,x,y,w,h,cat,img){
-		let self=Entity('upgrade',id,x,w,img);
+		let self=Entity('upgrade',id,x,y,w,h,img);
 		self.cat=cat;
 		Upgrade.list[id]=self;
 }
@@ -680,9 +680,9 @@ Upgrade.generate=function(enemy){
 	let id=Math.random();
 	//ad logic for choosing the type of upgrade
 	let cat;
-	let img;
+	let img=Img.upgrade;
 
-	Upgrade(id,x,y,cat,img);
+	Upgrade(id,x,y,w,h,cat,img);
 
 }
 
@@ -703,7 +703,7 @@ Platform.update=function(){
 		let p = Platform.list[key4];
 		p.update();
 		if(p.remove){
-			delete p;
+			delete Platform.list[key4];
 		}
 	}
 }
@@ -714,10 +714,13 @@ Platform.generate=function(x,y,code){
 	id=Math.random();
 	type='plat';
 	//player img as placeholder
-	img=Img.playerLevel;
+	img1=Img.platform;
+	img2=Img.breakable;
 	if(code=='b'){
 		smash=true;
+		Platform(type,id,x,y,img2,code,smash,imp);
 	}
-	//logic to take code and change breakable and impermiable if needed
-	Platform(type,id,x,y,img,code,smash,imp);
+	else{
+		Platform(type,id,x,y,img1,code,smash,imp);
+	}
 }

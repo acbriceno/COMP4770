@@ -63,6 +63,20 @@ io.sockets.on('connection',function(socket){
       console.log("save level server hit")
   });
   
+  
+  socket.on('loadLevel', function(message){
+	console.log(message);
+	dbLevelManager.findLevel(message.username,message.levels, function(level){
+		console.log(level);
+          	socket.emit('levelfound',{
+		Username : level.Username , Levelname : level.Levelname , Diffuculty : 	level.Difficulty, Width : level.W, Height : level.H, Faculty: level.Fac, 			Level:level.Level,
+          	});
+
+      console.log("load level server hit")
+  });
+});
+	
+	
   socket.on('createCampaign', function(message){
 	  console.log(message);
       game.createCampaign(message.username, message.info, function(campaign){
