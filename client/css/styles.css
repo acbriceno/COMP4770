@@ -1,14 +1,11 @@
-body {
-    background-image: url("../img/background_mainmenu.png");
-  }
-
 #logoIMG {
     margin-bottom: 25px;
 }
 
 #menuWrapper{
-    text-align: center;
-    padding-top: 120px;
+    /* text-align: center;
+    padding-top: 120px; */
+    background-image: url("../img/background_mainmenu.png");
 }
 
 #menuDiv{
