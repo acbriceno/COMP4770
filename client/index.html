@@ -60,7 +60,7 @@
                   <option value="d">Delete</option>
             </select>
       </div>
-	<div id="aSelect2" style ="position: fixed; bottom: 1380; right: 0;">
+	<!--<div id="aSelect2" style ="position: fixed; bottom: 1380; right: 0;">
             <select id="background";>
 				<option value="img/math1.png" selected="selected">Math</option>
 				<option value="img/phil1.png">Philosophy</option>
@@ -68,7 +68,7 @@
 				<option value="img/cs1.png">Computer Science</option>
 			</select>
 
-	</div>
+	</div>-->
 	<div id="backLE" style="display:none;position:absolute;top:750px;">
 		<button onclick="backMainMenu()">Back</button>
 	</div>
@@ -351,15 +351,15 @@ let a3 = document.getElementById('selections2');
 	update=function(){
 	
 		
-		let bgImg=new Image();
-		bgImg.src=document.getElementById('background').value;
+		//let bgImg=new Image();
+		//bgImg.src=document.getElementById('background').value;
 			if(levelEditor.style.display == "none"){
 				ctx.clearRect(0, 0, 1280, 720);
-				ctx.drawImage(bgImg,0,0,W,H);
+				//ctx.drawImage(bgImg,0,0,W,H);
 			}
 			else{
 				ctxLE.clearRect(0,0,1280,720);
-				ctxLE.drawImage(bgImg,0,0,W,H);
+				//ctxLE.drawImage(bgImg,0,0,W,H);
 			}
             player.update();
 			Enemy.update();
@@ -522,7 +522,7 @@ let a3 = document.getElementById('selections2');
 
 	
 	loadButton.onclick = function () {
-
+	/* commented out for testing
 			let socket = io();
 			console.log("load button HIT");
 			console.log( a3.options[a3.selectedIndex].value)
@@ -534,7 +534,8 @@ let a3 = document.getElementById('selections2');
 				console.log("message" + message);
 				console.log("level found " + message.Level);
 				loadLevel(message.Level, message.W);
-			});
+			});*/
+			loadLevel("e0e0e0e000e0e0e000000000000f0000000f0000f00000000000000000p0000",9);
 	}
 	
 	
