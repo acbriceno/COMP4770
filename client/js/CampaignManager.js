@@ -10,3 +10,8 @@ function checkCampaignPlayerNameCheat(playerName){
 	}
 	return cheat;
 }
+
+function loadCampaignLevel(campaign){
+	
+	
+}

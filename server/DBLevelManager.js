@@ -25,7 +25,7 @@ client.connect(function(err, client) {
   const db = client.db(dbName);
 
   // Insert a single document
-  db.collection('Level').insertOne({Username : level.Username , Levelname : level.Levelname , Diffuculty : level.Difficulty, Width : level.W, Height : level.H, Faculty: level.Fac, Level:level.Level }, function(err, r) {
+  db.collection('Level').insertOne({Username : level.Username , Levelname : level.Levelname , Diffuculty : level.Difficulty, Width : level.W, Height : level.H, Level:level.Level }, function(err, r) {
     assert.equal(null, err);
     assert.equal(1, r.insertedCount);
     console.log("Inserted user to database ");

@@ -56,6 +56,12 @@
 	<div id="play" style="display:none;position:absolute;top:750px;left:100px;">
 		<button id="play">Play</button>
 	</div>
+	<div id="loadSelect" style="display:none;position:absolute;top:750px;left:200px;">
+		<select id="selections2" ;>
+			<option id="l" value="p" selected disabled>Levels</option>
+
+		</select>
+	</div>
 	<div id="load" style ="display:none;position:absolute;top:750px;left:150px">
             <button id="loadbutton">Load</button>
 	</div>
@@ -136,6 +142,7 @@
   let loadFile = document.getElementById('loadFile');
   let file = document.getElementById('file');
   let a1 = document.getElementById('selections');
+let a3 = document.getElementById('selections2');
 	let loadButton= document.getElementById('loadbutton')
 	let play=document.getElementById('play');
 	let save = document.getElementById('save');
@@ -446,16 +453,33 @@
 
 
 
-     save.onclick=function(){
+	save.onclick = function () {
 		var socket = io();
 		console.log("save button HIT");
 		console.log("save level data " + saveLevel());
-		socket.emit('saveLevel',{
-				levels: saveLevel(username,"sandbox","hard",200,11,"cs"),
-				
-		
-		});
-     }
+
+		var level = prompt("Please enter your Level name ", "Harry Potter");
+
+		if (level != null) {
+			let option = document.createElement("option");
+			option.text = level
+
+			a3.add(option);
+			console.log("level name " + level);
+			socket.emit('saveLevel', {
+
+				levels: saveLevel(username, level, 2, 200, 11),
+
+
+			});
+
+
+		}
+
+
+
+
+	}
 
 	
 	loadButton.onclick = function() {
@@ -509,6 +533,7 @@
 
       newGame.onclick = function() {
 		  campaignInput.style.display = "flex";
+		  mainMenu.style.display ="none";
   		
 		  
 		//         mainMenu.style.display = 'none';
@@ -541,7 +566,27 @@
 			
 			socket.on('campaignCreated', function(message){
 				console.log(message);
+				campaign = message.campaign;
+				console.log(campaign);
 			});
+			
+			gameDiv.style.display="inline-block";
+			levelEditor.style.display = 'none';
+			save.style.display = 'none';
+			backLE.style.display="none";
+			play.style.display="none";
+			campaignInput.style.display="none";
+			screen='game';
+			start=Date.now();
+			// player = Player(190, 620);
+		 	//Enemy.generate(0,0,'e');
+		// 	Platform.generate(128,128,'f');
+		// 	Platform.generate(129,128,'f');
+		// 	Platform.generate(130,128,'f');
+		// 	Platform.generate(131,128,'f');
+		// 	Platform.generate(190,684,'f');
+		// 	Platform.generate(190,684,'f');
+			
 	  }
 	  
       loadGame.onclick = function() {
