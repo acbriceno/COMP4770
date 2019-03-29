@@ -53,8 +53,18 @@ io.sockets.on('connection',function(socket){
 
     });
   });
-
-
+	
+	
+socket.on('getLevels', function(message){
+      console.log("get Levels hit"); 
+	dbLevelManager.findAllLevels(function(level){
+		console.log("all levels" + level);
+        	socket.emit('getLevelsFound',{
+			Levels : level
+          	});
+	});
+  });
+	
 
   socket.on('saveLevel', function(message){
 
