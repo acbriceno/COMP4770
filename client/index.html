@@ -156,6 +156,7 @@
   let file = document.getElementById('file');
   let a1 = document.getElementById('selections');
 let a3 = document.getElementById('selections2');
+	let a2 = document.getElementById('loadSelect');
 	let loadButton= document.getElementById('loadbutton')
 	let play=document.getElementById('play');
 	let save = document.getElementById('save');
@@ -258,7 +259,7 @@ let a3 = document.getElementById('selections2');
 				mousePos.x=mouseX;
 				// mousePos.y=mouseY-3+moveScreen.left*64;
 				mousePos.y = mouseY-20;
-				console.log("mouseX: " + mouseX + "mouseY: " + mouseY);
+				//console.log("mouseX: " + mouseX + "mouseY: " + mouseY);
 				leDraw=true;
 			}
 			else{
@@ -481,7 +482,7 @@ let a3 = document.getElementById('selections2');
 			console.log("level name " + level);
 			socket.emit('saveLevel', {
 
-				levels: saveLevel(username, level, 2, 200, 11),
+				levels: saveLevel(username, level, 2, mousePos.xmax, mousePos.ymax),
 
 
 			});
@@ -495,23 +496,20 @@ let a3 = document.getElementById('selections2');
 	}
 
 	
-	loadButton.onclick = function() {
-            
-		let socket=io();
-		console.log("load button HIT");
-		
-		socket.emit('loadLevel',{
-				username: username,
-				
-				levels: saveLevel(username,"sandbox","hard",200,11,"cs"), 
-				
-				});
+	loadButton.onclick = function () {
 
-		socket.on('levelfound', function(message){     
-			loadLevel(message.Level, message.W);
+			let socket = io();
+			console.log("load button HIT");
+			console.log( a3.options[a3.selectedIndex].value)
+			socket.emit('loadLevel', {
+				levelname : username,
+			});
 
-		});
-
+			socket.on('levelfound', function (message) {
+				console.log("message" + message);
+				console.log("level found " + message.Level);
+				loadLevel(message.Level, message.W);
+			});
 	}
 	
 	
@@ -618,32 +616,57 @@ let a3 = document.getElementById('selections2');
 						console.log("profile hit");
       }
 
-    levelEditorB.onclick = function() {
-      	mainMenu.style.display = 'none';
-      	selections.style.display = 'inline';
-      	levelEditor.style.display = 'inline-block';
-		save.style.display = 'inline-block';
-		back.style.display="none";
-		backLE.style.display="inline-block";
-		play.style.display='inline-block';
-        for (let i = 0; i < 1280; i += 64) {
-            ctx_uiLE.beginPath();
-            ctx_uiLE.moveTo(i, 0)
-            ctx_uiLE.lineTo(i, 720);
-            ctx_uiLE.stroke();
-        }
-        for (let i = 0; i < 720; i+= 64) {
-            ctx_uiLE.beginPath();
-            ctx_uiLE.moveTo(0, i);
-            ctx_uiLE.lineTo(1280, i);
-            ctx_uiLE.stroke();
-        }
+   levelEditorB.onclick = function () {
 
+			let socket = io();
+			console.log("load button HIT");
+
+			socket.emit('getLevels', {});
+
+			socket.on('getLevelsFound', function (message) {
+
+				let levels = Object.values(message)
+				if (loadbool) {
+					for (let i = 0; i <= levels.length; i++) {
+
+						let Level = levels[0][i].levels.Levelname;
+						var option = document.createElement("option");
+						option.text = Level;
+						a3.add(option);
+
+					}
+				}
+
+				loadbool=false;
+				console.log("get Levels Found " + message.Levels);
+			});
+
+			mainMenu.style.display = 'none';
+			selections.style.display = 'inline';
+			a2.style.display = 'inline';
+			levelEditor.style.display = 'inline-block';
+			save.style.display = 'inline-block';
+			load.style.display = 'inline-block';
+			back.style.display = "none";
+			backLE.style.display = "inline-block";
+			play.style.display = 'inline-block';
+			for (let i = 0; i < 1280; i += 64) {
+				ctx_uiLE.beginPath();
+				ctx_uiLE.moveTo(i, 0)
+				ctx_uiLE.lineTo(i, 720);
+				ctx_uiLE.stroke();
+			}
+			for (let i = 0; i < 720; i += 64) {
+				ctx_uiLE.beginPath();
+				ctx_uiLE.moveTo(0, i);
+				ctx_uiLE.lineTo(1280, i);
+				ctx_uiLE.stroke();
+			}
 
 			//play.style.display="inline-block";
-			 screen='le';
-		 	console.log(screen);
-      }
+			screen = 'le';
+			console.log(screen);
+		}
 
       // <!--  drawing to canvus and moving -->
 

@@ -52,5 +52,28 @@ module.exports.findLevel = function(username,levelName, callback){
 	});
 }
 
+module.exports.findAllLevels = function(callback){
+const client = new MongoClient(url,{useNewUrlParser: true} );
+ client.connect(function(err, client) {
+   assert.equal(null, err);
+   console.log("Connected correctly to Database");
+    
+   const db = client.db(dbName);
+        
+    db.collection("Level").find({}).toArray(function(err, result) {
+      if (err) throw err;
+ 
+
+     console.log("Name " + result);	
+     client.close();
+     return callback(result);
+                                            
+                                        
+    });
+  });
+}
+
+
+
 
 
