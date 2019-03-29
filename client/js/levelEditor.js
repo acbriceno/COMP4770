@@ -9,17 +9,26 @@ MousePos = function(x,y,xoff,yoff,code) {
 		yoff:yoff,
 		code:code,
 	};
+	self.xmax=0;
+	self.ymax=0;
 
 
 
 	self.draw=function(){
-		let x=self.x+(self.xoff*64);
-		let y=self.y+(self.yoff*64);
+		let x=self.x-(self.xoff*64);
+		let y=self.y-(self.yoff*64);
 		x=(Math.floor(x/64))*64;
 		y=(Math.floor(y/64))*64;
 		console.log('mousepos.draw is working');
         console.log(x + "," + y);
+		if((x/64)>self.xmax){
+			self.xmax=x/64;
+		}
+		if((y/64)>self.ymax){
+			self.ymax=y/64;
+		}
 
+		console.log(self.xmax+", "+self.ymax);
 		for(let key1 in Entity.list){
 			let e=Entity.list[key1];
 			if(e.x==x&e.y==y){
