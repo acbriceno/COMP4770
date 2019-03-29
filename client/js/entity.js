@@ -334,8 +334,10 @@ Enemy.update=function(){
 	for(let key in Enemy.list){
 		if(Enemy.list[key].remove){
 			let rand=(Math.random())*10
-			if(rand>=5){
-				Upgrade.generate(Enemy.list[key])
+			if(screen=='game'){
+				if(rand>=5){
+					Upgrade.generate(Enemy.list[key])
+				}
 			}
 			delete Enemy.list[key];
 		}
@@ -435,7 +437,9 @@ Final.update=function(){
 	}
 	for(let key9 in Final.list){
 		if(Final.list[key9].remove){
-			levelCompleted();
+			if(screen=='game'){
+				levelCompleted();
+			}
 		}
 	}
 }
