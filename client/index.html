@@ -245,7 +245,7 @@ let a3 = document.getElementById('selections2');
 				mousePos.x=mouseX;
 				// mousePos.y=mouseY-3+moveScreen.left*64;
 				mousePos.y = mouseY-20;
-				console.log("mouseX: " + mouseX + "mouseY: " + mouseY);
+				//console.log("mouseX: " + mouseX + "mouseY: " + mouseY);
 				leDraw=true;
 			}
 			else{
@@ -468,7 +468,7 @@ let a3 = document.getElementById('selections2');
 			console.log("level name " + level);
 			socket.emit('saveLevel', {
 
-				levels: saveLevel(username, level, 2, 200, 11),
+				levels: saveLevel(username, level, 2, mousePos.xmax, mousePos.ymax),
 
 
 			});
