@@ -19,7 +19,7 @@
 
 			<!--- Sign in Div Below -->
 
-			<div id=menuDiv> 
+			<div id=menuDiv>  <!-- This is for the main menus -->
 				<!-- <div id ="logoIMG">
 					<img src="./img/Uni_X.png" alt="game logo">
 				</div>		 -->
@@ -29,6 +29,39 @@
 					<button id="signDiv-signIn">Sign In</button>
 					<button id="signDiv-signUp">Sign Up</button>
 				</div>
+
+				<div id="mainMenu" style="display:none;">
+						<button id="profile">Profile </button>
+						<button id="newGame">New Game</button>
+						<button id="loadGame">Load Game</button>
+							  <button id="levelEditorB">Level Editor</button>
+			
+				</div>
+
+				<div id="campaignInput" style="display:none;"> 
+						<form>
+						  <input type="text" id="playerName" placeholder="Player Name"><br>
+						  <input type="radio"  name="difficulty" value="0" checked> Easy<br>
+						  <input type="radio"  name="difficulty" value="1"> Medium<br>
+						  <input type="radio"  name="difficulty" value="2"> Hard
+					  </form>
+						  <button id="startNewGame">Start New Game</button>
+					</div>
+
+										<!-- All files had the same id
+						Will need to connect to database -->
+					<div id="loadFile" style="display:none;">
+							<button id="file">File One</button>
+							<button id="file">File Two</button>
+							<button id="file">File Three</button>
+					</div>
+
+			</div>
+
+			<div id="inGameMenuWrapper"> <!-- This is for the in game menus divs -->
+
+
+
 			</div>
 
 			<!--- Sign in Div Below -->
@@ -93,24 +126,11 @@
 	 UserName : <input type="text" id="username" value=username>
 	 token : <input type="text" id="token" value=token>
 	 levelEditorString : <input type="text" id="level" value=saveLevel()>
-
-
-
 </div>
 
 
 <div id="back" style ="display:none;">
       <button onclick="backMainMenu()">Back</button>
-</div>
-
-<div id="campaignInput" style="display:none;"> 
-	<form>
-	  <input type="text" id="playerName" placeholder="Player Name"><br>
-	  <input type="radio"  name="difficulty" value="0" checked> Easy<br>
-	  <input type="radio"  name="difficulty" value="1"> Medium<br>
-	  <input type="radio"  name="difficulty" value="2"> Hard
-  </form>
-	  <button id="startNewGame">Start New Game</button>
 </div>
 
 
@@ -129,21 +149,6 @@
       </select>
 </div> -->
 
-
-<div id="mainMenu" style="display:none;">
-			<button id="profile">Profile </button>
-			<button id="newGame">New Game</button>
-			<button id="loadGame">Load Game</button>
-                  <button id="levelEditorB">Level Editor</button>
-
-</div>
-<!-- All files had the same id
-      Will need to connect to database -->
-<div id="loadFile" style="display:none;">
-      <button id="file">File One</button>
-      <button id="file">File Two</button>
-      <button id="file">File Three</button>
-</div>
 
 <script>
 	var username = "";
@@ -456,8 +461,6 @@ let a3 = document.getElementById('selections2');
 
 				}
 
-
-
 	}
 
 	function backMainMenu(){
@@ -543,6 +546,7 @@ let a3 = document.getElementById('selections2');
 	levelFailed=function(){
 		gameDiv.style.display='none';
 		signDiv.style.display = 'none';
+		menuWrapper.style.display='inline-block'; //Reapperaing menu wrapper
 		mainMenu.style.display = 'inline-block';
 		screen='menu';
 	}
@@ -550,6 +554,7 @@ let a3 = document.getElementById('selections2');
 	levelCompleted=function(){
 		gameDiv.style.display='none';
 		signDiv.style.display = 'none';
+		menuWrapper.style.display='inline-block'; //Reapperaing menu wrapper
 		mainMenu.style.display = 'inline-block';
 		screen='menu';
 		let compTime=Date.now()-start;
@@ -560,6 +565,7 @@ let a3 = document.getElementById('selections2');
 
 	play.onclick=function(){
 		gameDiv.style.display="inline-block";
+		menuWrapper.style.display="none"; //Getting rid of the menu wrapper
 		levelEditor.style.display = 'none';
 		save.style.display = 'none';
 		backLE.style.display="none";
@@ -608,6 +614,7 @@ let a3 = document.getElementById('selections2');
 			});
 			
 			gameDiv.style.display="inline-block";
+			menuWrapper.style.display ='none'; //hiding menu wrapper
 			levelEditor.style.display = 'none';
 			save.style.display = 'none';
 			backLE.style.display="none";
@@ -627,7 +634,8 @@ let a3 = document.getElementById('selections2');
 	  }
 	  
       loadGame.onclick = function() {
-            mainMenu.style.display = 'none';
+			mainMenu.style.display = 'none';
+			menuWrapper.style.display = 'none'; //Reapperaing menu wrapper
             loadFile.style.display = 'inline-block';
 		      	screen='game';
       }

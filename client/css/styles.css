@@ -3,8 +3,10 @@
 }
 
 #menuWrapper{
-    /* text-align: center;
-    padding-top: 120px; */
+    text-align: center;
+    padding-top: 120px; 
+    width: 100%;
+    height: 100%;
     background-image: url("../img/background_mainmenu.png");
 }
 
