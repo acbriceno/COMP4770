@@ -162,7 +162,7 @@ Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
 	self.updatePosition=function() {
 		let move=true;
 		let moveG=true;
-		if(screen=='le'){
+		if(screen!='game'){
 			self.downPress=false;
 			self.upPress=false;
 			self.leftPress=false;
