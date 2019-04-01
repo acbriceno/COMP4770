@@ -65,7 +65,15 @@ socket.on('getLevels', function(message){
 	});
   });
 	
-
+  socket.on('getUserLevels', function(message){
+        console.log("get User Levels hit");
+  	dbLevelManager.findUserLevels(message.username, function(levels){
+  		console.log( levels);
+          	socket.emit('userLevelsFound',{
+  			Levels : levels
+            	});
+  	});
+    });
   socket.on('saveLevel', function(message){
 
       dbLevelManager.insertLevel(message.levels);
