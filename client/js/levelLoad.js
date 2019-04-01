@@ -1,4 +1,15 @@
 loadLevel=function(level,width){
+	
+	for(let key1 in Entity.list){
+		let e=Entity.list[key1];
+		if(e.type != "Player"){
+			e.remove=true;
+		}
+	}
+	
+	
+	
+	console.log(Entity.list);
 	let len=level.length;
 	for(let i=0;i<len;i++){
 		let code=level.slice(i,(i+1));
