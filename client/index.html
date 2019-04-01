@@ -35,10 +35,10 @@
 						<button id="newGame">New Game</button>
 						<button id="loadGame">Load Game</button>
 							  <button id="levelEditorB">Level Editor</button>
-			
+
 				</div>
 
-				<div id="campaignInput" style="display:none;"> 
+				<div id="campaignInput" style="display:none;">
 						<form>
 						  <input type="text" id="playerName" placeholder="Player Name"><br>
 						  <input type="radio"  name="difficulty" value="0" checked> Easy<br>
@@ -225,7 +225,7 @@ let a3 = document.getElementById('selections2');
 	Img.bgCs.src="img/cs1.png";
 
 	let bg="img/math1.png";
-	
+
 	//testing collision of rectangles
 	testCollisionRects = function(rect1,rect2){
 	return rect1.x <= rect2.x+rect2.width
@@ -354,8 +354,8 @@ let a3 = document.getElementById('selections2');
 
 	//update for in game, logic tbd
 	update=function(){
-	
-		
+
+
 		let bgImg=new Image();
 		bgImg.src=document.getElementById('background').value;
 			if(levelEditor.style.display == "none"){
@@ -523,7 +523,7 @@ let a3 = document.getElementById('selections2');
 
 	}
 
-	
+
 	loadButton.onclick = function () {
 	 //commented out for testing
 			let socket = io();
@@ -540,9 +540,9 @@ let a3 = document.getElementById('selections2');
 			});
 			//loadLevel("e0e0e0e000e0e0e000000000000f0000000f0000f00000000000000000p0000",9);
 	}
-	
-	
-	
+
+
+
 	levelFailed=function(){
 		gameDiv.style.display='none';
 		signDiv.style.display = 'none';
@@ -560,7 +560,7 @@ let a3 = document.getElementById('selections2');
 		let compTime=Date.now()-start;
 		console.log('Completed level in '+compTime+' ms.');
 	}
-	
+
 	//console.log("string :" + saveLevel(0,0,0,0));
 
 	play.onclick=function(){
@@ -577,8 +577,8 @@ let a3 = document.getElementById('selections2');
       newGame.onclick = function() {
 		  campaignInput.style.display = "flex";
 		  mainMenu.style.display ="none";
-  		
-		  
+
+
 		//         mainMenu.style.display = 'none';
 		//         gameDiv.style.display = 'inline-block';
 		// screen='game';
@@ -606,13 +606,13 @@ let a3 = document.getElementById('selections2');
   			info : info
 
     		});
-			
+
 			socket.on('campaignCreated', function(message){
 				console.log(message);
 				campaign = message.campaign;
 				console.log(campaign);
 			});
-			
+
 			gameDiv.style.display="inline-block";
 			menuWrapper.style.display ='none'; //hiding menu wrapper
 			levelEditor.style.display = 'none';
@@ -630,9 +630,9 @@ let a3 = document.getElementById('selections2');
 		// 	Platform.generate(131,128,'f');
 		// 	Platform.generate(190,684,'f');
 		// 	Platform.generate(190,684,'f');
-			
+
 	  }
-	  
+
       loadGame.onclick = function() {
 			mainMenu.style.display = 'none';
 			menuWrapper.style.display = 'none'; //Reapperaing menu wrapper
