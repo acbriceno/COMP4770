@@ -191,7 +191,7 @@ let a3 = document.getElementById('selections2');
 	let count=0;
 	let check=true
 	let leDraw=false;
-
+	let levelEditorLevels; 
 	//moveScreen=MoveScreen(0,0,);
 	let campaign;
 	let campaignInput = document.getElementById('campaignInput');
@@ -495,28 +495,18 @@ let a3 = document.getElementById('selections2');
 
 
 
-	save.onclick = function () {
-		var socket = io();
-		console.log("save button HIT");
-		console.log("save level data " + saveLevel());
-
-		var level = prompt("Please enter your Level name ", "Harry Potter");
-
-		if (level != null) {
-			let option = document.createElement("option");
-			option.text = level
-
-			a3.add(option);
-			console.log("level name " + level);
-			socket.emit('saveLevel', {
-
-				levels: saveLevel(username, level, 2, mousePos.xmax, mousePos.ymax),
-
-
-			});
-
-
+save.onclick = function () {
+			let socket = io();
+			console.log("save button HIT");
+			level = prompt("Please enter your Level name ", "enter new Level name :");
+			if (level != null) {
+				console.log("level name " + level);
+				socket.emit('saveLevel', {
+					levels: saveLevel(username, level, 2, mousePos.xmax, mousePos.ymax),
+				});
+			}
 		}
+<<<<<<< HEAD
 
 
 
@@ -524,21 +514,12 @@ let a3 = document.getElementById('selections2');
 	}
 
 
+=======
+	
+>>>>>>> 816bc6a236c70da83f9f90045985a42e04c73c9b
 	loadButton.onclick = function () {
-	 //commented out for testing
-			let socket = io();
-			console.log("load button HIT");
-			console.log( a3.options[a3.selectedIndex].value)
-			socket.emit('loadLevel', {
-				levelname : username,
-			});
-
-			socket.on('levelfound', function (message) {
-				console.log("message" + message);
-				console.log("level found " + message.Level);
-				loadLevel(message.Level, message.W);
-			});
-			//loadLevel("e0e0e0e000e0e0e000000000000f0000000f0000f00000000000000000p0000",9);
+		loadLevel(levelEditorLevels[a3.options[a3.selectedIndex].index -1].Level, 9);
+		//loadLevel("e0e0e0e000e0e0e000000000000f0000000f0000f00000000000000000p0000",9);
 	}
 
 
@@ -655,24 +636,17 @@ let a3 = document.getElementById('selections2');
 			let socket = io();
 			console.log("load button HIT");
 
-			socket.emit('getLevels', {});
-
-			socket.on('getLevelsFound', function (message) {
-
-				let levels = Object.values(message)
-				if (loadbool) {
-					for (let i = 0; i <= levels.length; i++) {
-
-						let Level = levels[0][i].levels.Levelname;
-						var option = document.createElement("option");
-						option.text = Level;
-						a3.add(option);
-
-					}
+			socket.emit('getUserLevels', {username: username});
+			socket.on('userLevelsFound', function (message) {
+				levelEditorLevels = message.Levels;
+				var option = document.createElement("s");
+				for(var x=0; x<message.Levels.length; x++){
+					console.log(message.Levels[x].Levelname);
+					let optionLevel = document.createElement("option");
+					optionLevel.text = message.Levels[x].Levelname;
+					a3.add(optionLevel);
 				}
-
-				loadbool=false;
-				console.log("get Levels Found " + message.Levels);
+				console.log(message);
 			});
 
 			mainMenu.style.display = 'none';
