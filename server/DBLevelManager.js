@@ -74,6 +74,25 @@ const client = new MongoClient(url,{useNewUrlParser: true} );
 }
 
 
+module.exports.findUserLevels = function(username, callback){
+const client = new MongoClient(url,{useNewUrlParser: true} );
+ client.connect(function(err, client) {
+   assert.equal(null, err);
+   console.log("Connected correctly to Database");
 
+   const db = client.db(dbName);
+	let query = { Username : username };	
+    db.collection("Level").find(query).toArray(function(err, result) {
+      if (err) throw err;
+
+
+     console.log("Name " + result);
+     client.close();
+     return callback(result);
+
+
+    });
+  });
+}
 
 
