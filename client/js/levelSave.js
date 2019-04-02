@@ -4,7 +4,7 @@ saveLevel=function(username,levelname,difficulty,w,h){
 	let x=0;
 	let y=0;
 	
-
+	let fac=FAC;
 
 	for(let i=0;i<(w+1)*(h+1);i++){
 		let code="0";

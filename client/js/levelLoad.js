@@ -1,4 +1,4 @@
-loadLevel=function(level,width){
+loadLevel=function(level,width,fac){
 	
 	for(let key1 in Entity.list){
 		let e=Entity.list[key1];
@@ -7,7 +7,7 @@ loadLevel=function(level,width){
 		}
 	}
 	
-	
+	FAC=fac;
 	
 	console.log(Entity.list);
 	let len=level.length;
@@ -19,17 +19,8 @@ loadLevel=function(level,width){
 			player.x=x;
 			player.y=y;
 		}
-		if(code=='z'){
-			Enemy.generate(x,y,'phil');
-		}
-		if(code=='y'){
-			Enemy.generate(x,y,'phy');
-		}
-		if(code=='x'){
-			Enemy.generate(x,y,'math');
-		}
-		if(code=='w'){
-			Enemy.generate(x,y,'cs');
+		if(code=='e'){
+			Enemy.generate(x,y);
 		}
 		if(code=='f'||code=='b'){
 			Platform.generate(x,y,code);
