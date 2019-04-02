@@ -139,6 +139,4 @@ socket.on('getLevels', function(message){
 	
 	
 	
-	
-	
   });

@@ -2,57 +2,67 @@
 let dbManager = require('./DBManager.js');
 
 module.exports.createCampaign = function(user, info, callback){
-	
-	let campaign = generateCampaign(info.difficulty);
-	console.log(campaign);
-	console.log(info.difficulty);	
-	let date = Date();
-	
-	let courses = [];
-	let inventory = [];
-	let saveFiles = {
-		saves: [
-		{
-			playerName: info.playerName,
-			saveNumber : 1,
-			saveDate : date,
-			money : campaign.money, 
-			gammaHP : campaign.gammaHP,
-			dadCredit : campaign.dadCredit,
-			workCredit : campaign.workCredit,
-			Courses : courses,
-			inventory: inventory, 
+	dbManager.findAllSystemCourseLevels(function(levels){
+		let campaign = generateCampaign(info.difficulty);
+		//console.log(campaign);
+		//console.log(info.difficulty);	
+		let date = Date();
+		//console.log(levels);
+		let courses = [];
+		for (var x=0; x<levels.length; x++){
+			if((levels[x].Levelname == "PHYS1000") || (levels[x].Levelname == "PHIL1000") || (levels[x].Levelname == "MATH1000") || (levels[x].Levelname == "COMP1000"))
+			{
+				courses[x] = levels[x];
+			}
 		}
-		]
-	};
-	let campaignSet = [
-				{	campaignNumber : 1,
+
+		console.log(courses);
+		let inventory = [];
+		let saveFiles = {
+			saves: [
+			{
+				playerName: info.playerName,
+				saveNumber : 1,
+				saveDate : date,
+				money : campaign.money, 
+				gammaHP : campaign.gammaHP,
+				dadCredit : campaign.dadCredit,
+				workCredit : campaign.workCredit,
+				Courses : courses,
+				inventory: inventory, 
+			}
+			]
+		};
+		let campaignSet = [
+					{	campaignNumber : 1,
+						playerName: info.playerName,
+						difficulty: info.difficulty,
+						SaveFile: saveFiles,
+
+					}
+				];
+	
+		dbManager.findUserCampaigns(user, function(campaigns){
+			if(campaigns == null){
+				dbManager.createCampaign(user, campaignSet);
+				return callback(campaignSet[0]);
+			}else{
+				let newCampaign = {
+					campaignNumber : campaigns.length + 1,
 					playerName: info.playerName,
 					difficulty: info.difficulty,
 					SaveFile: saveFiles,
-
-				}
-			];
-	
-	dbManager.findUserCampaigns(user, function(campaigns){
-		if(campaigns == null){
-			dbManager.createCampaign(user, campaignSet);
-			return callback(campaignSet[0]);
-		}else{
-			let newCampaign = {
-				campaignNumber : campaigns.length + 1,
-				playerName: info.playerName,
-				difficulty: info.difficulty,
-				SaveFile: saveFiles,
-			};
-			campaigns.push(newCampaign);
-			dbManager.updateCampaigns(user, campaigns);
-			return callback(newCampaign);
-		}
+				};
+				campaigns.push(newCampaign);
+				dbManager.updateCampaigns(user, campaigns);
+				return callback(newCampaign);
+			}
 		
-	});
+		});
 				
-	//
+		//
+	});
+	
 }
 
 var generateCampaign = function(difficulty){
@@ -147,29 +157,7 @@ module.exports.getCampaignLevel = function(levelName, callback){
 	});
 }
 
-var getStarterLevels = function(){
-	let courses;
-	
-	dbManager.findSystemCourseLevel("MATH1000", function(courseLevel){
-		console.log(courseLevel);
-		courses.push(courseLevel);
-	});
-	dbManager.findSystemCourseLevel("PHYS1000", function(courseLevel){
-		console.log(courseLevel);
-		courses.push(courseLevel);
-	});
-	dbManager.findSystemCourseLevel("PHIL1000", function(courseLevel){
-		console.log(courseLevel);
-		courses.push(courseLevel);
-	});
-	dbManager.findSystemCourseLevel("COMP1000", function(courseLevel){
-		console.log(courseLevel);
-		courses.push(courseLevel);
-		return courses;
-	});
-	
-}
-} 
+
 
 module.exports.addCourseLevelToUserCampaign = function(username, campaignNumber, courseName){
 	
