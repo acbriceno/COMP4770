@@ -542,7 +542,10 @@ Player=function(x,y){
 			x+=mousePos.xoff*64;
 			y+=mousePos.yoff*64;
 		}
-
+            console.log(x + ", " + y);
+            if (x < -25) {
+                  console.log("over the edge");
+            }
 		let framew=self.img.width/4;
 		let frameh=self.img.height/28;
 		//console.log('can i find');
