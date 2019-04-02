@@ -348,16 +348,20 @@ let a3 = document.getElementById('selections2');
 		}
 		else if(screen=='le'){
 			if(event.keyCode==keyUp){
-				mousePos.yoff--;
+				if(mousePos.yoff<0){
+					mousePos.yoff++;
+				}
 			}
 			else if(event.keyCode==keyDown){
-				mousePos.yoff++;
+				mousePos.yoff--;
 			}
 			else if(event.keyCode==keyRight){
 				mousePos.xoff--;
 			}
 			else if(event.keyCode==keyLeft){
-				mousePos.xoff++;
+				if(mousePos.xoff<0){
+					mousePos.xoff++;
+				}
 			}
 		}
 	}
