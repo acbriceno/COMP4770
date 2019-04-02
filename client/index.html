@@ -15,73 +15,85 @@
 
 <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
 <body>
-		<div id=menuWrapper> <!-- wrapper for centering Menus -->
+
+		<div id="menuWrapper"> <!-- wrapper for centering Menus -->
 
 			<!--- Sign in Div Below -->
 
-			<div id=menuDiv>  <!-- This is for the main menus -->
-				 <div id ="logoIMG">
-					<img src="./img/Uni_X.png" alt="game logo">
-				</div>	
-				<div id="signDiv">
-					Username: <input id="signDiv-username" type="text"></input><br>
-					Password: <input id="signDiv-password" type="password"></input>
-					<button class="button1" id="signDiv-signIn">Sign In</button>
-					<button class="button1" id="signDiv-signUp">Sign Up</button>
-				</div>
+									<div id="menuDiv">  <!-- This is for the main menus -->
+										<div id ="logoIMG">
+											<img src="./img/Uni_X.png" alt="game logo">
+										</div>
+										<div id="signDiv">
+											<input id="signDiv-username" type="text" placeholder="Username"> </input><br>
+											<input id="signDiv-password" type="password" placeholder="Password"></input>
+											<button class="button1" id="signDiv-signIn">Sign In</button>
+											<button class="button1" id="signDiv-signUp">Sign Up</button>
+										</div>
 
-				<div id="mainMenu" style="display:none;">
-						<button class="button2" id="profile">Profile </button>
-						<button class="button2" id="newGame">New Game</button>
-						<button class="button2" id="loadGame">Load Game</button>
-						<button class="button2" id="levelEditorB">Level Editor</button>
+										<div id="mainMenu" style="display:none;">
+												<button class="button2" id="profile">Profile </button>
+												<button class="button2" id="newGame">New Game</button>
+												<button class="button2" id="loadGame">Load Game</button>
+												<button class="button2" id="levelEditorB">Level Editor</button>
 
-				</div>
+										</div>
 
-				<div id="campaignInput" style="display:none;">
-						<form>
-						  <input type="text" id="playerName" placeholder="Player Name"><br>
-						  <input type="radio"  name="difficulty" value="0" checked> Easy<br>
-						  <input type="radio"  name="difficulty" value="1"> Medium<br>
-						  <input type="radio"  name="difficulty" value="2"> Hard
-					  </form>
-						  <button id="startNewGame">Start New Game</button>
-					</div>
+										<div id="campaignInput" style="display:none;">
+												<form>
+													<input type="text" id="playerName" placeholder="Player Name"><br>
+													<input type="radio"  name="difficulty" value="0" checked> Easy<br>
+													<input type="radio"  name="difficulty" value="1"> Medium<br>
+													<input type="radio"  name="difficulty" value="2"> Hard
+												</form>
+													<button id="startNewGame">Start New Game</button>
+											</div>
 
-										<!-- All files had the same id
-						Will need to connect to database -->
-					<div id="loadFile" style="display:none;">
-							<button id="file">File One</button>
-							<button id="file">File Two</button>
-							<button id="file">File Three</button>
-					</div>
+																<!-- All files had the same id
+												Will need to connect to database -->
+											<div id="loadFile" style="display:none;">
+													<button id="file">File One</button>
+													<button id="file">File Two</button>
+													<button id="file">File Three</button>
+											</div>
 
-					<div id="playerProfile" style ="display:none;">
-						UserName : <input type="text" id="username" value=username>
-						token : <input type="text" id="token" value=token>
-						levelEditorString : <input type="text" id="level" value=saveLevel()>
-				 </div>
+											<div id="playerProfile" style ="display:none;">
+												UserName : <input type="text" id="username" value=username>
+												token : <input type="text" id="token" value=token>
+												levelEditorString : <input type="text" id="level" value=saveLevel()>
+										</div>
 
-				 <div id="back" style ="display:none;">
-					<button class="button1" onclick="backMainMenu()">Back</button>
-		</div>
-		
-		
-		<div id="profileDiv" style ="display:none;">
-					<button onclick="showProfile()">Profile</button>
-		</div>
-
-			</div>
-
-			<div id="inGameMenuWrapper"> <!-- This is for the in game menus divs -->
+										<div id="back" style ="display:none;">
+											<button class="button1" onclick="backMainMenu()">Back</button>
+											</div>
 
 
+										<div id="profileDiv" style ="display:none;">
+													<button onclick="showProfile()">Profile</button>
+										</div>
 
-			</div>
-
-			<!--- Sign in Div Below -->
+								</div>
 
 		</div>
+
+
+
+		<div id="deathScreen" style="display:none;">
+
+		</div>
+
+		<div id="mathMenu" style="display:none;"> 
+
+			<h2 id="levelHeading"> Choose which Math Level to Play: </h2>
+
+				<button class="button3" id="MATH1090">Math 1090</button>
+				<button class="button3" id="MATH1000">Math 1090</button>
+				<button class="button3" id="MATH1001">Math 1001</button>
+				<button class="button3" id="MATH2000">Math 2000</button>
+
+		</div>
+
+
 
 <div id="gameDiv" style="display:none;">
 	<div id="game" style="position:absolute;width:1280px;height:720px">
@@ -156,7 +168,7 @@
 	let canvasLE=document.getElementById('ctxLE');
 	let ctxLE=canvasLE.getContext('2d');
       let ctx_uiLE = canvasG.getContext('2d');
-	
+
 	let  snd = new Audio("music/Good Will Hunting OST - 02 The Theorem.mp3");
          let  snd2 = new Audio("music/Winterbells Extended Original song.mp3");
 
@@ -199,6 +211,7 @@ let a3 = document.getElementById('selections2');
 	let startNewGame = document.getElementById('startNewGame');
 	moveScreen=MoveScreen(0,0,);
 	let FAC='math';
+      let inTown = false;
 
   var Img = {};
   Img.playerLevel = new Image();
@@ -366,10 +379,37 @@ let a3 = document.getElementById('selections2');
 
 	//update for in game, logic tbd
 	update=function(){
+            if (screen == 'overworld' && !inTown) {
+                  campusBoundaries();
+                  if (player.x < -25) {
+                        inTown = true;
+                        player.x = 1200;
+                  }
+                  if ((player.x > 630 && player.x < 690) && (player.y < 190)) {
+                        console.log("Entered CS Building");
+                  }
+            }
+            else if (inTown && screen == 'overworld') {
+                  townBoundaries();
+                  if (player.x > 1200) {
+                        inTown = false;
+                        player.x = 25;
+                  }
+            }
 
 
 		let bgImg=new Image();
-		bgImg.src=document.getElementById('background').value;
+            if (screen == "le" || screen == "game") {
+      		bgImg.src=document.getElementById('background').value;
+            }
+            else if (screen == 'overworld') {
+                  if (!inTown) {
+                        bgImg.src= 'img/campus.png';
+                  }
+                  else {
+                        bgImg.src= 'img/town.png';
+                  }
+            }
 			if(levelEditor.style.display == "none"){
 				ctx.clearRect(0, 0, 1280, 720);
 				ctx.drawImage(bgImg,0,0,W,H);
@@ -378,10 +418,13 @@ let a3 = document.getElementById('selections2');
 				ctxLE.clearRect(0,0,1280,720);
 				ctxLE.drawImage(bgImg,0,0,W,H);
 			}
-            player.update();
+                  player.update();
 			Enemy.update();
 			Projectile.update();
-			Platform.update();
+                  //if (screen == 'game' || screen =='le') {
+                        Platform.update();
+                  //}
+
 			Upgrade.update();
             //console.log("Player (X,Y): " + "(" + player.x + ", " + player.y + ")");
 			//console.log("Player aim angle is: "+player.aimAngle);
@@ -407,7 +450,7 @@ let a3 = document.getElementById('selections2');
 			Enemy.facChange();
 		}
 	}
-	  
+
     function valid(userName,pass){
 			if (!isEmpty(userName) && !isEmpty(pass) ){
 					return true;
@@ -464,7 +507,7 @@ let a3 = document.getElementById('selections2');
 					token=message.token;
 					tokenText.value=token;
 					usernameText.value=username;
-					snd2.play();	
+					snd2.play();
 					let playerName="mario";
 					let diffuculty="hard";
 					let progress="false"   ; //used for mid-term
@@ -545,7 +588,7 @@ save.onclick = function () {
 
 
 
-	
+
 
 
 	loadButton.onclick = function () {
@@ -589,12 +632,12 @@ save.onclick = function () {
       newGame.onclick = function() {
 		  campaignInput.style.display = "flex";
 		  mainMenu.style.display ="none";
-			//menuWrapper.style.display = "none";
       }
 
 
 	  startNewGame.onclick = function(){
     	let socket=io();
+			menuWrapper.style.display = "none";
   		let info = {
   			playerName : document.getElementById('playerName').value,
   			difficulty : document.querySelector('input[name=difficulty]:checked').value
@@ -615,20 +658,28 @@ save.onclick = function () {
 				campaign = message.campaign;
 				console.log(campaign);
 			});
-			
-			loadCourseLevel("PHYS1000");
-			
+			gameDiv.style.display="inline-block";
+                  campaignInput.style.display ="none";
+                  player.x = 300;
+                  player.y = 350;
+                  if (player.x < 0) {
+                        console.log("o");
+                  }
+                  screen = 'overworld';
+
+			//loadCourseLevel("PHYS1000");
+
 	  }
-	  
+
 	   loadCourseLevel  = function(courseName){
 		  let socket=io();
   		socket.emit('loadSystemCourseLevel',{
 			courseName: courseName
   		});
-		
+
 		socket.on('systemCourseLevelFound', function(message){
 			console.log(message.courseLevel);
-			
+
 			loadLevel(message.courseLevel.Level, 9);
 			gameDiv.style.display="inline-block";
 			menuWrapper.style.display ='none'; //hiding menu wrapper
@@ -659,8 +710,8 @@ save.onclick = function () {
 						mainMenu.style.display = 'none';
 						console.log("profile hit");
       }
-	
-	
+
+
 	getSavedUserLevels = function () {
 			let socket = io();
 			console.log("load button HIT");
@@ -679,10 +730,10 @@ save.onclick = function () {
 			});
 
 		}
-	
-	
-	
-	
+
+
+
+
 
    levelEditorB.onclick = function () {
 
@@ -710,8 +761,8 @@ save.onclick = function () {
 				ctx_uiLE.stroke();
 			}
 
-	   
-	   
+
+
 	   		 snd2.muted=true;
                         snd.play();
 
@@ -719,6 +770,56 @@ save.onclick = function () {
 			screen = 'le';
 			console.log(screen);
 		}
+
+      campusBoundaries = function() {
+            for (let key in Platform.list) {
+                  delete Platform.list[key];
+            }
+            Platform.generate(665, 110); // door
+            Platform.generate(740, 190);
+            Platform.generate(800, 175);
+            Platform.generate(845, 270);
+            Platform.generate(835, 400);
+            Platform.generate(835, 460);
+            Platform.generate(740, 500);
+            Platform.generate(510, 520);
+            Platform.generate(480, 400);
+            Platform.generate(550, 185);
+            Platform.generate(455, 230);
+            Platform.generate(385, 145);
+            Platform.generate(1035, 220);
+            Platform.generate(955, 140);
+            Platform.generate(1000, 145);
+            Platform.generate(1000, 120);
+            Platform.generate(950, 120);
+            Platform.generate(1200, -5);
+            Platform.generate(1240, 65);
+            Platform.generate(640, 105);
+            Platform.generate(640, 41);
+            Platform.generate(640, 30);
+            Platform.generate(670, 30);
+            Platform.generate(980, 600); //door
+            Platform.generate(800, 175);
+            Platform.generate(1020, 570);
+            Platform.generate(1020, 550);
+            Platform.generate(980, 500);
+            Platform.generate(1012, 500);
+            Platform.generate(950, 540);
+            Platform.generate(660, 600);
+            Platform.generate(665, 335);
+            Platform.generate(350, 145);
+            Platform.generate(350, 81);
+            Platform.generate(414, 70);
+            Platform.generate(430, 70);
+            Platform.generate(430, 134);
+            screen = 'overworld';
+      }
+
+      townBoundaries = function() {
+            for (let key in Platform.list) {
+                  delete Platform.list[key];
+            }
+      }
 
       // <!--  drawing to canvus and moving -->
 

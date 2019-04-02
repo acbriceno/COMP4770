@@ -18,7 +18,7 @@ Entity=function(type,id,x,y,w,h,img){
 	}
 
 	self.draw=function(){
-		if(screen=='game'||screen=='overworld'){
+		if(screen=='game'){
 			//console.log('hi');
 			ctx.save();
 			let x = self.x - player.x;
@@ -40,6 +40,13 @@ Entity=function(type,id,x,y,w,h,img){
 			ctxLE.drawImage(self.img,x,y,self.w,self.h);
 			ctxLE.restore();
 		}
+            else if (screen=='overworld'){
+                  ctx.save();
+                  let x = self.x;
+                  let y = self.y;
+                  ctx.drawImage(self.img, x, y, self.w, self.h);
+                  ctx.restore();
+            }
 	}
 
 	self.getDistance=function(entity2){
@@ -162,13 +169,17 @@ Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
 	self.updatePosition=function() {
 		let move=true;
 		let moveG=true;
-		if(screen!='game'){
+		if(screen=='le' || screen == 'menu'){
 			self.downPress=false;
 			self.upPress=false;
 			self.leftPress=false;
 			self.rightPress=false;
 			moveG=false;
 		}
+            if (screen == 'overworld'){
+                  moveG = false;
+
+            }
 		//console.log(self.ySpd);
 		let leftBump={x:self.x-32,y:self.y,width:10,height:10};
 		let rightBump={x:self.x+32,y:self.y,width:10,height:10};
@@ -236,7 +247,7 @@ Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
 		if(screen=='overworld'){
 			if(self.upPress){
 				for(let key11 in Platform.list){
-					if(self.testCollisionBB(downBump,Platform.list[key11])){
+					if(self.testCollisionBB(upBump,Platform.list[key11])){
 						move=false;
 					}
 				}
@@ -448,7 +459,7 @@ Midterm.generate=function(x,y){
 Final=function(id,x,y,w,h,img,hp,dmg){
 	let self=Enemy(id,x,y,w,h,img,hp,dmg,'l');
 	Final.list[id]=self;
-	
+
 	self.onDeath=function(){
 		levelCompleted();
 	}
@@ -519,7 +530,7 @@ Player=function(x,y){
 		}
 		let x=self.x;
 		let y=self.y;
-		if(screen=='game'||screen=='overworld'){
+		if(screen=='game'){
 			x=x-player.x;
 			y=y-player.y;
 			x+=W/2;
@@ -531,8 +542,10 @@ Player=function(x,y){
 			x+=mousePos.xoff*64;
 			y+=mousePos.yoff*64;
 		}
-
-
+            console.log(x + ", " + y);
+            if (x < -25) {
+                  console.log("over the edge");
+            }
 		let framew=self.img.width/4;
 		let frameh=self.img.height/28;
 		//console.log('can i find');
@@ -565,7 +578,7 @@ Player=function(x,y){
 				dir=27;
 			}
 		}
-		if(screen=='game'){
+		if(screen=='game' || screen == 'overworld'){
 			ctx.drawImage(self.img,cnt*framew,dir*frameh,framew,frameh,x,y,self.w,self.h);
 			ctx.restore();
 		}
