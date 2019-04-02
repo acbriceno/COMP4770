@@ -15,72 +15,69 @@
 
 <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
 <body>
-		<div id=menuWrapper> <!-- wrapper for centering Menus -->
+
+		<div id="menuWrapper"> <!-- wrapper for centering Menus -->
 
 			<!--- Sign in Div Below -->
 
-			<div id=menuDiv>  <!-- This is for the main menus -->
-				 <div id ="logoIMG">
-					<img src="./img/Uni_X.png" alt="game logo">
-				</div>	
-				<div id="signDiv">
-					<input id="signDiv-username" type="text" placeholder="Username"> </input><br>
-					<input id="signDiv-password" type="password" placeholder="Password"></input>
-					<button class="button1" id="signDiv-signIn">Sign In</button>
-					<button class="button1" id="signDiv-signUp">Sign Up</button>
-				</div>
+									<div id="menuDiv">  <!-- This is for the main menus -->
+										<div id ="logoIMG">
+											<img src="./img/Uni_X.png" alt="game logo">
+										</div>	
+										<div id="signDiv">
+											<input id="signDiv-username" type="text" placeholder="Username"> </input><br>
+											<input id="signDiv-password" type="password" placeholder="Password"></input>
+											<button class="button1" id="signDiv-signIn">Sign In</button>
+											<button class="button1" id="signDiv-signUp">Sign Up</button>
+										</div>
 
-				<div id="mainMenu" style="display:none;">
-						<button class="button2" id="profile">Profile </button>
-						<button class="button2" id="newGame">New Game</button>
-						<button class="button2" id="loadGame">Load Game</button>
-						<button class="button2" id="levelEditorB">Level Editor</button>
+										<div id="mainMenu" style="display:none;">
+												<button class="button2" id="profile">Profile </button>
+												<button class="button2" id="newGame">New Game</button>
+												<button class="button2" id="loadGame">Load Game</button>
+												<button class="button2" id="levelEditorB">Level Editor</button>
 
-				</div>
+										</div>
 
-				<div id="campaignInput" style="display:none;">
-						<form>
-						  <input type="text" id="playerName" placeholder="Player Name"><br>
-						  <input type="radio"  name="difficulty" value="0" checked> Easy<br>
-						  <input type="radio"  name="difficulty" value="1"> Medium<br>
-						  <input type="radio"  name="difficulty" value="2"> Hard
-					  </form>
-						  <button id="startNewGame">Start New Game</button>
-					</div>
+										<div id="campaignInput" style="display:none;">
+												<form>
+													<input type="text" id="playerName" placeholder="Player Name"><br>
+													<input type="radio"  name="difficulty" value="0" checked> Easy<br>
+													<input type="radio"  name="difficulty" value="1"> Medium<br>
+													<input type="radio"  name="difficulty" value="2"> Hard
+												</form>
+													<button id="startNewGame">Start New Game</button>
+											</div>
 
-										<!-- All files had the same id
-						Will need to connect to database -->
-					<div id="loadFile" style="display:none;">
-							<button id="file">File One</button>
-							<button id="file">File Two</button>
-							<button id="file">File Three</button>
-					</div>
+																<!-- All files had the same id
+												Will need to connect to database -->
+											<div id="loadFile" style="display:none;">
+													<button id="file">File One</button>
+													<button id="file">File Two</button>
+													<button id="file">File Three</button>
+											</div>
 
-					<div id="playerProfile" style ="display:none;">
-						UserName : <input type="text" id="username" value=username>
-						token : <input type="text" id="token" value=token>
-						levelEditorString : <input type="text" id="level" value=saveLevel()>
-				 </div>
+											<div id="playerProfile" style ="display:none;">
+												UserName : <input type="text" id="username" value=username>
+												token : <input type="text" id="token" value=token>
+												levelEditorString : <input type="text" id="level" value=saveLevel()>
+										</div>
 
-				 <div id="back" style ="display:none;">
-					<button class="button1" onclick="backMainMenu()">Back</button>
+										<div id="back" style ="display:none;">
+											<button class="button1" onclick="backMainMenu()">Back</button>
+											</div>
+								
+								
+										<div id="profileDiv" style ="display:none;">
+													<button onclick="showProfile()">Profile</button>
+										</div>
+
+								</div>
+
 		</div>
-		
-		
-		<div id="profileDiv" style ="display:none;">
-					<button onclick="showProfile()">Profile</button>
-		</div>
 
-			</div>
-
-			<div id="inGameMenuWrapper"> <!-- This is for the in game menus divs -->
-
-
-
-			</div>
-
-			<!--- Sign in Div Below -->
-
+		<div id="deathScreen">
+			
 		</div>
 
 <div id="gameDiv" style="display:none;">
