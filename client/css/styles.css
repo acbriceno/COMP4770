@@ -37,6 +37,42 @@
   background-size: cover;
 }
 
+#compMenu{
+  text-align: center;
+  padding-top: 120px; 
+  width: 100%;
+  height: 100vh;
+  background: url("../img/blur_cs.jpg") no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+#philMenu{
+  text-align: center;
+  padding-top: 120px; 
+  width: 100%;
+  height: 100vh;
+  background: url("../img/blur_phil.jpg") no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+#physMenu{
+  text-align: center;
+  padding-top: 120px; 
+  width: 100%;
+  height: 100vh;
+  background: url("../img/blur_phy.jpg") no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
 input[type=text] {
   width: 100%;
   padding: 12px 20px;
