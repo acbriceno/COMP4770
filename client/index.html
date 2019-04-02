@@ -159,6 +159,10 @@
 	let canvasLE=document.getElementById('ctxLE');
 	let ctxLE=canvasLE.getContext('2d');
       let ctx_uiLE = canvasG.getContext('2d');
+	
+	let  snd = new Audio("music/Good Will Hunting OST - 02 The Theorem.mp3");
+         let  snd2 = new Audio("music/Winterbells Extended Original song.mp3");
+
 
 	let start=Date.now();
   let signDivSignIn = document.getElementById('signDiv-signIn');
@@ -433,6 +437,7 @@ let a3 = document.getElementById('selections2');
 					token=message.token;
 					tokenText.value=token;
 					usernameText.value=username;
+					snd2.play();	
 					let playerName="mario";
 					let diffuculty="hard";
 					let progress="false"   ; //used for mid-term
@@ -666,6 +671,11 @@ save.onclick = function () {
 				ctx_uiLE.lineTo(1280, i);
 				ctx_uiLE.stroke();
 			}
+
+	   
+	   
+	   		 snd2.muted=true;
+                        snd.play();
 
 			//play.style.display="inline-block";
 			screen = 'le';
