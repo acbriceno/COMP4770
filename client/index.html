@@ -507,6 +507,7 @@ save.onclick = function () {
 			if (level != null) {
 				console.log("level name " + level);
 				socket.emit('saveLevel', {
+					username:username,
 					levels: saveLevel(username, level, 2, mousePos.xmax, mousePos.ymax),
 				});
 			}

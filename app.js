@@ -76,8 +76,13 @@ socket.on('getLevels', function(message){
   	});
     });
   socket.on('saveLevel', function(message){
-
-      dbLevelManager.insertLevel(message.levels);
+	  if(message.username == 'system'){
+		  dbManager.insertSystemCourseLevel(message.levels);
+	  }
+	  else{
+	  	    dbLevelManager.insertLevel(message.levels);
+	  }
+  
 
       console.log("save level server hit")
   });

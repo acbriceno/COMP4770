@@ -139,20 +139,18 @@ module.exports.findSystemCourseLevel = function(courseName, callback){
 	});
 }
 
-module.exports.insertSystemCourseLevel = function(courseLevel, callback){
+module.exports.insertSystemCourseLevel = function(courseLevel){
 	const client = new MongoClient(url,{useNewUrlParser: true} );
 	client.connect(function(err, client) {
 	  assert.equal(null, err);
 	  console.log("Connected correctly to Database");
 
 	  const db = client.db(dbName);
-	  status = false;
 	  // Insert a single document
-	  db.collection('courses').insertOne({course: courseLevel}, function(err, r) {
+	  db.collection('courses').insertOne({Levelname : courseLevel.Levelname, Width : courseLevel.W, Height : courseLevel.H, Level:courseLevel.Level}, function(err, r) {
 	    assert.equal(null, err);
 	    assert.equal(1, r.insertedCount);
 	    console.log("Inserted system course level to database ");
-		return callback(status);
 	  });
 	});
 }
