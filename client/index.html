@@ -31,10 +31,10 @@
 				</div>
 
 				<div id="mainMenu" style="display:none;">
-						<button id="profile">Profile </button>
-						<button id="newGame">New Game</button>
-						<button id="loadGame">Load Game</button>
-							  <button id="levelEditorB">Level Editor</button>
+						<button class="button2" id="profile">Profile </button>
+						<button class="button2" id="newGame">New Game</button>
+						<button class="button2" id="loadGame">Load Game</button>
+						<button class="button2" id="levelEditorB">Level Editor</button>
 
 				</div>
 
@@ -55,6 +55,21 @@
 							<button id="file">File Two</button>
 							<button id="file">File Three</button>
 					</div>
+
+					<div id="playerProfile" style ="display:none;">
+						UserName : <input type="text" id="username" value=username>
+						token : <input type="text" id="token" value=token>
+						levelEditorString : <input type="text" id="level" value=saveLevel()>
+				 </div>
+
+				 <div id="back" style ="display:none;">
+					<button class="button1" onclick="backMainMenu()">Back</button>
+		</div>
+		
+		
+		<div id="profileDiv" style ="display:none;">
+					<button onclick="showProfile()">Profile</button>
+		</div>
 
 			</div>
 
@@ -120,24 +135,6 @@
 	<div id="load" style ="display:none;position:absolute;bottom: 50px;left:150px">
             <button id="loadbutton">Load</button>
 	</div>
-</div>
-
-<div id="playerProfile" style ="display:none;">
-	 UserName : <input type="text" id="username" value=username>
-	 token : <input type="text" id="token" value=token>
-	 levelEditorString : <input type="text" id="level" value=saveLevel()>
-</div>
-
-
-<div id="back" style ="display:none;">
-      <button onclick="backMainMenu()">Back</button>
-</div>
-
-
-
-
-<div id="profileDiv" style ="display:none;">
-      <button onclick="showProfile()">Profile</button>
 </div>
 
 
@@ -592,7 +589,7 @@ save.onclick = function () {
       newGame.onclick = function() {
 		  campaignInput.style.display = "flex";
 		  mainMenu.style.display ="none";
-			menuWrapper.style.display = "none";
+			//menuWrapper.style.display = "none";
       }
 
 
@@ -648,7 +645,6 @@ save.onclick = function () {
 
       loadGame.onclick = function() {
 			mainMenu.style.display = 'none';
-			menuWrapper.style.display = 'none'; //Reapperaing menu wrapper
             loadFile.style.display = 'inline-block';
 		      	screen='game';
       }
@@ -660,19 +656,20 @@ save.onclick = function () {
 
 			profile.onclick= function  () {
             playerProfile.style.display = 'inline-block';
+						mainMenu.style.display = 'none';
 						console.log("profile hit");
       }
-
-   levelEditorB.onclick = function () {
-
+	
+	
+	getSavedUserLevels = function () {
 			let socket = io();
 			console.log("load button HIT");
 
-			socket.emit('getUserLevels', {username: username});
+			socket.emit('getUserLevels', { username: username });
 			socket.on('userLevelsFound', function (message) {
 				levelEditorLevels = message.Levels;
 				var option = document.createElement("s");
-				for(var x=0; x<message.Levels.length; x++){
+				for (var x = 0; x < message.Levels.length; x++) {
 					console.log(message.Levels[x].Levelname);
 					let optionLevel = document.createElement("option");
 					optionLevel.text = message.Levels[x].Levelname;
@@ -681,6 +678,15 @@ save.onclick = function () {
 				console.log(message);
 			});
 
+		}
+	
+	
+	
+	
+
+   levelEditorB.onclick = function () {
+
+			getSavedUserLevels();
 			mainMenu.style.display = 'none';
 			menuWrapper.style.display = "none";
 			selections.style.display = 'inline';
