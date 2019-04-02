@@ -137,6 +137,5 @@ socket.on('getLevels', function(message){
 		game.saveNewSave(message.username, message.campaignNumber, message.save);
 	});
 	
-	
-	
+		
   });

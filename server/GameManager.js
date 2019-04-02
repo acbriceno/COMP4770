@@ -13,6 +13,12 @@ module.exports.createCampaign = function(user, info, callback){
 			if((levels[x].Levelname == "PHYS1000") || (levels[x].Levelname == "PHIL1000") || (levels[x].Levelname == "MATH1000") || (levels[x].Levelname == "COMP1000"))
 			{
 				courses[x] = levels[x];
+				courses[x].midterm = false;
+				courses[x].midtermTime = 0;
+				courses[x].complete = false;
+				courses[x].grade = 0;
+				courses[x].bestTime = 0;
+				
 			}
 		}
 
