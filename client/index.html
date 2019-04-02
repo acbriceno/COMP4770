@@ -82,16 +82,51 @@
 
 		</div>
 
-		<div id="mathMenu" style="display:none;"> 
+		<div id="mathMenu" style="display:none;">
 
 			<h2 id="levelHeading"> Choose which Math Level to Play: </h2>
 
-				<button class="button3" id="MATH1090">Math 1090</button>
-				<button class="button3" id="MATH1000">Math 1090</button>
-				<button class="button3" id="MATH1001">Math 1001</button>
+				<button class="button3" id="MATH1000">Math 1000</button>
 				<button class="button3" id="MATH2000">Math 2000</button>
+				<button class="button3" id="MATH3000">Math 3000</button>
+				<button class="button3" id="MATH4000">Math 4000</button>
 
 		</div>
+
+		<div id="physMenu" style="display:none;"> 
+
+				<h2 id="levelHeading"> Choose which Physics Level to Play: </h2>
+	
+					<button class="button3" id="PHYS1000">Physics 1000</button>
+					<button class="button3" id="PHYS2000">Physics 2000</button>
+					<button class="button3" id="PHYS3000">Physics 3000</button>
+					<button class="button3" id="PHYS4000">Physics 4000</button>
+	
+			</div>
+
+			<div id="compMenu" style="display:none;"> 
+
+					<h2 id="levelHeading"> Choose which Computer Science Level to Play: </h2>
+		
+						<button class="button3" id="COMP1000">Computer Science 1000</button>
+						<button class="button3" id="COMP2000">Computer Science 2000</button>
+						<button class="button3" id="COMP3000">Computer Science 3000</button>
+						<button class="button3" id="COMP4000">Computer Science 4000</button>
+		
+				</div>
+
+				<div id="philMenu" style="display:none;"> 
+
+						<h2 id="levelHeading"> Choose which Philosophy Level to Play: </h2>
+			
+							<button class="button3" id="PHIL1000">Philoshophy 1000</button>
+							<button class="button3" id="PHIL1000">Philoshophy 2000</button>
+							<button class="button3" id="PHIL1000">Philoshophy 3000</button>
+							<button class="button3" id="PHIL1000">Philoshophy 4000</button>
+			
+					</div>
+
+
 
 
 
@@ -168,6 +203,11 @@
 	let canvasLE=document.getElementById('ctxLE');
 	let ctxLE=canvasLE.getContext('2d');
       let ctx_uiLE = canvasG.getContext('2d');
+	
+	let canvasui = document.getElementById('ctx-ui');
+	let ctx_UI = canvasui.getContext('2d');
+
+	
 
 	let  snd = new Audio("music/Good Will Hunting OST - 02 The Theorem.mp3");
          let  snd2 = new Audio("music/Winterbells Extended Original song.mp3");
@@ -206,7 +246,22 @@ let a3 = document.getElementById('selections2');
 	let leDraw=false;
 	let levelEditorLevels;
 	//moveScreen=MoveScreen(0,0,);
+	
+	let money;
+		let courses;
+		let dadCredit;
+		let gammaHp;
+		let inventory;
+		let playerName;
+		let saveDate;
+		let workCredit;
+		let campaign;
+	
+	
+	
+	
 	let campaign;
+	
 	let campaignInput = document.getElementById('campaignInput');
 	let startNewGame = document.getElementById('startNewGame');
 	moveScreen=MoveScreen(0,0,);
@@ -417,6 +472,8 @@ let a3 = document.getElementById('selections2');
 			if(levelEditor.style.display == "none"){
 				ctx.clearRect(0, 0, 1280, 720);
 				ctx.drawImage(bgImg,0,0,W,H);
+				ctx_UI.clearRect(0,0,1280,720);
+				HUD();
 			}
 			else{
 				ctxLE.clearRect(0,0,1280,720);
@@ -425,9 +482,9 @@ let a3 = document.getElementById('selections2');
                   player.update();
 			Enemy.update();
 			Projectile.update();
-                  //if (screen == 'game' || screen =='le') {
+                  if (screen == 'game' || screen =='le') {
                         Platform.update();
-                  //}
+                  }
 
 			Upgrade.update();
             //console.log("Player (X,Y): " + "(" + player.x + ", " + player.y + ")");
@@ -657,11 +714,35 @@ save.onclick = function () {
 
     		});
 
-			socket.on('campaignCreated', function(message){
-				console.log(message);
+			socket.on('campaignCreated', function (message) {
+				console.log("message " + message);
+				console.log("campaign " + message.campaign);
+				console.log("Save File " + message.campaign.SaveFile);
+
+				money = message.campaign.SaveFile.saves[0].money;
+				courses = message.campaign.SaveFile.saves[0].Courses;
+				dadCredit = message.campaign.SaveFile.saves[0].dadCredit;
+				gammaHp = message.campaign.SaveFile.saves[0].gammaHP;
+				inventory = message.campaign.SaveFile.saves[0].Inventory;
+				playerName = message.campaign.SaveFile.saves[0].playerName;
+				saveDate = message.campaign.SaveFile.saves[0].saveDate;
+				workCredit = message.campaign.SaveFile.saves[0].workCredit;
 				campaign = message.campaign;
-				console.log(campaign);
+				HUD(money, gammaHp, workCredit, dadCredit);
+
+				console.log("money : " + money);
+				console.log("courses  :" + courses);
+				console.log("dad Credit : " + dadCredit);
+				console.log("gamma Hp :" + gammaHp);
+				console.log("inventory :" + inventory);
+				console.log("playerName  :" + playerName);
+				console.log("save Date  :" + saveDate);
+				console.log("work crdeit :" + workCredit);
+
 			});
+
+			loadCourseLevel("PHYS1000");
+		}
 			gameDiv.style.display="inline-block";
                   campaignInput.style.display ="none";
                   player.x = 300;
@@ -736,6 +817,18 @@ save.onclick = function () {
 		}
 
 
+	
+	HUD = function () {
+			ctx_UI.font = "20px Georgia";
+			ctx_UI.fillText("Money " +  money, 10, 50);
+			ctx_UI.fillText("Grandma "  + gammaHp, 200, 50);
+			ctx_UI.fillText("dad Credit "  + dadCredit, 390, 50);
+			ctx_UI.fillText("workCredit "  + workCredit, 580, 50);
+		}
+
+	
+	
+	
 
 
 
@@ -823,6 +916,31 @@ save.onclick = function () {
             for (let key in Platform.list) {
                   delete Platform.list[key];
             }
+            Platform.generate(775, 500);
+            Platform.generate(745, 500);
+            Platform.generate(839, 500);
+            Platform.generate(910, 610);
+            Platform.generate(755, 625);
+            Platform.generate(570, 455);
+            Platform.generate(480, 570);
+            Platform.generate(280, 590);
+            Platform.generate(280, 526);
+            Platform.generate(70, 580);
+            Platform.generate(555, 300);
+            Platform.generate(645, 55);
+            Platform.generate(565, 30);
+            Platform.generate(365, 45);
+            Platform.generate(365, 0);
+            Platform.generate(415, 240);
+            Platform.generate(351, 240);
+            Platform.generate(287, 240);
+            Platform.generate(125, 75);
+            Platform.generate(189, 35);
+            Platform.generate(75, 370);
+            Platform.generate(0, 370);
+            Platform.generate(0, 420);
+
+
       }
 
       // <!--  drawing to canvus and moving -->
