@@ -147,6 +147,30 @@ module.exports.getCampaignLevel = function(levelName, callback){
 	});
 }
 
+var getStarterLevels = function(){
+	let courses;
+	
+	dbManager.findSystemCourseLevel("MATH1000", function(courseLevel){
+		console.log(courseLevel);
+		courses.push(courseLevel);
+	});
+	dbManager.findSystemCourseLevel("PHYS1000", function(courseLevel){
+		console.log(courseLevel);
+		courses.push(courseLevel);
+	});
+	dbManager.findSystemCourseLevel("PHIL1000", function(courseLevel){
+		console.log(courseLevel);
+		courses.push(courseLevel);
+	});
+	dbManager.findSystemCourseLevel("COMP1000", function(courseLevel){
+		console.log(courseLevel);
+		courses.push(courseLevel);
+		return courses;
+	});
+	
+}
+} 
+
 module.exports.addCourseLevelToUserCampaign = function(username, campaignNumber, courseName){
 	
 }
