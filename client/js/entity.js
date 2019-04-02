@@ -352,9 +352,32 @@ Enemy.generate=function(x,y){
 	let atkSpd=0.5;
 	let dmg=100;
 	//using player img as placeholder
-	let img=Img.philEnemy;
-	console.log('found');
-	Enemy(id,x,y,w,h,img,hp,atkSpd,dmg,'e');
+	if(FAC=="phil"){
+		let img1=Img.philEnemy;
+		Enemy(id,x,y,w,h,img1,hp,atkSpd,dmg,'z');
+	}
+	else if(FAC=="phy"){
+		let img2=Img.phyEnemy;
+		Enemy(id,x,y,w,h,img2,hp,atkSpd,dmg,'y');
+	}
+	else if(FAC=="math"){
+		let img3=Img.mathEnemy;
+		Enemy(id,x,y,w,h,img3,hp,atkSpd,dmg,'x');
+	}
+	else if(FAC=="cs"){
+		let img4=Img.csEnemy;
+		Enemy(id,x,y,w,h,img4,hp,atkSpd,dmg,'w');
+	}
+}
+
+Enemy.facChange=function(){
+	for(let key33 in Enemy.list){
+		let e=Enemy.list[key33];
+		let ex=e.x;
+		let ey=e.y;
+		e.remove=true;
+		Enemy.generate(ex,ey);
+	}
 }
 
 Assignment=function(id,x,y,w,h,img,hp,dmg){
