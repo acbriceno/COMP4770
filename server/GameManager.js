@@ -7,6 +7,7 @@ module.exports.createCampaign = function(user, info, callback){
 	console.log(campaign);
 	console.log(info.difficulty);	
 	let date = Date();
+	
 	let courses = [];
 	let inventory = [];
 	let saveFiles = {
@@ -139,6 +140,12 @@ module.exports.saveNewSave = function(username, campaignNumber, save){
 	});
 }
 
+module.exports.getCampaignLevel = function(levelName, callback){
+	dbManager.findSystemCourseLevel(levelName, function(courseLevel){
+		console.log(courseLevel);
+		return callback(courseLevel);
+	});
+}
 
 module.exports.addCourseLevelToUserCampaign = function(username, campaignNumber, courseName){
 	

@@ -6,6 +6,7 @@ saveLevel=function(username,levelname,difficulty,w,h){
 	
 	let fac=FAC;
 
+	console.log(fac)
 	for(let i=0;i<(w+1)*(h+1);i++){
 		let code="0";
 		console.log("x: "+x+", y: "+y);
@@ -23,6 +24,19 @@ saveLevel=function(username,levelname,difficulty,w,h){
 			x=0;
 			y+=64;
 		}
+	}
+	
+	if(fac == 'math'){
+		level += 'w';
+	}
+	else if(fac == 'phil'){
+		level += 'x';
+	}
+	else if(fac == 'phys'){
+		level += 'y';
+	}
+	else if(fac == 'comp'){
+		level += 'z';
 	}
 
 	console.log("level="+level);

@@ -210,11 +210,11 @@ let a3 = document.getElementById('selections2');
 	Img.philEnemy=new Image();
 	Img.philEnemy.src="img/philEnemy.png";
 	Img.mathEnemy=new Image();
-	Img.mathEnemy.src="img/gauss_closed.png";
+	Img.mathEnemy.src="img/gauss_open.png";
 	Img.phyEnemy=new Image();
-	Img.phyEnemy.src="img/Albert_closed.png";
+	Img.phyEnemy.src="img/Albert_open.png";
 	Img.csEnemy=new Image();
-	Img.csEnemy.src="img/turing_closed.png";
+	Img.csEnemy.src="img/turing_open.png";
 	Img.platform=new Image();
 	Img.platform.src="img/tile.png";
 	Img.breakable=new Image();
@@ -335,20 +335,16 @@ let a3 = document.getElementById('selections2');
 		}
 		else if(screen=='le'){
 			if(event.keyCode==keyUp){
-				if(mousePos.yoff<0){
-					mousePos.yoff++;
-				}
+				mousePos.yoff--;
 			}
 			else if(event.keyCode==keyDown){
-				mousePos.yoff--;
+				mousePos.yoff++;
 			}
 			else if(event.keyCode==keyRight){
 				mousePos.xoff--;
 			}
 			else if(event.keyCode==keyLeft){
-				if(mousePos.xoff<0){
-					mousePos.xoff++;
-				}
+				mousePos.xoff++;
 			}
 		}
 	}
@@ -553,7 +549,7 @@ save.onclick = function () {
 
 
 	loadButton.onclick = function () {
-		loadLevel(levelEditorLevels[a3.options[a3.selectedIndex].index -1].Level, 9);
+		loadLevel(levelEditorLevels[a3.options[a3.selectedIndex].index -1].Level, levelEditorLevels[a3.options[a3.selectedIndex].index -1].Width);
 		//loadLevel("e0e0e0e000e0e0e000000000000f0000000f0000f00000000000000000p0000",9);
 	}
 
@@ -663,17 +659,17 @@ save.onclick = function () {
             playerProfile.style.display = 'inline-block';
 						console.log("profile hit");
       }
-
-   levelEditorB.onclick = function () {
-
+	
+	
+	getSavedUserLevels = function () {
 			let socket = io();
 			console.log("load button HIT");
 
-			socket.emit('getUserLevels', {username: username});
+			socket.emit('getUserLevels', { username: username });
 			socket.on('userLevelsFound', function (message) {
 				levelEditorLevels = message.Levels;
 				var option = document.createElement("s");
-				for(var x=0; x<message.Levels.length; x++){
+				for (var x = 0; x < message.Levels.length; x++) {
 					console.log(message.Levels[x].Levelname);
 					let optionLevel = document.createElement("option");
 					optionLevel.text = message.Levels[x].Levelname;
@@ -682,6 +678,15 @@ save.onclick = function () {
 				console.log(message);
 			});
 
+		}
+	
+	
+	
+	
+
+   levelEditorB.onclick = function () {
+
+			getSavedUserLevels();
 			mainMenu.style.display = 'none';
 			menuWrapper.style.display = "none";
 			selections.style.display = 'inline';
