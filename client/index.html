@@ -15,57 +15,69 @@
 
 <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
 <body>
-		<div id=menuWrapper> <!-- wrapper for centering Menus -->
+
+		<div id="menuWrapper"> <!-- wrapper for centering Menus -->
 
 			<!--- Sign in Div Below -->
 
-			<div id=menuDiv>  <!-- This is for the main menus -->
-				<!-- <div id ="logoIMG">
-					<img src="./img/Uni_X.png" alt="game logo">
-				</div>		 -->
-				<div id="signDiv">
-					Username: <input id="signDiv-username" type="text"></input><br>
-					Password: <input id="signDiv-password" type="password"></input>
-					<button id="signDiv-signIn">Sign In</button>
-					<button id="signDiv-signUp">Sign Up</button>
-				</div>
+									<div id="menuDiv">  <!-- This is for the main menus -->
+										<div id ="logoIMG">
+											<img src="./img/Uni_X.png" alt="game logo">
+										</div>	
+										<div id="signDiv">
+											<input id="signDiv-username" type="text" placeholder="Username"> </input><br>
+											<input id="signDiv-password" type="password" placeholder="Password"></input>
+											<button class="button1" id="signDiv-signIn">Sign In</button>
+											<button class="button1" id="signDiv-signUp">Sign Up</button>
+										</div>
 
-				<div id="mainMenu" style="display:none;">
-						<button id="profile">Profile </button>
-						<button id="newGame">New Game</button>
-						<button id="loadGame">Load Game</button>
-							  <button id="levelEditorB">Level Editor</button>
+										<div id="mainMenu" style="display:none;">
+												<button class="button2" id="profile">Profile </button>
+												<button class="button2" id="newGame">New Game</button>
+												<button class="button2" id="loadGame">Load Game</button>
+												<button class="button2" id="levelEditorB">Level Editor</button>
 
-				</div>
+										</div>
 
-				<div id="campaignInput" style="display:none;">
-						<form>
-						  <input type="text" id="playerName" placeholder="Player Name"><br>
-						  <input type="radio"  name="difficulty" value="0" checked> Easy<br>
-						  <input type="radio"  name="difficulty" value="1"> Medium<br>
-						  <input type="radio"  name="difficulty" value="2"> Hard
-					  </form>
-						  <button id="startNewGame">Start New Game</button>
-					</div>
+										<div id="campaignInput" style="display:none;">
+												<form>
+													<input type="text" id="playerName" placeholder="Player Name"><br>
+													<input type="radio"  name="difficulty" value="0" checked> Easy<br>
+													<input type="radio"  name="difficulty" value="1"> Medium<br>
+													<input type="radio"  name="difficulty" value="2"> Hard
+												</form>
+													<button id="startNewGame">Start New Game</button>
+											</div>
 
-										<!-- All files had the same id
-						Will need to connect to database -->
-					<div id="loadFile" style="display:none;">
-							<button id="file">File One</button>
-							<button id="file">File Two</button>
-							<button id="file">File Three</button>
-					</div>
+																<!-- All files had the same id
+												Will need to connect to database -->
+											<div id="loadFile" style="display:none;">
+													<button id="file">File One</button>
+													<button id="file">File Two</button>
+													<button id="file">File Three</button>
+											</div>
 
-			</div>
+											<div id="playerProfile" style ="display:none;">
+												UserName : <input type="text" id="username" value=username>
+												token : <input type="text" id="token" value=token>
+												levelEditorString : <input type="text" id="level" value=saveLevel()>
+										</div>
 
-			<div id="inGameMenuWrapper"> <!-- This is for the in game menus divs -->
+										<div id="back" style ="display:none;">
+											<button class="button1" onclick="backMainMenu()">Back</button>
+											</div>
+								
+								
+										<div id="profileDiv" style ="display:none;">
+													<button onclick="showProfile()">Profile</button>
+										</div>
 
+								</div>
 
+		</div>
 
-			</div>
-
-			<!--- Sign in Div Below -->
-
+		<div id="deathScreen">
+			
 		</div>
 
 <div id="gameDiv" style="display:none;">
@@ -120,24 +132,6 @@
 	<div id="load" style ="display:none;position:absolute;bottom: 50px;left:150px">
             <button id="loadbutton">Load</button>
 	</div>
-</div>
-
-<div id="playerProfile" style ="display:none;">
-	 UserName : <input type="text" id="username" value=username>
-	 token : <input type="text" id="token" value=token>
-	 levelEditorString : <input type="text" id="level" value=saveLevel()>
-</div>
-
-
-<div id="back" style ="display:none;">
-      <button onclick="backMainMenu()">Back</button>
-</div>
-
-
-
-
-<div id="profileDiv" style ="display:none;">
-      <button onclick="showProfile()">Profile</button>
 </div>
 
 
@@ -213,11 +207,11 @@ let a3 = document.getElementById('selections2');
 	Img.philEnemy=new Image();
 	Img.philEnemy.src="img/philEnemy.png";
 	Img.mathEnemy=new Image();
-	Img.mathEnemy.src="img/gauss_closed.png";
+	Img.mathEnemy.src="img/gauss_open.png";
 	Img.phyEnemy=new Image();
-	Img.phyEnemy.src="img/Albert_closed.png";
+	Img.phyEnemy.src="img/Albert_open.png";
 	Img.csEnemy=new Image();
-	Img.csEnemy.src="img/turing_closed.png";
+	Img.csEnemy.src="img/turing_open.png";
 	Img.platform=new Image();
 	Img.platform.src="img/tile.png";
 	Img.breakable=new Image();
@@ -338,20 +332,16 @@ let a3 = document.getElementById('selections2');
 		}
 		else if(screen=='le'){
 			if(event.keyCode==keyUp){
-				if(mousePos.yoff<0){
-					mousePos.yoff++;
-				}
+				mousePos.yoff--;
 			}
 			else if(event.keyCode==keyDown){
-				mousePos.yoff--;
+				mousePos.yoff++;
 			}
 			else if(event.keyCode==keyRight){
 				mousePos.xoff--;
 			}
 			else if(event.keyCode==keyLeft){
-				if(mousePos.xoff<0){
-					mousePos.xoff++;
-				}
+				mousePos.xoff++;
 			}
 		}
 	}
@@ -530,6 +520,7 @@ let a3 = document.getElementById('selections2');
 			back.style.display = 'none';
 
 			//gameDiv.style.display = 'inline-block';
+			menuWrapper.style.display = "inline-block";
       mainMenu.style.display = 'inline-block';
 			back.style.display = 'inline';
 			screen="menu";
@@ -563,7 +554,7 @@ save.onclick = function () {
 
 
 	loadButton.onclick = function () {
-		loadLevel(levelEditorLevels[a3.options[a3.selectedIndex].index -1].Level, 9);
+		loadLevel(levelEditorLevels[a3.options[a3.selectedIndex].index -1].Level, levelEditorLevels[a3.options[a3.selectedIndex].index -1].Width);
 		//loadLevel("e0e0e0e000e0e0e000000000000f0000000f0000f00000000000000000p0000",9);
 	}
 
@@ -603,6 +594,7 @@ save.onclick = function () {
       newGame.onclick = function() {
 		  campaignInput.style.display = "flex";
 		  mainMenu.style.display ="none";
+			//menuWrapper.style.display = "none";
       }
 
 
@@ -700,7 +692,6 @@ save.onclick = function () {
 
       loadGame.onclick = function() {
 			mainMenu.style.display = 'none';
-			menuWrapper.style.display = 'none'; //Reapperaing menu wrapper
             loadFile.style.display = 'inline-block';
 		      	screen='game';
       }
@@ -712,19 +703,20 @@ save.onclick = function () {
 
 			profile.onclick= function  () {
             playerProfile.style.display = 'inline-block';
+						mainMenu.style.display = 'none';
 						console.log("profile hit");
       }
-
-   levelEditorB.onclick = function () {
-
+	
+	
+	getSavedUserLevels = function () {
 			let socket = io();
 			console.log("load button HIT");
 
-			socket.emit('getUserLevels', {username: username});
+			socket.emit('getUserLevels', { username: username });
 			socket.on('userLevelsFound', function (message) {
 				levelEditorLevels = message.Levels;
 				var option = document.createElement("s");
-				for(var x=0; x<message.Levels.length; x++){
+				for (var x = 0; x < message.Levels.length; x++) {
 					console.log(message.Levels[x].Levelname);
 					let optionLevel = document.createElement("option");
 					optionLevel.text = message.Levels[x].Levelname;
@@ -733,7 +725,17 @@ save.onclick = function () {
 				console.log(message);
 			});
 
+		}
+	
+	
+	
+	
+
+   levelEditorB.onclick = function () {
+
+			getSavedUserLevels();
 			mainMenu.style.display = 'none';
+			menuWrapper.style.display = "none";
 			selections.style.display = 'inline';
 			a2.style.display = 'inline';
 			levelEditor.style.display = 'inline-block';

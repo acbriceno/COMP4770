@@ -1,4 +1,4 @@
-loadLevel=function(level,width,fac){
+loadLevel=function(level,width){
 	
 	for(let key1 in Entity.list){
 		let e=Entity.list[key1];
@@ -7,11 +7,24 @@ loadLevel=function(level,width,fac){
 		}
 	}
 	
-	FAC=fac;
+	width++;
 	
 	console.log(Entity.list);
 	let len=level.length;
-	for(let i=0;i<len;i++){
+	let facCode=level.slice((len-1),len);
+	if(facCode == 'w'){
+		FAC = 'math';
+	}
+	else if(facCode == 'x'){
+		FAC = 'phil';
+	}
+	else if(facCode == 'y'){
+		FAC = 'phys';
+	}
+	else if(facCode == 'z'){
+		FAC = 'comp';
+	}
+	for(let i=0;i<(len-1);i++){
 		let code=level.slice(i,(i+1));
 		let x=(i%width)*64
 		let y=(Math.floor(i/width))*64
@@ -35,4 +48,7 @@ loadLevel=function(level,width,fac){
 			Final.generate(x,y);
 		}
 	}
+
+	console.log(facCode)
+	
 }
