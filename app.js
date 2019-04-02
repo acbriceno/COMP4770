@@ -15,6 +15,7 @@ app.get('/',function(req,res){
 app.use("/js", express.static(__dirname + '/client/js/'));
 app.use("/img", express.static(__dirname + '/client/img/'));
 app.use("/css", express.static(__dirname + '/client/css/'));
+app.use("/music", express.static(__dirname + '/client/music/'));
 
 serv.listen(2000);
 
