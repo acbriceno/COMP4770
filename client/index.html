@@ -476,6 +476,7 @@ let a3 = document.getElementById('selections2');
 			backLE.style.display = 'none';
 			playerProfile.style.display = 'none';
 			signDiv.style.display = 'inline-block';
+			campaignInput.style.display = 'none';
 		}
 
 		if (screen=="le" || screen =="game"){
@@ -560,16 +561,6 @@ save.onclick = function () {
       newGame.onclick = function() {
 		  campaignInput.style.display = "flex";
 		  mainMenu.style.display ="none";
-
-
-		//         mainMenu.style.display = 'none';
-		//         gameDiv.style.display = 'inline-block';
-		// screen='game';
-		// player = Player(190, 620);
-		// Enemy.generate(0,0,'e');
-		// Platform.generate(128,128,'f');
-		//         Platform.generate(190,684,'f');
-		//         Platform.generate(190,684,'f');
       }
 
 
@@ -595,7 +586,21 @@ save.onclick = function () {
 				campaign = message.campaign;
 				console.log(campaign);
 			});
-
+			
+			loadCourseLevel("PHYS1000");
+			
+	  }
+	  
+	   loadCourseLevel  = function(courseName){
+		  let socket=io();
+  		socket.emit('loadSystemCourseLevel',{
+			courseName: courseName
+  		});
+		
+		socket.on('systemCourseLevelFound', function(message){
+			console.log(message.courseLevel);
+			
+			loadLevel(message.courseLevel.Level, 9);
 			gameDiv.style.display="inline-block";
 			menuWrapper.style.display ='none'; //hiding menu wrapper
 			levelEditor.style.display = 'none';
@@ -605,15 +610,8 @@ save.onclick = function () {
 			campaignInput.style.display="none";
 			screen='game';
 			start=Date.now();
-			// player = Player(190, 620);
-		 	//Enemy.generate(0,0,'e');
-		// 	Platform.generate(128,128,'f');
-		// 	Platform.generate(129,128,'f');
-		// 	Platform.generate(130,128,'f');
-		// 	Platform.generate(131,128,'f');
-		// 	Platform.generate(190,684,'f');
-		// 	Platform.generate(190,684,'f');
 
+		});
 	  }
 
       loadGame.onclick = function() {
