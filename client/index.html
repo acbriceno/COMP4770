@@ -159,7 +159,7 @@
 	let canvasLE=document.getElementById('ctxLE');
 	let ctxLE=canvasLE.getContext('2d');
       let ctx_uiLE = canvasG.getContext('2d');
-	
+
 	let  snd = new Audio("music/Good Will Hunting OST - 02 The Theorem.mp3");
          let  snd2 = new Audio("music/Winterbells Extended Original song.mp3");
 
@@ -376,7 +376,12 @@ let a3 = document.getElementById('selections2');
 
 
 		let bgImg=new Image();
-		bgImg.src=document.getElementById('background').value;
+            if (screen == "le" || screen == "game") {
+      		bgImg.src=document.getElementById('background').value;
+            }
+            else {
+                  bgImg.src= 'img/campus.png';
+            }
 			if(levelEditor.style.display == "none"){
 				ctx.clearRect(0, 0, 1280, 720);
 				ctx.drawImage(bgImg,0,0,W,H);
@@ -385,10 +390,13 @@ let a3 = document.getElementById('selections2');
 				ctxLE.clearRect(0,0,1280,720);
 				ctxLE.drawImage(bgImg,0,0,W,H);
 			}
-            player.update();
+                  player.update();
 			Enemy.update();
 			Projectile.update();
-			Platform.update();
+                  if (screen == 'game' || screen =='le') {
+                        Platform.update();
+                  }
+
 			Upgrade.update();
             //console.log("Player (X,Y): " + "(" + player.x + ", " + player.y + ")");
 			//console.log("Player aim angle is: "+player.aimAngle);
@@ -414,7 +422,7 @@ let a3 = document.getElementById('selections2');
 			Enemy.facChange();
 		}
 	}
-	  
+
     function valid(userName,pass){
 			if (!isEmpty(userName) && !isEmpty(pass) ){
 					return true;
@@ -471,7 +479,7 @@ let a3 = document.getElementById('selections2');
 					token=message.token;
 					tokenText.value=token;
 					usernameText.value=username;
-					snd2.play();	
+					snd2.play();
 					let playerName="mario";
 					let diffuculty="hard";
 					let progress="false"   ; //used for mid-term
@@ -551,7 +559,7 @@ save.onclick = function () {
 
 
 
-	
+
 
 
 	loadButton.onclick = function () {
@@ -620,20 +628,62 @@ save.onclick = function () {
 				campaign = message.campaign;
 				console.log(campaign);
 			});
-			
-			loadCourseLevel("PHYS1000");
-			
+			gameDiv.style.display="inline-block";
+                  campaignInput.style.display ="none";
+                  player.x = 300;
+                  player.y = 350;
+                  Platform.generate(665, 110); // door
+                  Platform.generate(740, 190);
+                  Platform.generate(800, 175);
+                  Platform.generate(845, 270);
+                  Platform.generate(835, 400);
+                  Platform.generate(835, 460);
+                  Platform.generate(740, 500);
+                  Platform.generate(510, 520);
+                  Platform.generate(480, 400);
+                  Platform.generate(550, 185);
+                  Platform.generate(455, 230);
+                  Platform.generate(385, 145);
+                  Platform.generate(1035, 220);
+                  Platform.generate(955, 140);
+                  Platform.generate(1000, 145);
+                  Platform.generate(1000, 120);
+                  Platform.generate(950, 120);
+                  Platform.generate(1200, -5);
+                  Platform.generate(1240, 65);
+                  Platform.generate(640, 105);
+                  Platform.generate(640, 41);
+                  Platform.generate(640, 30);
+                  Platform.generate(670, 30);
+                  Platform.generate(980, 600); //door
+                  Platform.generate(800, 175);
+                  Platform.generate(1020, 570);
+                  Platform.generate(1020, 550);
+                  Platform.generate(980, 500);
+                  Platform.generate(1012, 500);
+                  Platform.generate(950, 540);
+                  Platform.generate(660, 600);
+                  Platform.generate(665, 335);
+                  Platform.generate(350, 145);
+                  Platform.generate(350, 81);
+                  Platform.generate(414, 70);
+                  Platform.generate(430, 70);
+                  Platform.generate(430, 134);
+                  screen = 'overworld';
+
+			//loadCourseLevel("PHYS1000");
+
 	  }
-	  
+
 	   loadCourseLevel  = function(courseName){
 		  let socket=io();
   		socket.emit('loadSystemCourseLevel',{
 			courseName: courseName
   		});
-		
+
 		socket.on('systemCourseLevelFound', function(message){
 			console.log(message.courseLevel);
-			
+
 			loadLevel(message.courseLevel.Level, 9);
 			gameDiv.style.display="inline-block";
 			menuWrapper.style.display ='none'; //hiding menu wrapper
@@ -705,8 +755,8 @@ save.onclick = function () {
 				ctx_uiLE.stroke();
 			}
 
-	   
-	   
+
+
 	   		 snd2.muted=true;
                         snd.play();
 
