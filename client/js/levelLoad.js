@@ -19,8 +19,17 @@ loadLevel=function(level,width){
 			player.x=x;
 			player.y=y;
 		}
-		if(code=='e'){
-			Enemy.generate(x,y);
+		if(code=='z'){
+			Enemy.generate(x,y,'phil');
+		}
+		if(code=='y'){
+			Enemy.generate(x,y,'phy');
+		}
+		if(code=='x'){
+			Enemy.generate(x,y,'math');
+		}
+		if(code=='w'){
+			Enemy.generate(x,y,'cs');
 		}
 		if(code=='f'||code=='b'){
 			Platform.generate(x,y,code);

@@ -94,7 +94,7 @@
             </select>
       </div>
 	<div id="aSelect2" style ="position: fixed; bottom: 50px; right: 110px;">
-            <select id="background";>
+            <select id="background" onchange="facChange()">
 				<option value="img/math1.png" selected="selected">Math</option>
 				<option value="img/phil1.png">Philosophy</option>
 				<option value="img/phy1.png">Physics</option>
@@ -201,6 +201,7 @@ let a3 = document.getElementById('selections2');
 	let campaignInput = document.getElementById('campaignInput');
 	let startNewGame = document.getElementById('startNewGame');
 	moveScreen=MoveScreen(0,0,);
+	let FAC='math';
 
   var Img = {};
   Img.playerLevel = new Image();
@@ -211,6 +212,12 @@ let a3 = document.getElementById('selections2');
 	Img.penRight.src="img/pen_right.png";
 	Img.philEnemy=new Image();
 	Img.philEnemy.src="img/philEnemy.png";
+	Img.mathEnemy=new Image();
+	Img.mathEnemy.src="img/gauss_open.png";
+	Img.phyEnemy=new Image();
+	Img.phyEnemy.src="img/Albert_open.png";
+	Img.csEnemy=new Image();
+	Img.csEnemy.src="img/turing_open.png";
 	Img.platform=new Image();
 	Img.platform.src="img/tile.png";
 	Img.breakable=new Image();
@@ -227,6 +234,10 @@ let a3 = document.getElementById('selections2');
 	Img.bgPhil.src="img/phil1.png";
 	Img.bgCs=new Image();
 	Img.bgCs.src="img/cs1.png";
+	Img.town=new Image();
+	Img.town.src="img/town.png";
+	Img.campus=new Image();
+	Img.campus.src="img/campus.png";
 
 	let bg="img/math1.png";
 
@@ -381,6 +392,25 @@ let a3 = document.getElementById('selections2');
 			//console.log("Attack Speed: "+player.atkSpd+" Attack Counter: "+player.atkCnt);
       }
 
+	let facChange=function(){
+		if(document.getElementById('background').value=='img/math1.png'){
+			FAC='math';
+			Enemy.facChange();
+		}
+		else if(document.getElementById('background').value=='img/phil1.png'){
+			FAC='phil';
+			Enemy.facChange();
+		}
+		else if(document.getElementById('background').value=='img/phy1.png'){
+			FAC='phy';
+			Enemy.facChange();
+		}
+		else if(document.getElementById('background').value=='img/cs1.png'){
+			FAC='cs';
+			Enemy.facChange();
+		}
+	}
+	  
     function valid(userName,pass){
 			if (!isEmpty(userName) && !isEmpty(pass) ){
 					return true;
