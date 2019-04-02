@@ -82,7 +82,7 @@
 
 		</div>
 
-		<div id="mathMenu" style="display:none;"> 
+		<div id="mathMenu" style="display:none;">
 
 			<h2 id="levelHeading"> Choose which Math Level to Play: </h2>
 
@@ -421,9 +421,9 @@ let a3 = document.getElementById('selections2');
                   player.update();
 			Enemy.update();
 			Projectile.update();
-                  //if (screen == 'game' || screen =='le') {
+                  if (screen == 'game' || screen =='le') {
                         Platform.update();
-                  //}
+                  }
 
 			Upgrade.update();
             //console.log("Player (X,Y): " + "(" + player.x + ", " + player.y + ")");
@@ -819,6 +819,31 @@ save.onclick = function () {
             for (let key in Platform.list) {
                   delete Platform.list[key];
             }
+            Platform.generate(775, 500);
+            Platform.generate(745, 500);
+            Platform.generate(839, 500);
+            Platform.generate(910, 610);
+            Platform.generate(755, 625);
+            Platform.generate(570, 455);
+            Platform.generate(480, 570);
+            Platform.generate(280, 590);
+            Platform.generate(280, 526);
+            Platform.generate(70, 580);
+            Platform.generate(555, 300);
+            Platform.generate(645, 55);
+            Platform.generate(565, 30);
+            Platform.generate(365, 45);
+            Platform.generate(365, 0);
+            Platform.generate(415, 240);
+            Platform.generate(351, 240);
+            Platform.generate(287, 240);
+            Platform.generate(125, 75);
+            Platform.generate(189, 35);
+            Platform.generate(75, 370);
+            Platform.generate(0, 370);
+            Platform.generate(0, 420);
+
+
       }
 
       // <!--  drawing to canvus and moving -->
