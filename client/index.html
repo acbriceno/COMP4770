@@ -203,11 +203,6 @@
 	let canvasLE=document.getElementById('ctxLE');
 	let ctxLE=canvasLE.getContext('2d');
       let ctx_uiLE = canvasG.getContext('2d');
-	
-	let canvasui = document.getElementById('ctx-ui');
-	let ctx_UI = canvasui.getContext('2d');
-
-	
 
 	let  snd = new Audio("music/Good Will Hunting OST - 02 The Theorem.mp3");
          let  snd2 = new Audio("music/Winterbells Extended Original song.mp3");
@@ -246,22 +241,7 @@ let a3 = document.getElementById('selections2');
 	let leDraw=false;
 	let levelEditorLevels;
 	//moveScreen=MoveScreen(0,0,);
-	
-	let money;
-		let courses;
-		let dadCredit;
-		let gammaHp;
-		let inventory;
-		let playerName;
-		let saveDate;
-		let workCredit;
-		let campaign;
-	
-	
-	
-	
 	let campaign;
-	
 	let campaignInput = document.getElementById('campaignInput');
 	let startNewGame = document.getElementById('startNewGame');
 	moveScreen=MoveScreen(0,0,);
@@ -472,8 +452,6 @@ let a3 = document.getElementById('selections2');
 			if(levelEditor.style.display == "none"){
 				ctx.clearRect(0, 0, 1280, 720);
 				ctx.drawImage(bgImg,0,0,W,H);
-				ctx_UI.clearRect(0,0,1280,720);
-				HUD();
 			}
 			else{
 				ctxLE.clearRect(0,0,1280,720);
@@ -714,35 +692,11 @@ save.onclick = function () {
 
     		});
 
-			socket.on('campaignCreated', function (message) {
-				console.log("message " + message);
-				console.log("campaign " + message.campaign);
-				console.log("Save File " + message.campaign.SaveFile);
-
-				money = message.campaign.SaveFile.saves[0].money;
-				courses = message.campaign.SaveFile.saves[0].Courses;
-				dadCredit = message.campaign.SaveFile.saves[0].dadCredit;
-				gammaHp = message.campaign.SaveFile.saves[0].gammaHP;
-				inventory = message.campaign.SaveFile.saves[0].Inventory;
-				playerName = message.campaign.SaveFile.saves[0].playerName;
-				saveDate = message.campaign.SaveFile.saves[0].saveDate;
-				workCredit = message.campaign.SaveFile.saves[0].workCredit;
+			socket.on('campaignCreated', function(message){
+				console.log(message);
 				campaign = message.campaign;
-				HUD(money, gammaHp, workCredit, dadCredit);
-
-				console.log("money : " + money);
-				console.log("courses  :" + courses);
-				console.log("dad Credit : " + dadCredit);
-				console.log("gamma Hp :" + gammaHp);
-				console.log("inventory :" + inventory);
-				console.log("playerName  :" + playerName);
-				console.log("save Date  :" + saveDate);
-				console.log("work crdeit :" + workCredit);
-
+				console.log(campaign);
 			});
-
-			loadCourseLevel("PHYS1000");
-		}
 			gameDiv.style.display="inline-block";
                   campaignInput.style.display ="none";
                   player.x = 300;
@@ -817,18 +771,6 @@ save.onclick = function () {
 		}
 
 
-	
-	HUD = function () {
-			ctx_UI.font = "20px Georgia";
-			ctx_UI.fillText("Money " +  money, 10, 50);
-			ctx_UI.fillText("Grandma "  + gammaHp, 200, 50);
-			ctx_UI.fillText("dad Credit "  + dadCredit, 390, 50);
-			ctx_UI.fillText("workCredit "  + workCredit, 580, 50);
-		}
-
-	
-	
-	
 
 
 
