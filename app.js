@@ -100,6 +100,15 @@ socket.on('getLevels', function(message){
   });
 });
 	
+	socket.on('loadSystemCourseLevel', function(message){
+		dbManager.findSystemCourseLevel(message.courseName, function(courseLevel){
+			console.log(courseLevel);
+			socket.emit('systemCourseLevelFound',{
+				courseLevel : courseLevel
+			})
+		});
+	});
+	
 	
   socket.on('createCampaign', function(message){
 	  console.log(message);

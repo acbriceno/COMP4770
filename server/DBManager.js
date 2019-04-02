@@ -130,7 +130,7 @@ module.exports.findSystemCourseLevel = function(courseName, callback){
      	console.log("Connected correctly to Database");
     
     	const db = client.db(dbName);
-    	let query = { courseName: courseName };
+    	let query = { Levelname: courseName };
     	db.collection("courses").findOne(query, function(err, result) {
       	 if (err) throw err;
       	client.close();

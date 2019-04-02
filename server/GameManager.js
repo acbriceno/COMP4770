@@ -139,3 +139,7 @@ module.exports.saveNewSave = function(username, campaignNumber, save){
 	});
 }
 
+
+module.exports.addCourseLevelToUserCampaign = function(username, campaignNumber, courseName){
+	
+}
