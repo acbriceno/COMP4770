@@ -95,40 +95,40 @@
 
 		</div>
 
-		<div id="physMenu" style="display:none;"> 
+		<div id="physMenu" style="display:none;">
 
 				<h2 id="levelHeading"> Choose which Physics Level to Play: </h2>
-	
+
 					<button class="button3" id="PHYS1000">Physics 1000</button>
 					<button class="button3" id="PHYS2000">Physics 2000</button>
 					<button class="button3" id="PHYS3000">Physics 3000</button>
 					<button class="button3" id="PHYS4000">Physics 4000</button>
 					<button class="button3" id="backCourse">Back</button>
-	
+
 			</div>
 
-			<div id="compMenu" style="display:none;"> 
+			<div id="compMenu" style="display:none;">
 
 					<h2 id="levelHeading"> Choose which Computer Science Level to Play: </h2>
-		
+
 						<button class="button3" id="COMP1000">Computer Science 1000</button>
 						<button class="button3" id="COMP2000">Computer Science 2000</button>
 						<button class="button3" id="COMP3000">Computer Science 3000</button>
 						<button class="button3" id="COMP4000">Computer Science 4000</button>
 						<button class="button3" id="backCourse">Back</button>
-		
+
 				</div>
 
-				<div id="philMenu" style="display:none;"> 
+				<div id="philMenu" style="display:none;">
 
 						<h2 id="levelHeading"> Choose which Philosophy Level to Play: </h2>
-			
+
 							<button class="button3" id="PHIL1000">Philoshophy 1000</button>
 							<button class="button3" id="PHIL1000">Philoshophy 2000</button>
 							<button class="button3" id="PHIL1000">Philoshophy 3000</button>
 							<button class="button3" id="PHIL1000">Philoshophy 4000</button>
 							<button class="button3" id="backCourse">Back</button>
-			
+
 					</div>
 </div>
 
@@ -295,27 +295,28 @@ let a3 = document.getElementById('selections2');
 	Img.campus.src="img/campus.png";
 
 	let bg="img/math1.png";
-	
-	
-	
+
+
+
 	var isFirxFox = function () {
 	            return navigator.userAgent.indexOf("Firefox") > 0 ? true : false;
 	        }
- 
+
 	        var clickHandler = function (target) {
 				if(target == "backCourse"){
 					leaveRoom();
 				}
 				else{
+                              leaveRoom();
 					loadCourseLevel(target);
 				}
-				
+
 	        }
- 
+
 	        var coursesButtonGroup = document.getElementById("coursesButtonGroup");
- 
+
 	        coursesButtonGroup.addEventListener("click", function (event) {
- 
+
 	            var targetId;
 	            if (isFirxFox()) {
 	                //for Firefox
@@ -326,9 +327,9 @@ let a3 = document.getElementById('selections2');
 	                targetId = event.srcElement.id;
 	            }
 	            clickHandler(targetId);
- 
 
- 
+
+
 	        });
 
 	//testing collision of rectangles
@@ -492,6 +493,9 @@ let a3 = document.getElementById('selections2');
                   if (player.x > 1200) {
                         inTown = false;
                         player.x = 25;
+                  }
+                  if ((player.x < 140 && player.x > 60) && (player.y < 435 && player.y > 295)) {
+                        console.log("Entered Work");
                   }
             }
 
@@ -770,7 +774,7 @@ save.onclick = function () {
 			//loadCourseLevel("PHYS1000");
 
 	  }
-	  
+
 	  loadOverworld = function(){
 		  menuWrapper.style.display = "none";
 		  gameDiv.style.display="inline-block";
@@ -792,7 +796,7 @@ save.onclick = function () {
 		socket.on('systemCourseLevelFound', function(message){
 			console.log(message.courseLevel);
 
-			
+
 			gameDiv.style.display="inline-block";
 			menuWrapper.style.display ='none'; //hiding menu wrapper
 			levelEditor.style.display = 'none';
@@ -803,6 +807,7 @@ save.onclick = function () {
 			screen='game';
 			start=Date.now();
 			loadLevel(message.courseLevel.Level, message.courseLevel.Width);
+                  console.log("Makes it to loaded level");
 
 		});
 	  }
@@ -812,7 +817,7 @@ save.onclick = function () {
             loadFile.style.display = 'inline-block';
 		    screen='game';
 			loadUserCampaigns();
-	
+
       }
 
       // file.onclick = function () {
@@ -825,8 +830,8 @@ save.onclick = function () {
 						mainMenu.style.display = 'none';
 						console.log("profile hit");
       }
-	  
-	  
+
+
 	  enterRoom = function(roomName){
 		   coursesButtonGroup.style.display = 'inline';
 		  if(roomName = "COMP"){
@@ -841,11 +846,12 @@ save.onclick = function () {
 			else if(roomName = "PHIL"){
 			 philMenu.style.display = 'inline-block';
 		  }
-	  	
+
 	  }
-	  
+
 	  leaveRoom = function(roomName){
 		  coursesButtonGroup.style.display = 'none';
+              compMenu.style.display = 'inline-block';
 		  loadOverworld();
 	  }
 
@@ -868,19 +874,20 @@ save.onclick = function () {
 			});
 
 		}
-	
-		
+
+
 		loadUserCampaigns = function(){
 			let socket = io();
 			socket.emit('getUserCampaigns',{token: token});
+                  console.log("Makes it to loadUserCampaigns");
 			socket.on('loadUserCampaigns', function(message){
-				//console.log(message.campaigns);
+				console.log(message.campaigns);
 				Campaigns = message.campaigns;
 				loadFile.innerHTML = "";
 				for(var x=0; x<message.campaigns.length; x++){
 					buildCampaignListButton(message.campaigns[x]);
 				}
-				
+
 			});
 		}
 			let savesCounter = 0;
@@ -889,14 +896,14 @@ save.onclick = function () {
 			let socket = io();
   			let saveHeader = document.createElement("P");
   			let t = document.createTextNode("Saves From Campaign " + campaignNumber);
-			saveHeader.appendChild(t);	
+			saveHeader.appendChild(t);
 			if (savesCounter == 0){
 				//loadFile.innerHTML = "";
 	  			loadFile.appendChild(saveHeader);
 				savesCounter = 1;
 			}
 			else{
-				console.log(loadFile);
+				//console.log(loadFile);
 				loadFile.removeChild(loadFile.lastElementChild);
 				loadFile.removeChild(loadFile.lastElementChild);
 	  			loadFile.appendChild(saveHeader);
@@ -909,9 +916,9 @@ save.onclick = function () {
 				}
 				userSaves = message.saves;
 			});
-				
+
 		}
-		
+
 		buildSavesButton = function(saveInfo){
   			var save = document.createElement("button");
   			var t = document.createTextNode("Save " + saveInfo.saveNumber);
@@ -919,7 +926,7 @@ save.onclick = function () {
   			save.appendChild(t);
   			loadFile.appendChild(save);
 		}
-		
+
 		loadSavedGame = function(saveNumber){
 			for(var x=0; x<userSaves.length;x++){
 				if(userSaves[x].saveNumber == saveNumber){
@@ -929,15 +936,15 @@ save.onclick = function () {
 					dadCredit = userSaves[x].dadCredit;
 					workCredit = userSaves[x].workCredit;
 					loadOverworld();
-					
+
 				}
 			}
 		}
-		
+
 		buildCampaignListButton = function(CampaignInfo){
-			
+
 			console.log(CampaignInfo);
-			
+
 			var campaignButton = document.createElement("button");
 			var t = document.createTextNode(CampaignInfo.campaignNumber);
 			campaignButton.setAttribute("onclick", "loadCampaignSaveFiles(" + CampaignInfo.campaignNumber + ")");
