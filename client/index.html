@@ -326,9 +326,15 @@ let a3 = document.getElementById('selections2');
 	let bg="img/math1.png";
 
       let updateMoney = function() {
-            console.log("Money before: " + money);
-            money = money + 400;
-            console.log("Money after: " + money);
+            if (workCredit > 0){
+                  console.log("Money before: " + money);
+                  money = money + 400;
+                  console.log("Money after: " + money);
+                  workCredit--;
+            }
+            else {
+                  levelFailed();
+            }
       }
 
 
@@ -574,9 +580,11 @@ let a3 = document.getElementById('selections2');
 					ctxui.strokeText("HP: "+player.hp,50,50);
 				}
 				if(screen=='overworld'){
-					ctxui.strokeText("Money: "+money,50,50);
-					ctxui.strokeText("Dad Credits: "+dadCredit,300,50);
-					ctxui.strokeText("Work Credits: "+workCredit,600,50);
+					ctxui.fillText("Money: "+money,50,50);
+					ctxui.fillText("Dad Credits: "+dadCredit,300,50);
+					ctxui.fillText("Work Credits: "+workCredit,600,50);
+                              ctxui.fillstyle = "white";
+                              ctxui.stokestle = "white";
 				}
 
 			}
@@ -769,6 +777,7 @@ save.onclick = function () {
 	levelFailed=function(){
 		gameDiv.style.display='none';
 		signDiv.style.display = 'none';
+            landscapingWork.style.display = 'none';
 
 		//menuWrapper.style.display='inline-block'; //Reapperaing menu wrapper
 		//mainMenu.style.display = 'inline-block';
