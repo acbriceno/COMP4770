@@ -306,7 +306,9 @@ let a3 = document.getElementById('selections2');
 					leaveRoom();
 				}
 				else{
+					leaveRoom();
 					loadCourseLevel(target);
+					
 				}
 				
 	        }
@@ -844,6 +846,7 @@ save.onclick = function () {
 	  
 	  leaveRoom = function(roomName){
 		  coursesButtonGroup.style.display = 'none';
+		  compMenu.style.display = 'inline-block';
 		  loadOverworld();
 	  }
 
