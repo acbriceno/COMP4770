@@ -88,6 +88,15 @@ Entity=function(type,id,x,y,w,h,img){
 	return self;
 }
 
+Entity.clear=function(){
+	for(let key96 in Entity.list){
+		let e=Entity.list[key96];
+		if(e.type!='Player'){
+			e.remove=true;
+		}
+	}
+}
+
 Entity.list={};
 
 Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
@@ -391,8 +400,8 @@ Enemy.facChange=function(){
 	}
 }
 
-Assignment=function(id,x,y,w,h,img,hp,dmg){
-	let self=Enemy(id,x,y,w,h,img,hp,dmg,'a');
+Assignment=function(id,x,y,w,h,img,hp,atkSpd,dmg){
+	let self=Enemy(id,x,y,w,h,img,hp,atkSpd,dmg,'a');
 	Assignment.list[id]=self;
 	self.remove=false;
 }
@@ -420,11 +429,11 @@ Assignment.generate=function(x,y){
 	let dmg=3;
 	//using player img as placeholder
 	let img=Img.philEnemy;
-	Assignment(id,x,y,w,h,img,hp,dmg);
+	Assignment(id,x,y,w,h,img,hp,atkSpd,dmg);
 }
 
-Midterm=function(id,x,y,w,h,img,hp,dmg){
-	let self=Enemy(id,x,y,w,h,img,hp,dmg,'m');
+Midterm=function(id,x,y,w,h,img,hp,atkSpd,dmg){
+	let self=Enemy(id,x,y,w,h,img,hp,atkSpd,dmg,'m');
 	Midterm.list[id]=self;
 	self.remove=false;
 }
@@ -453,11 +462,11 @@ Midterm.generate=function(x,y){
 	let dmg=5;
 	//using player img as placeholder
 	let img=Img.midterm;
-	Midterm(id,x,y,w,h,img,hp,dmg);
+	Midterm(id,x,y,w,h,img,hp,atkSpd,dmg);
 }
 
-Final=function(id,x,y,w,h,img,hp,dmg){
-	let self=Enemy(id,x,y,w,h,img,hp,dmg,'l');
+Final=function(id,x,y,w,h,img,hp,atkSpd,dmg){
+	let self=Enemy(id,x,y,w,h,img,hp,atkSpd,dmg,'l');
 	Final.list[id]=self;
 
 	self.onDeath=function(){
@@ -490,7 +499,7 @@ Final.generate=function(x,y){
 	let dmg=7;
 	//using player img as placeholder
 	let img=Img.philEnemy;
-	Final(id,x,y,w,h,img,hp,dmg);
+	Final(id,x,y,w,h,img,hp,atkSpd,dmg);
 }
 
 Player=function(x,y){
