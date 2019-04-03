@@ -558,6 +558,10 @@ let a3 = document.getElementById('selections2');
 				ctxui.clearRect(0,0,W,H);
 				ctxui.font="35px Arial";
 				ctxui.strokeText("Money: "+money,50,50);
+				if(screen=='overworld'){
+					ctxui.strokeText("Dad Credits: "+dadCredit,300,50);
+					ctxui.strokeText("Work Credits: "+workCredit,600,50);
+				}
 				
 			}
 			else if(screen=='le'){
@@ -820,6 +824,11 @@ save.onclick = function () {
                   // }
                   // screen = 'overworld';
 
+				  gammaHp=Math.floor((Math.random())*4);
+				  gammaHP++;
+				  money=3000;
+				  dadCredit=1;
+				  workCredit=4;
 				  loadOverworld();
 			//loadCourseLevel("PHYS1000");
 
@@ -901,7 +910,7 @@ save.onclick = function () {
                    menuWrapper.style.display = "none";
     		       gameDiv.style.display="none";
                    landscapingWork.style.display = 'inline-block';
-                    screen = menu;
+                    screen = 'menu';
               }
 
 	  }
