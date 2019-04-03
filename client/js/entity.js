@@ -471,7 +471,7 @@ Final=function(id,x,y,w,h,img,hp,atkSpd,dmg){
 
 	self.onDeath=function(){
 		self.remove=true;
-		//levelCompleted();
+		levelCompleted();
 	}
 }
 
@@ -482,13 +482,12 @@ Final.update=function(){
 	for(let key9 in Final.list){
 		if(Final.list[key9].remove){
 			delete Final.list[key9];
-			if(screen=='game'){
-				levelCompleted();
-			}
+			//if(screen=='game'){
+				//levelCompleted();
+			//}
 		}
 	}
 }
-
 Final.list={};
 
 Final.generate=function(x,y){
