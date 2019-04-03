@@ -603,6 +603,7 @@ Player=function(x,y){
 
 	self.onDeath=function(){
 		levelFailed();
+		self.hp=30;
 	}
 
 	return self;
