@@ -81,7 +81,7 @@
 		<div id="deathScreen" style="display:none;">
 
 		</div>
-
+	<div id="coursesButtonGroup">
 		<div id="mathMenu" style="display:none;">
 
 			<h2 id="levelHeading"> Choose which Math Level to Play: </h2>
@@ -112,6 +112,7 @@
 						<button class="button3" id="COMP2000">Computer Science 2000</button>
 						<button class="button3" id="COMP3000">Computer Science 3000</button>
 						<button class="button3" id="COMP4000">Computer Science 4000</button>
+						<button class="button3" id="backCourse">Back</button>
 		
 				</div>
 
@@ -125,7 +126,7 @@
 							<button class="button3" id="PHIL1000">Philoshophy 4000</button>
 			
 					</div>
-
+</div>
 
 
 
@@ -151,7 +152,7 @@
 				  <option value="b">Breakable</option>
 				  <option value="a">Assignment</option>
 				  <option value="m">Midterm</option>
-				  <option value="l">Fianl</option>
+				  <option value="l">Final</option>
                   <option value="d">Delete</option>
             </select>
       </div>
@@ -285,6 +286,41 @@ let a3 = document.getElementById('selections2');
 	Img.campus.src="img/campus.png";
 
 	let bg="img/math1.png";
+	
+	
+	
+	var isFirxFox = function () {
+	            return navigator.userAgent.indexOf("Firefox") > 0 ? true : false;
+	        }
+ 
+	        var clickHandler = function (target) {
+				if(target == "backCourse"){
+					leaveRoom();
+				}
+				else{
+					loadCourseLevel(target);
+				}
+				
+	        }
+ 
+	        var coursesButtonGroup = document.getElementById("coursesButtonGroup");
+ 
+	        coursesButtonGroup.addEventListener("click", function (event) {
+ 
+	            var targetId;
+	            if (isFirxFox()) {
+	                //for Firefox
+	                targetId = event.target.id;
+	            }
+	            else {
+	                //For IE, Chrome
+	                targetId = event.srcElement.id;
+	            }
+	            clickHandler(targetId);
+ 
+
+ 
+	        });
 
 	//testing collision of rectangles
 	testCollisionRects = function(rect1,rect2){
@@ -426,6 +462,7 @@ let a3 = document.getElementById('selections2');
                   }
                   if ((player.x > 630 && player.x < 690) && (player.y < 190)) {
                         console.log("Entered CS Building");
+						enterRoom("COMP");
                   }
             }
             else if (inTown && screen == 'overworld') {
@@ -699,15 +736,25 @@ save.onclick = function () {
 			});
 			gameDiv.style.display="inline-block";
                   campaignInput.style.display ="none";
-                  player.x = 300;
-                  player.y = 350;
-                  if (player.x < 0) {
-                        console.log("o");
-                  }
-                  screen = 'overworld';
+                  // player.x = 300;
+                  // player.y = 350;
+                  // if (player.x < 0) {
+                  //       console.log("o");
+                  // }
+                  // screen = 'overworld';
 
+				  loadOverworld();
 			//loadCourseLevel("PHYS1000");
 
+	  }
+	  
+	  loadOverworld = function(){
+          player.x = 300;
+          player.y = 350;
+          if (player.x < 0) {
+                console.log("o");
+          }
+          screen = 'overworld';
 	  }
 
 	   loadCourseLevel  = function(courseName){
@@ -719,7 +766,7 @@ save.onclick = function () {
 		socket.on('systemCourseLevelFound', function(message){
 			console.log(message.courseLevel);
 
-			loadLevel(message.courseLevel.Level, 9);
+			
 			gameDiv.style.display="inline-block";
 			menuWrapper.style.display ='none'; //hiding menu wrapper
 			levelEditor.style.display = 'none';
@@ -729,6 +776,7 @@ save.onclick = function () {
 			campaignInput.style.display="none";
 			screen='game';
 			start=Date.now();
+			loadLevel(message.courseLevel.Level, message.courseLevel.Width);
 
 		});
 	  }
@@ -749,6 +797,20 @@ save.onclick = function () {
 						mainMenu.style.display = 'none';
 						console.log("profile hit");
       }
+	  
+	  
+	  enterRoom = function(roomName){
+		   coursesButtonGroup.style.display = 'inline';
+		  if(roomName = "COMP"){
+			 compMenu.style.display = 'inline-block';
+		  }
+	  	
+	  }
+	  
+	  leaveRoom = function(roomName){
+		  coursesButtonGroup.style.display = 'none';
+		  loadOverworld();
+	  }
 
 
 	getSavedUserLevels = function () {
