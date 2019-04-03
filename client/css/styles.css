@@ -37,6 +37,18 @@
   background-size: cover;
 }
 
+#landscapingWork{
+  text-align: center;
+  padding-top: 150px; 
+  width: 100%;
+  height: 100vh;
+  background: url("../img/grassLevel.png") no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
 #mathMenu{
   text-align: center;
   padding-top: 120px; 
