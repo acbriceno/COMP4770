@@ -376,7 +376,7 @@ Enemy.generate=function(x,y){
 		let img1=Img.philEnemy;
 		Enemy(id,x,y,w,h,img1,hp,atkSpd,dmg,'e');
 	}
-	else if(FAC=="phy"){
+	else if(FAC=="phys"){
 		let img2=Img.phyEnemy;
 		Enemy(id,x,y,w,h,img2,hp,atkSpd,dmg,'e');
 	}
@@ -384,7 +384,7 @@ Enemy.generate=function(x,y){
 		let img3=Img.mathEnemy;
 		Enemy(id,x,y,w,h,img3,hp,atkSpd,dmg,'e');
 	}
-	else if(FAC=="cs"){
+	else if(FAC=="comp"){
 		let img4=Img.csEnemy;
 		Enemy(id,x,y,w,h,img4,hp,atkSpd,dmg,'e');
 	}
@@ -481,6 +481,7 @@ Final.update=function(){
 	}
 	for(let key9 in Final.list){
 		if(Final.list[key9].remove){
+			delete Final.list[key9];
 			if(screen=='game'){
 				levelCompleted();
 			}

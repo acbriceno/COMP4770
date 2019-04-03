@@ -42,7 +42,9 @@ loadLevel=function(level,width){
 		if(code=='l'){
 			Final.generate(x,y);
 		}
-		deathY=y;
+		if(y>deathY){
+			deathY=y;
+		}
 	}
 
 	console.log(facCode)
