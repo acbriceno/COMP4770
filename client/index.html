@@ -213,6 +213,7 @@
          let  snd2 = new Audio("music/Winterbells Extended Original song.mp3");
 
 
+	let deathY=0;
 	let start=Date.now();
   let signDivSignIn = document.getElementById('signDiv-signIn');
   let signDivSignUp = document.getElementById('signDiv-signUp');
@@ -522,6 +523,7 @@ let a3 = document.getElementById('selections2');
                   player.update();
 			Enemy.update();
 			Projectile.update();
+			Final.update();
                   if (screen == 'game' || screen =='le') {
                         Platform.update();
                   }
