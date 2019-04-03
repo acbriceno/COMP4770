@@ -488,7 +488,6 @@ Final.update=function(){
 		}
 	}
 }
-
 Final.list={};
 
 Final.generate=function(x,y){
