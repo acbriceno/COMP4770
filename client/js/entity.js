@@ -88,6 +88,15 @@ Entity=function(type,id,x,y,w,h,img){
 	return self;
 }
 
+Entity.clear=function(){
+	for(let key96 in Entity.list){
+		let e=Entity.list[key96];
+		if(e.type!='Player'){
+			e.remove=true;
+		}
+	}
+}
+
 Entity.list={};
 
 Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
