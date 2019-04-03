@@ -235,7 +235,7 @@
     let ctx_uiLE = canvasG.getContext('2d');
 	let canvasui=document.getElementById('ctx-ui');
 	let ctxui=canvasui.getContext('2d');
-	
+
 
 	let  snd = new Audio("music/Good Will Hunting OST - 02 The Theorem.mp3");
          let  snd2 = new Audio("music/Winterbells Extended Original song.mp3");
@@ -281,7 +281,7 @@ let a3 = document.getElementById('selections2');
 	moveScreen=MoveScreen(0,0,);
 	let FAC='math';
    	let inTown = false;
-	let money = 0;
+	let money;
 	let gammaHP;
 	let dadCredit;
 	let workCredit;
@@ -578,7 +578,7 @@ let a3 = document.getElementById('selections2');
 					ctxui.strokeText("Dad Credits: "+dadCredit,300,50);
 					ctxui.strokeText("Work Credits: "+workCredit,600,50);
 				}
-				
+
 			}
 			else if(screen=='le'){
 				ctxLE.clearRect(0,0,W,H);
@@ -942,11 +942,7 @@ save.onclick = function () {
                    menuWrapper.style.display = "none";
     		       gameDiv.style.display="none";
                    landscapingWork.style.display = 'inline-block';
-<<<<<<< HEAD
                     //screen = menu;
-=======
-                    screen = 'menu';
->>>>>>> 997933905a7c2a571238077aca614bdf7d516f06
               }
 
 	  }
