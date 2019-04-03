@@ -88,6 +88,15 @@ Entity=function(type,id,x,y,w,h,img){
 	return self;
 }
 
+Entity.clear=function(){
+	for(let key96 in Entity.list){
+		let e=Entity.list[key96];
+		if(e.type!='Player'){
+			e.remove=true;
+		}
+	}
+}
+
 Entity.list={};
 
 Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
@@ -546,7 +555,7 @@ Player=function(x,y){
 			x+=mousePos.xoff*64;
 			y+=mousePos.yoff*64;
 		}
-            console.log(x + ", " + y);
+            //console.log(x + ", " + y);
             if (x < -25) {
                   //console.log("over the edge");
             }
