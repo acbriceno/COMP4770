@@ -79,10 +79,17 @@
 
 
 
-		<div id="deathScreen" style="display:none;">
+		<div id="deathScreen" style="display:none;" >
+
+			<div id ="logoIMG">
+				<img src="./img/FAIL.png" alt="game logo">
+			</div>
+
+			<button id = "deathButton" class = "button3"> Go Back to Campus </button>
+			
 
 		</div>
-		
+
 	<div id="coursesButtonGroup">
 		<div id="mathMenu" style="display:none;">
 
@@ -232,6 +239,7 @@ let a3 = document.getElementById('selections2');
 	let profile=document.getElementById('profile');
 	let tokenText=document.getElementById('token');
 	let saveLevelText=document.getElementById('level');
+	let returnFromDeath=document.getElementById('deathButton');
 	let keyUp=87;
 	let keyDown=83;
 	let keyRight=68;
@@ -685,10 +693,6 @@ save.onclick = function () {
 
 
 
-
-
-
-
 	loadButton.onclick = function () {
 		loadLevel(levelEditorLevels[a3.options[a3.selectedIndex].index -1].Level, levelEditorLevels[a3.options[a3.selectedIndex].index -1].Width);
 		//loadLevel("e0e0e0e000e0e0e000000000000f0000000f0000f00000000000000000p0000",9);
@@ -699,9 +703,19 @@ save.onclick = function () {
 	levelFailed=function(){
 		gameDiv.style.display='none';
 		signDiv.style.display = 'none';
-		menuWrapper.style.display='inline-block'; //Reapperaing menu wrapper
-		mainMenu.style.display = 'inline-block';
+		deathScreen.style.display = 'inline-block';
+		//menuWrapper.style.display='inline-block'; //Reapperaing menu wrapper
+		//mainMenu.style.display = 'inline-block';
 		screen='menu';
+	}
+
+	returnFromDeath.onclick = function (){
+		console.log("got killed, going back");
+		
+		deathScreen.style.display = 'none';
+		gameDiv.style.display="inline-block";
+
+		loadOverworld();
 	}
 
 	levelCompleted=function(){
@@ -771,6 +785,7 @@ save.onclick = function () {
 	  }
 	  
 	  loadOverworld = function(){
+			console.log("overworlding");
 		  menuWrapper.style.display = "none";
 		  gameDiv.style.display="inline-block";
 		  loadFile.style.display = "none";
