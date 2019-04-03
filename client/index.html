@@ -91,6 +91,7 @@
 				<button class="button3" id="MATH2000">Math 2000</button>
 				<button class="button3" id="MATH3000">Math 3000</button>
 				<button class="button3" id="MATH4000">Math 4000</button>
+				<button class="button3" id="backCourse">Back</button>
 
 		</div>
 
@@ -102,6 +103,7 @@
 					<button class="button3" id="PHYS2000">Physics 2000</button>
 					<button class="button3" id="PHYS3000">Physics 3000</button>
 					<button class="button3" id="PHYS4000">Physics 4000</button>
+					<button class="button3" id="backCourse">Back</button>
 	
 			</div>
 
@@ -125,6 +127,7 @@
 							<button class="button3" id="PHIL1000">Philoshophy 2000</button>
 							<button class="button3" id="PHIL1000">Philoshophy 3000</button>
 							<button class="button3" id="PHIL1000">Philoshophy 4000</button>
+							<button class="button3" id="backCourse">Back</button>
 			
 					</div>
 </div>
@@ -455,15 +458,28 @@ let a3 = document.getElementById('selections2');
 
 	//update for in game, logic tbd
 	update=function(){
+		/*	console.log(player.x + "and" + player.y);*/
             if (screen == 'overworld' && !inTown) {
                   campusBoundaries();
                   if (player.x < -25) {
                         inTown = true;
                         player.x = 1200;
                   }
-                  if ((player.x > 630 && player.x < 690) && (player.y < 190)) {
+                  if ((player.x > 630 && player.x < 690) && (player.y > 160 && player.y < 180)) {
                         console.log("Entered CS Building");
-						enterRoom("COMP");
+												enterRoom("COMP");
+                  }
+									else if ((player.x > 940 && player.x < 980) && (player.y > 190 && player.y < 210)) {
+                        console.log("Entered Physics Building");
+											//*enterRoom("PHYS");
+                  }
+									else if ((player.x > 960 && player.x < 1050) && (player.y > 650 && player.y < 670)) {
+                        console.log("Entered Math Building");
+									//*enterRoom("MATH");
+                  }
+									else if ((player.x > 640 && player.x < 670) && (player.y > 645 && player.y < 670)) {
+                        console.log("Entered Philosophy Building");
+									//*enterRoom("PHIL");
                   }
             }
             else if (inTown && screen == 'overworld') {
@@ -806,6 +822,15 @@ save.onclick = function () {
 		   coursesButtonGroup.style.display = 'inline';
 		  if(roomName = "COMP"){
 			 compMenu.style.display = 'inline-block';
+		  }
+			else if(roomName = "MATH"){
+			 mathMenu.style.display = 'inline-block';
+		  }
+			else if(roomName = "PHYS"){
+			 physMenu.style.display = 'inline-block';
+		  }
+			else if(roomName = "PHIL"){
+			 philMenu.style.display = 'inline-block';
 		  }
 	  	
 	  }
