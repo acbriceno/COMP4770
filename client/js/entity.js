@@ -461,7 +461,8 @@ Final=function(id,x,y,w,h,img,hp,dmg){
 	Final.list[id]=self;
 
 	self.onDeath=function(){
-		levelCompleted();
+		self.remove=true;
+		//levelCompleted();
 	}
 }
 
