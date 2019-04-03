@@ -248,7 +248,11 @@ let a3 = document.getElementById('selections2');
 	let startNewGame = document.getElementById('startNewGame');
 	moveScreen=MoveScreen(0,0,);
 	let FAC='math';
-      let inTown = false;
+   	let inTown = false;
+	let money;
+	let gammaHP;
+	let dadCredit;
+	let workCredit;
 
   var Img = {};
   Img.playerLevel = new Image();
@@ -750,6 +754,9 @@ save.onclick = function () {
 	  }
 	  
 	  loadOverworld = function(){
+		  menuWrapper.style.display = "none";
+		  gameDiv.style.display="inline-block";
+		  loadFile.style.display = "none";
           player.x = 300;
           player.y = 350;
           if (player.x < 0) {
@@ -850,6 +857,7 @@ save.onclick = function () {
 			});
 		}
 			let savesCounter = 0;
+			let userSaves;
 		loadCampaignSaveFiles = function(campaignNumber){
 			let socket = io();
   			let saveHeader = document.createElement("P");
@@ -870,17 +878,33 @@ save.onclick = function () {
 			socket.emit('getUserCampaignSaves', {token: token, campaignNumber: campaignNumber});
 			socket.on('loadUserCampaignSaves', function(message){
 				for(var x=0; x<message.saves.length; x++){
-					buildSavesButton(message.saves[x].saveDate);
+					buildSavesButton(message.saves[x]);
 				}
+				userSaves = message.saves;
 			});
 				
 		}
 		
 		buildSavesButton = function(saveInfo){
   			var save = document.createElement("button");
-  			var t = document.createTextNode("Save " + saveInfo);
+  			var t = document.createTextNode("Save " + saveInfo.saveNumber);
+			save.setAttribute("onclick", "loadSavedGame("+ saveInfo.saveNumber + ")");
   			save.appendChild(t);
   			loadFile.appendChild(save);
+		}
+		
+		loadSavedGame = function(saveNumber){
+			for(var x=0; x<userSaves.length;x++){
+				if(userSaves[x].saveNumber == saveNumber){
+					console.log(userSaves[x]);
+					money = userSaves[x].money;
+					gammaHP = userSaves[x].gammaHP;
+					dadCredit = userSaves[x].dadCredit;
+					workCredit = userSaves[x].workCredit;
+					loadOverworld();
+					
+				}
+			}
 		}
 		
 		buildCampaignListButton = function(CampaignInfo){
