@@ -82,6 +82,7 @@
 		<div id="deathScreen" style="display:none;">
 
 		</div>
+
 	<div id="coursesButtonGroup">
 		<div id="mathMenu" style="display:none;">
 
@@ -130,6 +131,15 @@
 							<button class="button3" id="backCourse">Back</button>
 
 					</div>
+
+                              <div id="landscapingWork" style="display:none;">
+
+      						<h2 id="levelHeading">Welcome to your Dad's Landscaping</h2>
+
+      							<button class="button3" id="LandscapeButton">Go to Work</button>
+      							<button class="button3" id="backCourse">Back</button>
+
+      					</div>
 </div>
 
 
@@ -309,6 +319,7 @@ let a3 = document.getElementById('selections2');
 				else{
                               leaveRoom();
 					loadCourseLevel(target);
+
 				}
 
 	        }
@@ -496,6 +507,7 @@ let a3 = document.getElementById('selections2');
                   }
                   if ((player.x < 140 && player.x > 60) && (player.y < 435 && player.y > 295)) {
                         console.log("Entered Work");
+                        enterRoom("LAND");
                   }
             }
 
@@ -834,18 +846,25 @@ save.onclick = function () {
 
 	  enterRoom = function(roomName){
 		   coursesButtonGroup.style.display = 'inline';
-		  if(roomName = "COMP"){
+		  if(roomName == "COMP"){
 			 compMenu.style.display = 'inline-block';
 		  }
-			else if(roomName = "MATH"){
+			else if(roomName == "MATH"){
 			 mathMenu.style.display = 'inline-block';
 		  }
-			else if(roomName = "PHYS"){
+			else if(roomName == "PHYS"){
 			 physMenu.style.display = 'inline-block';
 		  }
-			else if(roomName = "PHIL"){
+			else if(roomName == "PHIL"){
 			 philMenu.style.display = 'inline-block';
 		  }
+                  else if(roomName == "LAND"){
+                   compMenu.style.display = 'none';
+                   menuWrapper.style.display = "none";
+    		       gameDiv.style.display="none";
+                   landscapingWork.style.display = 'inline-block';
+                    screen = menu;
+              }
 
 	  }
 

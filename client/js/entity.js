@@ -546,7 +546,7 @@ Player=function(x,y){
 			x+=mousePos.xoff*64;
 			y+=mousePos.yoff*64;
 		}
-            console.log(x + ", " + y);
+            //console.log(x + ", " + y);
             if (x < -25) {
                   //console.log("over the edge");
             }
