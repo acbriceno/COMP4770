@@ -52,9 +52,10 @@
 																<!-- All files had the same id
 												Will need to connect to database -->
 											<div id="loadFile" style="display:none;">
-													<button id="file">File One</button>
+												
+													<!-- <button id="file">File One</button>
 													<button id="file">File Two</button>
-													<button id="file">File Three</button>
+													<button id="file">File Three</button> -->
 											</div>
 
 											<div id="playerProfile" style ="display:none;">
@@ -216,7 +217,7 @@
   let loadGame = document.getElementById('loadGame');
   let levelEditorB = document.getElementById('levelEditorB');
   let loadFile = document.getElementById('loadFile');
-  let file = document.getElementById('file');
+  //let file = document.getElementById('file');
   let a1 = document.getElementById('selections');
 let a3 = document.getElementById('selections2');
 	let a2 = document.getElementById('loadSelect');
@@ -784,13 +785,15 @@ save.onclick = function () {
       loadGame.onclick = function() {
 			mainMenu.style.display = 'none';
             loadFile.style.display = 'inline-block';
-		      	screen='game';
+		    screen='game';
+			getUserCampaigns();
+	
       }
 
-      file.onclick = function () {
-            loadFile.style.display = 'none';
-            gameDiv.style.display = 'inline-block';
-      }
+      // file.onclick = function () {
+      //       loadFile.style.display = 'none';
+      //       gameDiv.style.display = 'inline-block';
+      // }
 
 			profile.onclick= function  () {
             playerProfile.style.display = 'inline-block';
@@ -830,6 +833,31 @@ save.onclick = function () {
 				console.log(message);
 			});
 
+		}
+	
+		
+		getUserCampaigns = function(){
+			let socket = io();
+			socket.emit('getUserCampaigns',{token: token});
+			socket.on('loadUserCampaigns', function(message){
+				//console.log(message.campaigns);
+				Campaigns = message.campaigns;
+				
+				for(var x=0; x<message.campaigns.length; x++){
+					buildCampaignListButton(message.campaigns[x].campaignNumber);
+				}
+				
+			});
+		}
+		
+		buildCampaignListButton = function(CampaignInfo){
+			
+			console.log(CampaignInfo);
+			
+			var campaignButton = document.createElement("button");
+			var t = document.createTextNode(CampaignInfo);
+			campaignButton.appendChild(t);
+			loadFile.appendChild(campaignButton);
 		}
 
 

@@ -191,6 +191,23 @@ module.exports.findUserCampaigns = function(user, callback){
     });
 }
 
+module.exports.findUserCampaignsWithToken = function(token, callback){
+    const client = new MongoClient(url,{useNewUrlParser: true} );
+   	client.connect(function(err, client) {
+     assert.equal(null, err);
+     console.log("Getting Campaigns with token");
+    
+     const db = client.db(dbName);
+        
+     let query = { token: token };
+     db.collection("users").findOne(query, function(err, result) {
+       if (err) throw err;
+       client.close();
+       return callback(result.campaigns);
+     });
+    });
+}
+
 
 module.exports.updateCampaigns = function(username, campaigns){
   const client = new MongoClient(url,{useNewUrlParser: true} );

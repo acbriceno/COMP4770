@@ -164,6 +164,12 @@ module.exports.getCampaignLevel = function(levelName, callback){
 }
 
 
+module.exports.getUserCampaigns = function (token, callback){
+	dbManager.findUserCampaignsWithToken(token, function(campaigns){
+		return callback(campaigns);
+		
+	});
+}
 
 module.exports.addCourseLevelToUserCampaign = function(username, campaignNumber, courseName){
 	

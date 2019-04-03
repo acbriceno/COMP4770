@@ -137,5 +137,13 @@ socket.on('getLevels', function(message){
 		game.saveNewSave(message.username, message.campaignNumber, message.save);
 	});
 	
+	socket.on('getUserCampaigns', function (message){
+		game.getUserCampaigns(message.token, function(campaigns){
+			console.log(campaigns);
+			socket.emit('loadUserCampaigns',{
+				campaigns : campaigns
+			});
+		});
+	});
 		
   });
