@@ -88,6 +88,15 @@ Entity=function(type,id,x,y,w,h,img){
 	return self;
 }
 
+Entity.clear=function(){
+	for(let key96 in Entity.list){
+		let e=Entity.list[key96];
+		if(e.type!='Player'){
+			e.remove=true;
+		}
+	}
+}
+
 Entity.list={};
 
 Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
@@ -192,11 +201,11 @@ Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
 			}
 		}
 		if(moveG){
-			self.ySpd-=1;
+			self.ySpd-=0.75;
 			self.y-=self.ySpd;
 		}
-		if(self.ySpd<-10){
-			self.ySpd=-10;
+		if(self.ySpd<-15){
+			self.ySpd=-15;
 		}
 		if(self.rightPress){
 			for(let key11 in Platform.list){
@@ -361,7 +370,7 @@ Enemy.generate=function(x,y){
 	let id=Math.random();
 	let hp=10;
 	let atkSpd=0.5;
-	let dmg=100;
+	let dmg=1;
 	//using player img as placeholder
 	if(FAC=="phil"){
 		let img1=Img.philEnemy;
@@ -391,8 +400,8 @@ Enemy.facChange=function(){
 	}
 }
 
-Assignment=function(id,x,y,w,h,img,hp,dmg){
-	let self=Enemy(id,x,y,w,h,img,hp,dmg,'a');
+Assignment=function(id,x,y,w,h,img,hp,atkSpd,dmg){
+	let self=Enemy(id,x,y,w,h,img,hp,atkSpd,dmg,'a');
 	Assignment.list[id]=self;
 	self.remove=false;
 }
@@ -420,11 +429,11 @@ Assignment.generate=function(x,y){
 	let dmg=3;
 	//using player img as placeholder
 	let img=Img.philEnemy;
-	Assignment(id,x,y,w,h,img,hp,dmg);
+	Assignment(id,x,y,w,h,img,hp,atkSpd,dmg);
 }
 
-Midterm=function(id,x,y,w,h,img,hp,dmg){
-	let self=Enemy(id,x,y,w,h,img,hp,dmg,'m');
+Midterm=function(id,x,y,w,h,img,hp,atkSpd,dmg){
+	let self=Enemy(id,x,y,w,h,img,hp,atkSpd,dmg,'m');
 	Midterm.list[id]=self;
 	self.remove=false;
 }
@@ -450,18 +459,19 @@ Midterm.generate=function(x,y){
 	let id=Math.random();
 	let hp=50;
 	let atkSpd=1;
-	let dmg=7;
+	let dmg=5;
 	//using player img as placeholder
 	let img=Img.midterm;
-	Midterm(id,x,y,w,h,img,hp,dmg);
+	Midterm(id,x,y,w,h,img,hp,atkSpd,dmg);
 }
 
-Final=function(id,x,y,w,h,img,hp,dmg){
-	let self=Enemy(id,x,y,w,h,img,hp,dmg,'l');
+Final=function(id,x,y,w,h,img,hp,atkSpd,dmg){
+	let self=Enemy(id,x,y,w,h,img,hp,atkSpd,dmg,'l');
 	Final.list[id]=self;
 
 	self.onDeath=function(){
-		levelCompleted();
+		self.remove=true;
+		//levelCompleted();
 	}
 }
 
@@ -485,16 +495,16 @@ Final.generate=function(x,y){
 	let w=64;
 	let id=Math.random();
 	let hp=10;
-	let atkSpd=2;
-	let dmg=15;
+	let atkSpd=1;
+	let dmg=7;
 	//using player img as placeholder
 	let img=Img.philEnemy;
-	Final(id,x,y,w,h,img,hp,dmg);
+	Final(id,x,y,w,h,img,hp,atkSpd,dmg);
 }
 
 Player=function(x,y){
 	let img=Img.playerLevel;
-	let self=Actor('Player','myId',x,y,64,64,img,100,5,5,'p');
+	let self=Actor('Player','myId',x,y,64,64,img,30,5,5,'p');
 	self.maxSpd=5;
 	self.lMouseClick=false;
 	self.rMouseClick=false;
@@ -512,6 +522,9 @@ Player=function(x,y){
 			}
 			if(self.lMouseClick){
 				self.performAttack();
+			}
+			if(self.y>(deathY+1)*64){
+				self.onDeath();
 			}
 		}
 		if(screen=='overworld'){
@@ -544,7 +557,7 @@ Player=function(x,y){
 		}
             //console.log(x + ", " + y);
             if (x < -25) {
-                  console.log("over the edge");
+                  //console.log("over the edge");
             }
 		let framew=self.img.width/4;
 		let frameh=self.img.height/28;
