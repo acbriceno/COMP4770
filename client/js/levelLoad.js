@@ -1,11 +1,6 @@
 loadLevel=function(level,width){
 	
-	for(let key1 in Entity.list){
-		let e=Entity.list[key1];
-		if(e.type != "Player"){
-			e.remove=true;
-		}
-	}
+	Entity.clear();
 	
 	width++;
 	
