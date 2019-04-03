@@ -52,7 +52,7 @@
 																<!-- All files had the same id
 												Will need to connect to database -->
 											<div id="loadFile" style="display:none;">
-												
+												<p>Campaigns</p>
 													<!-- <button id="file">File One</button>
 													<button id="file">File Two</button>
 													<button id="file">File Three</button> -->
@@ -786,7 +786,7 @@ save.onclick = function () {
 			mainMenu.style.display = 'none';
             loadFile.style.display = 'inline-block';
 		    screen='game';
-			getUserCampaigns();
+			loadUserCampaigns();
 	
       }
 
@@ -836,18 +836,51 @@ save.onclick = function () {
 		}
 	
 		
-		getUserCampaigns = function(){
+		loadUserCampaigns = function(){
 			let socket = io();
 			socket.emit('getUserCampaigns',{token: token});
 			socket.on('loadUserCampaigns', function(message){
 				//console.log(message.campaigns);
 				Campaigns = message.campaigns;
-				
+				loadFile.innerHTML = "";
 				for(var x=0; x<message.campaigns.length; x++){
-					buildCampaignListButton(message.campaigns[x].campaignNumber);
+					buildCampaignListButton(message.campaigns[x]);
 				}
 				
 			});
+		}
+			let savesCounter = 0;
+		loadCampaignSaveFiles = function(campaignNumber){
+			let socket = io();
+  			let saveHeader = document.createElement("P");
+  			let t = document.createTextNode("Saves From Campaign " + campaignNumber);
+			saveHeader.appendChild(t);	
+			if (savesCounter == 0){
+				//loadFile.innerHTML = "";
+	  			loadFile.appendChild(saveHeader);
+				savesCounter = 1;
+			}
+			else{
+				console.log(loadFile);
+				loadFile.removeChild(loadFile.lastElementChild);
+				loadFile.removeChild(loadFile.lastElementChild);
+	  			loadFile.appendChild(saveHeader);
+
+			}
+			socket.emit('getUserCampaignSaves', {token: token, campaignNumber: campaignNumber});
+			socket.on('loadUserCampaignSaves', function(message){
+				for(var x=0; x<message.saves.length; x++){
+					buildSavesButton(message.saves[x].saveDate);
+				}
+			});
+				
+		}
+		
+		buildSavesButton = function(saveInfo){
+  			var save = document.createElement("button");
+  			var t = document.createTextNode("Save " + saveInfo);
+  			save.appendChild(t);
+  			loadFile.appendChild(save);
 		}
 		
 		buildCampaignListButton = function(CampaignInfo){
@@ -855,7 +888,8 @@ save.onclick = function () {
 			console.log(CampaignInfo);
 			
 			var campaignButton = document.createElement("button");
-			var t = document.createTextNode(CampaignInfo);
+			var t = document.createTextNode(CampaignInfo.campaignNumber);
+			campaignButton.setAttribute("onclick", "loadCampaignSaveFiles(" + CampaignInfo.campaignNumber + ")");
 			campaignButton.appendChild(t);
 			loadFile.appendChild(campaignButton);
 		}

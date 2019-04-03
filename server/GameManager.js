@@ -171,6 +171,12 @@ module.exports.getUserCampaigns = function (token, callback){
 	});
 }
 
+module.exports.getUserCampaignSaves = function(token, campaignNumber, callback){
+	dbManager.findUserCampaignWithToken(token, campaignNumber, function(campaign){
+		return callback(campaign.SaveFile.saves);
+	});
+}
+
 module.exports.addCourseLevelToUserCampaign = function(username, campaignNumber, courseName){
 	
 }

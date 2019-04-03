@@ -145,5 +145,15 @@ socket.on('getLevels', function(message){
 			});
 		});
 	});
+	
+	socket.on('getUserCampaignSaves', function(message) {
+			game.getUserCampaignSaves(message.token, message.campaignNumber, function(saves){
+				socket.emit('loadUserCampaignSaves', {
+					saves : saves
+				});
+			});
+	});
+	
+	
 		
   });
