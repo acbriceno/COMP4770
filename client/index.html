@@ -276,10 +276,11 @@ let a3 = document.getElementById('selections2');
 	moveScreen=MoveScreen(0,0,);
 	let FAC='math';
    	let inTown = false;
-	let money;
+	let money = 0;
 	let gammaHP;
 	let dadCredit;
 	let workCredit;
+      let land = document.getElementById('LandscapeButton');
 
   var Img = {};
   Img.playerLevel = new Image();
@@ -319,6 +320,12 @@ let a3 = document.getElementById('selections2');
 
 	let bg="img/math1.png";
 
+      let updateMoney = function() {
+            console.log("Money before: " + money);
+            money = money + 400;
+            console.log("Money after: " + money);
+      }
+
 
 
 	var isFirxFox = function () {
@@ -329,6 +336,10 @@ let a3 = document.getElementById('selections2');
 				if(target == "backCourse"){
 					leaveRoom();
 				}
+                        else if (target == "LandscapeButton") {
+                              updateMoney(); // make update money
+                              leaveRoom();
+                        }
 				else{
 					leaveRoom();
 					loadCourseLevel(target);
@@ -666,7 +677,7 @@ let a3 = document.getElementById('selections2');
 
 					//playerProfile.style.display = 'inline-block';
 					back.style.display = 'inline';
-					screen='menu';
+					//screen='menu';
 
 
 				}
@@ -677,6 +688,8 @@ let a3 = document.getElementById('selections2');
 				}
 
 	}
+
+
 
 	function backMainMenu(){
    console.log("s " + screen);
@@ -737,7 +750,7 @@ save.onclick = function () {
 	levelFailed=function(){
 		gameDiv.style.display='none';
 		signDiv.style.display = 'none';
-		
+
 		//menuWrapper.style.display='inline-block'; //Reapperaing menu wrapper
 		//mainMenu.style.display = 'inline-block';
 		screen='menu';
@@ -831,6 +844,7 @@ save.onclick = function () {
 	  }
 
 	   loadCourseLevel  = function(courseName){
+                console.log("HERE");
 		  let socket=io();
   		socket.emit('loadSystemCourseLevel',{
 			courseName: courseName
@@ -894,7 +908,7 @@ save.onclick = function () {
                    menuWrapper.style.display = "none";
     		       gameDiv.style.display="none";
                    landscapingWork.style.display = 'inline-block';
-                    screen = menu;
+                    //screen = menu;
               }
 
 	  }
