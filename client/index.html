@@ -39,14 +39,14 @@
 
 										</div>
 
-										<div id="campaignInput" style="display:none;">
+										<div id="campaignInput" style="display:none; text-align: center;">
 												<form>
 													<input type="text" id="playerName" placeholder="Player Name"><br>
-													<input type="radio"  name="difficulty" value="0" checked> Easy<br>
-													<input type="radio"  name="difficulty" value="1"> Medium<br>
-													<input type="radio"  name="difficulty" value="2"> Hard
+													<input class="ngRadio" type="radio"  name="difficulty" value="0" checked> Easy<br>
+													<input class="ngRadio" type="radio"  name="difficulty" value="1"> Medium<br>
+													<input class="ngRadio" type="radio"  name="difficulty" value="2"> Hard
 												</form>
-													<button id="startNewGame">Start New Game</button>
+													<button class="button3" id="startNewGame">Start New Game</button>
 											</div>
 
 																<!-- All files had the same id
@@ -91,9 +91,10 @@
 				<img src="./img/youpassed.png" alt="game logo">
 			</div>
 			<div id="stats">
+				<h2 id="levelHeading">You completed the time in: </h2>
 
 			</div>
-			<button onclick="afterdeath()" class = "button3"> Go Back to Campus </button>
+			<button onclick="aftersuccess()" class = "button3"> Go Back to Campus </button>
 		</div>
 
 	<div id="coursesButtonGroup">
@@ -159,6 +160,7 @@
 
 
 <div id="gameDiv" style="display:none;">
+		<button class="specialBack" onclick="backMainMenu()">Back</button>
 	<div id="game" style="position:absolute;width:1280px;height:720px">
 		<canvas id="ctx" width="1280" height="720" style="position:absolute;border:1px solid #000000;"></canvas>
 		<canvas id="ctx-ui" width="1280" height="720" style="position:absolute;border:1px solid #000000;"></canvas>
@@ -703,7 +705,10 @@ let a3 = document.getElementById('selections2');
 			campaignInput.style.display = 'none';
 		}
 
-		if (screen=="le" || screen =="game"){
+
+
+
+		if (screen=="le" || screen =="game" || screen=="overworld"){
 			levelEditor.style.display = 'none';
       selections.style.display = 'none';
 			loadFile.style.display = 'none';
@@ -768,11 +773,20 @@ save.onclick = function () {
 	levelCompleted=function(){
 		gameDiv.style.display='none';
 		signDiv.style.display = 'none';
-		menuWrapper.style.display='inline-block'; //Reapperaing menu wrapper
-		mainMenu.style.display = 'inline-block';
+
+		succsessScreen.style.display = 'inline-block';
+
+		//menuWrapper.style.display='inline-block'; //Reapperaing menu wrapper
+		//mainMenu.style.display = 'inline-block';
 		screen='menu';
 		let compTime=Date.now()-start;
 		console.log('Completed level in '+compTime+' ms.');
+		Entity.clear();
+	}
+
+	function aftersuccess(){
+		succsessScreen.style.display = 'none';
+		leaveRoom();
 		Entity.clear();
 	}
 
@@ -838,6 +852,7 @@ save.onclick = function () {
 	  }
 
 	  loadOverworld = function(){
+			Entity.clear();
 		  menuWrapper.style.display = "none";
 		  gameDiv.style.display="inline-block";
 		  loadFile.style.display = "none";
