@@ -228,11 +228,14 @@
 	var username = "";
 	var token = "";
 	let canvas=document.getElementById('ctx');
-      let canvasG=document.getElementById('ctx_uiLE');
+    let canvasG=document.getElementById('ctx_uiLE');
 	let ctx=canvas.getContext('2d');
 	let canvasLE=document.getElementById('ctxLE');
 	let ctxLE=canvasLE.getContext('2d');
-      let ctx_uiLE = canvasG.getContext('2d');
+    let ctx_uiLE = canvasG.getContext('2d');
+	let canvasui=document.getElementById('ctx-ui');
+	let ctxui=canvasui.getContext('2d');
+	
 
 	let  snd = new Audio("music/Good Will Hunting OST - 02 The Theorem.mp3");
          let  snd2 = new Audio("music/Winterbells Extended Original song.mp3");
@@ -551,12 +554,20 @@ let a3 = document.getElementById('selections2');
                         bgImg.src= 'img/town.png';
                   }
             }
-			if(levelEditor.style.display == "none"){
-				ctx.clearRect(0, 0, 1280, 720);
+			if(screen=='game'||screen=='overworld'){
+				ctx.clearRect(0, 0, W, H);
 				ctx.drawImage(bgImg,0,0,W,H);
+				ctxui.clearRect(0,0,W,H);
+				ctxui.font="35px Arial";
+				ctxui.strokeText("Money: "+money,50,50);
+				if(screen=='overworld'){
+					ctxui.strokeText("Dad Credits: "+dadCredit,300,50);
+					ctxui.strokeText("Work Credits: "+workCredit,600,50);
+				}
+				
 			}
-			else{
-				ctxLE.clearRect(0,0,1280,720);
+			else if(screen=='le'){
+				ctxLE.clearRect(0,0,W,H);
 				ctxLE.drawImage(bgImg,0,0,W,H);
 			}
                   player.update();
@@ -827,6 +838,11 @@ save.onclick = function () {
                   // }
                   // screen = 'overworld';
 
+				  gammaHp=Math.floor((Math.random())*4);
+				  gammaHP++;
+				  money=3000;
+				  dadCredit=1;
+				  workCredit=4;
 				  loadOverworld();
 			//loadCourseLevel("PHYS1000");
 
@@ -909,7 +925,7 @@ save.onclick = function () {
                    menuWrapper.style.display = "none";
     		       gameDiv.style.display="none";
                    landscapingWork.style.display = 'inline-block';
-                    screen = menu;
+                    screen = 'menu';
               }
 
 	  }
