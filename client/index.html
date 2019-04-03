@@ -185,10 +185,10 @@
       </div>
 	<div id="aSelect2" style ="position: fixed; bottom: 50px; right: 110px;">
             <select id="background" onchange="facChange()">
-				<option value="img/math1.png" selected="selected">Math</option>
-				<option value="img/phil1.png">Philosophy</option>
-				<option value="img/phy1.png">Physics</option>
-				<option value="img/cs1.png">Computer Science</option>
+				<option id="math" value="img/math1.png" selected="selected">Math</option>
+				<option id="phil" value="img/phil1.png">Philosophy</option>
+				<option id="phys" value="img/phy1.png">Physics</option>
+				<option id="comp" value="img/cs1.png">Computer Science</option>
 			</select>
 
 	</div>
@@ -330,9 +330,15 @@ let a3 = document.getElementById('selections2');
 					leaveRoom();
 				}
 				else{
+<<<<<<< HEAD
+					leaveRoom();
+					loadCourseLevel(target);
+					
+=======
                               leaveRoom();
 					loadCourseLevel(target);
 
+>>>>>>> fc279ee04b4f16d169120326b58e0bf0ff033359
 				}
 
 	        }
@@ -527,7 +533,18 @@ let a3 = document.getElementById('selections2');
 
 		let bgImg=new Image();
             if (screen == "le" || screen == "game") {
-      		bgImg.src=document.getElementById('background').value;
+				if(FAC=="math"){
+					bgImg.src='img/math1.png';
+				}
+				else if(FAC=="phil"){
+					bgImg.src="img/phil1.png";
+				}
+				else if(FAC=="phys"){
+					bgImg.src="img/phy1.png";
+				}
+				else if(FAC=="comp"){
+					bgImg.src="img/cs1.png";
+				}
             }
             else if (screen == 'overworld') {
                   if (!inTown) {
@@ -570,11 +587,11 @@ let a3 = document.getElementById('selections2');
 			Enemy.facChange();
 		}
 		else if(document.getElementById('background').value=='img/phy1.png'){
-			FAC='phy';
+			FAC='phys';
 			Enemy.facChange();
 		}
 		else if(document.getElementById('background').value=='img/cs1.png'){
-			FAC='cs';
+			FAC='comp';
 			Enemy.facChange();
 		}
 	}
@@ -747,6 +764,7 @@ save.onclick = function () {
 		screen='menu';
 		let compTime=Date.now()-start;
 		console.log('Completed level in '+compTime+' ms.');
+		Entity.clear();
 	}
 
 	//console.log("string :" + saveLevel(0,0,0,0));
@@ -888,7 +906,11 @@ save.onclick = function () {
 
 	  leaveRoom = function(roomName){
 		  coursesButtonGroup.style.display = 'none';
+<<<<<<< HEAD
+		  compMenu.style.display = 'inline-block';
+=======
               compMenu.style.display = 'inline-block';
+>>>>>>> fc279ee04b4f16d169120326b58e0bf0ff033359
 		  loadOverworld();
 	  }
 
