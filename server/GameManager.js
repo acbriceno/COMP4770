@@ -85,39 +85,27 @@ var generateCampaign = function(difficulty){
 		campaign["money"] = 1000;
 		campaign["gammaHP"] = 0;
 		campaign["dadCredit"] = 5000;
-<<<<<<< HEAD
-		campaign["workCredit"] = 10;
-=======
-            console.log("BEFORE WORKCREDIT");
+        console.log("BEFORE WORKCREDIT");
 		campaign["workCredit"] = 4;
->>>>>>> 472d0c8dc2a840969e56936b1c58ea4fcea641fb
 		console.log("test");
 	}
 	if(difficulty == 1){
 		campaign["money"] = 500;
 		campaign["gammaHP"] = 0;
 		campaign["dadCredit"] = 3000;
-<<<<<<< HEAD
-		campaign["workCredit"] = 20;
-=======
 		campaign["workCredit"] = 2;
->>>>>>> 472d0c8dc2a840969e56936b1c58ea4fcea641fb
 	}
 	if(difficulty == 2){
 		campaign["money"] = 200;
 		campaign["gammaHP"] = 0;
 		campaign["dadCredit"] = 1000;
-<<<<<<< HEAD
-		campaign["workCredit"] = 30;
-=======
 		campaign["workCredit"] = 1;
->>>>>>> 472d0c8dc2a840969e56936b1c58ea4fcea641fb
 	}
 	if(difficulty == 3){
-		campaign["money"] = 100000;
+		campaign["money"] = 1000000;
 		campaign["gammaHP"] = 0;
-		campaign["dadCredit"] = 5000000;
-		campaign["workCredit"] = 40;
+		campaign["dadCredit"] = 50;
+		campaign["workCredit"] = 0;
 	}
 
 	return campaign;
