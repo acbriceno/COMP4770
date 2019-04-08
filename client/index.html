@@ -62,24 +62,20 @@
 											<div id="playerProfile" style ="display:none;">
 												UserName : <input type="text" id="username" value=username>
 												token : <input type="text" id="token" value=token>
-<<<<<<< HEAD
-												levelEditorString : <input type="text" id="level" value=getCreatedLevels()>
-=======
 												levelEditorString : <input type="text" id="level" value=saveLevel()>
-												
+
 												<select id="controlSelect">
 												</select>
 												<input type="text" id="inputControl" >
-												
+
 												<table id="controlsTable">
 											      <tr>
 											        <th>Action</th>
 											        <th>Control</th>
 											      </tr>
 												</table>
-												
-												
->>>>>>> 71b5cb3114ed86bffab7296d012fb9129b2547cf
+
+
 										</div>
 
 										<div id="back" style ="display:none;">
@@ -717,7 +713,7 @@
 
 
 	signDivSignUp.onclick = function() {
-		
+
 		user=document.getElementById('signDiv-username').value;
 		pass=document.getElementById('signDiv-password').value;
 
@@ -903,7 +899,7 @@ save.onclick = function () {
 		console.log('Completed level in '+compTime+' ms.');
 		compTime=compTime/1000;
 		let elem=document.getElementById("levelHeading");
-		let str=elem.innerHTML + compTime;
+		let str = "You completed level in " + compTime + " seconds";
 		elem.innerHTML=str;
 		Entity.clear();
 	}
@@ -1222,25 +1218,25 @@ save.onclick = function () {
 				let optionControl = document.createElement("option");
 				optionControl.text = control;
 				userControls.add(optionControl);
-			
+
 			}
 		}
-		
+
 		buildControlsTable =  function(){
-			
+
 			var table = document.getElementById("controlsTable");
 			table.innerHTML = "";
-			  
-			 
 
-			  
+
+
+
   			for(var control in controls){
   			  var row = table.insertRow(0);
   			  var cell1 = row.insertCell(0);
   			  var cell2 = row.insertCell(1);
   			  cell1.innerHTML = control;
-  			  cell2.innerHTML = outputControls(controls[control]);;	
-			
+  			  cell2.innerHTML = outputControls(controls[control]);;
+
   			}
 		  var row = table.insertRow(0);
 		  var cell1 = row.insertCell(0);
