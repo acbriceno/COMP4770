@@ -2,6 +2,8 @@
 let dbManager = require('./DBManager.js');
 
 module.exports.createCampaign = function(user, info, callback){
+      let inventory = generateInventory();
+      console.log("Made past generateInventory()");
 	dbManager.findAllSystemCourseLevels(function(levels){
 		let campaign = generateCampaign(info.difficulty);
 		//console.log(campaign);
@@ -24,7 +26,6 @@ module.exports.createCampaign = function(user, info, callback){
 		}
 
 		console.log(courses);
-		let inventory = generateInventory();
 		let saveFiles = {
 			saves: [
 			{
@@ -84,6 +85,7 @@ var generateCampaign = function(difficulty){
 		campaign["money"] = 1000;
 		campaign["gammaHP"] = 0;
 		campaign["dadCredit"] = 5000;
+            console.log("BEFORE WORKCREDIT");
 		campaign["workCredit"] = 4;
 		console.log("test");
 	}
@@ -114,7 +116,7 @@ var generateInventory = function(){
 			weaponPowerUps : [
 				{
 					itemName: "textBookUpgrade"
-				},					
+				},
 				{
 					itemName: "penAmmo",
 					amount: 500
@@ -158,7 +160,7 @@ var generateInventory = function(){
 					itemName: "alcoholBottle"
 				}
 			]
-	
+
 	};
 }
 

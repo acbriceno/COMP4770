@@ -104,6 +104,17 @@
 			<button onclick="aftersuccess()" class = "button3"> Go Back to Campus </button>
 		</div>
 
+            <div id="succsessScreenLE" style="display:none;" >
+                  <div id ="logoIMG">
+                        <img src="./img/youpassed.png" alt="game logo">
+                  </div>
+                  <div id="stats">
+                        <h2 id="levelHeading">You completed the time in: </h2>
+
+                  </div>
+                  <button onclick="aftersuccessLE()" class = "button3"> Go Back to Campus </button>
+            </div>
+
 	<div id="coursesButtonGroup">
 		<div id="mathMenu" style="display:none;">
 
@@ -815,11 +826,11 @@ save.onclick = function () {
 		//menuWrapper.style.display='inline-block'; //Reapperaing menu wrapper
 		//mainMenu.style.display = 'inline-block';
             if (fromLe == false) {
-		                //deathScreen.style.display = 'inline-block';
+		                deathScreen.style.display = 'inline-block';
                       }
                   else {
                         deathScreenLE.style.display = 'inline-block';
-                        fromLe = false;
+                        //fromLe = false;
                   }
 	}
 
@@ -842,11 +853,16 @@ save.onclick = function () {
 		gameDiv.style.display='none';
 		signDiv.style.display = 'none';
 
-		succsessScreen.style.display = 'inline-block';
+            if (fromLe == false) {
+		      succsessScreen.style.display = 'inline-block';
+            }
+            else {
+                  succsessScreenLE.style.display = 'inline-block';
+            }
 
 		//menuWrapper.style.display='inline-block'; //Reapperaing menu wrapper
 		//mainMenu.style.display = 'inline-block';
-		screen='menu';
+		//screen='menu';
 		let compTime=Date.now()-start;
 		console.log('Completed level in '+compTime+' ms.');
 		Entity.clear();
@@ -857,6 +873,15 @@ save.onclick = function () {
 		leaveRoom();
 		Entity.clear();
 	}
+
+      aftersuccessLE = function() {
+            succsessScreenLE.style.display = 'none';
+            Entity.clear();
+            levelEditor.style.display = 'inline-block';
+            screen = "le";
+            loadLevel(levelSTR, levelW);
+
+      }
 
 	//console.log("string :" + saveLevel(0,0,0,0));
 
