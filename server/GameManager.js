@@ -85,7 +85,7 @@ var generateCampaign = function(difficulty){
 		campaign["money"] = 1000;
 		campaign["gammaHP"] = 0;
 		campaign["dadCredit"] = 5000;
-            console.log("BEFORE WORKCREDIT");
+        console.log("BEFORE WORKCREDIT");
 		campaign["workCredit"] = 4;
 		console.log("test");
 	}
@@ -102,9 +102,9 @@ var generateCampaign = function(difficulty){
 		campaign["workCredit"] = 1;
 	}
 	if(difficulty == 3){
-		campaign["money"] = 100000;
+		campaign["money"] = 1000000;
 		campaign["gammaHP"] = 0;
-		campaign["dadCredit"] = 5000000;
+		campaign["dadCredit"] = 50;
 		campaign["workCredit"] = 0;
 	}
 
