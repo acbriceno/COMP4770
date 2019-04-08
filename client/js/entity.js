@@ -95,6 +95,10 @@ Entity.clear=function(){
 			e.remove=true;
 		}
 	}
+      for (let key12 in Upgrade.list) {
+            let e = Upgrade.list[key12];
+            e.remove = true;
+      }
 }
 
 Entity.list={};
@@ -666,7 +670,7 @@ Projectile.update=function(){
 	for(let key4 in Projectile.list){
 		let p = Projectile.list[key4];
 		p.update();
-		if(p.remove){
+		if(p.remove || screen != "game"){
 			delete Projectile.list[key4];
 		}
 	}
@@ -709,6 +713,7 @@ Projectile.generate = function(actor){
 
 Upgrade=function(id,x,y,w,h,cat,img){
 		let self=Entity('upgrade',id,x,y,w,h,img);
+            self.remove = false;
 		self.cat=cat;
 		Upgrade.list[id]=self;
 }
@@ -721,12 +726,16 @@ Upgrade.update=function(){
 		let collision=player.testCollision(Upgrade.list[key5]);
 		if(collision){
 			//add information fro what happens based on what kind of upgrade
-			delete Upgrade.list[key5];
+			Upgrade.list[key5].remove = true;
 		}
+            if (Upgrade.list[key5].remove) {
+                  delete Upgrade.list[key5];
+            }
 	}
 }
 
 Upgrade.generate=function(enemy){
+      console.log("Upgrade.generate");
 	let x=enemy.x;
 	let y=enemy.y;
 	let h=32;

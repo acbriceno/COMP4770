@@ -1,9 +1,10 @@
 loadLevel=function(level,width){
-	
+
 	Entity.clear();
-	
+      console.log("Load level called");
+
 	width++;
-	
+
 	console.log(Entity.list);
 	let len=level.length;
 	let facCode=level.slice((len-1),len);
@@ -48,5 +49,5 @@ loadLevel=function(level,width){
 	}
 
 	console.log(facCode)
-	
+
 }
