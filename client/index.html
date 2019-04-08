@@ -236,6 +236,8 @@
 	let canvasui=document.getElementById('ctx-ui');
 	let ctxui=canvasui.getContext('2d');
       let fromLe = false;
+      let levelSTR;
+      let levelW;
 
 
 	let  snd = new Audio("music/Good Will Hunting OST - 02 The Theorem.mp3");
@@ -596,12 +598,12 @@ let a3 = document.getElementById('selections2');
 					else{
 						ctxui.strokeText("WPU :" + weaponPowerUp, 50, 90);
 						ctxui.strokeText("PU :" + powerUp, 50, 130);
-						
+
 					}
                     ctxui.fillstyle = "white";
                     ctxui.stokestle = "white";
 
-					
+
 				}
 				if(screen=='overworld'){
 					ctxui.fillText("Money: "+money,50,50);
@@ -1088,7 +1090,7 @@ save.onclick = function () {
 			campaignButton.appendChild(t);
 			loadFile.appendChild(campaignButton);
 		}
-		
+
 
 		cycleWeaponPowerUps = function(){
 			wPUCount++;
@@ -1101,11 +1103,11 @@ save.onclick = function () {
 				if(wPUCount > campaign.SaveFile.saves[0].inventory.weaponPowerUps.length -1){wPUCount = 0;}
 				weaponPowerUp =  campaign.SaveFile.saves[0].inventory.weaponPowerUps[wPUCount].itemName;
 				console.log(campaign.SaveFile.saves[0].inventory.weaponPowerUps[wPUCount].itemName + wPUCount)
-				
-				
+
+
 			}
 		}
-		
+
 		cyclePowerUps = function(){
 			PUCount++;
 			if (campaign == null){
@@ -1117,8 +1119,8 @@ save.onclick = function () {
 				if(PUCount > campaign.SaveFile.saves[0].inventory.powerUps.length -1){PUCount = 0;}
 				powerUp =  campaign.SaveFile.saves[0].inventory.powerUps[PUCount].itemName;
 				console.log(campaign.SaveFile.saves[0].inventory.powerUps[PUCount].itemName + PUCount)
-				
-				
+
+
 			}
 		}
 
