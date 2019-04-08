@@ -640,6 +640,8 @@
 				ctxui.font="35px Arial";
 				if(screen=='game'){
 					ctxui.strokeText("HP: "+player.hp,50,50);
+					let cTime=start-Date.now();
+					ctxui.strokeText("Time: "+cTime+" seconds",50,170);
 					if(campaign != null){
 						ctxui.strokeText("WPU :" + weaponPowerUp, 50, 90);
 						ctxui.strokeText("PU :" + powerUp, 50, 130);
