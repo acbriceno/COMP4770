@@ -12,6 +12,7 @@
 <script src="js/levelSave.js"></script>
 <script src="js/inventory.js"></script>
 <script src="js/CampaignManager.js"></script>
+<script src="js/Input.js"></script>
 
 <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
 <body>
@@ -62,6 +63,19 @@
 												UserName : <input type="text" id="username" value=username>
 												token : <input type="text" id="token" value=token>
 												levelEditorString : <input type="text" id="level" value=saveLevel()>
+												
+												<select id="controlSelect">
+												</select>
+												<input type="text" id="inputControl" >
+												
+												<table id="controlsTable">
+											      <tr>
+											        <th>Action</th>
+											        <th>Control</th>
+											      </tr>
+												</table>
+												
+												
 										</div>
 
 										<div id="back" style ="display:none;">
@@ -250,8 +264,9 @@
   let levelEditorB = document.getElementById('levelEditorB');
   let loadFile = document.getElementById('loadFile');
   //let file = document.getElementById('file');
-  let a1 = document.getElementById('selections');
-let a3 = document.getElementById('selections2');
+ 	let a1 = document.getElementById('selections');
+	let a3 = document.getElementById('selections2');
+	let userControls = document.getElementById('controlSelect');
 	let a2 = document.getElementById('loadSelect');
 	let loadButton= document.getElementById('loadbutton')
 	let play=document.getElementById('play');
@@ -504,6 +519,13 @@ let a3 = document.getElementById('selections2');
 				}
 			}
 		}
+		else if (playerProfile.style.display != "none"){
+			console.log(event.which);
+			inputControl.value = "";
+			updateControls(userControls.options[userControls.selectedIndex].text, event.which);
+			console.log(controls);
+			buildControlsTable();
+		}
 	}
 	document.onkeyup=function(event){
 		if(event.keyCode==keyUp)
@@ -663,6 +685,7 @@ let a3 = document.getElementById('selections2');
 
 
 	signDivSignUp.onclick = function() {
+		
 		user=document.getElementById('signDiv-username').value;
 		pass=document.getElementById('signDiv-password').value;
 
@@ -680,6 +703,7 @@ let a3 = document.getElementById('selections2');
 
 	signDivSignIn.onclick = function() {
       console.log("signDivSignIn HIT")
+		console.log(controls);
 			user=document.getElementById('signDiv-username').value;
 			pass=document.getElementById('signDiv-password').value;
 
@@ -957,6 +981,8 @@ save.onclick = function () {
             playerProfile.style.display = 'inline-block';
 						mainMenu.style.display = 'none';
 						console.log("profile hit");
+						buildUserInputDropDown();
+						buildControlsTable();
       }
 
 
@@ -1123,6 +1149,39 @@ save.onclick = function () {
 			}
 		}
 
+
+		buildUserInputDropDown = function(){
+			console.log(controls);
+			for(var control in controls){
+				let optionControl = document.createElement("option");
+				optionControl.text = control;
+				userControls.add(optionControl);
+			
+			}
+		}
+		
+		buildControlsTable =  function(){
+			
+			var table = document.getElementById("controlsTable");
+			table.innerHTML = "";
+			  
+			 
+
+			  
+  			for(var control in controls){
+  			  var row = table.insertRow(0);
+  			  var cell1 = row.insertCell(0);
+  			  var cell2 = row.insertCell(1);
+  			  cell1.innerHTML = control;
+  			  cell2.innerHTML = outputControls(controls[control]);;	
+			
+  			}
+		  var row = table.insertRow(0);
+		  var cell1 = row.insertCell(0);
+		  var cell2 = row.insertCell(1);
+		  cell1.innerHTML = "Action";
+		  cell2.innerHTML = "Control";
+		}
 
 
 
