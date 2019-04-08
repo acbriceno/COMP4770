@@ -29,6 +29,18 @@ outputControls = function(control){
 	if (data == " "){
 		data = "space";
 	}
+	else if (data == "%"){
+		data = "Left Arrow";
+	}
+	else if (data == "("){
+		data = "Down Arrow";
+	}
+	else if (data == "&"){
+		data = "Up Arrow";
+	}
+	else if (data == "'"){
+		data = "Right Arrow";
+	}
 	return data;
 }
 
