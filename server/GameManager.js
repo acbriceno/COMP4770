@@ -2,10 +2,12 @@
 let dbManager = require('./DBManager.js');
 
 module.exports.createCampaign = function(user, info, callback){
+      let inventory = generateInventory();
+      console.log("Made past generateInventory()");
 	dbManager.findAllSystemCourseLevels(function(levels){
 		let campaign = generateCampaign(info.difficulty);
 		//console.log(campaign);
-		//console.log(info.difficulty);	
+		//console.log(info.difficulty);
 		let date = Date();
 		//console.log(levels);
 		let courses = [];
@@ -19,24 +21,23 @@ module.exports.createCampaign = function(user, info, callback){
 				courses[x].complete = false;
 				courses[x].grade = 0;
 				courses[x].bestTime = 0;
-				
+
 			}
 		}
 
 		console.log(courses);
-		let inventory = generateInventory();
 		let saveFiles = {
 			saves: [
 			{
 				playerName: info.playerName,
 				saveNumber : 1,
 				saveDate : date,
-				money : campaign.money, 
+				money : campaign.money,
 				gammaHP : campaign.gammaHP,
 				dadCredit : campaign.dadCredit,
 				workCredit : campaign.workCredit,
 				Courses : courses,
-				inventory: inventory, 
+				inventory: inventory,
 			}
 			]
 		};
@@ -48,7 +49,7 @@ module.exports.createCampaign = function(user, info, callback){
 
 					}
 				];
-	
+
 		dbManager.findUserCampaigns(user, function(campaigns){
 			if(campaigns == null){
 				dbManager.createCampaign(user, campaignSet);
@@ -64,18 +65,18 @@ module.exports.createCampaign = function(user, info, callback){
 				dbManager.updateCampaigns(user, campaigns);
 				return callback(newCampaign);
 			}
-		
+
 		});
-				
+
 		//
 	});
-	
+
 }
 
 var generateCampaign = function(difficulty){
     let campaign = {
   	 	money : 200,
-  	 	gammaHP : 0, 
+  	 	gammaHP : 0,
 		dadCredit : 5000,
 		workCredit : 0,
     };
@@ -84,20 +85,33 @@ var generateCampaign = function(difficulty){
 		campaign["money"] = 1000;
 		campaign["gammaHP"] = 0;
 		campaign["dadCredit"] = 5000;
+<<<<<<< HEAD
 		campaign["workCredit"] = 10;
+=======
+            console.log("BEFORE WORKCREDIT");
+		campaign["workCredit"] = 4;
+>>>>>>> 472d0c8dc2a840969e56936b1c58ea4fcea641fb
 		console.log("test");
 	}
 	if(difficulty == 1){
 		campaign["money"] = 500;
 		campaign["gammaHP"] = 0;
 		campaign["dadCredit"] = 3000;
+<<<<<<< HEAD
 		campaign["workCredit"] = 20;
+=======
+		campaign["workCredit"] = 2;
+>>>>>>> 472d0c8dc2a840969e56936b1c58ea4fcea641fb
 	}
 	if(difficulty == 2){
 		campaign["money"] = 200;
 		campaign["gammaHP"] = 0;
 		campaign["dadCredit"] = 1000;
+<<<<<<< HEAD
 		campaign["workCredit"] = 30;
+=======
+		campaign["workCredit"] = 1;
+>>>>>>> 472d0c8dc2a840969e56936b1c58ea4fcea641fb
 	}
 	if(difficulty == 3){
 		campaign["money"] = 100000;
@@ -105,7 +119,7 @@ var generateCampaign = function(difficulty){
 		campaign["dadCredit"] = 5000000;
 		campaign["workCredit"] = 40;
 	}
-	
+
 	return campaign;
 }
 
@@ -114,7 +128,7 @@ var generateInventory = function(){
 			weaponPowerUps : [
 				{
 					itemName: "textBookUpgrade"
-				},					
+				},
 				{
 					itemName: "penAmmo",
 					amount: 500
@@ -158,7 +172,7 @@ var generateInventory = function(){
 					itemName: "alcoholBottle"
 				}
 			]
-	
+
 	};
 }
 
@@ -183,30 +197,30 @@ module.exports.getUserCampaign = function(username, campaignNumber, callback){
 module.exports.saveCurrentGame = function(username, campaignNumber, saveNumber, save){
 	dbManager.findUserCampaigns(username, function(campaigns){
 		if(campaigns == null){
-			
-			
+
+
 		}else{
 
 			campaigns[campaignNumber -1].SaveFile.saves[saveNumber -1] = save;
 			dbManager.updateCampaigns(username, campaigns);
-			
+
 		}
-		
+
 	});
 }
 
 module.exports.saveNewSave = function(username, campaignNumber, save){
 	dbManager.findUserCampaigns(username, function(campaigns){
 		if(campaigns == null){
-			
-			
+
+
 		}else{
 
 			campaigns[campaignNumber -1].SaveFile.saves.push(save);
 			dbManager.updateCampaigns(username, campaigns);
-			
+
 		}
-		
+
 	});
 }
 
@@ -221,7 +235,7 @@ module.exports.getCampaignLevel = function(levelName, callback){
 module.exports.getUserCampaigns = function (token, callback){
 	dbManager.findUserCampaignsWithToken(token, function(campaigns){
 		return callback(campaigns);
-		
+
 	});
 }
 
@@ -232,5 +246,5 @@ module.exports.getUserCampaignSaves = function(token, campaignNumber, callback){
 }
 
 module.exports.addCourseLevelToUserCampaign = function(username, campaignNumber, courseName){
-	
+
 }

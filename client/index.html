@@ -100,6 +100,13 @@
 			<button onclick="afterdeath()" class = "button3"> Go Back to Campus </button>
 		</div>
 
+            <div id="deathScreenLE" style="display:none;" >
+                  <div id ="logoIMG">
+                        <img src="./img/FAIL.png" alt="game logo">
+                  </div>
+                  <button onclick="afterdeathLE()" class = "button3"> Go Back to Level Editor </button>
+            </div>
+
 		<div id="succsessScreen" style="display:none;" >
 			<div id ="logoIMG">
 				<img src="./img/youpassed.png" alt="game logo">
@@ -110,6 +117,17 @@
 			</div>
 			<button onclick="aftersuccess()" class = "button3"> Go Back to Campus </button>
 		</div>
+
+            <div id="succsessScreenLE" style="display:none;" >
+                  <div id ="logoIMG">
+                        <img src="./img/youpassed.png" alt="game logo">
+                  </div>
+                  <div id="stats">
+                        <h2 id="levelHeading">You completed the time in: </h2>
+
+                  </div>
+                  <button onclick="aftersuccessLE()" class = "button3"> Go Back to Campus </button>
+            </div>
 
 	<div id="coursesButtonGroup">
 		<div id="mathMenu" style="display:none;">
@@ -249,6 +267,9 @@
     let ctx_uiLE = canvasG.getContext('2d');
 	let canvasui=document.getElementById('ctx-ui');
 	let ctxui=canvasui.getContext('2d');
+      let fromLe = false;
+      let levelSTR;
+      let levelW;
 
 
 	let  snd = new Audio("music/Good Will Hunting OST - 02 The Theorem.mp3");
@@ -374,8 +395,6 @@
                         }
 				else{
 					leaveRoom();
-					loadCourseLevel(target);
-                              leaveRoom();
 					loadCourseLevel(target);
 				}
 
@@ -619,12 +638,12 @@
 					else{
 						ctxui.strokeText("WPU :" + weaponPowerUp, 50, 90);
 						ctxui.strokeText("PU :" + powerUp, 50, 130);
-						
+
 					}
                     ctxui.fillstyle = "white";
                     ctxui.stokestle = "white";
 
-					
+
 				}
 				if(screen=='overworld'){
 					ctxui.fillText("Money: "+money,50,50);
@@ -830,8 +849,13 @@ save.onclick = function () {
 
 		//menuWrapper.style.display='inline-block'; //Reapperaing menu wrapper
 		//mainMenu.style.display = 'inline-block';
-		screen='menu';
-		deathScreen.style.display = 'inline-block';
+            if (fromLe == false) {
+		                deathScreen.style.display = 'inline-block';
+                      }
+                  else {
+                        deathScreenLE.style.display = 'inline-block';
+                        //fromLe = false;
+                  }
 	}
 
 
@@ -841,17 +865,34 @@ save.onclick = function () {
 		Entity.clear();
 	}
 
+      afterdeathLE = function() {
+            deathScreenLE.style.display = 'none';
+            Entity.clear();
+            levelEditor.style.display = 'inline-block';
+            screen = "le";
+            loadLevel(levelSTR, levelW);
+      }
+
 	levelCompleted=function(){
 		gameDiv.style.display='none';
 		signDiv.style.display = 'none';
 
-		succsessScreen.style.display = 'inline-block';
+            if (fromLe == false) {
+		      succsessScreen.style.display = 'inline-block';
+            }
+            else {
+                  succsessScreenLE.style.display = 'inline-block';
+            }
 
 		//menuWrapper.style.display='inline-block'; //Reapperaing menu wrapper
 		//mainMenu.style.display = 'inline-block';
-		screen='menu';
+		//screen='menu';
 		let compTime=Date.now()-start;
 		console.log('Completed level in '+compTime+' ms.');
+		compTime=compTime/1000;
+		let elem=document.getElementById("levelHeading");
+		let str=elem.innerHTML + compTime;
+		elem.innerHTML=str;
 		Entity.clear();
 	}
 
@@ -861,15 +902,28 @@ save.onclick = function () {
 		Entity.clear();
 	}
 
+      aftersuccessLE = function() {
+            succsessScreenLE.style.display = 'none';
+            Entity.clear();
+            levelEditor.style.display = 'inline-block';
+            screen = "le";
+            loadLevel(levelSTR, levelW);
+
+      }
+
 	//console.log("string :" + saveLevel(0,0,0,0));
 
 	play.onclick=function(){
+            fromLe = true;
+            console.log("mousePos.xmax: "  + mousePos.xmax + ", " + "mousePos.ymax: " + mousePos.ymax);
+            saveLevelLE(mousePos.xmax, mousePos.ymax);
+            console.log("LevelSTR: " + levelSTR + ", LevelW: " + levelW);
 		gameDiv.style.display="inline-block";
 		menuWrapper.style.display="none"; //Getting rid of the menu wrapper
 		levelEditor.style.display = 'none';
-		save.style.display = 'none';
-		backLE.style.display="none";
-		play.style.display="none";
+		// save.style.display = 'none';
+		// backLE.style.display="none";
+		// play.style.display="none";
 		screen='game';
 		start=Date.now();
 	}
@@ -956,10 +1010,10 @@ save.onclick = function () {
 			backLE.style.display="none";
 			play.style.display="none";
 			campaignInput.style.display="none";
-			screen='game';
 			start=Date.now();
 			loadLevel('00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000l0000000000000000000000000000000000000000000000000000e0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000p00000000000000e000000000000000000000000000000000000000000000000000000m0000000000000a0000000000000000000000000000000000000000000000000000000000000000000000000000000e000000000000000000000000000000000000000000a000000000bb0b0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000ffffff0000000000000000bbbb0bbbbb000b00000000ffff000000000000000000000000000000000bbbbbb0000ffff0fff0000000000000000000000000000000000000000000000000000000000000000000000f0000000000000000000000f000000000000000000000000000000000000000000000000000000000000000000000000000000000b0e000000000000000000ff0000000000000000000ff000000e000000000000f0ff00000000000000000000000000000fffff0000000000000000000f0fff000000000000000000000b00b0000000000000000000fff00000000ffffff0000000000000000000000000000000000000000000ffffffffffffff00fa00f00000fff000000000000000000000000000000000000bbbbb00b00000be00000000ffff0000000000000000f0f0f0000000000000000000000000000000000000000000000000000f000f00000befe0000000000000000000000000000000000bbb0a000bbfffffbbb000000ffff0000000000000000000000000ee0000000000000000000fef00f0000000000000000000f0f000000000fff00000000f00000000f00f00000fffffffffffffffffffffffffffffffffffffffffffff000000ffffffffffffffffffffff00fffffffffffffffffffffffffffffffffffffffffffffffffffff000ffffffffffffffffffw',148);
                   console.log("Makes it to loaded level");
+                  screen='game';
 
 		//});
 	  }
@@ -1115,7 +1169,7 @@ save.onclick = function () {
 			campaignButton.appendChild(t);
 			loadFile.appendChild(campaignButton);
 		}
-		
+
 
 		cycleWeaponPowerUps = function(){
 			wPUCount++;
@@ -1128,11 +1182,11 @@ save.onclick = function () {
 				if(wPUCount > campaign.SaveFile.saves[0].inventory.weaponPowerUps.length -1){wPUCount = 0;}
 				weaponPowerUp =  campaign.SaveFile.saves[0].inventory.weaponPowerUps[wPUCount].itemName;
 				console.log(campaign.SaveFile.saves[0].inventory.weaponPowerUps[wPUCount].itemName + wPUCount)
-				
-				
+
+
 			}
 		}
-		
+
 		cyclePowerUps = function(){
 			PUCount++;
 			if (campaign == null){
@@ -1144,8 +1198,8 @@ save.onclick = function () {
 				if(PUCount > campaign.SaveFile.saves[0].inventory.powerUps.length -1){PUCount = 0;}
 				powerUp =  campaign.SaveFile.saves[0].inventory.powerUps[PUCount].itemName;
 				console.log(campaign.SaveFile.saves[0].inventory.powerUps[PUCount].itemName + PUCount)
-				
-				
+
+
 			}
 		}
 
@@ -1186,7 +1240,7 @@ save.onclick = function () {
 
 
    levelEditorB.onclick = function () {
-
+			Entity.clear();
 			getSavedUserLevels();
 			mainMenu.style.display = 'none';
 			menuWrapper.style.display = "none";

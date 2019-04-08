@@ -1,9 +1,10 @@
 loadLevel=function(level,width){
-	
+
 	Entity.clear();
-	
+      console.log("Load level called");
+
 	width++;
-	
+
 	console.log(Entity.list);
 	let len=level.length;
 	let facCode=level.slice((len-1),len);
@@ -42,11 +43,12 @@ loadLevel=function(level,width){
 		if(code=='l'){
 			Final.generate(x,y);
 		}
-		if(y>deathY){
-			deathY=y;
+		if(y/64>deathY){
+			deathY=y/64;
+                  console.log("deathY: " + deathY);
 		}
 	}
 
 	console.log(facCode)
-	
+
 }
