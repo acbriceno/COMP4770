@@ -126,7 +126,7 @@
                         <h2 id="levelHeading">You completed the time in: </h2>
 
                   </div>
-                  <button onclick="aftersuccessLE()" class = "button3"> Go Back to Campus </button>
+                  <button onclick="aftersuccessLE()" class = "button3"> Go Back to Level Editor </button>
             </div>
 
 	<div id="coursesButtonGroup">
@@ -857,6 +857,7 @@ save.onclick = function () {
 
 		//menuWrapper.style.display='inline-block'; //Reapperaing menu wrapper
 		//mainMenu.style.display = 'inline-block';
+            console.log("LEVEL FAILED")
             if (fromLe == false) {
 		                deathScreen.style.display = 'inline-block';
                       }
@@ -884,6 +885,7 @@ save.onclick = function () {
 	levelCompleted=function(){
 		gameDiv.style.display='none';
 		signDiv.style.display = 'none';
+            console.log("LEVEL PASS")
 
             if (fromLe == false) {
 		      succsessScreen.style.display = 'inline-block';
