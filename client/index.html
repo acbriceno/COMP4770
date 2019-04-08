@@ -61,7 +61,7 @@
 											<div id="playerProfile" style ="display:none;">
 												UserName : <input type="text" id="username" value=username>
 												token : <input type="text" id="token" value=token>
-												levelEditorString : <input type="text" id="level" value=saveLevel()>
+												levelEditorString : <input type="text" id="level" value=getCreatedLevels()>
 										</div>
 
 										<div id="back" style ="display:none;">
@@ -362,6 +362,15 @@ let a3 = document.getElementById('selections2');
             else {
                   levelFailed();
             }
+      }
+
+      let getCreatedLevels = function() {
+            socket.emit('getUserLevels',{
+                  username : username,
+            });
+            socket.on('userLevelsFound', function(message) {
+                  console.log(message.levels);
+            });
       }
 
 
@@ -791,7 +800,6 @@ let a3 = document.getElementById('selections2');
 
 
 	}
-
 
 
 
