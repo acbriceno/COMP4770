@@ -43,8 +43,9 @@ loadLevel=function(level,width){
 		if(code=='l'){
 			Final.generate(x,y);
 		}
-		if(y>deathY){
-			deathY=y;
+		if(y/64>deathY){
+			deathY=y/64;
+                  console.log("deathY: " + deathY);
 		}
 	}
 
