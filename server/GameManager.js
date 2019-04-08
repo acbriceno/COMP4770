@@ -13,6 +13,7 @@ module.exports.createCampaign = function(user, info, callback){
 			if((levels[x].Levelname == "PHYS1000") || (levels[x].Levelname == "PHIL1000") || (levels[x].Levelname == "MATH1000") || (levels[x].Levelname == "COMP1000"))
 			{
 				courses[x] = levels[x];
+				//courses[x].levelName = levels[x].Levelname;
 				courses[x].midterm = false;
 				courses[x].midtermTime = 0;
 				courses[x].complete = false;
@@ -23,7 +24,7 @@ module.exports.createCampaign = function(user, info, callback){
 		}
 
 		console.log(courses);
-		let inventory = [];
+		let inventory = generateInventory();
 		let saveFiles = {
 			saves: [
 			{
@@ -106,6 +107,59 @@ var generateCampaign = function(difficulty){
 	}
 	
 	return campaign;
+}
+
+var generateInventory = function(){
+	return {
+			weaponPowerUps : [
+				{
+					itemName: "textBookUpgrade"
+				},					
+				{
+					itemName: "penAmmo",
+					amount: 500
+				},
+				{
+					itemName: "laserPointer"
+				},
+				{
+					itemName: "upgradedLaserPointer"
+				},
+				{
+					itemName: "grappleHook"
+				},
+				{
+					itemName: "explosivePen"
+				},
+				{
+					itemName: "inkThrower"
+				},
+				{
+					itemName: "sharperTipPens"
+				},
+				{
+					itemName: "selfGuidedPen"
+				}
+			],
+			powerUps : [
+				{
+					itemName: "Coffee"
+				},
+				{
+					itemName: "redBull"
+				},
+				{
+					itemName: "giftCard"
+				},
+				{
+					itemName: "gymMembership"
+				},
+				{
+					itemName: "alcoholBottle"
+				}
+			]
+	
+	};
 }
 
 module.exports.loadSystemCourseLevel = function(courseName, callback){

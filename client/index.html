@@ -267,6 +267,12 @@ let a3 = document.getElementById('selections2');
 	let keyPause=80;
 	let keyGrapple=32;
 	let keyChange=67;
+	let weaponPowerUpsChange = 81;
+	let powerUpsChange = 82;
+	let weaponPowerUp;
+	let powerUp;
+	let wPUCount = 0;
+	let PUCount = 0;
 	let W=1280;
 	let H=720;
 	let screen='sign';
@@ -473,6 +479,12 @@ let a3 = document.getElementById('selections2');
 					player.weap=0;
 				}
 			}
+			else if(event.keyCode == weaponPowerUpsChange){
+				cycleWeaponPowerUps();
+			}
+			else if(event.keyCode == powerUpsChange){
+				cyclePowerUps();
+			}
 		}
 		else if(screen=='le'){
 			if(event.keyCode==keyUp){
@@ -578,6 +590,19 @@ let a3 = document.getElementById('selections2');
 				ctxui.font="35px Arial";
 				if(screen=='game'){
 					ctxui.strokeText("HP: "+player.hp,50,50);
+					if(campaign != null){
+						ctxui.strokeText("WPU :" + weaponPowerUp, 50, 90);
+						ctxui.strokeText("PU :" + powerUp, 50, 130);
+					}
+					else{
+						ctxui.strokeText("WPU :" + weaponPowerUp, 50, 90);
+						ctxui.strokeText("PU :" + powerUp, 50, 130);
+						
+					}
+                    ctxui.fillstyle = "white";
+                    ctxui.stokestle = "white";
+
+					
 				}
 				if(screen=='overworld'){
 					ctxui.fillText("Money: "+money,50,50);
@@ -858,6 +883,8 @@ save.onclick = function () {
 			  money=message.campaign.SaveFile.saves[0].money;
 			  dadCredit=message.campaign.SaveFile.saves[0].dadCredit;
 			  workCredit=message.campaign.SaveFile.saves[0].workCredit;
+			  weaponPowerUp = message.campaign.SaveFile.saves[0].inventory.weaponPowerUps[0].itemName;
+			  powerUp = message.campaign.SaveFile.saves[0].inventory.powerUps[0].itemName;
 			});
 			gameDiv.style.display="inline-block";
                   campaignInput.style.display ="none";
@@ -1037,6 +1064,7 @@ save.onclick = function () {
 		}
 
 		loadSavedGame = function(saveNumber){
+			let count = 0;
 			for(var x=0; x<userSaves.length;x++){
 				if(userSaves[x].saveNumber == saveNumber){
 					console.log(userSaves[x]);
@@ -1044,23 +1072,56 @@ save.onclick = function () {
 					gammaHP = userSaves[x].gammaHP;
 					dadCredit = userSaves[x].dadCredit;
 					workCredit = userSaves[x].workCredit;
+					count = x;
+					weaponPowerUp = userSaves[x].inventory.weaponPowerUps[0].itemName;
+					powerUp = userSaves[x].inventory.powerUps[0].itemName;
 					loadOverworld();
 
 				}
 			}
+			userSaves = userSaves[count];
 		}
 
 		buildCampaignListButton = function(CampaignInfo){
-
-			console.log(CampaignInfo);
-
 			var campaignButton = document.createElement("button");
 			var t = document.createTextNode(CampaignInfo.campaignNumber);
 			campaignButton.setAttribute("onclick", "loadCampaignSaveFiles(" + CampaignInfo.campaignNumber + ")");
 			campaignButton.appendChild(t);
 			loadFile.appendChild(campaignButton);
 		}
+		
 
+		cycleWeaponPowerUps = function(){
+			wPUCount++;
+			if (campaign == null){
+				if(wPUCount >= userSaves.inventory.weaponPowerUps.length -1){wPUCount = 0;}
+				weaponPowerUp = userSaves.inventory.weaponPowerUps[wPUCount].itemName;
+				console.log(userSaves.inventory.weaponPowerUps[wPUCount].itemName);
+				//ctxui.strokeText("PU :" + campaign.SaveFile.saves[0].inventory.powerUps[0].itemName, 50, 130);
+			}else{
+				if(wPUCount > campaign.SaveFile.saves[0].inventory.weaponPowerUps.length -1){wPUCount = 0;}
+				weaponPowerUp =  campaign.SaveFile.saves[0].inventory.weaponPowerUps[wPUCount].itemName;
+				console.log(campaign.SaveFile.saves[0].inventory.weaponPowerUps[wPUCount].itemName + wPUCount)
+				
+				
+			}
+		}
+		
+		cyclePowerUps = function(){
+			PUCount++;
+			if (campaign == null){
+				if(PUCount >= userSaves.inventory.powerUps.length -1){PUCount = 0;}
+				powerUp = userSaves.inventory.powerUps[PUCount].itemName;
+				console.log(userSaves.inventory.powerUps[PUCount].itemName);
+				//ctxui.strokeText("PU :" + campaign.SaveFile.saves[0].inventory.powerUps[0].itemName, 50, 130);
+			}else{
+				if(PUCount > campaign.SaveFile.saves[0].inventory.powerUps.length -1){PUCount = 0;}
+				powerUp =  campaign.SaveFile.saves[0].inventory.powerUps[PUCount].itemName;
+				console.log(campaign.SaveFile.saves[0].inventory.powerUps[PUCount].itemName + PUCount)
+				
+				
+			}
+		}
 
 
 
