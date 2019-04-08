@@ -853,6 +853,11 @@ save.onclick = function () {
 				console.log(message);
 				campaign = message.campaign;
 				console.log(campaign);
+			  gammaHp=Math.floor((Math.random())*4);
+			  gammaHP++;
+			  money=message.campaign.SaveFile.saves[0].money;
+			  dadCredit=message.campaign.SaveFile.saves[0].dadCredit;
+			  workCredit=message.campaign.SaveFile.saves[0].workCredit;
 			});
 			gameDiv.style.display="inline-block";
                   campaignInput.style.display ="none";
@@ -863,11 +868,7 @@ save.onclick = function () {
                   // }
                   // screen = 'overworld';
 
-				  gammaHp=Math.floor((Math.random())*4);
-				  gammaHP++;
-				  money=3000;
-				  dadCredit=1;
-				  workCredit=4;
+
 				  loadOverworld();
 			//loadCourseLevel("PHYS1000");
 

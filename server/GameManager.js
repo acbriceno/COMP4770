@@ -93,7 +93,7 @@ var generateCampaign = function(difficulty){
 		campaign["workCredit"] = 0;
 	}
 	if(difficulty == 2){
-		campaign["money"] = 0;
+		campaign["money"] = 200;
 		campaign["gammaHP"] = 0;
 		campaign["dadCredit"] = 1000;
 		campaign["workCredit"] = 0;
