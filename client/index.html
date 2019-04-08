@@ -814,8 +814,8 @@ save.onclick = function () {
 
 		//menuWrapper.style.display='inline-block'; //Reapperaing menu wrapper
 		//mainMenu.style.display = 'inline-block';
-            if (!fromLe) {
-		                deathScreen.style.display = 'inline-block';
+            if (fromLe == false) {
+		                //deathScreen.style.display = 'inline-block';
                       }
                   else {
                         deathScreenLE.style.display = 'inline-block';
@@ -834,7 +834,8 @@ save.onclick = function () {
             deathScreenLE.style.display = 'none';
             Entity.clear();
             levelEditor.style.display = 'inline-block';
-            loadlevel(levelSTR, levelW);
+            screen = "le";
+            loadLevel(levelSTR, levelW);
       }
 
 	levelCompleted=function(){
@@ -861,13 +862,15 @@ save.onclick = function () {
 
 	play.onclick=function(){
             fromLe = true;
+            console.log("mousePos.xmax: "  + mousePos.xmax + ", " + "mousePos.ymax: " + mousePos.ymax);
             saveLevelLE(mousePos.xmax, mousePos.ymax);
+            console.log("LevelSTR: " + levelSTR + ", LevelW: " + levelW);
 		gameDiv.style.display="inline-block";
 		menuWrapper.style.display="none"; //Getting rid of the menu wrapper
 		levelEditor.style.display = 'none';
-		save.style.display = 'none';
-		backLE.style.display="none";
-		play.style.display="none";
+		// save.style.display = 'none';
+		// backLE.style.display="none";
+		// play.style.display="none";
 		screen='game';
 		start=Date.now();
 	}
