@@ -86,6 +86,13 @@
 			<button onclick="afterdeath()" class = "button3"> Go Back to Campus </button>
 		</div>
 
+            <div id="deathScreenLE" style="display:none;" >
+                  <div id ="logoIMG">
+                        <img src="./img/FAIL.png" alt="game logo">
+                  </div>
+                  <button onclick="afterdeathLE()" class = "button3"> Go Back to Level Editor </button>
+            </div>
+
 		<div id="succsessScreen" style="display:none;" >
 			<div id ="logoIMG">
 				<img src="./img/youpassed.png" alt="game logo">
@@ -807,8 +814,13 @@ save.onclick = function () {
 
 		//menuWrapper.style.display='inline-block'; //Reapperaing menu wrapper
 		//mainMenu.style.display = 'inline-block';
-		screen='menu';
-		deathScreen.style.display = 'inline-block';
+            if (!fromLe) {
+		                deathScreen.style.display = 'inline-block';
+                      }
+                  else {
+                        deathScreenLE.style.display = 'inline-block';
+                        fromLe = false;
+                  }
 	}
 
 
@@ -817,6 +829,13 @@ save.onclick = function () {
 		leaveRoom();
 		Entity.clear();
 	}
+
+      afterdeathLE = function() {
+            deathScreenLE.style.display = 'none';
+            Entity.clear();
+            levelEditor.style.display = 'inline-block';
+            loadlevel(levelSTR, levelW);
+      }
 
 	levelCompleted=function(){
 		gameDiv.style.display='none';
@@ -841,6 +860,8 @@ save.onclick = function () {
 	//console.log("string :" + saveLevel(0,0,0,0));
 
 	play.onclick=function(){
+            fromLe = true;
+            saveLevelLE(mousePos.xmax, mousePos.ymax);
 		gameDiv.style.display="inline-block";
 		menuWrapper.style.display="none"; //Getting rid of the menu wrapper
 		levelEditor.style.display = 'none';
