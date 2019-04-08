@@ -311,7 +311,7 @@
 	let PUCount = 0;
 	let W=1280;
 	let H=720;
-	let screen='sign';
+	let screen='menu';
 	let count=0;
 	let check=true
 	let leDraw=false;
@@ -573,7 +573,7 @@
 
 	//update for in game, logic tbd
 	update=function(){
-		/*	console.log(player.x + "and" + player.y);*/
+			//console.log(player.x + "and" + player.y);
             if (screen == 'overworld' && !inTown) {
                   campusBoundaries();
                   if (player.x < -25) {
@@ -640,15 +640,15 @@
 				ctxui.font="35px Arial";
 				if(screen=='game'){
 					ctxui.strokeText("HP: "+player.hp,50,50);
-					let cTime=start-Date.now();
+					let cTime=Date.now()-start;
 					ctxui.strokeText("Time: "+cTime+" seconds",50,170);
 					if(campaign != null){
-						ctxui.strokeText("WPU :" + weaponPowerUp, 50, 90);
-						ctxui.strokeText("PU :" + powerUp, 50, 130);
+						ctxui.fillText("WPU :" + weaponPowerUp, 50, 90);
+						ctxui.fillText("PU :" + powerUp, 50, 130);
 					}
 					else{
-						ctxui.strokeText("WPU :" + weaponPowerUp, 50, 90);
-						ctxui.strokeText("PU :" + powerUp, 50, 130);
+						ctxui.fillText("WPU :" + weaponPowerUp, 50, 90);
+						ctxui.fillText("PU :" + powerUp, 50, 130);
 
 					}
                     ctxui.fillstyle = "white";
@@ -853,6 +853,7 @@ save.onclick = function () {
 
 
 	levelFailed=function(){
+            screen = "menu";
 		gameDiv.style.display='none';
 		signDiv.style.display = 'none';
             landscapingWork.style.display = 'none';
@@ -885,6 +886,7 @@ save.onclick = function () {
       }
 
 	levelCompleted=function(){
+            screen = "menu";
 		gameDiv.style.display='none';
 		signDiv.style.display = 'none';
             console.log("LEVEL PASS")
