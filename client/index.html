@@ -865,6 +865,10 @@ save.onclick = function () {
 		//screen='menu';
 		let compTime=Date.now()-start;
 		console.log('Completed level in '+compTime+' ms.');
+		compTime=compTime/1000;
+		let elem=document.getElementById("levelHeading");
+		let str=elem.innerHTML + compTime;
+		elem.innerHTML=str;
 		Entity.clear();
 	}
 
