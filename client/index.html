@@ -1236,6 +1236,22 @@ save.onclick = function () {
 				save: save
 			});
 		}
+		
+		getCourses = function(){
+			if (campaign == null){
+				return userSaves.Courses;
+			}else{
+				return campaign.SaveFile.saves[0].Courses;
+			}
+		}
+		
+		getInventory = function(){
+			if (campaign == null){
+				return userSaves.inventory;
+			}else{
+				return campaign.SaveFile.saves[0].inventory;
+			}
+		}
 
 
 		cycleWeaponPowerUps = function(){
