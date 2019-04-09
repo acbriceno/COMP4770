@@ -123,7 +123,7 @@
                         <h2 id="levelHeading">You completed the time in: </h2>
 
                   </div>
-                  <button onclick="aftersuccessLE()" class = "button3"> Go Back to Campus </button>
+                  <button onclick="aftersuccessLE()" class = "button3"> Go Back to Level Editor </button>
             </div>
 
 	<div id="coursesButtonGroup">
@@ -308,7 +308,7 @@
 	let PUCount = 0;
 	let W=1280;
 	let H=720;
-	let screen='sign';
+	let screen='menu';
 	let count=0;
 	let check=true
 	let leDraw=false;
@@ -561,7 +561,7 @@
 
 	//update for in game, logic tbd
 	update=function(){
-		/*	console.log(player.x + "and" + player.y);*/
+			//console.log(player.x + "and" + player.y);
             if (screen == 'overworld' && !inTown) {
                   campusBoundaries();
                   if (player.x < -25) {
@@ -628,13 +628,15 @@
 				ctxui.font="35px Arial";
 				if(screen=='game'){
 					ctxui.strokeText("HP: "+player.hp,50,50);
+					let cTime=Date.now()-start;
+					ctxui.strokeText("Time: "+cTime+" seconds",50,170);
 					if(campaign != null){
-						ctxui.strokeText("WPU :" + weaponPowerUp, 50, 90);
-						ctxui.strokeText("PU :" + powerUp, 50, 130);
+						ctxui.fillText("WPU :" + weaponPowerUp, 50, 90);
+						ctxui.fillText("PU :" + powerUp, 50, 130);
 					}
 					else{
-						ctxui.strokeText("WPU :" + weaponPowerUp, 50, 90);
-						ctxui.strokeText("PU :" + powerUp, 50, 130);
+						ctxui.fillText("WPU :" + weaponPowerUp, 50, 90);
+						ctxui.fillText("PU :" + powerUp, 50, 130);
 
 					}
                     ctxui.fillstyle = "white";
@@ -840,12 +842,14 @@ save.onclick = function () {
 
 
 	levelFailed=function(){
+            screen = "menu";
 		gameDiv.style.display='none';
 		signDiv.style.display = 'none';
             landscapingWork.style.display = 'none';
 
 		//menuWrapper.style.display='inline-block'; //Reapperaing menu wrapper
 		//mainMenu.style.display = 'inline-block';
+            console.log("LEVEL FAILED")
             if (fromLe == false) {
 		                deathScreen.style.display = 'inline-block';
                       }
@@ -871,8 +875,10 @@ save.onclick = function () {
       }
 
 	levelCompleted=function(){
+            screen = "menu";
 		gameDiv.style.display='none';
 		signDiv.style.display = 'none';
+            console.log("LEVEL PASS")
 
             if (fromLe == false) {
 		      succsessScreen.style.display = 'inline-block';
@@ -1166,6 +1172,69 @@ save.onclick = function () {
 			campaignButton.setAttribute("onclick", "loadCampaignSaveFiles(" + CampaignInfo.campaignNumber + ")");
 			campaignButton.appendChild(t);
 			loadFile.appendChild(campaignButton);
+		}
+		
+		//use this to save current game
+		saveCurrentCampaignGame = function(courses, inventory){
+			if (campaign == null){
+				userSaves.money = money; 
+				userSaves.gammaHP = gammaHP;
+				userSaves.dadCredit = dadCredit;
+				userSaves.workCredit = workCredit;
+				userSaves.saveDate = Date ();
+				userSaves.Courses = courses;
+				userSaves.inventory = inventory;
+				saveCurrentGame(userSaves);
+			}else {
+				campaign.SaveFile.saves[0].money = money;
+				campaign.SaveFile.saves[0].gammaHP = gammaHP;
+				campaign.SaveFile.saves[0].dadCredit = dadCredit;
+				campaign.SaveFile.saves[0].workCredit = workCredit;
+				campaign.SaveFile.saves[0].saveDate = Date();
+				campaign.SaveFile.saves[0].Courses = courses;
+				campaign.SaveFile.saves[0].inventory = inventory
+				saveCurrentGame(campaign.SaveFile.saves[0]);
+			}
+		}
+		
+		saveCurrentGame = function(save){
+			socket.emit('saveCurrentGame',{
+				username: username,
+				campaignNumber: save.campaignNumber,
+				saveNumber: save.saveNumber,
+				save: save
+			});
+		}
+		
+		//use this to save new save
+		saveNewCampaignGame = function(courses, inventory){
+			if (campaign == null){
+				userSaves.money = money; 
+				userSaves.gammaHP = gammaHP;
+				userSaves.dadCredit = dadCredit;
+				userSaves.workCredit = workCredit;
+				userSaves.saveDate = Date ();
+				userSaves.Courses = courses;
+				userSaves.inventory = inventory;
+				saveNewCampaignSave(userSaves);
+			}else {
+				campaign.SaveFile.saves[0].money = money;
+				campaign.SaveFile.saves[0].gammaHP = gammaHP;
+				campaign.SaveFile.saves[0].dadCredit = dadCredit;
+				campaign.SaveFile.saves[0].workCredit = workCredit;
+				campaign.SaveFile.saves[0].saveDate = Date();
+				campaign.SaveFile.saves[0].Courses = courses;
+				campaign.SaveFile.saves[0].inventory = inventory
+				saveNewCampaignSave(campaign.SaveFile.saves[0]);
+			}
+		}
+		
+		saveNewCampaignSave = function(save){
+			socket.emit('saveNewSave',{
+				username: username, 
+				campaignNumber: save.campaignNumber,
+				save: save
+			});
 		}
 
 

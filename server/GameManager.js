@@ -31,6 +31,7 @@ module.exports.createCampaign = function(user, info, callback){
 			{
 				playerName: info.playerName,
 				saveNumber : 1,
+				campaignNumber : 1,
 				saveDate : date,
 				money : campaign.money,
 				gammaHP : campaign.gammaHP,
@@ -41,20 +42,24 @@ module.exports.createCampaign = function(user, info, callback){
 			}
 			]
 		};
-		let campaignSet = [
-					{	campaignNumber : 1,
-						playerName: info.playerName,
-						difficulty: info.difficulty,
-						SaveFile: saveFiles,
-
-					}
-				];
+		
 
 		dbManager.findUserCampaigns(user, function(campaigns){
 			if(campaigns == null){
+				
+				let campaignSet = [
+							{	campaignNumber : 1,
+								playerName: info.playerName,
+								difficulty: info.difficulty,
+								SaveFile: saveFiles,
+
+							}
+						];
+				
 				dbManager.createCampaign(user, campaignSet);
 				return callback(campaignSet[0]);
 			}else{
+				saveFiles.saves[0].campaignNumber = campaigns.length + 1;
 				let newCampaign = {
 					campaignNumber : campaigns.length + 1,
 					playerName: info.playerName,
