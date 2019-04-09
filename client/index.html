@@ -61,21 +61,18 @@
 
 											<div id="playerProfile" style ="display:none;">
 												UserName : <input type="text" id="username" value=username>
-												token : <input type="text" id="token" value=token>
-												levelEditorString : <input type="text" id="level" value=saveLevel()>
-
 												<select id="controlSelect">
 												</select>
 												<input type="text" id="inputControl" >
-
+												
 												<table id="controlsTable">
 											      <tr>
 											        <th>Action</th>
 											        <th>Control</th>
 											      </tr>
 												</table>
-
-
+												
+												
 										</div>
 
 										<div id="back" style ="display:none;">
@@ -379,15 +376,6 @@
             }
       }
 
-      let getCreatedLevels = function() {
-            socket.emit('getUserLevels',{
-                  username : username,
-            });
-            socket.on('userLevelsFound', function(message) {
-                  console.log(message.levels);
-            });
-      }
-
 
 
 	var isFirxFox = function () {
@@ -640,8 +628,6 @@
 				ctxui.font="35px Arial";
 				if(screen=='game'){
 					ctxui.strokeText("HP: "+player.hp,50,50);
-					let cTime=start-Date.now();
-					ctxui.strokeText("Time: "+cTime+" seconds",50,170);
 					if(campaign != null){
 						ctxui.strokeText("WPU :" + weaponPowerUp, 50, 90);
 						ctxui.strokeText("PU :" + powerUp, 50, 130);
@@ -715,7 +701,7 @@
 
 
 	signDivSignUp.onclick = function() {
-
+		
 		user=document.getElementById('signDiv-username').value;
 		pass=document.getElementById('signDiv-password').value;
 
@@ -759,7 +745,6 @@
 
 					username=message.userName;
 					token=message.token;
-					tokenText.value=token;
 					usernameText.value=username;
 					snd2.play();
 					let playerName="mario";
@@ -768,7 +753,7 @@
 					let inventory="1001";
 
 
-				  saveLevelText.value=saveLevel("john","mario","mission","hard","true","10001",0,0,0,0);
+				 // saveLevelText.value=saveLevel("john","mario","mission","hard","true","10001",0,0,0,0);
 
 					console.log("welcome  : "  +message.userName  ) ;
 					console.log("your token is  :"  +message.token);
@@ -830,6 +815,7 @@
 
 
 
+
 save.onclick = function () {
 			let socket = io();
 			console.log("save button HIT");
@@ -840,6 +826,7 @@ save.onclick = function () {
 					username:username,
 					levels: saveLevel(username, level, 2, mousePos.xmax, mousePos.ymax),
 				});
+				getSavedUserLevels();
 			}
 		}
 
@@ -901,7 +888,7 @@ save.onclick = function () {
 		console.log('Completed level in '+compTime+' ms.');
 		compTime=compTime/1000;
 		let elem=document.getElementById("levelHeading");
-		let str = "You completed level in " + compTime + " seconds";
+		let str=elem.innerHTML + compTime;
 		elem.innerHTML=str;
 		Entity.clear();
 	}
@@ -1089,6 +1076,7 @@ save.onclick = function () {
 			socket.emit('getUserLevels', { username: username });
 			socket.on('userLevelsFound', function (message) {
 				levelEditorLevels = message.Levels;
+				a3.innerHTML = "";
 				var option = document.createElement("s");
 				for (var x = 0; x < message.Levels.length; x++) {
 					console.log(message.Levels[x].Levelname);
@@ -1220,25 +1208,25 @@ save.onclick = function () {
 				let optionControl = document.createElement("option");
 				optionControl.text = control;
 				userControls.add(optionControl);
-
+			
 			}
 		}
-
+		
 		buildControlsTable =  function(){
-
+			
 			var table = document.getElementById("controlsTable");
 			table.innerHTML = "";
+			  
+			 
 
-
-
-
+			  
   			for(var control in controls){
   			  var row = table.insertRow(0);
   			  var cell1 = row.insertCell(0);
   			  var cell2 = row.insertCell(1);
   			  cell1.innerHTML = control;
-  			  cell2.innerHTML = outputControls(controls[control]);;
-
+  			  cell2.innerHTML = outputControls(controls[control]);;	
+			
   			}
 		  var row = table.insertRow(0);
 		  var cell1 = row.insertCell(0);
