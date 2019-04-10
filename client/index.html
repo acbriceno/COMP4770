@@ -64,15 +64,15 @@
 												<select id="controlSelect">
 												</select>
 												<input type="text" id="inputControl" >
-												
+
 												<table id="controlsTable">
 											      <tr>
 											        <th>Action</th>
 											        <th>Control</th>
 											      </tr>
 												</table>
-												
-												
+
+
 										</div>
 
 										<div id="back" style ="display:none;">
@@ -703,7 +703,7 @@
 
 
 	signDivSignUp.onclick = function() {
-		
+
 		user=document.getElementById('signDiv-username').value;
 		pass=document.getElementById('signDiv-password').value;
 
@@ -835,7 +835,7 @@ save.onclick = function () {
 
 
 	loadButton.onclick = function () {
-		loadLevel(levelEditorLevels[a3.options[a3.selectedIndex].index -1].Level, levelEditorLevels[a3.options[a3.selectedIndex].index -1].Width);
+		loadLevel(levelEditorLevels[a3.options[a3.selectedIndex].index ].Level, levelEditorLevels[a3.options[a3.selectedIndex].index ].Width);
 		//loadLevel("e0e0e0e000e0e0e000000000000f0000000f0000f00000000000000000p0000",9);
 	}
 
@@ -1173,11 +1173,11 @@ save.onclick = function () {
 			campaignButton.appendChild(t);
 			loadFile.appendChild(campaignButton);
 		}
-		
+
 		//use this to save current game
 		saveCurrentCampaignGame = function(courses, inventory){
 			if (campaign == null){
-				userSaves.money = money; 
+				userSaves.money = money;
 				userSaves.gammaHP = gammaHP;
 				userSaves.dadCredit = dadCredit;
 				userSaves.workCredit = workCredit;
@@ -1196,7 +1196,7 @@ save.onclick = function () {
 				saveCurrentGame(campaign.SaveFile.saves[0]);
 			}
 		}
-		
+
 		saveCurrentGame = function(save){
 			socket.emit('saveCurrentGame',{
 				username: username,
@@ -1205,11 +1205,11 @@ save.onclick = function () {
 				save: save
 			});
 		}
-		
+
 		//use this to save new save
 		saveNewCampaignGame = function(courses, inventory){
 			if (campaign == null){
-				userSaves.money = money; 
+				userSaves.money = money;
 				userSaves.gammaHP = gammaHP;
 				userSaves.dadCredit = dadCredit;
 				userSaves.workCredit = workCredit;
@@ -1228,15 +1228,15 @@ save.onclick = function () {
 				saveNewCampaignSave(campaign.SaveFile.saves[0]);
 			}
 		}
-		
+
 		saveNewCampaignSave = function(save){
 			socket.emit('saveNewSave',{
-				username: username, 
+				username: username,
 				campaignNumber: save.campaignNumber,
 				save: save
 			});
 		}
-		
+
 		getCourses = function(){
 			if (campaign == null){
 				return userSaves.Courses;
@@ -1244,7 +1244,7 @@ save.onclick = function () {
 				return campaign.SaveFile.saves[0].Courses;
 			}
 		}
-		
+
 		getInventory = function(){
 			if (campaign == null){
 				return userSaves.inventory;
@@ -1293,25 +1293,25 @@ save.onclick = function () {
 				let optionControl = document.createElement("option");
 				optionControl.text = control;
 				userControls.add(optionControl);
-			
+
 			}
 		}
-		
+
 		buildControlsTable =  function(){
-			
+
 			var table = document.getElementById("controlsTable");
 			table.innerHTML = "";
-			  
-			 
 
-			  
+
+
+
   			for(var control in controls){
   			  var row = table.insertRow(0);
   			  var cell1 = row.insertCell(0);
   			  var cell2 = row.insertCell(1);
   			  cell1.innerHTML = control;
-  			  cell2.innerHTML = outputControls(controls[control]);;	
-			
+  			  cell2.innerHTML = outputControls(controls[control]);;
+
   			}
 		  var row = table.insertRow(0);
 		  var cell1 = row.insertCell(0);
