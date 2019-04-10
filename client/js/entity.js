@@ -439,7 +439,13 @@ Assignment.generate=function(x,y){
 Midterm=function(id,x,y,w,h,img,hp,atkSpd,dmg){
 	let self=Enemy(id,x,y,w,h,img,hp,atkSpd,dmg,'m');
 	Midterm.list[id]=self;
-	self.remove=false;
+      self.remove=false;
+      self.onDeath=function(){
+            self.remove=true;
+            //console.log(saveLevel(username, "comp1000", 0, mousePos.xma, mousePos.ymax));
+            //console.log(getCourses());
+      }
+
 }
 
 Midterm.update=function(){
@@ -448,6 +454,7 @@ Midterm.update=function(){
 	}
 	for(let key8 in Midterm.list){
 		if(Midterm.list[key8].remove){
+
 			//logic to save progress
 			player.mid=true;
 			delete Midterm.list[key8];
