@@ -443,7 +443,24 @@ Midterm=function(id,x,y,w,h,img,hp,atkSpd,dmg){
       self.onDeath=function(){
             self.remove=true;
             //console.log(saveLevel(username, "comp1000", 0, mousePos.xma, mousePos.ymax));
-            //console.log(getCourses());
+            console.log(getCourses());
+			let courses = getCourses();
+			console.log(campaignLevelName);
+			for(let x=0; x<courses.length;x++){
+				if(courses[x] != null){
+					if(campaignLevelName == courses[x].Levelname){
+						//console.log(player.x + "and" + player.y);
+						let levelCode = saveLevel(username, courses[x].Levelname, 0, courses[x].Width, courses[x].Height);
+						courses[x].Level = levelCode.Level;
+						courses[x].midterm = true;
+						courses[x].midtermTime = cTime;
+						courses[x].grade = 100;// need fxn to calculate grade
+						//console.log(saveLevel(username, courses[x].Levelname, 0, courses[x].Width, courses[x].Height));
+						
+						saveCurrentCampaignGame(courses, getInventory());
+					}
+				}
+			}
       }
 
 }

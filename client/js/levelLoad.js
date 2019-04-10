@@ -2,7 +2,6 @@ loadLevel=function(level,width){
 
 	Entity.clear();
       console.log("Load level called");
-
 	width++;
 
 	console.log(Entity.list);
