@@ -304,6 +304,7 @@ function globalChange(x){
 
 	let  snd = new Audio("music/Good Will Hunting OST - 02 The Theorem.mp3");
          let  snd2 = new Audio("music/Winterbells Extended Original song.mp3");
+	let  snd3 = new Audio("music/Mario Death Sound Effect.mp3");
 
 
 	let deathY=0;
@@ -882,7 +883,7 @@ save.onclick = function () {
 		gameDiv.style.display='none';
 		signDiv.style.display = 'none';
             landscapingWork.style.display = 'none';
-
+			snd3.play();
 		//menuWrapper.style.display='inline-block'; //Reapperaing menu wrapper
 		//mainMenu.style.display = 'inline-block';
             console.log("LEVEL FAILED")
