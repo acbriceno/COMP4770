@@ -226,7 +226,7 @@ function globalChange(x){
 
 			<div id="rightToolbar" style ="position: absolute; right: 0px; top: 730px;">
 				<button class="toolbarButton" onclick="backMainMenu()" style="display: inline-block;"> <img src="./img/back_icon.png"> </button>
-				<button class="toolbarButton" id="savebutton" style="display: inline-block;"> <img src="./img/save_icon.png"> </button>
+				<div id="save"><button class="toolbarButton" id="savebutton" style="display: inline-block;"> <img src="./img/save_icon.png"> </button></div>
 				<button class="toolbarButton" id="play" style="display: inline-block;"> <img src="./img/play_icon.png"> </button>
 				<div id="aSelect2" style="display: inline-block;">
 					<select id="background" onchange="facChange()">
@@ -267,9 +267,7 @@ function globalChange(x){
 	<div id="backLE" style="display:none;">
 		<button onclick="backMainMenu()">Back</button>
 	</div>
-	<div id="save" style ="display:none;">
-            <button id="savebutton">Save</button>
-	</div>
+
 	<div id="play" style="display:none;">
 		<button id="play">Play</button>
 	</div>
