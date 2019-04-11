@@ -196,13 +196,62 @@
 	</div>
 </div>
 
+<script>
+var globalValueButton = "null"
+
+function globalChange(x){
+	console.log(x)
+	globalValueButton = x;
+}
+
+ </script>
+
 <div id="levelEditor" style="display:none;">
 	<div id="editor" style="position:absolute;width:1280px;height:720px;">
 		<canvas id="ctxLE" width="1280" height="720" style="position:absolute;border:1px solid #000000;"></canvas>
 		<canvas id="ctx_uiLE" width="1280" height="720" style="position:absolute;border:1px solid #000000;"></canvas>
 
 	</div>
-      <div id="aSelect1" style ="position: fixed; bottom: 50px; right: 0;">
+
+			<div id="leftToolbar" style ="position: absolute; top: 730px; ">
+				<a href="#" onclick="globalChange('p')"> <img src="./img/player_icon.png"> </a>
+				<a href="#" onclick="globalChange('f')"> <img src="./img/platform_icon.png"> </a>
+				<a href="#" onclick="globalChange('e')"> <img src="./img/enemy_icon.png"> </a> 
+				<a href="#" onclick="globalChange('a')"> <img src="./img/assigment_icon.png"> </a> 
+				<a href="#" onclick="globalChange('b')"> <img src="./img/breakable_icon.png"> </a>
+				<a href="#" onclick="globalChange('m')"> <img src="./img/midterm_icon.png"> </a> 
+				<a href="#" onclick="globalChange('l')"> <img src="./img/final_icon.png"> </a> 
+				<a href="#" onclick="globalChange('d')"> <img src="./img/delete_icon.png"> </a>  
+			</div>
+
+			<div id="rightToolbar" style ="position: absolute; right: 0px; top: 730px;">
+				<button class="toolbarButton" onclick="backMainMenu()" style="display: inline-block;"> <img src="./img/back_icon.png"> </button>
+				<div id="save"><button class="toolbarButton" id="savebutton" style="display: inline-block;"> <img src="./img/save_icon.png"> </button></div>
+				<button class="toolbarButton" id="play" style="display: inline-block;"> <img src="./img/play_icon.png"> </button>
+				<div id="aSelect2" style="display: inline-block;">
+					<select id="background" onchange="facChange()">
+						<option id="math" value="img/math1.png" selected="selected">Math</option>
+						<option id="phil" value="img/phil1.png">Philosophy</option>
+						<option id="phys" value="img/phy1.png">Physics</option>
+						<option id="comp" value="img/cs1.png">Computer Science</option>
+					</select>
+				</div>
+
+					
+					
+				<div id="loadSelect" style="display:inline-block;">
+					<select id="selections2" >
+						<option id="l" value="p" selected disabled> Levels</option>
+			
+					</select>
+				</div>
+				<div id="load" style ="display:inline-block;">
+									<button class="toolbarButton" id="loadbutton"> <img src ="./img/upload_icon.png"> </button>
+				</div>
+
+			</div>
+
+      <div id="aSelect1" style ="display:none; position: fixed; bottom: 50px; right: 0;">
             <select id="selections";>
                   <option value="p"selected="selected">Player</option>
                   <option value="e">Enemy</option>
@@ -214,33 +263,16 @@
                   <option value="d">Delete</option>
             </select>
       </div>
-	<div id="aSelect2" style ="position: fixed; bottom: 50px; right: 110px;">
-            <select id="background" onchange="facChange()">
-				<option id="math" value="img/math1.png" selected="selected">Math</option>
-				<option id="phil" value="img/phil1.png">Philosophy</option>
-				<option id="phys" value="img/phy1.png">Physics</option>
-				<option id="comp" value="img/cs1.png">Computer Science</option>
-			</select>
 
-	</div>
-	<div id="backLE" style="display:none;position:absolute;bottom: 50px;">
+	<div id="backLE" style="display:none;">
 		<button onclick="backMainMenu()">Back</button>
 	</div>
-	<div id="save" style ="display:none;position:absolute;bottom: 50px;left:50px">
-            <button id="savebutton">Save</button>
-	</div>
-	<div id="play" style="display:none;position:absolute;bottom: 50px;left:100px;">
+
+	<div id="play" style="display:none;">
 		<button id="play">Play</button>
 	</div>
-	<div id="loadSelect" style="display:none;position:absolute;bottom: 50px;left:200px;">
-		<select id="selections2" ;>
-			<option id="l" value="p" selected disabled>Levels</option>
 
-		</select>
-	</div>
-	<div id="load" style ="display:none;position:absolute;bottom: 50px;left:150px">
-            <button id="loadbutton">Load</button>
-	</div>
+			
 </div>
 
 
@@ -271,6 +303,7 @@
 
 	let  snd = new Audio("music/Good Will Hunting OST - 02 The Theorem.mp3");
          let  snd2 = new Audio("music/Winterbells Extended Original song.mp3");
+	let  snd3 = new Audio("music/Mario Death Sound Effect.mp3");
 
 
 	let deathY=0;
@@ -325,7 +358,11 @@
 	let dadCredit;
 	let workCredit;
       let land = document.getElementById('LandscapeButton');
+<<<<<<< HEAD
       let cTime;
+=======
+	  let cTime = 0;
+>>>>>>> 364303fc991b3217017c5487770476e9c702372e
 
   var Img = {};
   Img.playerLevel = new Image();
@@ -432,7 +469,8 @@
 				player.lMouseClick=true;
 			}
 			else if(screen=='le'){
-				let selection = selections.options[selections.selectedIndex].value;
+				let selection = globalValueButton; //change for the toolbar to work
+				//let selection = selections.options[selections.selectedIndex].value;
 				mousePos.code=selection;
 				console.log(mousePos.code);
 				//let x=mousePos.x-moveScreen.right*64;
@@ -470,6 +508,7 @@
             player.aimAngle = Math.atan2(mouseY,mouseX) / Math.PI * 180;
       }
       else if(screen=='le'){
+				
 			if(mouseY>18&&mouseY<738&&mouseX>0&&mouseX<1280){
 				mousePos.x=mouseX;
 				// mousePos.y=mouseY-3+moveScreen.left*64;
@@ -629,7 +668,11 @@
 				ctxui.font="35px Arial";
 				if(screen=='game'){
 					ctxui.strokeText("HP: "+player.hp,50,50);
+<<<<<<< HEAD
 					cTime=(Date.now()-start)/1000;
+=======
+					cTime= (cTime +Date.now() - start)/1000;
+>>>>>>> 364303fc991b3217017c5487770476e9c702372e
 					ctxui.strokeText("Time: "+cTime+" seconds",50,170);
 					if(campaign != null){
 						ctxui.fillText("WPU :" + weaponPowerUp, 50, 90);
@@ -768,6 +811,7 @@
 
 					//playerProfile.style.display = 'inline-block';
 					back.style.display = 'inline';
+						Entity.clear();                
 					//screen='menu';
 
 
@@ -847,7 +891,7 @@ save.onclick = function () {
 		gameDiv.style.display='none';
 		signDiv.style.display = 'none';
             landscapingWork.style.display = 'none';
-
+			snd3.play();
 		//menuWrapper.style.display='inline-block'; //Reapperaing menu wrapper
 		//mainMenu.style.display = 'inline-block';
             console.log("LEVEL FAILED")
@@ -995,33 +1039,73 @@ save.onclick = function () {
           }
           screen = 'overworld';
 	  }
+	  let campaignLevelName;
 
-	   loadCourseLevel  = function(courseName){
-                console.log("HERE");
-		let socket=io();
-  		socket.emit('loadSystemCourseLevel',{
-			courseName: courseName
-  		});
+	   // loadCourseLevel  = function(courseName){
+//                 console.log("HERE");
+// 		let socket=io();
+//   		socket.emit('loadSystemCourseLevel',{
+// 			courseName: courseName
+//   		});
+//
+// 		socket.on('systemCourseLevelFound', function(message){
+// 			//console.log(message.courseLevel);
+//
+//
+// 			gameDiv.style.display="inline-block";
+// 			menuWrapper.style.display ='none'; //hiding menu wrapper
+// 			levelEditor.style.display = 'none';
+// 			save.style.display = 'none';
+// 			backLE.style.display="none";
+// 			play.style.display="none";
+// 			campaignInput.style.display="none";
+// 			start=Date.now();
+// 			campaignLevelName = message.courseLevel.Levelname;
+// 			loadLevel(message.courseLevel.Level, message.courseLevel.Width);
+// 		//	loadLevel('00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000l0000000000000000000000000000000000000000000000000000e0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000p00000000000000e000000000000000000000000000000000000000000000000000000m0000000000000a0000000000000000000000000000000000000000000000000000000000000000000000000000000e000000000000000000000000000000000000000000a000000000bb0b0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000ffffff0000000000000000bbbb0bbbbb000b00000000ffff000000000000000000000000000000000bbbbbb0000ffff0fff0000000000000000000000000000000000000000000000000000000000000000000000f0000000000000000000000f000000000000000000000000000000000000000000000000000000000000000000000000000000000b0e000000000000000000ff0000000000000000000ff000000e000000000000f0ff00000000000000000000000000000fffff0000000000000000000f0fff000000000000000000000b00b0000000000000000000fff00000000ffffff0000000000000000000000000000000000000000000ffffffffffffff00fa00f00000fff000000000000000000000000000000000000bbbbb00b00000be00000000ffff0000000000000000f0f0f0000000000000000000000000000000000000000000000000000f000f00000befe0000000000000000000000000000000000bbb0a000bbfffffbbb000000ffff0000000000000000000000000ee0000000000000000000fef00f0000000000000000000f0f000000000fff00000000f00000000f00f00000fffffffffffffffffffffffffffffffffffffffffffff000000ffffffffffffffffffffff00fffffffffffffffffffffffffffffffffffffffffffffffffffff000ffffffffffffffffffw',148);
+//                   console.log("Makes it to loaded level");
+//                   screen='game';
+//
+// 		});
+// 	  }
 
-		socket.on('systemCourseLevelFound', function(message){
-			//console.log(message.courseLevel);
 
 
-			gameDiv.style.display="inline-block";
-			menuWrapper.style.display ='none'; //hiding menu wrapper
-			levelEditor.style.display = 'none';
-			save.style.display = 'none';
-			backLE.style.display="none";
-			play.style.display="none";
-			campaignInput.style.display="none";
-			start=Date.now();
-			loadLevel(message.courseLevel.Level, message.courseLevel.Width);
-		//	loadLevel('00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000l0000000000000000000000000000000000000000000000000000e0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000p00000000000000e000000000000000000000000000000000000000000000000000000m0000000000000a0000000000000000000000000000000000000000000000000000000000000000000000000000000e000000000000000000000000000000000000000000a000000000bb0b0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000ffffff0000000000000000bbbb0bbbbb000b00000000ffff000000000000000000000000000000000bbbbbb0000ffff0fff0000000000000000000000000000000000000000000000000000000000000000000000f0000000000000000000000f000000000000000000000000000000000000000000000000000000000000000000000000000000000b0e000000000000000000ff0000000000000000000ff000000e000000000000f0ff00000000000000000000000000000fffff0000000000000000000f0fff000000000000000000000b00b0000000000000000000fff00000000ffffff0000000000000000000000000000000000000000000ffffffffffffff00fa00f00000fff000000000000000000000000000000000000bbbbb00b00000be00000000ffff0000000000000000f0f0f0000000000000000000000000000000000000000000000000000f000f00000befe0000000000000000000000000000000000bbb0a000bbfffffbbb000000ffff0000000000000000000000000ee0000000000000000000fef00f0000000000000000000f0f000000000fff00000000f00000000f00f00000fffffffffffffffffffffffffffffffffffffffffffff000000ffffffffffffffffffffff00fffffffffffffffffffffffffffffffffffffffffffffffffffff000ffffffffffffffffffw',148);
-                  console.log("Makes it to loaded level");
-                  screen='game';
+ loadCourseLevel  = function(courseName){
+          console.log("HERE");
 
-		});
-	  }
+		  let courses = getCourses();
+	gameDiv.style.display="inline-block";
+	menuWrapper.style.display ='none'; //hiding menu wrapper
+	levelEditor.style.display = 'none';
+	save.style.display = 'none';
+	backLE.style.display="none";
+	play.style.display="none";
+	campaignInput.style.display="none";
+	start=Date.now();
+	campaignLevelName = courseName;
+	
+	for(let x=0; x<courses.length;x++){
+		if(courses[x] != null){
+			if(courseName == courses[x].Levelname){
+				if(courses[x].midterm == true){
+					//cTime = 8;//courses[x].midtermTime;
+				}
+				console.log("dbtime" + courses[x].midtermTime);
+				console.log("time" + cTime);
+				loadLevel(courses[x].Level, courses[x].Width);
+			}
+		}
+	}
+	
+	
+//	loadLevel('00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000l0000000000000000000000000000000000000000000000000000e0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000p00000000000000e000000000000000000000000000000000000000000000000000000m0000000000000a0000000000000000000000000000000000000000000000000000000000000000000000000000000e000000000000000000000000000000000000000000a000000000bb0b0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000ffffff0000000000000000bbbb0bbbbb000b00000000ffff000000000000000000000000000000000bbbbbb0000ffff0fff0000000000000000000000000000000000000000000000000000000000000000000000f0000000000000000000000f000000000000000000000000000000000000000000000000000000000000000000000000000000000b0e000000000000000000ff0000000000000000000ff000000e000000000000f0ff00000000000000000000000000000fffff0000000000000000000f0fff000000000000000000000b00b0000000000000000000fff00000000ffffff0000000000000000000000000000000000000000000ffffffffffffff00fa00f00000fff000000000000000000000000000000000000bbbbb00b00000be00000000ffff0000000000000000f0f0f0000000000000000000000000000000000000000000000000000f000f00000befe0000000000000000000000000000000000bbb0a000bbfffffbbb000000ffff0000000000000000000000000ee0000000000000000000fef00f0000000000000000000f0f000000000fff00000000f00000000f00f00000fffffffffffffffffffffffffffffffffffffffffffff000000ffffffffffffffffffffff00fffffffffffffffffffffffffffffffffffffffffffffffffffff000ffffffffffffffffffw',148);
+            console.log("Makes it to loaded level");
+            screen='game';
+
+
+}
+
 
       loadGame.onclick = function() {
 			mainMenu.style.display = 'none';
@@ -1200,6 +1284,7 @@ save.onclick = function () {
 		}
 
 		saveCurrentGame = function(save){
+			let socket = io();
 			socket.emit('saveCurrentGame',{
 				username: username,
 				campaignNumber: save.campaignNumber,
@@ -1232,6 +1317,7 @@ save.onclick = function () {
 		}
 
 		saveNewCampaignSave = function(save){
+			let socket = io();
 			socket.emit('saveNewSave',{
 				username: username,
 				campaignNumber: save.campaignNumber,

@@ -183,3 +183,23 @@ input[type=password] {
 }
 
 .button3:hover { transform: scale(1.05); }
+
+#leftToolbar{
+  width: auto;
+}
+
+#leftToolbar a{
+    display: inline-block;
+    text-align: center;
+    padding: 5px;
+    transition: all 0.3s ease;
+}
+
+#leftToolbar a:hover{
+  transform: scale(1.1);
+}
+
+.toolbarButton{
+  border: none;
+  background-color: white;
+}
