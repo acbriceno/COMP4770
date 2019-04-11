@@ -325,6 +325,7 @@
 	let dadCredit;
 	let workCredit;
       let land = document.getElementById('LandscapeButton');
+      let cTime;
 
   var Img = {};
   Img.playerLevel = new Image();
@@ -628,7 +629,7 @@
 				ctxui.font="35px Arial";
 				if(screen=='game'){
 					ctxui.strokeText("HP: "+player.hp,50,50);
-					let cTime=Date.now()-start;
+					cTime=(Date.now()-start)/1000;
 					ctxui.strokeText("Time: "+cTime+" seconds",50,170);
 					if(campaign != null){
 						ctxui.fillText("WPU :" + weaponPowerUp, 50, 90);
