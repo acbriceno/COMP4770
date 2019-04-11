@@ -177,12 +177,19 @@
 
                   <div id="landscapingWork" style="display:none;">
 
-											<h2 id="levelHeading">Welcome to your Dad's Landscaping</h2>
+							<h2 id="levelHeading">Welcome to your Dad's Landscaping</h2>
+							<button class="button3" id="LandscapeButton">Go to Work</button>
+							<button class="button3" id="backCourse">Back</button>
 
-												<button class="button3" id="LandscapeButton">Go to Work</button>
-												<button class="button3" id="backCourse">Back</button>
+      		</div>
 
-      					</div>
+                  <div id="grandmaHouse" style="display:none;">
+
+							<h2 id="levelHeading">Grandma's House</h2>
+							<button class="button3" id="GrandmaButton">Ask for Money</button>
+							<button class="button3" id="backCourse">Back</button>
+
+      		</div>
 </div>
 
 
@@ -216,12 +223,12 @@ function globalChange(x){
 			<div id="leftToolbar" style ="position: absolute; top: 730px; ">
 				<a href="#" onclick="globalChange('p')"> <img src="./img/player_icon.png"> </a>
 				<a href="#" onclick="globalChange('f')"> <img src="./img/platform_icon.png"> </a>
-				<a href="#" onclick="globalChange('e')"> <img src="./img/enemy_icon.png"> </a> 
-				<a href="#" onclick="globalChange('a')"> <img src="./img/assigment_icon.png"> </a> 
+				<a href="#" onclick="globalChange('e')"> <img src="./img/enemy_icon.png"> </a>
+				<a href="#" onclick="globalChange('a')"> <img src="./img/assigment_icon.png"> </a>
 				<a href="#" onclick="globalChange('b')"> <img src="./img/breakable_icon.png"> </a>
-				<a href="#" onclick="globalChange('m')"> <img src="./img/midterm_icon.png"> </a> 
-				<a href="#" onclick="globalChange('l')"> <img src="./img/final_icon.png"> </a> 
-				<a href="#" onclick="globalChange('d')"> <img src="./img/delete_icon.png"> </a>  
+				<a href="#" onclick="globalChange('m')"> <img src="./img/midterm_icon.png"> </a>
+				<a href="#" onclick="globalChange('l')"> <img src="./img/final_icon.png"> </a>
+				<a href="#" onclick="globalChange('d')"> <img src="./img/delete_icon.png"> </a>
 			</div>
 
 			<div id="rightToolbar" style ="position: absolute; right: 0px; top: 730px;">
@@ -237,12 +244,12 @@ function globalChange(x){
 					</select>
 				</div>
 
-					
-					
+
+
 				<div id="loadSelect" style="display:inline-block;">
 					<select id="selections2" >
 						<option id="l" value="p" selected disabled> Levels</option>
-			
+
 					</select>
 				</div>
 				<div id="load" style ="display:inline-block;">
@@ -272,7 +279,7 @@ function globalChange(x){
 		<button id="play">Play</button>
 	</div>
 
-			
+
 </div>
 
 
@@ -358,11 +365,7 @@ function globalChange(x){
 	let dadCredit;
 	let workCredit;
       let land = document.getElementById('LandscapeButton');
-<<<<<<< HEAD
-      let cTime;
-=======
 	  let cTime = 0;
->>>>>>> 364303fc991b3217017c5487770476e9c702372e
 
   var Img = {};
   Img.playerLevel = new Image();
@@ -508,7 +511,7 @@ function globalChange(x){
             player.aimAngle = Math.atan2(mouseY,mouseX) / Math.PI * 180;
       }
       else if(screen=='le'){
-				
+
 			if(mouseY>18&&mouseY<738&&mouseX>0&&mouseX<1280){
 				mousePos.x=mouseX;
 				// mousePos.y=mouseY-3+moveScreen.left*64;
@@ -601,7 +604,7 @@ function globalChange(x){
 
 	//update for in game, logic tbd
 	update=function(){
-			//console.log(player.x + "and" + player.y);
+			console.log(player.x + "and" + player.y);
             if (screen == 'overworld' && !inTown) {
                   campusBoundaries();
                   if (player.x < -25) {
@@ -614,15 +617,15 @@ function globalChange(x){
                   }
 									else if ((player.x > 940 && player.x < 980) && (player.y > 190 && player.y < 210)) {
                         console.log("Entered Physics Building");
-											//*enterRoom("PHYS");
+											enterRoom("PHYS");
                   }
 									else if ((player.x > 960 && player.x < 1050) && (player.y > 650 && player.y < 670)) {
                         console.log("Entered Math Building");
-									//*enterRoom("MATH");
+									enterRoom("MATH");
                   }
 									else if ((player.x > 640 && player.x < 670) && (player.y > 645 && player.y < 670)) {
                         console.log("Entered Philosophy Building");
-									//*enterRoom("PHIL");
+									enterRoom("PHIL");
                   }
             }
             else if (inTown && screen == 'overworld') {
@@ -634,6 +637,10 @@ function globalChange(x){
                   if ((player.x < 140 && player.x > 60) && (player.y < 435 && player.y > 295)) {
                         console.log("Entered Work");
                         enterRoom("LAND");
+                  }
+                  else if ((player.x > 45 && player.x < 105) && (player.y > 639 && player.y < 650)) {
+                        console.log("Entered Grandmas");
+                        enterRoom("GRANDMA");
                   }
             }
 
@@ -668,11 +675,7 @@ function globalChange(x){
 				ctxui.font="35px Arial";
 				if(screen=='game'){
 					ctxui.strokeText("HP: "+player.hp,50,50);
-<<<<<<< HEAD
-					cTime=(Date.now()-start)/1000;
-=======
 					cTime= (cTime +Date.now() - start)/1000;
->>>>>>> 364303fc991b3217017c5487770476e9c702372e
 					ctxui.strokeText("Time: "+cTime+" seconds",50,170);
 					if(campaign != null){
 						ctxui.fillText("WPU :" + weaponPowerUp, 50, 90);
@@ -811,7 +814,7 @@ function globalChange(x){
 
 					//playerProfile.style.display = 'inline-block';
 					back.style.display = 'inline';
-						Entity.clear();                
+						Entity.clear();
 					//screen='menu';
 
 
@@ -1084,7 +1087,7 @@ save.onclick = function () {
 	campaignInput.style.display="none";
 	start=Date.now();
 	campaignLevelName = courseName;
-	
+
 	for(let x=0; x<courses.length;x++){
 		if(courses[x] != null){
 			if(courseName == courses[x].Levelname){
@@ -1097,8 +1100,8 @@ save.onclick = function () {
 			}
 		}
 	}
-	
-	
+
+
 //	loadLevel('00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000l0000000000000000000000000000000000000000000000000000e0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000p00000000000000e000000000000000000000000000000000000000000000000000000m0000000000000a0000000000000000000000000000000000000000000000000000000000000000000000000000000e000000000000000000000000000000000000000000a000000000bb0b0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000ffffff0000000000000000bbbb0bbbbb000b00000000ffff000000000000000000000000000000000bbbbbb0000ffff0fff0000000000000000000000000000000000000000000000000000000000000000000000f0000000000000000000000f000000000000000000000000000000000000000000000000000000000000000000000000000000000b0e000000000000000000ff0000000000000000000ff000000e000000000000f0ff00000000000000000000000000000fffff0000000000000000000f0fff000000000000000000000b00b0000000000000000000fff00000000ffffff0000000000000000000000000000000000000000000ffffffffffffff00fa00f00000fff000000000000000000000000000000000000bbbbb00b00000be00000000ffff0000000000000000f0f0f0000000000000000000000000000000000000000000000000000f000f00000befe0000000000000000000000000000000000bbb0a000bbfffffbbb000000ffff0000000000000000000000000ee0000000000000000000fef00f0000000000000000000f0f000000000fff00000000f00000000f00f00000fffffffffffffffffffffffffffffffffffffffffffff000000ffffffffffffffffffffff00fffffffffffffffffffffffffffffffffffffffffffffffffffff000ffffffffffffffffffw',148);
             console.log("Makes it to loaded level");
             screen='game';
@@ -1132,24 +1135,48 @@ save.onclick = function () {
 	  enterRoom = function(roomName){
 		   coursesButtonGroup.style.display = 'inline';
 		  if(roomName == "COMP"){
+                   mathMenu.style.display = 'none';
+                   physMenu.style.display = 'none';
+                   philMenu.style.display = 'none';
 			 compMenu.style.display = 'inline-block';
 		  }
 			else if(roomName == "MATH"){
 			 mathMenu.style.display = 'inline-block';
 		  }
 			else if(roomName == "PHYS"){
+                   compMenu.style.display = 'none';
+                   mathMenu.style.display = 'none';
+                   philMenu.style.display = 'none';
 			 physMenu.style.display = 'inline-block';
 		  }
 			else if(roomName == "PHIL"){
 			 philMenu.style.display = 'inline-block';
+                   compMenu.style.display = 'none';
+                   mathMenu.style.display = 'none';
+                   physMenu.style.display = 'none';
 		  }
                   else if(roomName == "LAND"){
                    compMenu.style.display = 'none';
+                   mathMenu.style.display = 'none';
+                   physMenu.style.display = 'none';
+                   philMenu.style.display = 'none';
                    menuWrapper.style.display = "none";
     		       gameDiv.style.display="none";
                    landscapingWork.style.display = 'inline-block';
                     //screen = menu;
               }
+              else if(roomName == "GRANDMA"){
+               compMenu.style.display = 'none';
+               mathMenu.style.display = 'none';
+               physMenu.style.display = 'none';
+               philMenu.style.display = 'none';
+               menuWrapper.style.display = "none";
+               gameDiv.style.display="none";
+               landscapingWork.style.display = 'none';
+               grandmaHouse.style.display = 'inline-block';
+               console.log("Make it to Grandmas")
+                //screen = menu;
+          }
 
 	  }
 
