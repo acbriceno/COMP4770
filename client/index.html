@@ -224,30 +224,31 @@ function globalChange(x){
 				<a href="#" onclick="globalChange('d')"> <img src="./img/delete_icon.png"> </a>  
 			</div>
 
-
 			<div id="rightToolbar" style ="position: absolute; right: 0px; top: 730px;">
-				<button onclick="backMainMenu()">Back</button>
-				<button id="savebutton">Save</button>
-				<button id="play">Play</button>
-				<div id="aSelect2">
+				<button class="toolbarButton" onclick="backMainMenu()" style="display: inline-block;"> <img src="./img/back_icon.png"> </button>
+				<button class="toolbarButton" id="savebutton" style="display: inline-block;"> <img src="./img/save_icon.png"> </button>
+				<button class="toolbarButton" id="play" style="display: inline-block;"> <img src="./img/play_icon.png"> </button>
+				<div id="aSelect2" style="display: inline-block;">
 					<select id="background" onchange="facChange()">
 						<option id="math" value="img/math1.png" selected="selected">Math</option>
 						<option id="phil" value="img/phil1.png">Philosophy</option>
 						<option id="phys" value="img/phy1.png">Physics</option>
 						<option id="comp" value="img/cs1.png">Computer Science</option>
 					</select>
+				</div>
 
-					<div id="loadSelect" >
-						<select id="selections2" ;>
-							<option id="l" value="p" selected disabled>Levels</option>
-		
-						</select>
-					</div>
-					<div id="load">
-										<button id="loadbutton">Load</button>
-					</div>
+					
+					
+				<div id="loadSelect" style="display:inline-block;">
+					<select id="selections2" >
+						<option id="l" value="p" selected disabled> Levels</option>
+			
+					</select>
+				</div>
+				<div id="load" style ="display:inline-block;">
+									<button class="toolbarButton" id="loadbutton"> <img src ="./img/upload_icon.png"> </button>
+				</div>
 
-			</div>
 			</div>
 
       <div id="aSelect1" style ="display:none; position: fixed; bottom: 50px; right: 0;">

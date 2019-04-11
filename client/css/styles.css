@@ -198,3 +198,8 @@ input[type=password] {
 #leftToolbar a:hover{
   transform: scale(1.1);
 }
+
+.toolbarButton{
+  border: none;
+  background-color: white;
+}
