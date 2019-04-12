@@ -213,6 +213,14 @@
                                           <button class="button3" id="backCourse">Back</button>
 
                   </div>
+
+                  <div id="fishHouse" style="display:none;">
+
+                                          <h2 id="levelHeading">Feelin' Lucky?</h2>
+                                          <button class="button3" id="fishButton">Go Fish!</button>
+                                          <button class="button3" id="backCourse">Back</button>
+
+                  </div>
 </div>
 
 
@@ -477,11 +485,18 @@ function globalChange(x){
       updateDad = function() {
             console.log("dadCredit before: " + dadCredit);
             if (dadCredit != 0) {
-                  randMoney = Math.floor(Math.random() * (400 - 50 + 1)) + 50;
+                  let randMoney = Math.floor(Math.random() * (400 - 50 + 1)) + 50;
                   console.log("Got " + randMoney + " from Dad!");
                   money = money + randMoney;
                   dadCredit--;
             }
+            saveCurrentCampaignGame(getCourses(), getInventory());
+      }
+
+      updateFish = function() {
+            let randFish = Math.floor(Math.random() * (700 - 300 + 1)) + 300;
+            console.log("Got $" + randFish + "!");
+            money = money + randFish;
             saveCurrentCampaignGame(getCourses(), getInventory());
       }
 
@@ -508,6 +523,10 @@ function globalChange(x){
                         }
                         else if (target == "dadButton") {
                               updateDad();
+                              leaveRoom();
+                        }
+                        else if (target == "fishButton") {
+                              updateFish()
                               leaveRoom();
                         }
 				else{
@@ -701,7 +720,7 @@ function globalChange(x){
 
 	//update for in game, logic tbd
 	update=function(){
-			//console.log(player.x + "and" + player.y);
+			console.log(player.x + "and" + player.y);
             if (screen == 'overworld' && !inTown) {
                   campusBoundaries();
                   if (player.x < -25) {
@@ -747,6 +766,10 @@ function globalChange(x){
                   else if ((player.x > 285 && player.x < 320) && (player.y > 440 && player.y < 455)) {
                         console.log("entered Dad's");
                         enterRoom("DAD");
+                  }
+                  else if ((player.x > 635 && player.x < 660) && (player.y > 115 && player.y < 130)) {
+                        console.log("Fishing");
+                        enterRoom("FISH");
                   }
             }
 
@@ -1162,6 +1185,8 @@ save.onclick = function () {
 							grandmaHouseAfter.style.display = 'none';
               landscapingWork.style.display = 'none';
               winery.style.display = 'none';
+              dadHouse.style.display = 'none';
+              fishHouse.style.display = 'none';
 		  menuWrapper.style.display = "none";
 		  gameDiv.style.display="inline-block";
 		  loadFile.style.display = "none";
@@ -1380,6 +1405,7 @@ completeLevel = function(courseName){
     		       gameDiv.style.display="none";
                    grandmaHouse.style.display = 'none';
                    dadHouse.style.display = 'none';
+                    fishHouse.style.display = 'none';
                    landscapingWork.style.display = 'inline-block';
                     //screen = menu;
               }
@@ -1393,6 +1419,7 @@ completeLevel = function(courseName){
                landscapingWork.style.display = 'none';
                winery.style.display = 'none';
                dadHouse.style.display = 'none';
+               fishHouse.style.display = 'none';
                checkonGrandma();
                console.log("Make it to Grandmas")
                 //screen = menu;
@@ -1407,6 +1434,7 @@ completeLevel = function(courseName){
                 grandmaHouse.style.display = 'none';
                 landscapingWork.style.display = 'none';
                 dadHouse.style.display = 'none';
+                 fishHouse.style.display = 'none';
                 winery.style.display = 'inline-block';
           }
           else if (roomName == "DAD") {
@@ -1419,7 +1447,22 @@ completeLevel = function(courseName){
                 grandmaHouse.style.display = 'none';
                 landscapingWork.style.display = 'none';
                 winery.style.display = 'none';
+                fishHouse.style.display = 'none';
                 dadHouse.style.display = 'inline-block';
+          }
+          else if (roomName == "FISH") {
+               compMenu.style.display = 'none';
+               mathMenu.style.display = 'none';
+               physMenu.style.display = 'none';
+               philMenu.style.display = 'none';
+               menuWrapper.style.display = "none";
+               gameDiv.style.display="none";
+               grandmaHouse.style.display = 'none';
+               landscapingWork.style.display = 'none';
+               winery.style.display = 'none';
+               dadHouse.style.display = 'none';
+               fishHouse.style.display = 'inline-block';
+
           }
 
 
