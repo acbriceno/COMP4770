@@ -735,7 +735,8 @@ Player=function(x,y){
 				//console.log('almost working');
 				if(self.melee){
 					if(e.invinc==false){
-						if(self.x>e.x){
+						console.log(self.x-e.x);
+						if(self.x-e.x<0){
 							e.KBDir=0;
 						}
 						else{
@@ -747,11 +748,12 @@ Player=function(x,y){
 				}
 				else{
 					if(self.invinc==false){
-						if(self.x>e.x){
-							e.KBDir=1;
+						console.log(self.x-e.x);
+						if(self.x-e.x<0){
+							self.KBDir=1;
 						}
 						else{
-							e.KBDir=0;
+							self.KBDir=0;
 						}
 						self.hp-=e.dmg;
 						self.KB=true;
