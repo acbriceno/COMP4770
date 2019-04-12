@@ -481,6 +481,9 @@ function globalChange(x){
                         else if (target == "wineryButton") {
                               leaveRoom();
                         }
+                        else if (target == "dadButton") {
+                              leaveRoom();
+                        }
 				else{
 					leaveRoom();
 					loadCourseLevel(target);
@@ -715,8 +718,9 @@ function globalChange(x){
                         enterRoom("WINE");
 
                   }
-                  else if ((player.x > 45 && player.x < 75) && (player.y > 640 && player.y < 655))
+                  else if ((player.x > 285 && player.x < 320) && (player.y > 440 && player.y < 455))
                         console.log("entered Dad's");
+                        enterRoom("DAD");
             }
 
 
@@ -1362,6 +1366,7 @@ completeLevel = function(courseName){
                 winery.style.display = 'inline-block';
 
           }
+          
 
 	  }
 
