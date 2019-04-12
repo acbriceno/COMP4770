@@ -185,7 +185,7 @@
 
               <div id="grandmaHouse" style="display:none;">
 
-							<h2 id="blacklevelHeading">Hi Sweetie!</h2>
+							<h2 id="pinklevelHeading">Hi Sweetie!</h2>
 							<button class="button3" id="GrandmaButton">Ask for Money</button>
 							<button class="button3" id="backCourse">Back</button>
 
@@ -193,7 +193,7 @@
 
 					<div id="grandmaHouseAfter" style="display:none;">
 
-						<h2 id="leavelHeading">She is gone now...</h2>
+						<h2 id="blackleavelHeading">She is gone now...</h2>
 						<button class="button3" id="backCourse">Back</button>
 
 				</div>
@@ -448,7 +448,21 @@ function globalChange(x){
             else {
                   levelFailed();
             }
-      }
+			}
+
+			checkonGrandma = function(){
+
+				if (gammaHP != 0) {
+					grandmaHouse.style.display = 'inline-block';
+					grandmaHouseAfter.style.display = 'none';
+						}
+
+				else {
+					grandmaHouseAfter.style.display = 'inline-block';
+					grandmaHouse.style.display = 'none';
+				}
+
+			}
 
       updateGrandma = function() {
             console.log("gammaHP before: " + gammaHP);
@@ -1132,7 +1146,8 @@ save.onclick = function () {
               philMenu.style.display = 'none';
               menuWrapper.style.display = "none";
               gameDiv.style.display="none";
-              grandmaHouse.style.display = 'none';
+							grandmaHouse.style.display = 'none';
+							grandmaHouseAfter.style.display = 'none';
               landscapingWork.style.display = 'none';
               winery.style.display = 'none';
 		  menuWrapper.style.display = "none";
@@ -1364,7 +1379,7 @@ completeLevel = function(courseName){
                landscapingWork.style.display = 'none';
                winery.style.display = 'none';
                dadHouse.style.display = 'none';
-               grandmaHouse.style.display = 'inline-block';
+               checkonGrandma();
                console.log("Make it to Grandmas")
                 //screen = menu;
           }
