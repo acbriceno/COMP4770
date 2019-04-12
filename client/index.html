@@ -495,6 +495,16 @@ function globalChange(x){
             saveCurrentCampaignGame(getCourses(), getInventory());
       }
 
+      updateWinery = function() {
+            if (workCredit > 0){
+                  console.log("Money before: " + money);
+                  money = money + 1000;
+                  console.log("Money after: " + money);
+                  workCredit = workCredit - 2;
+            }
+            saveCurrentCampaignGame(getCourses(), getInventory());
+      }
+
       updateFish = function() {
             let randFish = Math.floor(Math.random() * (700 - 300 + 1)) + 300;
             console.log("Got $" + randFish + "!");
@@ -521,6 +531,7 @@ function globalChange(x){
                               leaveRoom();
                         }
                         else if (target == "wineryButton") {
+                              updateWinery()
                               leaveRoom();
                         }
                         else if (target == "dadButton") {
@@ -820,7 +831,7 @@ function globalChange(x){
 
 					}
                     //ctxui.fillstyle = "white";
-                   
+
 
 
 				}
@@ -849,7 +860,7 @@ function globalChange(x){
             //console.log("Player (X,Y): " + "(" + player.x + ", " + player.y + ")");
 			//console.log("Player aim angle is: "+player.aimAngle);
 			//console.log("Grapple key = "+player.grapplePress);
-			//console.log("Attack Speed: "+player.atkSpd+" Attack Counter: "+player.atkCnt);
+			//console.log("Attack Speed: "+player.atkSpd+" Attack Counter "+player.atkCnt);
       }
 
 	let facChange=function(){
@@ -1842,6 +1853,20 @@ completeLevel = function(courseName){
             Platform.generate(414, 70);
             Platform.generate(430, 70);
             Platform.generate(430, 134);
+            Platform.generate(170, -35);
+            Platform.generate(90, 29);
+            Platform.generate(90, 93);
+            Platform.generate(90, 157);
+            Platform.generate(90, 221);
+            Platform.generate(26, 221);
+            Platform.generate(90, 400);
+            Platform.generate(26, 400);
+            Platform.generate(90, 464);
+            Platform.generate(90, 528);
+            Platform.generate(90, 592);
+            Platform.generate(90, 656);
+
+
             screen = 'overworld';
       }
 
@@ -1872,6 +1897,21 @@ completeLevel = function(courseName){
             Platform.generate(75, 370);
             Platform.generate(0, 370);
             Platform.generate(0, 420);
+            Platform.generate(825, 15);
+            Platform.generate(825, 79);
+            Platform.generate(805, 143);
+            Platform.generate(805, 207);
+            Platform.generate(879, 271);
+            Platform.generate(943, 271);
+            Platform.generate(1007, 271);
+            Platform.generate(1061, 271);
+            Platform.generate(1125, 271); //bridge
+            Platform.generate(950, 450);
+            Platform.generate(990, 514);
+            Platform.generate(1054, 578);
+            Platform.generate(1054, 642);
+
+
 
 
       }
