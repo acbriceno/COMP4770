@@ -190,7 +190,7 @@
 							<button class="button3" id="backCourse">Back</button>
 
 					</div>
-					
+
 					<div id="grandmaHouseAfter" style="display:none;">
 
 						<h2 id="leavelHeading">She is gone now...</h2>
@@ -1123,10 +1123,21 @@ save.onclick = function () {
 	  }
 
 	  loadOverworld = function(){
-			Entity.clear();
+		  Entity.clear();
+              coursesButtonGroup.style.display = 'none';
+              compMenu.style.display = 'none';
+              mathMenu.style.display = 'none';
+              physMenu.style.display = 'none';
+              philMenu.style.display = 'none';
+              menuWrapper.style.display = "none";
+              gameDiv.style.display="none";
+              grandmaHouse.style.display = 'none';
+              landscapingWork.style.display = 'none';
+              winery.style.display = 'none';
 		  menuWrapper.style.display = "none";
 		  gameDiv.style.display="inline-block";
 		  loadFile.style.display = "none";
+
           player.x = 300;
           player.y = 350;
           if (player.x < 0) {
@@ -1366,14 +1377,12 @@ completeLevel = function(courseName){
                 winery.style.display = 'inline-block';
 
           }
-          
+
 
 	  }
 
 	  leaveRoom = function(roomName){
 		  coursesButtonGroup.style.display = 'none';
-		  compMenu.style.display = 'inline-block';
-              compMenu.style.display = 'inline-block';
 		  loadOverworld();
 	  }
 
