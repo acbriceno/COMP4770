@@ -200,7 +200,7 @@ Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
 		//console.log(self.ySpd);
 		if(self.KB){
 			self.KBCnt++;
-			console.log(self.KBDir);
+			//console.log(self.KBDir);
 			if(self.KBCnt==20){
 				self.KB=false;
 				self.KBCnt=0;
@@ -679,7 +679,7 @@ Player=function(x,y){
 		if(screen=='game' || screen == 'overworld'){
 			if(self.melee){
 				let mlCnt=Math.floor(self.meleeCnt)%4;
-				console.log(mlCnt);
+				//console.log(mlCnt);
 				//ctx.drawImage(self.img,
 				if (dir==6){
 					dir=0;
@@ -735,7 +735,7 @@ Player=function(x,y){
 				//console.log('almost working');
 				if(self.melee){
 					if(e.invinc==false){
-						console.log(self.x-e.x);
+						//console.log(self.x-e.x);
 						if(self.x-e.x<0){
 							e.KBDir=0;
 						}
@@ -748,7 +748,7 @@ Player=function(x,y){
 				}
 				else{
 					if(self.invinc==false){
-						console.log(self.x-e.x);
+						//console.log(self.x-e.x);
 						if(self.x-e.x<0){
 							self.KBDir=1;
 						}
@@ -921,7 +921,7 @@ Upgrade.generate=function(enemy){
 		cat='gen';
 		Upgrade(id,x,y,w,h,cat,img);
 	}
-	console.log(cat);
+	//console.log(cat);
 	
 
 }
