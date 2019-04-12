@@ -1336,12 +1336,11 @@ completeLevel = function(courseName){
 			if(courseName == courses[x].Levelname){
 				gotInLevel = true;
 				if(courses[x].midterm == true){
-<<<<<<< HEAD
-					start = start+courses[x].midtermTime;
+
 					gotMoney = true;
-=======
-					start = Date.now()-courses[x].midtermTime;
->>>>>>> 650066bc5960f51a4300a5602b6ea58f38873782
+					//console.log(courses[x].midtermTime)
+					//cTime = courses[x].midtermTime;
+
 					deathScreenControl =1;
 					loadLevel(courses[x].Level, courses[x].Width);
 		          	console.log("Makes it to loaded level");
