@@ -1072,12 +1072,8 @@ save.onclick = function () {
 			gradeCalculator();
 			let elem;
             if (fromLe == false) {
-<<<<<<< HEAD
-				
-=======
 				elem=document.getElementById("passLevelHeading");
 				completeLevel(campaignLevelName);
->>>>>>> 113d942a3eeddf9ad5fd04920b5eb000f9293803
 		     	succsessScreen.style.display = 'inline-block';
 				completeLevel(campaignLevelName);
             }
@@ -1307,6 +1303,7 @@ completeLevel = function(courseName){
 				}
 				});
 			}
+			
 
 
 	}
@@ -1317,7 +1314,10 @@ completeLevel = function(courseName){
 }
 
 
+
  loadCourseLevel  = function(courseName){
+	var gotInLevel = false;
+	var gotMoney = false;
           console.log("HERE");
 
 		  let courses = getCourses();
@@ -1334,6 +1334,7 @@ completeLevel = function(courseName){
 	for(let x=0; x<courses.length;x++){
 		if(courses[x] != null){
 			if(courseName == courses[x].Levelname){
+				gotInLevel = true;
 				if(courses[x].midterm == true){
 					start = start+courses[x].midtermTime;
 					deathScreenControl =1;
@@ -1342,6 +1343,7 @@ completeLevel = function(courseName){
 		            screen='game';
 				}else{
 					if((money -1000) >= 0){
+						gotMoney = true;
 						money = money - 1000
 						saveCurrentCampaignGame(courses, getInventory());
 						console.log("dbtime" + courses[x].midtermTime);
@@ -1352,10 +1354,17 @@ completeLevel = function(courseName){
 			            screen='game';
 					}
 				}
-
 				//deathScreenControl = 0;
 			}
 		}
+	}
+
+	if(!gotInLevel){
+		alert("You don't meet the prerequisites!");
+	}
+
+	else if(!gotMoney){
+		alert("You don't have enough money!");
 	}
 
 
