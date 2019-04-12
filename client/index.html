@@ -185,7 +185,7 @@
 
                   <div id="grandmaHouse" style="display:none;">
 
-							<h2 id="levelHeading">Grandma's House</h2>
+							<h2 id="levelHeading">Hi Sweetie!</h2>
 							<button class="button3" id="GrandmaButton">Ask for Money</button>
 							<button class="button3" id="backCourse">Back</button>
 
@@ -194,7 +194,15 @@
                   <div id="winery" style="display:none;">
 
                                           <h2 id="levelHeading">Welcome to Wanda's Winery</h2>
-                                          <button class="button3" id="GrandmaButton">Go to work</button>
+                                          <button class="button3" id="wineryButton">Go to work</button>
+                                          <button class="button3" id="backCourse">Back</button>
+
+                  </div>
+
+                  <div id="dadHouse" style="display:none;">
+
+                                          <h2 id="levelHeading">Welcome Home</h2>
+                                          <button class="button3" id="dadButton">Ask for Money</button>
                                           <button class="button3" id="backCourse">Back</button>
 
                   </div>
@@ -463,6 +471,9 @@ function globalChange(x){
                               updateGrandma();
                               leaveRoom();
                         }
+                        else if (target == "wineryButton") {
+                              leaveRoom();
+                        }
 				else{
 					leaveRoom();
 					loadCourseLevel(target);
@@ -636,7 +647,7 @@ function globalChange(x){
 
 	//update for in game, logic tbd
 	update=function(){
-			//console.log(player.x + "and" + player.y);
+			console.log(player.x + "and" + player.y);
             if (screen == 'overworld' && !inTown) {
                   campusBoundaries();
                   if (player.x < -25) {
@@ -679,6 +690,8 @@ function globalChange(x){
                         enterRoom("WINE");
 
                   }
+                  else if ((player.x > 45 && player.x < 75) && (player.y > 640 && player.y < 655))
+                        console.log("entered Dad's");
             }
 
 
