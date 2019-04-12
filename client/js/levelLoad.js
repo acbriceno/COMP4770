@@ -4,6 +4,7 @@ loadLevel=function(level,width){
       console.log("Load level called");
 	width++;
 	let yCnt=0;
+	totAss=0;
 
 	console.log(Entity.list);
 	let len=level.length;
@@ -36,6 +37,7 @@ loadLevel=function(level,width){
 		}
 		if(code=='a'){
 			Assignment.generate(x,y);
+			totAss++;
 		}
 		if(code=='m'){
 			Midterm.generate(x,y);

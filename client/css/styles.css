@@ -23,10 +23,23 @@
   font-weight: bold;
   color:white;
   margin-bottom: 25px;
+  text-shadow: 2px 2px 2px #000000;;
+}
+
+#passLevelHeading{
+  font-weight: bold;
+  color:white;
+  margin-bottom: 25px;
+}
+
+#passLevelHeadingLE{
+  font-weight: bold;
+  color:white;
+  margin-bottom: 25px;
 }
 
 
-#blacklevelHeading{
+#pinklevelHeading{
   font-weight: bold;
   text-shadow: 2px 2px 2px #000000;;
   font-size: 100px;
@@ -34,7 +47,27 @@
   margin-bottom: 25px;
 }
 
+#blacklevelHeading{
+  font-weight: bold;
+  text-shadow: 2px 2px 2px #000000;;
+  font-size: 100px;
+  color:black;
+  margin-bottom: 25px;
+}
+
 #deathScreen{
+  text-align: center;
+  padding-top: 150px; 
+  width: 100%;
+  height: 100vh;
+  background: url("../img/fail_bc.jpg") no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+#deathScreenLE{
   text-align: center;
   padding-top: 150px; 
   width: 100%;
@@ -58,12 +91,48 @@
   background-size: cover;
 }
 
+#succsessScreenLE{
+  text-align: center;
+  padding-top: 150px; 
+  width: 100%;
+  height: 100vh;
+  background: url("../img/success_screen.jpg") no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
 #landscapingWork{
   text-align: center;
   padding-top: 150px; 
   width: 100%;
   height: 100vh;
   background: url("../img/grassLevel.png") no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+#dadHouse{
+  text-align: center;
+  padding-top: 150px; 
+  width: 100%;
+  height: 100vh;
+  background: url("../img/dads.jpg") no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+#winery{
+  text-align: center;
+  padding-top: 150px; 
+  width: 100%;
+  height: 100vh;
+  background: url("../img/wine.jpg") no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -135,7 +204,7 @@
   padding-top: 120px; 
   width: 100%;
   height: 100vh;
-  background: url("../img/grandmas.jpg") no-repeat center center fixed;
+  background: url("../img/grandma_gone.jpg") no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;

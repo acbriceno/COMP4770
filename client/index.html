@@ -109,7 +109,7 @@
 				<img src="./img/youpassed.png" alt="game logo">
 			</div>
 			<div id="stats">
-				<h2 id="levelHeading">You completed the time in: </h2>
+				<h2 id="passLevelHeading">You completed the time in: </h2>
 
 			</div>
 			<button onclick="aftersuccess()" class = "button3"> Go Back to Campus </button>
@@ -120,7 +120,7 @@
                         <img src="./img/youpassed.png" alt="game logo">
                   </div>
                   <div id="stats">
-                        <h2 id="levelHeading">You completed the time in: </h2>
+                        <h2 id="passLevelHeadingLE">You completed the time in: </h2>
 
                   </div>
                   <button onclick="aftersuccessLE()" class = "button3"> Go Back to Level Editor </button>
@@ -185,7 +185,7 @@
 
               <div id="grandmaHouse" style="display:none;">
 
-							<h2 id="blacklevelHeading">Hi Sweetie!</h2>
+							<h2 id="pinklevelHeading">Hi Sweetie!</h2>
 							<button class="button3" id="GrandmaButton">Ask for Money</button>
 							<button class="button3" id="backCourse">Back</button>
 
@@ -193,7 +193,7 @@
 
 					<div id="grandmaHouseAfter" style="display:none;">
 
-						<h2 id="leavelHeading">She is gone now...</h2>
+						<h2 id="blacklevelHeading">She is gone now...</h2>
 						<button class="button3" id="backCourse">Back</button>
 
 				</div>
@@ -210,6 +210,14 @@
 
                                           <h2 id="levelHeading">Welcome Home</h2>
                                           <button class="button3" id="dadButton">Ask for Money</button>
+                                          <button class="button3" id="backCourse">Back</button>
+
+                  </div>
+
+                  <div id="fishHouse" style="display:none;">
+
+                                          <h2 id="levelHeading">Feelin' Lucky?</h2>
+                                          <button class="button3" id="fishButton">Go Fish!</button>
                                           <button class="button3" id="backCourse">Back</button>
 
                   </div>
@@ -329,7 +337,9 @@ function globalChange(x){
       let fromLe = false;
       let levelSTR;
       let levelW;
-
+	  let totAss=0;
+	let grade=0;
+	let compTime=Date.now();
 
 	let  snd = new Audio("music/Good Will Hunting OST - 02 The Theorem.mp3");
          let  snd2 = new Audio("music/Winterbells Extended Original song.mp3");
@@ -448,7 +458,21 @@ function globalChange(x){
             else {
                   levelFailed();
             }
-      }
+			}
+
+			checkonGrandma = function(){
+
+				if (gammaHP != 0) {
+					grandmaHouse.style.display = 'inline-block';
+					grandmaHouseAfter.style.display = 'none';
+						}
+
+				else {
+					grandmaHouseAfter.style.display = 'inline-block';
+					grandmaHouse.style.display = 'none';
+				}
+                        saveCurrentCampaignGame(getCourses(), getInventory());
+			}
 
       updateGrandma = function() {
             console.log("gammaHP before: " + gammaHP);
@@ -458,6 +482,24 @@ function globalChange(x){
             }
             saveCurrentCampaignGame(getCourses(), getInventory());
             console.log("gammaHP after: " + gammaHP);
+      }
+
+      updateDad = function() {
+            console.log("dadCredit before: " + dadCredit);
+            if (dadCredit != 0) {
+                  let randMoney = Math.floor(Math.random() * (800 - 400 + 1)) + 400;
+                  console.log("Got " + randMoney + " from Dad!");
+                  money = money + randMoney;
+                  dadCredit--;
+            }
+            saveCurrentCampaignGame(getCourses(), getInventory());
+      }
+
+      updateFish = function() {
+            let randFish = Math.floor(Math.random() * (700 - 300 + 1)) + 300;
+            console.log("Got $" + randFish + "!");
+            money = money + randFish;
+            saveCurrentCampaignGame(getCourses(), getInventory());
       }
 
 
@@ -482,6 +524,11 @@ function globalChange(x){
                               leaveRoom();
                         }
                         else if (target == "dadButton") {
+                              updateDad();
+                              leaveRoom();
+                        }
+                        else if (target == "fishButton") {
+                              updateFish()
                               leaveRoom();
                         }
 				else{
@@ -675,7 +722,7 @@ function globalChange(x){
 
 	//update for in game, logic tbd
 	update=function(){
-			//console.log(player.x + "and" + player.y);
+			console.log(player.x + "and" + player.y);
             if (screen == 'overworld' && !inTown) {
                   campusBoundaries();
                   if (player.x < -25) {
@@ -718,9 +765,14 @@ function globalChange(x){
                         enterRoom("WINE");
 
                   }
-                  else if ((player.x > 285 && player.x < 320) && (player.y > 440 && player.y < 455))
+                  else if ((player.x > 285 && player.x < 320) && (player.y > 440 && player.y < 455)) {
                         console.log("entered Dad's");
                         enterRoom("DAD");
+                  }
+                  else if ((player.x > 635 && player.x < 660) && (player.y > 115 && player.y < 130)) {
+                        console.log("Fishing");
+                        enterRoom("FISH");
+                  }
             }
 
 
@@ -752,22 +804,23 @@ function globalChange(x){
 				ctx.drawImage(bgImg,0,0,W,H);
 				ctxui.clearRect(0,0,W,H);
 				ctxui.font="35px Arial";
+				ctxui.fillStyle = "#FF0000";
 				if(screen=='game'){
-					ctxui.strokeText("HP: "+player.hp,50,50);
+					ctxui.fillText("HP: "+player.hp,50,50);
 					cTime= (cTime +Date.now() - start)/1000;
 					let timeRnd=cTime.toFixed(2);
-					ctxui.strokeText("Time: "+timeRnd+" seconds",50,170);
+					ctxui.fillText("Time: "+timeRnd+" seconds",50,90);
 					if(campaign != null){
-						ctxui.fillText("WPU :" + weaponPowerUp, 50, 90);
+						ctxui.fillText("WPU :" + weaponPowerUp, 50, 170);
 						ctxui.fillText("PU :" + powerUp, 50, 130);
 					}
 					else{
-						ctxui.fillText("WPU :" + weaponPowerUp, 50, 90);
-						ctxui.fillText("PU :" + powerUp, 50, 130);
+						//ctxui.fillText("WPU :" + weaponPowerUp, 50, 90);
+						//ctxui.fillText("PU :" + powerUp, 50, 130);
 
 					}
-                    ctxui.fillstyle = "white";
-                    ctxui.stokestle = "white";
+                    //ctxui.fillstyle = "white";
+                   
 
 
 				}
@@ -775,8 +828,8 @@ function globalChange(x){
 					ctxui.fillText("Money: "+money,50,50);
 					ctxui.fillText("Dad Credits: "+dadCredit,300,50);
 					ctxui.fillText("Work Credits: "+workCredit,600,50);
-                              ctxui.fillstyle = "white";
-                              ctxui.stokestle = "white";
+                              //ctxui.fillstyle = "white";
+                              //ctxui.stokestle = "white";
 				}
 
 			}
@@ -1016,24 +1069,31 @@ save.onclick = function () {
 		gameDiv.style.display='none';
 		signDiv.style.display = 'none';
             console.log("LEVEL PASS")
-
+			gradeCalculator();
+			let elem;
             if (fromLe == false) {
+<<<<<<< HEAD
 				
+=======
+				elem=document.getElementById("passLevelHeading");
+				completeLevel(campaignLevelName);
+>>>>>>> 113d942a3eeddf9ad5fd04920b5eb000f9293803
 		     	succsessScreen.style.display = 'inline-block';
 				completeLevel(campaignLevelName);
             }
             else {
+				elem=document.getElementById("passLevelHeadingLE");
                 succsessScreenLE.style.display = 'inline-block';
             }
 
 		//menuWrapper.style.display='inline-block'; //Reapperaing menu wrapper
 		//mainMenu.style.display = 'inline-block';
 		//screen='menu';
-		let compTime=Date.now()-start;
+		compTime=Date.now()-start;
 		console.log('Completed level in '+compTime+' ms.');
 		compTime=compTime/1000;
-		let elem=document.getElementById("levelHeading");
-		let str=elem.innerHTML + compTime;
+		//let elem=document.getElementById("levelHeading");
+		let str='Completed level in '+compTime+"</br>"+"Completed with a grade of :"+grade;
 		elem.innerHTML=str;
 		Entity.clear();
 	}
@@ -1132,9 +1192,12 @@ save.onclick = function () {
               philMenu.style.display = 'none';
               menuWrapper.style.display = "none";
               gameDiv.style.display="none";
-              grandmaHouse.style.display = 'none';
+							grandmaHouse.style.display = 'none';
+							grandmaHouseAfter.style.display = 'none';
               landscapingWork.style.display = 'none';
               winery.style.display = 'none';
+              dadHouse.style.display = 'none';
+              fishHouse.style.display = 'none';
 		  menuWrapper.style.display = "none";
 		  gameDiv.style.display="inline-block";
 		  loadFile.style.display = "none";
@@ -1197,6 +1260,8 @@ getSystemCampaignLevel = function(courseName){
 }
 
 completeLevel = function(courseName){
+      dadCredit++;
+      workCredit++;
 	console.log(getCourses());
 	let courses = getCourses();
 	let unlockedLevel = getUnlockedCourseName(courseName);
@@ -1230,8 +1295,12 @@ completeLevel = function(courseName){
 					courseLevel.midterm = false;
 					courseLevel.midtermTime = 0;
 					courseLevel.complete = false;
-					courseLevel.grade = 0;
-					courseLevel.bestTime = 0;
+					if(courseLevel.grade<grade){
+						courseLevel.grade = grade;
+					}
+					if(courseLevel.bestTime<compTime){
+						courseLevel.bestTime = compTime;
+					}
 					courses.push(courseLevel);
 					saveCurrentCampaignGame(courses, getInventory());
 
@@ -1351,6 +1420,8 @@ completeLevel = function(courseName){
                    menuWrapper.style.display = "none";
     		       gameDiv.style.display="none";
                    grandmaHouse.style.display = 'none';
+                   dadHouse.style.display = 'none';
+                    fishHouse.style.display = 'none';
                    landscapingWork.style.display = 'inline-block';
                     //screen = menu;
               }
@@ -1363,7 +1434,9 @@ completeLevel = function(courseName){
                gameDiv.style.display="none";
                landscapingWork.style.display = 'none';
                winery.style.display = 'none';
-               grandmaHouse.style.display = 'inline-block';
+               dadHouse.style.display = 'none';
+               fishHouse.style.display = 'none';
+               checkonGrandma();
                console.log("Make it to Grandmas")
                 //screen = menu;
           }
@@ -1376,7 +1449,35 @@ completeLevel = function(courseName){
                 gameDiv.style.display="none";
                 grandmaHouse.style.display = 'none';
                 landscapingWork.style.display = 'none';
+                dadHouse.style.display = 'none';
+                 fishHouse.style.display = 'none';
                 winery.style.display = 'inline-block';
+          }
+          else if (roomName == "DAD") {
+                compMenu.style.display = 'none';
+                mathMenu.style.display = 'none';
+                physMenu.style.display = 'none';
+                philMenu.style.display = 'none';
+                menuWrapper.style.display = "none";
+                gameDiv.style.display="none";
+                grandmaHouse.style.display = 'none';
+                landscapingWork.style.display = 'none';
+                winery.style.display = 'none';
+                fishHouse.style.display = 'none';
+                dadHouse.style.display = 'inline-block';
+          }
+          else if (roomName == "FISH") {
+               compMenu.style.display = 'none';
+               mathMenu.style.display = 'none';
+               physMenu.style.display = 'none';
+               philMenu.style.display = 'none';
+               menuWrapper.style.display = "none";
+               gameDiv.style.display="none";
+               grandmaHouse.style.display = 'none';
+               landscapingWork.style.display = 'none';
+               winery.style.display = 'none';
+               dadHouse.style.display = 'none';
+               fishHouse.style.display = 'inline-block';
 
           }
 
@@ -1392,10 +1493,10 @@ completeLevel = function(courseName){
 	getSavedUserLevels = function () {
 			let socket = io();
 			console.log("load button HIT");
-			
-			
+
+
 			if(username =="system"){
-				
+
 		  		socket.emit('loadAllSystemCourses',{
 		  		});
 
@@ -1413,8 +1514,8 @@ completeLevel = function(courseName){
 					}
 					console.log(message);
 				});
-				
-				
+
+
 			}else{
 				socket.emit('getUserLevels', { username: username });
 				socket.on('userLevelsFound', function (message) {
@@ -1431,11 +1532,11 @@ completeLevel = function(courseName){
 				});
 			}
 
-			
-			
-			
-			
-			
+
+
+
+
+
 
 		}
 
@@ -1808,6 +1909,15 @@ completeLevel = function(courseName){
 
       //ctx.fillRect(Player.x, player.y, 20, 20);
 
+	let gradeCalculator=function(){
+		let hpRat=player.hp/player.hpTot;
+		let assRat=1;
+		if(totAss>0){
+			assRat=player.assScore/totAss;
+		}
+		grade=50*hpRat*assRat;
+		grade+=50;
+	}
 </script>
 </body>
 <!-- <style>

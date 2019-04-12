@@ -447,7 +447,7 @@ Assignment.update=function(){
 	}
 	for(let key7 in Assignment.list){
 		if(Assignment.list[key7].remove){
-			player.asgScore++;
+			player.assScore++;
 			delete Assignment.list[key7];
 		}
 	}
@@ -606,7 +606,7 @@ Player=function(x,y){
 	self.maxSpd=5;
 	self.lMouseClick=false;
 	self.rMouseClick=false;
-	self.asgScore=0;
+	self.assScore=0;
 	self.mid=false;
 	self.grapplePress=false;
 	self.weap=1;
@@ -743,14 +743,14 @@ Player=function(x,y){
 
 	let super_performAttack=self.performAttack;
 	self.performAttack=function(){
-		if(self.usePU){
+		/*if(self.usePU){
 			
 		}
 		else{
 			if(self.useWPU){
 				
 			}
-			else{
+			else{*/
 				if(self.weap==1){
 					super_performAttack();
 				}
@@ -764,8 +764,8 @@ Player=function(x,y){
 					}
 					//console.log(self.meleeCnt);
 				}
-			}
-		}
+			//}
+		//}
 	}
 	self.dmgCollision=function(){
 		for(let key4770 in Enemy.list){
