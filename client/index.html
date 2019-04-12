@@ -185,11 +185,27 @@
 
                   <div id="grandmaHouse" style="display:none;">
 
-							<h2 id="levelHeading">Grandma's House</h2>
+							<h2 id="levelHeading">Hi Sweetie!</h2>
 							<button class="button3" id="GrandmaButton">Ask for Money</button>
 							<button class="button3" id="backCourse">Back</button>
 
       		</div>
+
+                  <div id="winery" style="display:none;">
+
+                                          <h2 id="levelHeading">Welcome to Wanda's Winery</h2>
+                                          <button class="button3" id="wineryButton">Go to work</button>
+                                          <button class="button3" id="backCourse">Back</button>
+
+                  </div>
+
+                  <div id="dadHouse" style="display:none;">
+
+                                          <h2 id="levelHeading">Welcome Home</h2>
+                                          <button class="button3" id="dadButton">Ask for Money</button>
+                                          <button class="button3" id="backCourse">Back</button>
+
+                  </div>
 </div>
 
 
@@ -427,6 +443,16 @@ function globalChange(x){
             }
       }
 
+      updateGrandma = function() {
+            console.log("gammaHP before: " + gammaHP);
+            if (gammaHP != 0) {
+                  money = money + 1500;
+                  gammaHP--;
+            }
+            saveCurrentCampaignGame(getCourses(), getInventory());
+            console.log("gammaHP after: " + gammaHP);
+      }
+
 
 
 	var isFirxFox = function () {
@@ -439,6 +465,13 @@ function globalChange(x){
 				}
                         else if (target == "LandscapeButton") {
                               updateMoney(); // make update money
+                              leaveRoom();
+                        }
+                        else if (target == "GrandmaButton") {
+                              updateGrandma();
+                              leaveRoom();
+                        }
+                        else if (target == "wineryButton") {
                               leaveRoom();
                         }
 				else{
@@ -614,7 +647,7 @@ function globalChange(x){
 
 	//update for in game, logic tbd
 	update=function(){
-			//console.log(player.x + "and" + player.y);
+			console.log(player.x + "and" + player.y);
             if (screen == 'overworld' && !inTown) {
                   campusBoundaries();
                   if (player.x < -25) {
@@ -648,10 +681,17 @@ function globalChange(x){
                         console.log("Entered Work");
                         enterRoom("LAND");
                   }
-                  else if ((player.x > 45 && player.x < 105) && (player.y > 639 && player.y < 650)) {
+                  else if ((player.x > 520 && player.x < 560) && (player.y > 470 && player.y < 525)) {
                         console.log("Entered Grandmas");
                         enterRoom("GRANDMA");
                   }
+                  else if ((player.x > 45 && player.x < 75) && (player.y > 640 && player.y < 655)) {
+                        console.log("entered winery");
+                        enterRoom("WINE");
+
+                  }
+                  else if ((player.x > 45 && player.x < 75) && (player.y > 640 && player.y < 655))
+                        console.log("entered Dad's");
             }
 
 
@@ -855,12 +895,12 @@ function globalChange(x){
 			playerProfile.style.display = 'none';
 			mainMenu.style.display = 'inline-block';
 		}
-		
+
 		if (screen == "newGame"){
 			mainMenu.style.display = 'inline-block';
 			campaignInput.style.display = "none";
 		}
-		
+
 
 
 		if (screen=="le" || screen =="game" || screen=="overworld"){
@@ -1029,9 +1069,10 @@ save.onclick = function () {
 				console.log(message);
 				campaign = message.campaign;
 				console.log(campaign);
-			  gammaHp=Math.floor((Math.random())*4);
-			  gammaHP++;
+			  gammaHP = message.campaign.SaveFile.saves[0].gammaHP;
+                    console.log("gammaHP" + gammaHP);
 			  money=message.campaign.SaveFile.saves[0].money;
+                    console.log("money" + money);
 			  dadCredit=message.campaign.SaveFile.saves[0].dadCredit;
 			  workCredit=message.campaign.SaveFile.saves[0].workCredit;
 			  weaponPowerUp = message.campaign.SaveFile.saves[0].inventory.weaponPowerUps[0].itemName;
@@ -1111,7 +1152,7 @@ getSystemCampaignLevel = function(courseName){
 				//console.log(message.courseLevel);
 				return message.courseLevel;
 			});
-	
+
 }
 
 completeLevel = function(courseName){
@@ -1124,16 +1165,16 @@ completeLevel = function(courseName){
 			if(courses[x].Levelname == courseName){
 				courses[x].complete = true;
 			}
-		
+
 			if(courses[x].Levelname == unlockedLevel){
 				control = 1;
 			}
 		}
 	}
-	
+
 	if(unlockedLevel != 'none'){
-		
-		
+
+
 			if(control == 0){
 				let socket=io();
 		  		socket.emit('loadSystemCourseLevel',{
@@ -1142,7 +1183,7 @@ completeLevel = function(courseName){
 
 				socket.on('systemCourseLevelFound', function(message){
 					let courseLevel = message.courseLevel;
-		
+
 				if(courseLevel != null){
 					courseLevel.midterm = false;
 					courseLevel.midtermTime = 0;
@@ -1155,7 +1196,7 @@ completeLevel = function(courseName){
 				}
 				});
 			}
-		
+
 
 	}
 	else{
@@ -1178,7 +1219,7 @@ completeLevel = function(courseName){
 	campaignInput.style.display="none";
 	start=Date.now();
 	campaignLevelName = courseName;
-	
+
 	for(let x=0; x<courses.length;x++){
 		if(courses[x] != null){
 			if(courseName == courses[x].Levelname){
@@ -1201,7 +1242,7 @@ completeLevel = function(courseName){
 					}
 				}
 
-				//deathScreenControl = 0;	
+				//deathScreenControl = 0;
 			}
 		}
 	}
@@ -1267,6 +1308,7 @@ completeLevel = function(courseName){
                    philMenu.style.display = 'none';
                    menuWrapper.style.display = "none";
     		       gameDiv.style.display="none";
+                   grandmaHouse.style.display = 'none';
                    landscapingWork.style.display = 'inline-block';
                     //screen = menu;
               }
@@ -1278,9 +1320,22 @@ completeLevel = function(courseName){
                menuWrapper.style.display = "none";
                gameDiv.style.display="none";
                landscapingWork.style.display = 'none';
+               winery.style.display = 'none';
                grandmaHouse.style.display = 'inline-block';
                console.log("Make it to Grandmas")
                 //screen = menu;
+          }
+          else if (roomName == "WINE") {
+                compMenu.style.display = 'none';
+                mathMenu.style.display = 'none';
+                physMenu.style.display = 'none';
+                philMenu.style.display = 'none';
+                menuWrapper.style.display = "none";
+                gameDiv.style.display="none";
+                grandmaHouse.style.display = 'none';
+                landscapingWork.style.display = 'none';
+                winery.style.display = 'inline-block';
+
           }
 
 	  }
@@ -1406,7 +1461,7 @@ completeLevel = function(courseName){
 				saveCurrentGame(userSaves);
 			}else {
 				campaign.SaveFile.saves[0].money = money;
-				campaign.SaveFile.saves[0].gammaHP = gammaHP;
+				campaign.SaveFile.saves[0].gammaHp = gammaHP;
 				campaign.SaveFile.saves[0].dadCredit = dadCredit;
 				campaign.SaveFile.saves[0].workCredit = workCredit;
 				campaign.SaveFile.saves[0].saveDate = Date ();

@@ -42,11 +42,11 @@ module.exports.createCampaign = function(user, info, callback){
 			}
 			]
 		};
-		
+
 
 		dbManager.findUserCampaigns(user, function(campaigns){
 			if(campaigns == null){
-				
+
 				let campaignSet = [
 							{	campaignNumber : 1,
 								playerName: info.playerName,
@@ -55,7 +55,7 @@ module.exports.createCampaign = function(user, info, callback){
 
 							}
 						];
-				
+
 				dbManager.createCampaign(user, campaignSet);
 				return callback(campaignSet[0]);
 			}else{
@@ -85,33 +85,33 @@ var generateCampaign = function(difficulty){
 		dadCredit : 5000,
 		workCredit : 0,
     };
-
 	if(difficulty == 0){
 		campaign["money"] = 1000;
-		campaign["gammaHP"] = 0;
+		campaign["gammaHP"] = Math.floor(Math.random() * ((4 - 1) + 1) + 1);
 		campaign["dadCredit"] = 5000;
-        console.log("BEFORE WORKCREDIT");
 		campaign["workCredit"] = 4;
+            campaign[""]
 		console.log("test");
 	}
 	if(difficulty == 1){
 		campaign["money"] = 500;
-		campaign["gammaHP"] = 0;
+		campaign["gammaHP"] = Math.floor(Math.random() * ((4 - 1) + 1) + 1);
 		campaign["dadCredit"] = 3000;
 		campaign["workCredit"] = 2;
 	}
 	if(difficulty == 2){
 		campaign["money"] = 200;
-		campaign["gammaHP"] = 0;
+		campaign["gammaHP"] = Math.floor(Math.random() * ((4 - 1) + 1) + 1);
 		campaign["dadCredit"] = 1000;
 		campaign["workCredit"] = 1;
 	}
 	if(difficulty == 3){
 		campaign["money"] = 1000000;
-		campaign["gammaHP"] = 0;
+		campaign["gammaHP"] = Math.floor(Math.random() * ((4 - 1) + 1) + 1);
 		campaign["dadCredit"] = 50;
 		campaign["workCredit"] = 0;
 	}
+      console.log("************************************ campaign " + campaign.gammaHP);
 
 	return campaign;
 }
