@@ -1335,7 +1335,7 @@ completeLevel = function(courseName){
 		if(courses[x] != null){
 			if(courseName == courses[x].Levelname){
 				if(courses[x].midterm == true){
-					cTime = courses[x].midtermTime;
+					start = start+courses[x].midtermTime;
 					deathScreenControl =1;
 					loadLevel(courses[x].Level, courses[x].Width);
 		          	console.log("Makes it to loaded level");
