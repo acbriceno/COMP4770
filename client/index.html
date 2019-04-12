@@ -1182,13 +1182,23 @@ completeLevel = function(courseName){
 			if(courseName == courses[x].Levelname){
 				if(courses[x].midterm == true){
 					//cTime = 8;//courses[x].midtermTime;
+					deathScreenControl =1;
+					loadLevel(courses[x].Level, courses[x].Width);
+		          	console.log("Makes it to loaded level");
+		            screen='game';
+				}else{
+					if((money -1000) >= 0){
+						money = money - 1000
+						saveCurrentCampaignGame(courses, getInventory());
+						console.log("dbtime" + courses[x].midtermTime);
+						console.log("time" + cTime);
+						deathScreenControl =1;
+						loadLevel(courses[x].Level, courses[x].Width);
+			          	console.log("Makes it to loaded level");
+			            screen='game';
+					}
 				}
-				console.log("dbtime" + courses[x].midtermTime);
-				console.log("time" + cTime);
-				deathScreenControl =1;
-				loadLevel(courses[x].Level, courses[x].Width);
-	          	console.log("Makes it to loaded level");
-	            screen='game';
+
 				//deathScreenControl = 0;	
 			}
 		}
