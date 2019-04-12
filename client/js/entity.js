@@ -11,7 +11,7 @@ Entity=function(type,id,x,y,w,h,img){
 		h:h,
 		img:img,
 	};
-
+	self.isActor=false;
 	self.update=function(){
 		self.updatePosition();
 		self.draw();
@@ -121,6 +121,7 @@ Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
 	self.weap=1;
 	self.xSpd=0;
 	self.ySpd=0;
+	self.isActor=true;
 
 	/*self.draw=function() {
 		if(screen=='game'){
@@ -313,7 +314,7 @@ Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
 }
 
 Enemy=function(id,x,y,w,h,img,hp,atkSpd,dmg,code){
-	let self=Actor('enemy',id,x,y,w,h,img,hp,atkSpd,dmg,code);
+	let self=Actor('Enemy',id,x,y,w,h,img,hp,atkSpd,dmg,code);
 	Enemy.list[id]=self;
 	self.remove=false;
 
@@ -431,8 +432,7 @@ Assignment.generate=function(x,y){
 	let hp=30;
 	let atkSpd=1;
 	let dmg=3;
-	//using player img as placeholder
-	let img=Img.philEnemy;
+	let img=Img.ass;
 	Assignment(id,x,y,w,h,img,hp,atkSpd,dmg);
 }
 
@@ -488,7 +488,6 @@ Midterm.generate=function(x,y){
 	let hp=50;
 	let atkSpd=1;
 	let dmg=5;
-	//using player img as placeholder
 	let img=Img.midterm;
 	Midterm(id,x,y,w,h,img,hp,atkSpd,dmg);
 }
@@ -525,8 +524,7 @@ Final.generate=function(x,y){
 	let hp=10;
 	let atkSpd=1;
 	let dmg=7;
-	//using player img as placeholder
-	let img=Img.philEnemy;
+	let img=Img.final;
 	Final(id,x,y,w,h,img,hp,atkSpd,dmg);
 }
 
@@ -540,6 +538,8 @@ Player=function(x,y){
 	self.mid=false;
 	self.grapplePress=false;
 	self.weap=1;
+	self.meleeCnt=0;
+	self.melee=false;
 
 	let super_update=self.update;
 	self.update=function(){
@@ -557,6 +557,10 @@ Player=function(x,y){
 					deathScreenControl = 0;
 				}
 				
+			}
+			if(self.melee){
+				self.performAttack();
+				//console.log('is get here?');
 			}
 		}
 		if(screen=='overworld'){
@@ -624,8 +628,23 @@ Player=function(x,y){
 			}
 		}
 		if(screen=='game' || screen == 'overworld'){
-			ctx.drawImage(self.img,cnt*framew,dir*frameh,framew,frameh,x,y,self.w,self.h);
-			ctx.restore();
+			if(self.melee){
+				let mlCnt=Math.floor(self.meleeCnt)%4;
+				console.log(mlCnt);
+				//ctx.drawImage(self.img,
+				if (dir==6){
+					dir=0;
+				}
+				else{
+					dir=7;
+				}
+				ctx.drawImage(self.img,mlCnt*framew,dir*frameh,framew,frameh,x,y,self.w,self.h);
+				ctx.restore();
+			}
+			else{
+				ctx.drawImage(self.img,cnt*framew,dir*frameh,framew,frameh,x,y,self.w,self.h);
+				ctx.restore();
+			}
 		}
 		else if(screen=='le'){
 			ctxLE.drawImage(self.img,cnt*framew,dir*frameh,framew,frameh,x,y,self.w,self.h);
@@ -633,6 +652,23 @@ Player=function(x,y){
 		}
 	}
 
+	let super_performAttack=self.performAttack;
+	self.performAttack=function(){
+		if(self.weap==1){
+			super_performAttack();
+		}
+		else{
+			self.melee=true;
+			self.meleeCnt+=0.2;
+			console.log(self.meleeCnt);
+			if(self.meleeCnt>=4.0){
+				self.melee=false;
+				self.meleeCnt=0;
+			}
+			//console.log(self.meleeCnt);
+		}
+	}
+	
 	self.onDeath=function(){
 		if(screen=='game'){
 			levelFailed();
@@ -680,7 +716,10 @@ Projectile=function(id,x,y,spdX,spdY,w,h,img,hostile,dmg){
 		for(let key3 in Platform.list){
 			if(self.testCollision(Platform.list[key3])){
 				if(Platform.list[key3].imp==false){
-					self.remove=true;
+					self.remove=true
+					if(Platform.list[key3].smash){
+						Platform.list[key3].hp--;
+					}
 				}
 			}
 		}
@@ -771,20 +810,28 @@ Upgrade.generate=function(enemy){
 	let h=32;
 	let w=32;
 	let id=Math.random();
-	//ad logic for choosing the type of upgrade
+	let randy=Math.random();
 	let cat;
-	let img=Img.upgrade;
-
-	Upgrade(id,x,y,w,h,cat,img);
+	let img1=Img.gUpgrade;
+	let img2=Img.bUpgrade;
+	if (randy<0.5){
+		cat='gun';
+		Upgrade(id,x,y,w,h,cat,img1);
+	}
+	else{
+		cat='book';
+		Upgrade(id,x,y,w,h,cat,img2);
+	}
 
 }
 
-Platform=function(type,id,x,y,img,code,smash,imp){
+Platform=function(type,id,x,y,img,code,smash,imp, hp){
 	let self=Entity(type,id,x,y,64,64,img);
 	self.code=code;
 	self.smash=smash;
 	self.imp=imp;
 	self.remove=false;
+	self.hp=hp;
 	Platform.list[id]=self;
 
 }
@@ -795,7 +842,19 @@ Platform.update=function(){
 	for(let key4 in Platform.list){
 		let p = Platform.list[key4];
 		p.update();
+		if(p.smash){
+			console.log(p.hp);
+			for(let key69 in Projectile.list){
+				if(p.testCollision(Projectile.list[key69])){
+					p.hp--;
+				}
+			}
+			if(p.hp<=0){
+				p.remove=true;
+			}
+		}
 		if(p.remove){
+			console.log('should remove platform');
 			delete Platform.list[key4];
 		}
 	}
@@ -811,9 +870,9 @@ Platform.generate=function(x,y,code){
 	img2=Img.breakable;
 	if(code=='b'){
 		smash=true;
-		Platform(type,id,x,y,img2,code,smash,imp);
+		Platform(type,id,x,y,img2,code,smash,imp,3);
 	}
 	else{
-		Platform(type,id,x,y,img1,code,smash,imp);
+		Platform(type,id,x,y,img1,code,smash,imp,-1);
 	}
 }
