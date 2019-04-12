@@ -566,12 +566,15 @@ Player=function(x,y){
 	self.weap=1;
 	self.meleeCnt=0;
 	self.melee=false;
-	invinc=false;
+	self.usePU=false;
+	self.useWPU=false;
 
 	let super_update=self.update;
 	self.update=function(){
 		super_update();
 		if(screen=='game'){
+			console.log(self.usePU);
+			console.log(self.useWPU);
 			if(self.rightPress||self.leftPress){
 				self.spriteCnt+=0.2;
 			}
@@ -596,6 +599,12 @@ Player=function(x,y){
 				self.invinc=false;
 			}
 			self.dmgCollision();
+			if(self.usePU){
+				
+			}
+			if(self.useWPU){
+				
+			}
 		}
 		if(screen=='overworld'){
 			if(self.rightPress||self.leftPress||self.upPress||self.downPress){
@@ -688,18 +697,28 @@ Player=function(x,y){
 
 	let super_performAttack=self.performAttack;
 	self.performAttack=function(){
-		if(self.weap==1){
-			super_performAttack();
+		if(self.usePU){
+			
 		}
 		else{
-			self.melee=true;
-			self.meleeCnt+=0.2;
-			console.log(self.meleeCnt);
-			if(self.meleeCnt>=4.0){
-				self.melee=false;
-				self.meleeCnt=0;
+			if(self.useWPU){
+				
 			}
-			//console.log(self.meleeCnt);
+			else{
+				if(self.weap==1){
+					super_performAttack();
+				}
+				else{
+					self.melee=true;
+					self.meleeCnt+=0.2;
+					console.log(self.meleeCnt);
+					if(self.meleeCnt>=4.0){
+						self.melee=false;
+						self.meleeCnt=0;
+					}
+					//console.log(self.meleeCnt);
+				}
+			}
 		}
 	}
 	self.dmgCollision=function(){
