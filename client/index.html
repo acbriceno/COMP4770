@@ -65,7 +65,7 @@
 												</select>
 												<input type="text" id="inputControl" >
 
-												<table id="controlsTable">
+												<table id="controlsTable" class="table-striped table-dark" align="center"	>
 											      <tr>
 											        <th>Action</th>
 											        <th>Control</th>
@@ -851,7 +851,16 @@ function globalChange(x){
 			campaignInput.style.display = 'none';
 		}
 
-
+		if (screen == "playerProfile"){
+			playerProfile.style.display = 'none';
+			mainMenu.style.display = 'inline-block';
+		}
+		
+		if (screen == "newGame"){
+			mainMenu.style.display = 'inline-block';
+			campaignInput.style.display = "none";
+		}
+		
 
 
 		if (screen=="le" || screen =="game" || screen=="overworld"){
@@ -992,6 +1001,7 @@ save.onclick = function () {
 	}
 
       newGame.onclick = function() {
+		  screen ="newGame";
 		  campaignInput.style.display = "flex";
 		  mainMenu.style.display ="none";
       }
@@ -1210,6 +1220,7 @@ completeLevel = function(courseName){
 			profile.onclick= function  () {
             playerProfile.style.display = 'inline-block';
 						mainMenu.style.display = 'none';
+						screen='playerProfile';
 						console.log("profile hit");
 						buildUserInputDropDown();
 						buildControlsTable();
