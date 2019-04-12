@@ -1275,6 +1275,7 @@ completeLevel = function(courseName){
 				}
 				});
 			}
+			
 
 
 	}
@@ -1285,7 +1286,10 @@ completeLevel = function(courseName){
 }
 
 
+
  loadCourseLevel  = function(courseName){
+	var gotInLevel = false;
+	var gotMoney = false;
           console.log("HERE");
 
 		  let courses = getCourses();
@@ -1302,6 +1306,7 @@ completeLevel = function(courseName){
 	for(let x=0; x<courses.length;x++){
 		if(courses[x] != null){
 			if(courseName == courses[x].Levelname){
+				gotInLevel = true;
 				if(courses[x].midterm == true){
 					//cTime = 8;//courses[x].midtermTime;
 					deathScreenControl =1;
@@ -1310,6 +1315,7 @@ completeLevel = function(courseName){
 		            screen='game';
 				}else{
 					if((money -1000) >= 0){
+						gotMoney = true;
 						money = money - 1000
 						saveCurrentCampaignGame(courses, getInventory());
 						console.log("dbtime" + courses[x].midtermTime);
@@ -1320,10 +1326,17 @@ completeLevel = function(courseName){
 			            screen='game';
 					}
 				}
-
 				//deathScreenControl = 0;
 			}
 		}
+	}
+
+	if(!gotInLevel){
+		alert("You don't meet the prerequisites!");
+	}
+
+	else if(!gotMoney){
+		alert("You don't have enough money!");
 	}
 
 
