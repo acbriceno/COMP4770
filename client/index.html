@@ -213,6 +213,14 @@
                                           <button class="button3" id="backCourse">Back</button>
 
                   </div>
+
+                  <div id="fishHouse" style="display:none;">
+
+                                          <h2 id="levelHeading">Feelin' Lucky?</h2>
+                                          <button class="button3" id="fishButton">Go Fish!</button>
+                                          <button class="button3" id="backCourse">Back</button>
+
+                  </div>
 </div>
 
 
@@ -332,7 +340,7 @@ function globalChange(x){
 	  let totAss=0;
 	let grade=0;
 	let compTime=Date.now();
-	
+
 	let  snd = new Audio("music/Good Will Hunting OST - 02 The Theorem.mp3");
          let  snd2 = new Audio("music/Winterbells Extended Original song.mp3");
 	let  snd3 = new Audio("music/Mario Death Sound Effect.mp3");
@@ -479,11 +487,18 @@ function globalChange(x){
       updateDad = function() {
             console.log("dadCredit before: " + dadCredit);
             if (dadCredit != 0) {
-                  randMoney = Math.floor(Math.random() * (400 - 50 + 1)) + 50;
+                  let randMoney = Math.floor(Math.random() * (800 - 400 + 1)) + 400;
                   console.log("Got " + randMoney + " from Dad!");
                   money = money + randMoney;
                   dadCredit--;
             }
+            saveCurrentCampaignGame(getCourses(), getInventory());
+      }
+
+      updateFish = function() {
+            let randFish = Math.floor(Math.random() * (700 - 300 + 1)) + 300;
+            console.log("Got $" + randFish + "!");
+            money = money + randFish;
             saveCurrentCampaignGame(getCourses(), getInventory());
       }
 
@@ -510,6 +525,10 @@ function globalChange(x){
                         }
                         else if (target == "dadButton") {
                               updateDad();
+                              leaveRoom();
+                        }
+                        else if (target == "fishButton") {
+                              updateFish()
                               leaveRoom();
                         }
 				else{
@@ -703,7 +722,7 @@ function globalChange(x){
 
 	//update for in game, logic tbd
 	update=function(){
-			//console.log(player.x + "and" + player.y);
+			console.log(player.x + "and" + player.y);
             if (screen == 'overworld' && !inTown) {
                   campusBoundaries();
                   if (player.x < -25) {
@@ -750,6 +769,10 @@ function globalChange(x){
                         console.log("entered Dad's");
                         enterRoom("DAD");
                   }
+                  else if ((player.x > 635 && player.x < 660) && (player.y > 115 && player.y < 130)) {
+                        console.log("Fishing");
+                        enterRoom("FISH");
+                  }
             }
 
 
@@ -781,22 +804,23 @@ function globalChange(x){
 				ctx.drawImage(bgImg,0,0,W,H);
 				ctxui.clearRect(0,0,W,H);
 				ctxui.font="35px Arial";
+				ctxui.fillStyle = "#FF0000";
 				if(screen=='game'){
-					ctxui.strokeText("HP: "+player.hp,50,50);
+					ctxui.fillText("HP: "+player.hp,50,50);
 					cTime= (cTime +Date.now() - start)/1000;
 					let timeRnd=cTime.toFixed(2);
-					ctxui.strokeText("Time: "+timeRnd+" seconds",50,170);
+					ctxui.fillText("Time: "+timeRnd+" seconds",50,90);
 					if(campaign != null){
-						ctxui.fillText("WPU :" + weaponPowerUp, 50, 90);
+						ctxui.fillText("WPU :" + weaponPowerUp, 50, 170);
 						ctxui.fillText("PU :" + powerUp, 50, 130);
 					}
 					else{
-						ctxui.fillText("WPU :" + weaponPowerUp, 50, 90);
-						ctxui.fillText("PU :" + powerUp, 50, 130);
+						//ctxui.fillText("WPU :" + weaponPowerUp, 50, 90);
+						//ctxui.fillText("PU :" + powerUp, 50, 130);
 
 					}
-                    ctxui.fillstyle = "white";
-                    ctxui.stokestle = "white";
+                    //ctxui.fillstyle = "white";
+                   
 
 
 				}
@@ -804,8 +828,8 @@ function globalChange(x){
 					ctxui.fillText("Money: "+money,50,50);
 					ctxui.fillText("Dad Credits: "+dadCredit,300,50);
 					ctxui.fillText("Work Credits: "+workCredit,600,50);
-                              ctxui.fillstyle = "white";
-                              ctxui.stokestle = "white";
+                              //ctxui.fillstyle = "white";
+                              //ctxui.stokestle = "white";
 				}
 
 			}
@@ -1048,9 +1072,14 @@ save.onclick = function () {
 			gradeCalculator();
 			let elem;
             if (fromLe == false) {
+<<<<<<< HEAD
+				
+=======
 				elem=document.getElementById("passLevelHeading");
 				completeLevel(campaignLevelName);
+>>>>>>> 113d942a3eeddf9ad5fd04920b5eb000f9293803
 		     	succsessScreen.style.display = 'inline-block';
+				completeLevel(campaignLevelName);
             }
             else {
 				elem=document.getElementById("passLevelHeadingLE");
@@ -1167,6 +1196,8 @@ save.onclick = function () {
 							grandmaHouseAfter.style.display = 'none';
               landscapingWork.style.display = 'none';
               winery.style.display = 'none';
+              dadHouse.style.display = 'none';
+              fishHouse.style.display = 'none';
 		  menuWrapper.style.display = "none";
 		  gameDiv.style.display="inline-block";
 		  loadFile.style.display = "none";
@@ -1239,6 +1270,7 @@ completeLevel = function(courseName){
 		if(courses[x] != null){
 			if(courses[x].Levelname == courseName){
 				courses[x].complete = true;
+				//courses[x].bestTime = 
 			}
 
 			if(courses[x].Levelname == unlockedLevel){
@@ -1271,7 +1303,7 @@ completeLevel = function(courseName){
 					}
 					courses.push(courseLevel);
 					saveCurrentCampaignGame(courses, getInventory());
-					console.log(getCourses());
+
 				}
 				});
 			}
@@ -1308,7 +1340,7 @@ completeLevel = function(courseName){
 			if(courseName == courses[x].Levelname){
 				gotInLevel = true;
 				if(courses[x].midterm == true){
-					//cTime = 8;//courses[x].midtermTime;
+					cTime = courses[x].midtermTime;
 					deathScreenControl =1;
 					loadLevel(courses[x].Level, courses[x].Width);
 		          	console.log("Makes it to loaded level");
@@ -1402,6 +1434,7 @@ completeLevel = function(courseName){
     		       gameDiv.style.display="none";
                    grandmaHouse.style.display = 'none';
                    dadHouse.style.display = 'none';
+                    fishHouse.style.display = 'none';
                    landscapingWork.style.display = 'inline-block';
                     //screen = menu;
               }
@@ -1415,6 +1448,7 @@ completeLevel = function(courseName){
                landscapingWork.style.display = 'none';
                winery.style.display = 'none';
                dadHouse.style.display = 'none';
+               fishHouse.style.display = 'none';
                checkonGrandma();
                console.log("Make it to Grandmas")
                 //screen = menu;
@@ -1429,6 +1463,7 @@ completeLevel = function(courseName){
                 grandmaHouse.style.display = 'none';
                 landscapingWork.style.display = 'none';
                 dadHouse.style.display = 'none';
+                 fishHouse.style.display = 'none';
                 winery.style.display = 'inline-block';
           }
           else if (roomName == "DAD") {
@@ -1441,7 +1476,22 @@ completeLevel = function(courseName){
                 grandmaHouse.style.display = 'none';
                 landscapingWork.style.display = 'none';
                 winery.style.display = 'none';
+                fishHouse.style.display = 'none';
                 dadHouse.style.display = 'inline-block';
+          }
+          else if (roomName == "FISH") {
+               compMenu.style.display = 'none';
+               mathMenu.style.display = 'none';
+               physMenu.style.display = 'none';
+               philMenu.style.display = 'none';
+               menuWrapper.style.display = "none";
+               gameDiv.style.display="none";
+               grandmaHouse.style.display = 'none';
+               landscapingWork.style.display = 'none';
+               winery.style.display = 'none';
+               dadHouse.style.display = 'none';
+               fishHouse.style.display = 'inline-block';
+
           }
 
 
