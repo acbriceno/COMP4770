@@ -374,16 +374,9 @@ function globalChange(x){
 	let gammaHP;
 	let dadCredit;
 	let workCredit;
-<<<<<<< HEAD
-      //let land = document.getElementById('LandscapeButton');
-	let cTime = 0;
-      //let grand = document.getElementById('GrandmaButton');
-
-=======
     let land = document.getElementById('LandscapeButton');
 	let cTime = 0;
 	let campaignLevelName;
->>>>>>> afbd273906e43fb27ac580074137e1107af3f430
   var Img = {};
   Img.playerLevel = new Image();
   Img.playerLevel.src = "img/player_level.png";
@@ -429,13 +422,8 @@ function globalChange(x){
 	Img.campus.src="img/campus.png";
 
 	let bg="img/math1.png";
-<<<<<<< HEAD
-
-      updateMoney = function() {
-=======
 	let deathScreenControl = 0;
       let updateMoney = function() {
->>>>>>> afbd273906e43fb27ac580074137e1107af3f430
             if (workCredit > 0){
                   console.log("Money before: " + money);
                   money = money + 400;
@@ -894,12 +882,12 @@ function globalChange(x){
 			playerProfile.style.display = 'none';
 			mainMenu.style.display = 'inline-block';
 		}
-		
+
 		if (screen == "newGame"){
 			mainMenu.style.display = 'inline-block';
 			campaignInput.style.display = "none";
 		}
-		
+
 
 
 		if (screen=="le" || screen =="game" || screen=="overworld"){
@@ -1151,7 +1139,7 @@ getSystemCampaignLevel = function(courseName){
 				//console.log(message.courseLevel);
 				return message.courseLevel;
 			});
-	
+
 }
 
 completeLevel = function(courseName){
@@ -1164,16 +1152,16 @@ completeLevel = function(courseName){
 			if(courses[x].Levelname == courseName){
 				courses[x].complete = true;
 			}
-		
+
 			if(courses[x].Levelname == unlockedLevel){
 				control = 1;
 			}
 		}
 	}
-	
+
 	if(unlockedLevel != 'none'){
-		
-		
+
+
 			if(control == 0){
 				let socket=io();
 		  		socket.emit('loadSystemCourseLevel',{
@@ -1182,7 +1170,7 @@ completeLevel = function(courseName){
 
 				socket.on('systemCourseLevelFound', function(message){
 					let courseLevel = message.courseLevel;
-		
+
 				if(courseLevel != null){
 					courseLevel.midterm = false;
 					courseLevel.midtermTime = 0;
@@ -1195,7 +1183,7 @@ completeLevel = function(courseName){
 				}
 				});
 			}
-		
+
 
 	}
 	else{
@@ -1218,7 +1206,7 @@ completeLevel = function(courseName){
 	campaignInput.style.display="none";
 	start=Date.now();
 	campaignLevelName = courseName;
-	
+
 	for(let x=0; x<courses.length;x++){
 		if(courses[x] != null){
 			if(courseName == courses[x].Levelname){
@@ -1241,7 +1229,7 @@ completeLevel = function(courseName){
 					}
 				}
 
-				//deathScreenControl = 0;	
+				//deathScreenControl = 0;
 			}
 		}
 	}
