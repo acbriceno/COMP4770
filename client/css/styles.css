@@ -25,6 +25,15 @@
   margin-bottom: 25px;
 }
 
+
+#blacklevelHeading{
+  font-weight: bold;
+  text-shadow: 2px 2px 2px #000000;;
+  font-size: 100px;
+  color:pink;
+  margin-bottom: 25px;
+}
+
 #deathScreen{
   text-align: center;
   padding-top: 150px; 
