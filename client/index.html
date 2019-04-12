@@ -474,6 +474,16 @@ function globalChange(x){
             console.log("gammaHP after: " + gammaHP);
       }
 
+      updateDad = function() {
+            console.log("dadCredit before: " + dadCredit);
+            if (dadCredit != 0) {
+                  randMoney = Math.floor(Math.random() * (400 - 50 + 1)) + 50;
+                  console.log("Got " + randMoney + " from Dad!");
+                  money = money + randMoney;
+                  dadCredit--;
+            }
+      }
+
 
 
 	var isFirxFox = function () {
@@ -496,6 +506,7 @@ function globalChange(x){
                               leaveRoom();
                         }
                         else if (target == "dadButton") {
+                              updateDad();
                               leaveRoom();
                         }
 				else{
