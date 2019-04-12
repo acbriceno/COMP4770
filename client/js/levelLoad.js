@@ -50,7 +50,7 @@ loadLevel=function(level,width){
 		yCnt=deathY;
 	}
 
-	mousePos.xmax=width/64;
+	mousePos.xmax=width;
 	mousePos.ymax=yCnt;
 	
 	console.log(facCode)
