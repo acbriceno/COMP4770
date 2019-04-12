@@ -552,7 +552,11 @@ Player=function(x,y){
 				self.performAttack();
 			}
 			if(self.y>(deathY+1)*64){
-				self.onDeath();
+				if(deathScreenControl == 1){
+					self.onDeath();
+					deathScreenControl = 0;
+				}
+				
 			}
 		}
 		if(screen=='overworld'){

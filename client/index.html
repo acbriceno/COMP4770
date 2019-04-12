@@ -404,7 +404,7 @@ function globalChange(x){
 	Img.campus.src="img/campus.png";
 
 	let bg="img/math1.png";
-
+	let deathScreenControl = 0;
       let updateMoney = function() {
             if (workCredit > 0){
                   console.log("Money before: " + money);
@@ -604,7 +604,7 @@ function globalChange(x){
 
 	//update for in game, logic tbd
 	update=function(){
-			console.log(player.x + "and" + player.y);
+			//console.log(player.x + "and" + player.y);
             if (screen == 'overworld' && !inTown) {
                   campusBoundaries();
                   if (player.x < -25) {
@@ -1074,6 +1074,27 @@ save.onclick = function () {
 
 
 
+
+
+
+
+
+
+getSystemCampaignLevel = function(courseName){
+			let socket=io();
+	  		socket.emit('loadSystemCourseLevel',{
+				courseName: courseName
+	  		});
+
+			socket.on('systemCourseLevelFound', function(message){
+				//console.log(message.courseLevel);
+				return message.courseLevel;
+			});
+	
+}
+
+
+
  loadCourseLevel  = function(courseName){
           console.log("HERE");
 
@@ -1087,7 +1108,7 @@ save.onclick = function () {
 	campaignInput.style.display="none";
 	start=Date.now();
 	campaignLevelName = courseName;
-
+	
 	for(let x=0; x<courses.length;x++){
 		if(courses[x] != null){
 			if(courseName == courses[x].Levelname){
@@ -1096,15 +1117,18 @@ save.onclick = function () {
 				}
 				console.log("dbtime" + courses[x].midtermTime);
 				console.log("time" + cTime);
+				deathScreenControl =1;
 				loadLevel(courses[x].Level, courses[x].Width);
+	          	console.log("Makes it to loaded level");
+	            screen='game';
+				//deathScreenControl = 0;	
 			}
 		}
 	}
 
 
 //	loadLevel('00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000l0000000000000000000000000000000000000000000000000000e0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000p00000000000000e000000000000000000000000000000000000000000000000000000m0000000000000a0000000000000000000000000000000000000000000000000000000000000000000000000000000e000000000000000000000000000000000000000000a000000000bb0b0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000ffffff0000000000000000bbbb0bbbbb000b00000000ffff000000000000000000000000000000000bbbbbb0000ffff0fff0000000000000000000000000000000000000000000000000000000000000000000000f0000000000000000000000f000000000000000000000000000000000000000000000000000000000000000000000000000000000b0e000000000000000000ff0000000000000000000ff000000e000000000000f0ff00000000000000000000000000000fffff0000000000000000000f0fff000000000000000000000b00b0000000000000000000fff00000000ffffff0000000000000000000000000000000000000000000ffffffffffffff00fa00f00000fff000000000000000000000000000000000000bbbbb00b00000be00000000ffff0000000000000000f0f0f0000000000000000000000000000000000000000000000000000f000f00000befe0000000000000000000000000000000000bbb0a000bbfffffbbb000000ffff0000000000000000000000000ee0000000000000000000fef00f0000000000000000000f0f000000000fff00000000f00000000f00f00000fffffffffffffffffffffffffffffffffffffffffffff000000ffffffffffffffffffffff00fffffffffffffffffffffffffffffffffffffffffffffffffffff000ffffffffffffffffffw',148);
-            console.log("Makes it to loaded level");
-            screen='game';
+
 
 
 }
@@ -1272,6 +1296,7 @@ save.onclick = function () {
 					count = x;
 					weaponPowerUp = userSaves[x].inventory.weaponPowerUps[0].itemName;
 					powerUp = userSaves[x].inventory.powerUps[0].itemName;
+					deathScreenControl = 1;
 					loadOverworld();
 
 				}
