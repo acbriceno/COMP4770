@@ -451,19 +451,19 @@ function globalChange(x){
                   levelFailed();
             }
 			}
-			
+
 			checkonGrandma = function(){
 
 				if (gammaHP != 0) {
 					grandmaHouse.style.display = 'inline-block';
 					grandmaHouseAfter.style.display = 'none';
 						}
-						
+
 				else {
 					grandmaHouseAfter.style.display = 'inline-block';
 					grandmaHouse.style.display = 'none';
 				}
-
+                        saveCurrentCampaignGame(getCourses(), getInventory());
 			}
 
       updateGrandma = function() {
@@ -474,6 +474,17 @@ function globalChange(x){
             }
             saveCurrentCampaignGame(getCourses(), getInventory());
             console.log("gammaHP after: " + gammaHP);
+      }
+
+      updateDad = function() {
+            console.log("dadCredit before: " + dadCredit);
+            if (dadCredit != 0) {
+                  randMoney = Math.floor(Math.random() * (400 - 50 + 1)) + 50;
+                  console.log("Got " + randMoney + " from Dad!");
+                  money = money + randMoney;
+                  dadCredit--;
+            }
+            saveCurrentCampaignGame(getCourses(), getInventory());
       }
 
 
@@ -498,6 +509,7 @@ function globalChange(x){
                               leaveRoom();
                         }
                         else if (target == "dadButton") {
+                              updateDad();
                               leaveRoom();
                         }
 				else{
@@ -734,9 +746,10 @@ function globalChange(x){
                         enterRoom("WINE");
 
                   }
-                  else if ((player.x > 285 && player.x < 320) && (player.y > 440 && player.y < 455))
+                  else if ((player.x > 285 && player.x < 320) && (player.y > 440 && player.y < 455)) {
                         console.log("entered Dad's");
                         enterRoom("DAD");
+                  }
             }
 
 
@@ -1216,6 +1229,8 @@ getSystemCampaignLevel = function(courseName){
 }
 
 completeLevel = function(courseName){
+      dadCredit++;
+      workCredit++;
 	console.log(getCourses());
 	let courses = getCourses();
 	let unlockedLevel = getUnlockedCourseName(courseName);
@@ -1373,6 +1388,7 @@ completeLevel = function(courseName){
                    menuWrapper.style.display = "none";
     		       gameDiv.style.display="none";
                    grandmaHouse.style.display = 'none';
+                   dadHouse.style.display = 'none';
                    landscapingWork.style.display = 'inline-block';
                     //screen = menu;
               }
@@ -1385,6 +1401,7 @@ completeLevel = function(courseName){
                gameDiv.style.display="none";
                landscapingWork.style.display = 'none';
                winery.style.display = 'none';
+               dadHouse.style.display = 'none';
                checkonGrandma();
                console.log("Make it to Grandmas")
                 //screen = menu;
@@ -1398,8 +1415,20 @@ completeLevel = function(courseName){
                 gameDiv.style.display="none";
                 grandmaHouse.style.display = 'none';
                 landscapingWork.style.display = 'none';
+                dadHouse.style.display = 'none';
                 winery.style.display = 'inline-block';
-
+          }
+          else if (roomName == "DAD") {
+                compMenu.style.display = 'none';
+                mathMenu.style.display = 'none';
+                physMenu.style.display = 'none';
+                philMenu.style.display = 'none';
+                menuWrapper.style.display = "none";
+                gameDiv.style.display="none";
+                grandmaHouse.style.display = 'none';
+                landscapingWork.style.display = 'none';
+                winery.style.display = 'none';
+                dadHouse.style.display = 'inline-block';
           }
 
 
@@ -1414,10 +1443,10 @@ completeLevel = function(courseName){
 	getSavedUserLevels = function () {
 			let socket = io();
 			console.log("load button HIT");
-			
-			
+
+
 			if(username =="system"){
-				
+
 		  		socket.emit('loadAllSystemCourses',{
 		  		});
 
@@ -1435,8 +1464,8 @@ completeLevel = function(courseName){
 					}
 					console.log(message);
 				});
-				
-				
+
+
 			}else{
 				socket.emit('getUserLevels', { username: username });
 				socket.on('userLevelsFound', function (message) {
@@ -1453,11 +1482,11 @@ completeLevel = function(courseName){
 				});
 			}
 
-			
-			
-			
-			
-			
+
+
+
+
+
 
 		}
 
