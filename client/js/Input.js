@@ -26,8 +26,24 @@ let controls = {
 }
 
 updateControls = function(control, input){
-	controls[control] = input;
+	
+	let duplicateCheck = false;
+	for(var value in controls){
+
+		if(input == controls[value]){
+			console.log(input);
+			console.log(" value: " + controls[value]);
+			duplicateCheck = true;
+		}
+	}
+
+	if(!duplicateCheck){
+		controls[control] = input;
+	}
+	
+	//controls[control] = input;
 }
+
 
 outputControls = function(control){
 	let data = String.fromCharCode(control);
