@@ -7,6 +7,8 @@ let defaultGrapple=32;
 let defaultweaponPowerUpsChange = 81;
 let defaultpowerUpsChange = 69;
 let defaultChange = 67;
+let defaultApplyWeaponPUP = 88;
+let defaultApplyPUP = 90;
 
 
 let controls = {
@@ -18,7 +20,9 @@ let controls = {
 	change: defaultChange,
 	grapple: defaultGrapple,
 	weaponPowerUpsChange: defaultweaponPowerUpsChange,
-	powerUpsChange: defaultpowerUpsChange
+	powerUpsChange: defaultpowerUpsChange,
+	applyWPUP: defaultApplyWeaponPUP,
+	applyPUP: defaultApplyPUP
 }
 
 updateControls = function(control, input){
