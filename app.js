@@ -110,6 +110,17 @@ socket.on('getLevels', function(message){
 	});
 	
 	
+	socket.on('loadAllSystemCourses', function(message){
+		dbManager.findAllSystemCourseLevels(function(Levels){
+			socket.emit('systemLevelsFound',{
+				Levels : Levels
+			})
+		});
+	});
+	
+	
+	
+	
   socket.on('createCampaign', function(message){
 	  console.log(message);
       game.createCampaign(message.username, message.info, function(campaign){

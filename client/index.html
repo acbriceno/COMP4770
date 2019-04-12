@@ -1390,20 +1390,50 @@ completeLevel = function(courseName){
 	getSavedUserLevels = function () {
 			let socket = io();
 			console.log("load button HIT");
+			
+			
+			if(username =="system"){
+				
+		  		socket.emit('loadAllSystemCourses',{
+		  		});
 
-			socket.emit('getUserLevels', { username: username });
-			socket.on('userLevelsFound', function (message) {
-				levelEditorLevels = message.Levels;
-				a3.innerHTML = "";
-				var option = document.createElement("s");
-				for (var x = 0; x < message.Levels.length; x++) {
-					console.log(message.Levels[x].Levelname);
-					let optionLevel = document.createElement("option");
-					optionLevel.text = message.Levels[x].Levelname;
-					a3.add(optionLevel);
-				}
-				console.log(message);
-			});
+				socket.on('systemLevelsFound', function(message){
+					//console.log(message.courseLevel);
+					console.log(message);
+					levelEditorLevels =  message.Levels;
+					a3.innerHTML = "";
+					var option = document.createElement("s");
+					for (var x = 0; x < message.Levels.length; x++) {
+						console.log(message.Levels[x].Levelname);
+						let optionLevel = document.createElement("option");
+						optionLevel.text = message.Levels[x].Levelname;
+						a3.add(optionLevel);
+					}
+					console.log(message);
+				});
+				
+				
+			}else{
+				socket.emit('getUserLevels', { username: username });
+				socket.on('userLevelsFound', function (message) {
+					levelEditorLevels = message.Levels;
+					a3.innerHTML = "";
+					var option = document.createElement("s");
+					for (var x = 0; x < message.Levels.length; x++) {
+						console.log(message.Levels[x].Levelname);
+						let optionLevel = document.createElement("option");
+						optionLevel.text = message.Levels[x].Levelname;
+						a3.add(optionLevel);
+					}
+					console.log(message);
+				});
+			}
+
+			
+			
+			
+			
+			
 
 		}
 

@@ -47,7 +47,7 @@ loadLevel=function(level,width){
 			deathY=y/64;
                   console.log("deathY: " + deathY);
 		}
-		yCnt=y;
+		yCnt=deathY;
 	}
 
 	mousePos.xmax=width;
