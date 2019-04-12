@@ -190,7 +190,7 @@
 							<button class="button3" id="backCourse">Back</button>
 
 					</div>
-					
+
 					<div id="grandmaHouseAfter" style="display:none;">
 
 						<h2 id="leavelHeading">She is gone now...</h2>
@@ -1123,10 +1123,21 @@ save.onclick = function () {
 	  }
 
 	  loadOverworld = function(){
-			Entity.clear();
+		  Entity.clear();
+              coursesButtonGroup.style.display = 'none';
+              compMenu.style.display = 'none';
+              mathMenu.style.display = 'none';
+              physMenu.style.display = 'none';
+              philMenu.style.display = 'none';
+              menuWrapper.style.display = "none";
+              gameDiv.style.display="none";
+              grandmaHouse.style.display = 'none';
+              landscapingWork.style.display = 'none';
+              winery.style.display = 'none';
 		  menuWrapper.style.display = "none";
 		  gameDiv.style.display="inline-block";
 		  loadFile.style.display = "none";
+
           player.x = 300;
           player.y = 350;
           if (player.x < 0) {
@@ -1366,14 +1377,12 @@ completeLevel = function(courseName){
                 winery.style.display = 'inline-block';
 
           }
-          
+
 
 	  }
 
 	  leaveRoom = function(roomName){
 		  coursesButtonGroup.style.display = 'none';
-		  compMenu.style.display = 'inline-block';
-              compMenu.style.display = 'inline-block';
 		  loadOverworld();
 	  }
 
@@ -1381,20 +1390,50 @@ completeLevel = function(courseName){
 	getSavedUserLevels = function () {
 			let socket = io();
 			console.log("load button HIT");
+			
+			
+			if(username =="system"){
+				
+		  		socket.emit('loadAllSystemCourses',{
+		  		});
 
-			socket.emit('getUserLevels', { username: username });
-			socket.on('userLevelsFound', function (message) {
-				levelEditorLevels = message.Levels;
-				a3.innerHTML = "";
-				var option = document.createElement("s");
-				for (var x = 0; x < message.Levels.length; x++) {
-					console.log(message.Levels[x].Levelname);
-					let optionLevel = document.createElement("option");
-					optionLevel.text = message.Levels[x].Levelname;
-					a3.add(optionLevel);
-				}
-				console.log(message);
-			});
+				socket.on('systemLevelsFound', function(message){
+					//console.log(message.courseLevel);
+					console.log(message);
+					levelEditorLevels =  message.Levels;
+					a3.innerHTML = "";
+					var option = document.createElement("s");
+					for (var x = 0; x < message.Levels.length; x++) {
+						console.log(message.Levels[x].Levelname);
+						let optionLevel = document.createElement("option");
+						optionLevel.text = message.Levels[x].Levelname;
+						a3.add(optionLevel);
+					}
+					console.log(message);
+				});
+				
+				
+			}else{
+				socket.emit('getUserLevels', { username: username });
+				socket.on('userLevelsFound', function (message) {
+					levelEditorLevels = message.Levels;
+					a3.innerHTML = "";
+					var option = document.createElement("s");
+					for (var x = 0; x < message.Levels.length; x++) {
+						console.log(message.Levels[x].Levelname);
+						let optionLevel = document.createElement("option");
+						optionLevel.text = message.Levels[x].Levelname;
+						a3.add(optionLevel);
+					}
+					console.log(message);
+				});
+			}
+
+			
+			
+			
+			
+			
 
 		}
 

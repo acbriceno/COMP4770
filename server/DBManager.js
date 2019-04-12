@@ -140,6 +140,7 @@ module.exports.findSystemCourseLevel = function(courseName, callback){
 }
 
 module.exports.insertSystemCourseLevel = function(courseLevel){
+	console.log(courseLevel);
 	const client = new MongoClient(url,{useNewUrlParser: true} );
 	client.connect(function(err, client) {
 	  assert.equal(null, err);
@@ -147,11 +148,32 @@ module.exports.insertSystemCourseLevel = function(courseLevel){
 
 	  const db = client.db(dbName);
 	  // Insert a single document
-	  db.collection('courses').insertOne({Levelname : courseLevel.Levelname, Width : courseLevel.W, Height : courseLevel.H, Level:courseLevel.Level}, function(err, r) {
-	    assert.equal(null, err);
-	    assert.equal(1, r.insertedCount);
-	    console.log("Inserted system course level to database ");
-	  });
+	  
+	  
+  	let query = { Levelname: courseLevel.Levelname };
+  	db.collection("courses").findOne(query, function(err, result) {
+    	 if (err) throw err;
+    	//client.close();
+    	if(result==null){
+	  	  db.collection('courses').insertOne({Levelname : courseLevel.Levelname, Width : courseLevel.W, Height : courseLevel.H, Level:courseLevel.Level}, function(err, r) {
+	  	    assert.equal(null, err);
+	  	    assert.equal(1, r.insertedCount);
+	  	    console.log("Inserted system course level to database ");
+	  	  });
+    	}
+		else{
+			var newvalues = { $set: { Levelname : courseLevel.Levelname, Width : courseLevel.W, Height : courseLevel.H, Level:courseLevel.Level} };
+		    db.collection("courses").updateOne(query, newvalues, function(err, res) {
+		      if (err) throw err;
+		      console.log("1 document updated");
+		      client.close();
+		    });
+		}
+  	});
+	  
+	  
+	  
+
 	});
 }
 
