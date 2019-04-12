@@ -1097,32 +1097,48 @@ completeLevel = function(courseName){
 	console.log(getCourses());
 	let courses = getCourses();
 	let unlockedLevel = getUnlockedCourseName(courseName);
+	let control = 0;
+	for(let x=0; x<courses.length;x++){
+		if(courses[x] != null){
+			if(courses[x].Levelname == courseName){
+				courses[x].complete = true;
+			}
+		
+			if(courses[x].Levelname == unlockedLevel){
+				control = 1;
+			}
+		}
+	}
+	
 	if(unlockedLevel != 'none'){
 		
 		
-		let socket=io();
-  		socket.emit('loadSystemCourseLevel',{
-			courseName: unlockedLevel
-  		});
+			if(control == 0){
+				let socket=io();
+		  		socket.emit('loadSystemCourseLevel',{
+					courseName: unlockedLevel
+		  		});
 
-		socket.on('systemCourseLevelFound', function(message){
-			let courseLevel = message.courseLevel;
+				socket.on('systemCourseLevelFound', function(message){
+					let courseLevel = message.courseLevel;
 		
-		if(courseLevel != null){
-			courseLevel.midterm = false;
-			courseLevel.midtermTime = 0;
-			courseLevel.complete = false;
-			courseLevel.grade = 0;
-			courseLevel.bestTime = 0;
-			courses.push(courseLevel);
-			saveCurrentCampaignGame(courses, getInventory());
-			console.log(getCourses());
-		}
-		});
-		
-		
+				if(courseLevel != null){
+					courseLevel.midterm = false;
+					courseLevel.midtermTime = 0;
+					courseLevel.complete = false;
+					courseLevel.grade = 0;
+					courseLevel.bestTime = 0;
+					courses.push(courseLevel);
+					saveCurrentCampaignGame(courses, getInventory());
+					console.log(getCourses());
+				}
+				});
+			}
 		
 
+	}
+	else{
+		saveCurrentCampaignGame(courses, getInventory());
 	}
 
 }
