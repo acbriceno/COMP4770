@@ -466,36 +466,76 @@ Assignment.generate=function(x,y){
 	Assignment(id,x,y,w,h,img,hp,atkSpd,dmg);
 }
 
+async function deadMidterm(){
+	//
+	// let promise = new Promise((res, rej) => {
+	//         setTimeout(() => res("Now it's done!"), 1)
+	//     });
+
+	    // wait until the promise returns us a value
+	 
+	
+		console.log("hello");
+	if(fromLe==false){
+		//console.log(getCourses());
+		let courses = getCourses();
+		//console.log(campaignLevelName);
+		for(let x=0; x<courses.length;x++){
+			if(courses[x] != null){
+				if(campaignLevelName == courses[x].Levelname){
+					//console.log(player.x + "and" + player.y);
+					let levelCode = saveLevel(username, courses[x].Levelname, 0, courses[x].Width, courses[x].Height);
+					courses[x].Level = levelCode.Level;
+					courses[x].midterm = true;
+					courses[x].midtermTime = cTime;
+					courses[x].grade = 100;// need fxn to calculate grade
+					//console.log(saveLevel(username, courses[x].Levelname, 0, courses[x].Width, courses[x].Height));
+				
+					saveCurrentCampaignGame(courses, getInventory());
+				}
+			}
+		}
+	}
+
+	
+    
+	
+}
+
+
 Midterm=function(id,x,y,w,h,img,hp,atkSpd,dmg){
 	let self=Enemy(id,x,y,w,h,img,hp,atkSpd,dmg,'m');
 	Midterm.list[id]=self;
       self.remove=false;
       self.onDeath=function(){
             self.remove=true;
+			deadMidterm();
             //console.log(saveLevel(username, "comp1000", 0, mousePos.xma, mousePos.ymax));
-			if(fromLe==false){
-				//console.log(getCourses());
-				let courses = getCourses();
-				//console.log(campaignLevelName);
-				for(let x=0; x<courses.length;x++){
-					if(courses[x] != null){
-						if(campaignLevelName == courses[x].Levelname){
-							//console.log(player.x + "and" + player.y);
-							let levelCode = saveLevel(username, courses[x].Levelname, 0, courses[x].Width, courses[x].Height);
-							courses[x].Level = levelCode.Level;
-							courses[x].midterm = true;
-							courses[x].midtermTime = cTime;
-							courses[x].grade = 100;// need fxn to calculate grade
-							//console.log(saveLevel(username, courses[x].Levelname, 0, courses[x].Width, courses[x].Height));
-						
-							saveCurrentCampaignGame(courses, getInventory());
-						}
-					}
-				}
-			}
+			// if(fromLe==false){
+	// 			//console.log(getCourses());
+	// 			let courses = getCourses();
+	// 			//console.log(campaignLevelName);
+	// 			for(let x=0; x<courses.length;x++){
+	// 				if(courses[x] != null){
+	// 					if(campaignLevelName == courses[x].Levelname){
+	// 						//console.log(player.x + "and" + player.y);
+	// 						let levelCode = saveLevel(username, courses[x].Levelname, 0, courses[x].Width, courses[x].Height);
+	// 						courses[x].Level = levelCode.Level;
+	// 						courses[x].midterm = true;
+	// 						courses[x].midtermTime = cTime;
+	// 						courses[x].grade = 100;// need fxn to calculate grade
+	// 						//console.log(saveLevel(username, courses[x].Levelname, 0, courses[x].Width, courses[x].Height));
+	//
+	// 						saveCurrentCampaignGame(courses, getInventory());
+	// 					}
+	// 				}
+	// 			}
+	// 		}
       }
 
 }
+
+
 
 Midterm.update=function(){
 	for(let key8 in Midterm.List){
