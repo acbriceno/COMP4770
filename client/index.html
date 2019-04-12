@@ -377,21 +377,27 @@ function globalChange(x){
 	Img.penRight=new Image();
 	Img.penRight.src="img/pen_right.png";
 	Img.philEnemy=new Image();
-	Img.philEnemy.src="img/philEnemy.png";
+	Img.philEnemy.src="img/aristotleOpen.png";
 	Img.mathEnemy=new Image();
 	Img.mathEnemy.src="img/gauss_open.png";
 	Img.phyEnemy=new Image();
 	Img.phyEnemy.src="img/Albert_open.png";
 	Img.csEnemy=new Image();
 	Img.csEnemy.src="img/turing_open.png";
+	Img.ass=new Image();
+	Img.ass.src="img/assigment.png";
+	Img.final=new Image();
+	Img.final.src="img/final.png";
 	Img.platform=new Image();
 	Img.platform.src="img/tile.png";
 	Img.breakable=new Image();
 	Img.breakable.src="img/break_tile.png";
 	Img.midterm=new Image();
 	Img.midterm.src="img/midterm.png";
-	Img.upgrade=new Image();
-	Img.upgrade.src="img/powerup.png";
+	Img.gUpgrade=new Image();
+	Img.gUpgrade.src="img/gun_up.png";
+	Img.bUpgrade=new Image();
+	Img.bUpgrade.src="img/melee_up.png";
 	Img.bgMath=new Image();
 	Img.bgMath.src="img/math1.png";
 	Img.bgPhy=new Image();
@@ -517,7 +523,7 @@ function globalChange(x){
 			if(mouseY>18&&mouseY<738&&mouseX>0&&mouseX<1280){
 				mousePos.x=mouseX;
 				// mousePos.y=mouseY-3+moveScreen.left*64;
-				mousePos.y = mouseY-20;
+				mousePos.y = mouseY;
 				//console.log("mouseX: " + mouseX + "mouseY: " + mouseY);
 				leDraw=true;
 			}
@@ -678,7 +684,8 @@ function globalChange(x){
 				if(screen=='game'){
 					ctxui.strokeText("HP: "+player.hp,50,50);
 					cTime= (cTime +Date.now() - start)/1000;
-					ctxui.strokeText("Time: "+cTime+" seconds",50,170);
+					let timeRnd=cTime.toFixed(2);
+					ctxui.strokeText("Time: "+timeRnd+" seconds",50,170);
 					if(campaign != null){
 						ctxui.fillText("WPU :" + weaponPowerUp, 50, 90);
 						ctxui.fillText("PU :" + powerUp, 50, 130);
@@ -1526,6 +1533,7 @@ completeLevel = function(courseName){
 
    levelEditorB.onclick = function () {
 			Entity.clear();
+			deathScreenControl=1;
 			getSavedUserLevels();
 			mainMenu.style.display = 'none';
 			menuWrapper.style.display = "none";
