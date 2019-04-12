@@ -364,9 +364,9 @@ function globalChange(x){
 	let gammaHP;
 	let dadCredit;
 	let workCredit;
-      let land = document.getElementById('LandscapeButton');
-	  let cTime = 0;
-
+    let land = document.getElementById('LandscapeButton');
+	let cTime = 0;
+	let campaignLevelName;
   var Img = {};
   Img.playerLevel = new Image();
   Img.playerLevel.src = "img/player_level.png";
@@ -929,10 +929,11 @@ save.onclick = function () {
             console.log("LEVEL PASS")
 
             if (fromLe == false) {
-		      succsessScreen.style.display = 'inline-block';
+				completeLevel(campaignLevelName);
+		     	succsessScreen.style.display = 'inline-block';
             }
             else {
-                  succsessScreenLE.style.display = 'inline-block';
+                succsessScreenLE.style.display = 'inline-block';
             }
 
 		//menuWrapper.style.display='inline-block'; //Reapperaing menu wrapper
@@ -1042,7 +1043,6 @@ save.onclick = function () {
           }
           screen = 'overworld';
 	  }
-	  let campaignLevelName;
 
 	   // loadCourseLevel  = function(courseName){
 //                 console.log("HERE");
@@ -1093,6 +1093,39 @@ getSystemCampaignLevel = function(courseName){
 	
 }
 
+completeLevel = function(courseName){
+	console.log(getCourses());
+	let courses = getCourses();
+	let unlockedLevel = getUnlockedCourseName(courseName);
+	if(unlockedLevel != 'none'){
+		
+		
+		let socket=io();
+  		socket.emit('loadSystemCourseLevel',{
+			courseName: unlockedLevel
+  		});
+
+		socket.on('systemCourseLevelFound', function(message){
+			let courseLevel = message.courseLevel;
+		
+		if(courseLevel != null){
+			courseLevel.midterm = false;
+			courseLevel.midtermTime = 0;
+			courseLevel.complete = false;
+			courseLevel.grade = 0;
+			courseLevel.bestTime = 0;
+			courses.push(courseLevel);
+			saveCurrentCampaignGame(courses, getInventory());
+			console.log(getCourses());
+		}
+		});
+		
+		
+		
+
+	}
+
+}
 
 
  loadCourseLevel  = function(courseName){
