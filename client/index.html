@@ -610,6 +610,24 @@ function globalChange(x){
             }
 		else if(event.keyCode==keyGrapple)
 			player.grapplePress=false;
+		if(screen=='game'){
+			if(event.keyCode==applyPowerUp){
+				if(player.usePU){
+					player.usePU=false;
+				}
+				else{
+					player.usePU=true;
+				}
+			}
+			else if(event.keyCode==applyWeaponsPowerUp){
+				if(player.useWPU){
+					player.useWPU=false;
+				}
+				else{
+					player.useWPU=true;
+				}
+			}
+		}
 	}
 
 	//update for in game, logic tbd
