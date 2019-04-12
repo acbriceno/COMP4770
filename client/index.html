@@ -190,6 +190,14 @@
 							<button class="button3" id="backCourse">Back</button>
 
       		</div>
+
+                  <div id="winery" style="display:none;">
+
+                                          <h2 id="levelHeading">Welcome to Wanda's Winery</h2>
+                                          <button class="button3" id="GrandmaButton">Go to work</button>
+                                          <button class="button3" id="backCourse">Back</button>
+
+                  </div>
 </div>
 
 
@@ -364,8 +372,9 @@ function globalChange(x){
 	let gammaHP;
 	let dadCredit;
 	let workCredit;
-      let land = document.getElementById('LandscapeButton');
-	  let cTime = 0;
+      //let land = document.getElementById('LandscapeButton');
+	let cTime = 0;
+      //let grand = document.getElementById('GrandmaButton');
 
   var Img = {};
   Img.playerLevel = new Image();
@@ -405,7 +414,7 @@ function globalChange(x){
 
 	let bg="img/math1.png";
 
-      let updateMoney = function() {
+      updateMoney = function() {
             if (workCredit > 0){
                   console.log("Money before: " + money);
                   money = money + 400;
@@ -415,6 +424,16 @@ function globalChange(x){
             else {
                   levelFailed();
             }
+      }
+
+      updateGrandma = function() {
+            console.log("gammaHP before: " + gammaHP);
+            if (gammaHP != 0) {
+                  money = money + 1500;
+                  gammaHP--;
+            }
+            saveCurrentCampaignGame(getCourses(), getInventory());
+            console.log("gammaHP after: " + gammaHP);
       }
 
 
@@ -429,6 +448,10 @@ function globalChange(x){
 				}
                         else if (target == "LandscapeButton") {
                               updateMoney(); // make update money
+                              leaveRoom();
+                        }
+                        else if (target == "GrandmaButton") {
+                              updateGrandma();
                               leaveRoom();
                         }
 				else{
@@ -638,9 +661,14 @@ function globalChange(x){
                         console.log("Entered Work");
                         enterRoom("LAND");
                   }
-                  else if ((player.x > 45 && player.x < 105) && (player.y > 639 && player.y < 650)) {
+                  else if ((player.x > 520 && player.x < 560) && (player.y > 470 && player.y < 525)) {
                         console.log("Entered Grandmas");
                         enterRoom("GRANDMA");
+                  }
+                  else if ((player.x > 45 && player.x < 75) && (player.y > 640 && player.y < 655)) {
+                        console.log("entered winery");
+                        enterRoom("WINE");
+
                   }
             }
 
@@ -1007,9 +1035,10 @@ save.onclick = function () {
 				console.log(message);
 				campaign = message.campaign;
 				console.log(campaign);
-			  gammaHp=Math.floor((Math.random())*4);
-			  gammaHP++;
+			  gammaHP = message.campaign.SaveFile.saves[0].gammaHP;
+                    console.log("gammaHP" + gammaHP);
 			  money=message.campaign.SaveFile.saves[0].money;
+                    console.log("money" + money);
 			  dadCredit=message.campaign.SaveFile.saves[0].dadCredit;
 			  workCredit=message.campaign.SaveFile.saves[0].workCredit;
 			  weaponPowerUp = message.campaign.SaveFile.saves[0].inventory.weaponPowerUps[0].itemName;
@@ -1162,6 +1191,7 @@ save.onclick = function () {
                    philMenu.style.display = 'none';
                    menuWrapper.style.display = "none";
     		       gameDiv.style.display="none";
+                   grandmaHouse.style.display = 'none';
                    landscapingWork.style.display = 'inline-block';
                     //screen = menu;
               }
@@ -1173,9 +1203,22 @@ save.onclick = function () {
                menuWrapper.style.display = "none";
                gameDiv.style.display="none";
                landscapingWork.style.display = 'none';
+               winery.style.display = 'none';
                grandmaHouse.style.display = 'inline-block';
                console.log("Make it to Grandmas")
                 //screen = menu;
+          }
+          else if (roomName == "WINE") {
+                compMenu.style.display = 'none';
+                mathMenu.style.display = 'none';
+                physMenu.style.display = 'none';
+                philMenu.style.display = 'none';
+                menuWrapper.style.display = "none";
+                gameDiv.style.display="none";
+                grandmaHouse.style.display = 'none';
+                landscapingWork.style.display = 'none';
+                winery.style.display = 'inline-block';
+
           }
 
 	  }
@@ -1300,7 +1343,7 @@ save.onclick = function () {
 				saveCurrentGame(userSaves);
 			}else {
 				campaign.SaveFile.saves[0].money = money;
-				campaign.SaveFile.saves[0].gammaHP = gammaHP;
+				campaign.SaveFile.saves[0].gammaHp = gammaHP;
 				campaign.SaveFile.saves[0].dadCredit = dadCredit;
 				campaign.SaveFile.saves[0].workCredit = workCredit;
 				campaign.SaveFile.saves[0].saveDate = Date ();
