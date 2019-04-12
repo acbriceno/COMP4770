@@ -109,7 +109,7 @@
 				<img src="./img/youpassed.png" alt="game logo">
 			</div>
 			<div id="stats">
-				<h2 id="levelHeading">You completed the time in: </h2>
+				<h2 id="passLevelHeading">You completed the time in: </h2>
 
 			</div>
 			<button onclick="aftersuccess()" class = "button3"> Go Back to Campus </button>
@@ -120,7 +120,7 @@
                         <img src="./img/youpassed.png" alt="game logo">
                   </div>
                   <div id="stats">
-                        <h2 id="levelHeading">You completed the time in: </h2>
+                        <h2 id="passLevelHeadingLE">You completed the time in: </h2>
 
                   </div>
                   <button onclick="aftersuccessLE()" class = "button3"> Go Back to Level Editor </button>
@@ -337,8 +337,10 @@ function globalChange(x){
       let fromLe = false;
       let levelSTR;
       let levelW;
-
-
+	  let totAss=0;
+	let grade=0;
+	let compTime=Date.now();
+	
 	let  snd = new Audio("music/Good Will Hunting OST - 02 The Theorem.mp3");
          let  snd2 = new Audio("music/Winterbells Extended Original song.mp3");
 	let  snd3 = new Audio("music/Mario Death Sound Effect.mp3");
@@ -1066,23 +1068,26 @@ save.onclick = function () {
 		gameDiv.style.display='none';
 		signDiv.style.display = 'none';
             console.log("LEVEL PASS")
-
+			gradeCalculator();
+			let elem;
             if (fromLe == false) {
+				elem=document.getElementById("passLevelHeading");
 				completeLevel(campaignLevelName);
 		     	succsessScreen.style.display = 'inline-block';
             }
             else {
+				elem=document.getElementById("passLevelHeadingLE");
                 succsessScreenLE.style.display = 'inline-block';
             }
 
 		//menuWrapper.style.display='inline-block'; //Reapperaing menu wrapper
 		//mainMenu.style.display = 'inline-block';
 		//screen='menu';
-		let compTime=Date.now()-start;
+		compTime=Date.now()-start;
 		console.log('Completed level in '+compTime+' ms.');
 		compTime=compTime/1000;
-		let elem=document.getElementById("levelHeading");
-		let str=elem.innerHTML + compTime;
+		//let elem=document.getElementById("levelHeading");
+		let str='Completed level in '+compTime+"</br>"+"Completed with a grade of :"+grade;
 		elem.innerHTML=str;
 		Entity.clear();
 	}
@@ -1283,8 +1288,12 @@ completeLevel = function(courseName){
 					courseLevel.midterm = false;
 					courseLevel.midtermTime = 0;
 					courseLevel.complete = false;
-					courseLevel.grade = 0;
-					courseLevel.bestTime = 0;
+					if(courseLevel.grade<grade){
+						courseLevel.grade = grade;
+					}
+					if(courseLevel.bestTime<compTime){
+						courseLevel.bestTime = compTime;
+					}
 					courses.push(courseLevel);
 					saveCurrentCampaignGame(courses, getInventory());
 					console.log(getCourses());
@@ -1893,6 +1902,15 @@ completeLevel = function(courseName){
 
       //ctx.fillRect(Player.x, player.y, 20, 20);
 
+	let gradeCalculator=function(){
+		let hpRat=player.hp/player.hpTot;
+		let assRat=1;
+		if(totAss>0){
+			assRat=player.assScore/totAss;
+		}
+		grade=50*hpRat*assRat;
+		grade+=50;
+	}
 </script>
 </body>
 <!-- <style>
