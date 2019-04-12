@@ -461,7 +461,7 @@ function globalChange(x){
 					grandmaHouseAfter.style.display = 'inline-block';
 					grandmaHouse.style.display = 'none';
 				}
-
+                        saveCurrentCampaignGame(getCourses(), getInventory());
 			}
 
       updateGrandma = function() {
@@ -482,6 +482,7 @@ function globalChange(x){
                   money = money + randMoney;
                   dadCredit--;
             }
+            saveCurrentCampaignGame(getCourses(), getInventory());
       }
 
 
@@ -1223,6 +1224,8 @@ getSystemCampaignLevel = function(courseName){
 }
 
 completeLevel = function(courseName){
+      dadCredit++;
+      workCredit++;
 	console.log(getCourses());
 	let courses = getCourses();
 	let unlockedLevel = getUnlockedCourseName(courseName);
