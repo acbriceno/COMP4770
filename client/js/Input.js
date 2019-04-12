@@ -7,6 +7,8 @@ let defaultGrapple=32;
 let defaultweaponPowerUpsChange = 81;
 let defaultpowerUpsChange = 69;
 let defaultChange = 67;
+let defaultApplyWeaponPUP = 88;
+let defaultApplyPUP = 90;
 
 
 let controls = {
@@ -18,12 +20,30 @@ let controls = {
 	change: defaultChange,
 	grapple: defaultGrapple,
 	weaponPowerUpsChange: defaultweaponPowerUpsChange,
-	powerUpsChange: defaultpowerUpsChange
+	powerUpsChange: defaultpowerUpsChange,
+	applyWPUP: defaultApplyWeaponPUP,
+	applyPUP: defaultApplyPUP
 }
 
 updateControls = function(control, input){
-	controls[control] = input;
+	
+	let duplicateCheck = false;
+	for(var value in controls){
+
+		if(input == controls[value]){
+			console.log(input);
+			console.log(" value: " + controls[value]);
+			duplicateCheck = true;
+		}
+	}
+
+	if(!duplicateCheck){
+		controls[control] = input;
+	}
+	
+	//controls[control] = input;
 }
+
 
 outputControls = function(control){
 	let data = String.fromCharCode(control);

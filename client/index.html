@@ -65,7 +65,7 @@
 												</select>
 												<input type="text" id="inputControl" >
 
-												<table id="controlsTable">
+												<table id="controlsTable" class="table-striped table-dark" align="center"	>
 											      <tr>
 											        <th>Action</th>
 											        <th>Control</th>
@@ -350,6 +350,8 @@ function globalChange(x){
 	let keyChange= controls["change"];
 	let weaponPowerUpsChange = controls["weaponPowerUpsChange"];
 	let powerUpsChange = controls["powerUpsChange"];
+	let applyWeaponsPowerUp = controls["applyWPUP"];
+	let applyPowerUp = controls["applyPUP"];
 	let weaponPowerUp;
 	let powerUp;
 	let wPUCount = 0;
@@ -372,10 +374,16 @@ function globalChange(x){
 	let gammaHP;
 	let dadCredit;
 	let workCredit;
+<<<<<<< HEAD
       //let land = document.getElementById('LandscapeButton');
 	let cTime = 0;
       //let grand = document.getElementById('GrandmaButton');
 
+=======
+    let land = document.getElementById('LandscapeButton');
+	let cTime = 0;
+	let campaignLevelName;
+>>>>>>> afbd273906e43fb27ac580074137e1107af3f430
   var Img = {};
   Img.playerLevel = new Image();
   Img.playerLevel.src = "img/player_level.png";
@@ -384,13 +392,17 @@ function globalChange(x){
 	Img.penRight=new Image();
 	Img.penRight.src="img/pen_right.png";
 	Img.philEnemy=new Image();
-	Img.philEnemy.src="img/philEnemy.png";
+	Img.philEnemy.src="img/aristotleOpen.png";
 	Img.mathEnemy=new Image();
 	Img.mathEnemy.src="img/gauss_open.png";
 	Img.phyEnemy=new Image();
 	Img.phyEnemy.src="img/Albert_open.png";
 	Img.csEnemy=new Image();
 	Img.csEnemy.src="img/turing_open.png";
+	Img.ass=new Image();
+	Img.ass.src="img/assigment.png";
+	Img.final=new Image();
+	Img.final.src="img/final.png";
 	Img.platform=new Image();
 	Img.platform.src="img/tile.png";
 	Img.breakable=new Image();
@@ -399,6 +411,10 @@ function globalChange(x){
 	Img.midterm.src="img/midterm.png";
 	Img.upgrade=new Image();
 	Img.upgrade.src="img/powerup.png";
+	Img.gUpgrade=new Image();
+	Img.gUpgrade.src="img/gun_up.png";
+	Img.bUpgrade=new Image();
+	Img.bUpgrade.src="img/melee_up.png";
 	Img.bgMath=new Image();
 	Img.bgMath.src="img/math1.png";
 	Img.bgPhy=new Image();
@@ -413,8 +429,13 @@ function globalChange(x){
 	Img.campus.src="img/campus.png";
 
 	let bg="img/math1.png";
+<<<<<<< HEAD
 
       updateMoney = function() {
+=======
+	let deathScreenControl = 0;
+      let updateMoney = function() {
+>>>>>>> afbd273906e43fb27ac580074137e1107af3f430
             if (workCredit > 0){
                   console.log("Money before: " + money);
                   money = money + 400;
@@ -538,7 +559,7 @@ function globalChange(x){
 			if(mouseY>18&&mouseY<738&&mouseX>0&&mouseX<1280){
 				mousePos.x=mouseX;
 				// mousePos.y=mouseY-3+moveScreen.left*64;
-				mousePos.y = mouseY-20;
+				mousePos.y = mouseY;
 				//console.log("mouseX: " + mouseX + "mouseY: " + mouseY);
 				leDraw=true;
 			}
@@ -627,7 +648,7 @@ function globalChange(x){
 
 	//update for in game, logic tbd
 	update=function(){
-			console.log(player.x + "and" + player.y);
+			//console.log(player.x + "and" + player.y);
             if (screen == 'overworld' && !inTown) {
                   campusBoundaries();
                   if (player.x < -25) {
@@ -704,7 +725,8 @@ function globalChange(x){
 				if(screen=='game'){
 					ctxui.strokeText("HP: "+player.hp,50,50);
 					cTime= (cTime +Date.now() - start)/1000;
-					ctxui.strokeText("Time: "+cTime+" seconds",50,170);
+					let timeRnd=cTime.toFixed(2);
+					ctxui.strokeText("Time: "+timeRnd+" seconds",50,170);
 					if(campaign != null){
 						ctxui.fillText("WPU :" + weaponPowerUp, 50, 90);
 						ctxui.fillText("PU :" + powerUp, 50, 130);
@@ -868,7 +890,16 @@ function globalChange(x){
 			campaignInput.style.display = 'none';
 		}
 
-
+		if (screen == "playerProfile"){
+			playerProfile.style.display = 'none';
+			mainMenu.style.display = 'inline-block';
+		}
+		
+		if (screen == "newGame"){
+			mainMenu.style.display = 'inline-block';
+			campaignInput.style.display = "none";
+		}
+		
 
 
 		if (screen=="le" || screen =="game" || screen=="overworld"){
@@ -957,10 +988,11 @@ save.onclick = function () {
             console.log("LEVEL PASS")
 
             if (fromLe == false) {
-		      succsessScreen.style.display = 'inline-block';
+				completeLevel(campaignLevelName);
+		     	succsessScreen.style.display = 'inline-block';
             }
             else {
-                  succsessScreenLE.style.display = 'inline-block';
+                succsessScreenLE.style.display = 'inline-block';
             }
 
 		//menuWrapper.style.display='inline-block'; //Reapperaing menu wrapper
@@ -1008,6 +1040,7 @@ save.onclick = function () {
 	}
 
       newGame.onclick = function() {
+		  screen ="newGame";
 		  campaignInput.style.display = "flex";
 		  mainMenu.style.display ="none";
       }
@@ -1071,7 +1104,6 @@ save.onclick = function () {
           }
           screen = 'overworld';
 	  }
-	  let campaignLevelName;
 
 	   // loadCourseLevel  = function(courseName){
 //                 console.log("HERE");
@@ -1103,6 +1135,76 @@ save.onclick = function () {
 
 
 
+
+
+
+
+
+
+getSystemCampaignLevel = function(courseName){
+			let socket=io();
+	  		socket.emit('loadSystemCourseLevel',{
+				courseName: courseName
+	  		});
+
+			socket.on('systemCourseLevelFound', function(message){
+				//console.log(message.courseLevel);
+				return message.courseLevel;
+			});
+	
+}
+
+completeLevel = function(courseName){
+	console.log(getCourses());
+	let courses = getCourses();
+	let unlockedLevel = getUnlockedCourseName(courseName);
+	let control = 0;
+	for(let x=0; x<courses.length;x++){
+		if(courses[x] != null){
+			if(courses[x].Levelname == courseName){
+				courses[x].complete = true;
+			}
+		
+			if(courses[x].Levelname == unlockedLevel){
+				control = 1;
+			}
+		}
+	}
+	
+	if(unlockedLevel != 'none'){
+		
+		
+			if(control == 0){
+				let socket=io();
+		  		socket.emit('loadSystemCourseLevel',{
+					courseName: unlockedLevel
+		  		});
+
+				socket.on('systemCourseLevelFound', function(message){
+					let courseLevel = message.courseLevel;
+		
+				if(courseLevel != null){
+					courseLevel.midterm = false;
+					courseLevel.midtermTime = 0;
+					courseLevel.complete = false;
+					courseLevel.grade = 0;
+					courseLevel.bestTime = 0;
+					courses.push(courseLevel);
+					saveCurrentCampaignGame(courses, getInventory());
+					console.log(getCourses());
+				}
+				});
+			}
+		
+
+	}
+	else{
+		saveCurrentCampaignGame(courses, getInventory());
+	}
+
+}
+
+
  loadCourseLevel  = function(courseName){
           console.log("HERE");
 
@@ -1116,24 +1218,37 @@ save.onclick = function () {
 	campaignInput.style.display="none";
 	start=Date.now();
 	campaignLevelName = courseName;
-
+	
 	for(let x=0; x<courses.length;x++){
 		if(courses[x] != null){
 			if(courseName == courses[x].Levelname){
 				if(courses[x].midterm == true){
 					//cTime = 8;//courses[x].midtermTime;
+					deathScreenControl =1;
+					loadLevel(courses[x].Level, courses[x].Width);
+		          	console.log("Makes it to loaded level");
+		            screen='game';
+				}else{
+					if((money -1000) >= 0){
+						money = money - 1000
+						saveCurrentCampaignGame(courses, getInventory());
+						console.log("dbtime" + courses[x].midtermTime);
+						console.log("time" + cTime);
+						deathScreenControl =1;
+						loadLevel(courses[x].Level, courses[x].Width);
+			          	console.log("Makes it to loaded level");
+			            screen='game';
+					}
 				}
-				console.log("dbtime" + courses[x].midtermTime);
-				console.log("time" + cTime);
-				loadLevel(courses[x].Level, courses[x].Width);
+
+				//deathScreenControl = 0;	
 			}
 		}
 	}
 
 
 //	loadLevel('00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000l0000000000000000000000000000000000000000000000000000e0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000p00000000000000e000000000000000000000000000000000000000000000000000000m0000000000000a0000000000000000000000000000000000000000000000000000000000000000000000000000000e000000000000000000000000000000000000000000a000000000bb0b0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000ffffff0000000000000000bbbb0bbbbb000b00000000ffff000000000000000000000000000000000bbbbbb0000ffff0fff0000000000000000000000000000000000000000000000000000000000000000000000f0000000000000000000000f000000000000000000000000000000000000000000000000000000000000000000000000000000000b0e000000000000000000ff0000000000000000000ff000000e000000000000f0ff00000000000000000000000000000fffff0000000000000000000f0fff000000000000000000000b00b0000000000000000000fff00000000ffffff0000000000000000000000000000000000000000000ffffffffffffff00fa00f00000fff000000000000000000000000000000000000bbbbb00b00000be00000000ffff0000000000000000f0f0f0000000000000000000000000000000000000000000000000000f000f00000befe0000000000000000000000000000000000bbb0a000bbfffffbbb000000ffff0000000000000000000000000ee0000000000000000000fef00f0000000000000000000f0f000000000fff00000000f00000000f00f00000fffffffffffffffffffffffffffffffffffffffffffff000000ffffffffffffffffffffff00fffffffffffffffffffffffffffffffffffffffffffffffffffff000ffffffffffffffffffw',148);
-            console.log("Makes it to loaded level");
-            screen='game';
+
 
 
 }
@@ -1155,6 +1270,7 @@ save.onclick = function () {
 			profile.onclick= function  () {
             playerProfile.style.display = 'inline-block';
 						mainMenu.style.display = 'none';
+						screen='playerProfile';
 						console.log("profile hit");
 						buildUserInputDropDown();
 						buildControlsTable();
@@ -1315,6 +1431,7 @@ save.onclick = function () {
 					count = x;
 					weaponPowerUp = userSaves[x].inventory.weaponPowerUps[0].itemName;
 					powerUp = userSaves[x].inventory.powerUps[0].itemName;
+					deathScreenControl = 1;
 					loadOverworld();
 
 				}
@@ -1482,6 +1599,7 @@ save.onclick = function () {
 
    levelEditorB.onclick = function () {
 			Entity.clear();
+			deathScreenControl=1;
 			getSavedUserLevels();
 			mainMenu.style.display = 'none';
 			menuWrapper.style.display = "none";
