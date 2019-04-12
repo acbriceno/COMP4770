@@ -122,6 +122,7 @@ Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
 	self.ySpd=0;
 	self.KB=false;
 	self.KBCnt=0;
+	self.KBDir=0;
 	self.invinc=false;
 	self.jumped=false;
 
@@ -199,14 +200,19 @@ Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
 		//console.log(self.ySpd);
 		if(self.KB){
 			self.KBCnt++;
-			console.log(self.KBCnt);
+			console.log(self.KBDir);
 			if(self.KBCnt==20){
 				self.KB=false;
 				self.KBCnt=0;
 				self.invinc=false;
 			}
 			self.y-=7;
-			self.x-=4;
+			if(self.KBDir==0){
+				self.x+=4;
+			}
+			else{
+				self.x-=4;
+			}
 		}
 		let leftBump={x:self.x-32,y:self.y,width:10,height:10};
 		let rightBump={x:self.x+32,y:self.y,width:10,height:10};
@@ -397,7 +403,7 @@ Enemy.generate=function(x,y){
 	let h=64;
 	let w=64;
 	let id=Math.random();
-	let hp=10;
+	let hp=1000;
 	let atkSpd=0;
 	let dmg=1;
 	//using player img as placeholder
@@ -468,9 +474,9 @@ Midterm=function(id,x,y,w,h,img,hp,atkSpd,dmg){
             self.remove=true;
             //console.log(saveLevel(username, "comp1000", 0, mousePos.xma, mousePos.ymax));
 			if(fromLe==false){
-				console.log(getCourses());
+				//console.log(getCourses());
 				let courses = getCourses();
-				console.log(campaignLevelName);
+				//console.log(campaignLevelName);
 				for(let x=0; x<courses.length;x++){
 					if(courses[x] != null){
 						if(campaignLevelName == courses[x].Levelname){
@@ -566,12 +572,15 @@ Player=function(x,y){
 	self.weap=1;
 	self.meleeCnt=0;
 	self.melee=false;
-	invinc=false;
+	self.usePU=false;
+	self.useWPU=false;
 
 	let super_update=self.update;
 	self.update=function(){
 		super_update();
 		if(screen=='game'){
+			//console.log(self.usePU);
+			//console.log(self.useWPU);
 			if(self.rightPress||self.leftPress){
 				self.spriteCnt+=0.2;
 			}
@@ -596,6 +605,12 @@ Player=function(x,y){
 				self.invinc=false;
 			}
 			self.dmgCollision();
+			if(self.usePU){
+				
+			}
+			if(self.useWPU){
+				
+			}
 		}
 		if(screen=='overworld'){
 			if(self.rightPress||self.leftPress||self.upPress||self.downPress){
@@ -688,18 +703,28 @@ Player=function(x,y){
 
 	let super_performAttack=self.performAttack;
 	self.performAttack=function(){
-		if(self.weap==1){
-			super_performAttack();
+		if(self.usePU){
+			
 		}
 		else{
-			self.melee=true;
-			self.meleeCnt+=0.2;
-			console.log(self.meleeCnt);
-			if(self.meleeCnt>=4.0){
-				self.melee=false;
-				self.meleeCnt=0;
+			if(self.useWPU){
+				
 			}
-			//console.log(self.meleeCnt);
+			else{
+				if(self.weap==1){
+					super_performAttack();
+				}
+				else{
+					self.melee=true;
+					self.meleeCnt+=0.2;
+					console.log(self.meleeCnt);
+					if(self.meleeCnt>=4.0){
+						self.melee=false;
+						self.meleeCnt=0;
+					}
+					//console.log(self.meleeCnt);
+				}
+			}
 		}
 	}
 	self.dmgCollision=function(){
@@ -710,12 +735,24 @@ Player=function(x,y){
 				//console.log('almost working');
 				if(self.melee){
 					if(e.invinc==false){
+						if(self.x>e.x){
+							e.KBDir=0;
+						}
+						else{
+							e.KBDir=1;
+						}
 						e.hp-=self.dmg;
 						e.KB=true;
 					}
 				}
 				else{
 					if(self.invinc==false){
+						if(self.x>e.x){
+							e.KBDir=1;
+						}
+						else{
+							e.KBDir=0;
+						}
 						self.hp-=e.dmg;
 						self.KB=true;
 					}
@@ -905,7 +942,7 @@ Platform.update=function(){
 		let p = Platform.list[key4];
 		p.update();
 		if(p.smash){
-			console.log(p.hp);
+			//console.log(p.hp);
 			for(let key69 in Projectile.list){
 				if(p.testCollision(Projectile.list[key69])){
 					p.hp--;
@@ -916,7 +953,7 @@ Platform.update=function(){
 			}
 		}
 		if(p.remove){
-			console.log('should remove platform');
+			//console.log('should remove platform');
 			delete Platform.list[key4];
 		}
 	}
