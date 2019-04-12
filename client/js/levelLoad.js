@@ -3,6 +3,7 @@ loadLevel=function(level,width){
 	Entity.clear();
       console.log("Load level called");
 	width++;
+	let yCnt=0;
 
 	console.log(Entity.list);
 	let len=level.length;
@@ -46,8 +47,12 @@ loadLevel=function(level,width){
 			deathY=y/64;
                   console.log("deathY: " + deathY);
 		}
+		yCnt=y;
 	}
 
+	mousePos.xmax=width;
+	mousePos.ymax=yCnt;
+	
 	console.log(facCode)
 
 }

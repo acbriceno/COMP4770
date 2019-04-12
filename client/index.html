@@ -183,13 +183,20 @@
 
       		</div>
 
-                  <div id="grandmaHouse" style="display:none;">
+              <div id="grandmaHouse" style="display:none;">
 
-							<h2 id="levelHeading">Hi Sweetie!</h2>
+							<h2 id="blacklevelHeading">Hi Sweetie!</h2>
 							<button class="button3" id="GrandmaButton">Ask for Money</button>
 							<button class="button3" id="backCourse">Back</button>
 
-      		</div>
+					</div>
+					
+					<div id="grandmaHouseAfter" style="display:none;">
+
+						<h2 id="leavelHeading">She is gone now...</h2>
+						<button class="button3" id="backCourse">Back</button>
+
+				</div>
 
                   <div id="winery" style="display:none;">
 
@@ -646,11 +653,29 @@ function globalChange(x){
             }
 		else if(event.keyCode==keyGrapple)
 			player.grapplePress=false;
+		if(screen=='game'){
+			if(event.keyCode==applyPowerUp){
+				if(player.usePU){
+					player.usePU=false;
+				}
+				else{
+					player.usePU=true;
+				}
+			}
+			else if(event.keyCode==applyWeaponsPowerUp){
+				if(player.useWPU){
+					player.useWPU=false;
+				}
+				else{
+					player.useWPU=true;
+				}
+			}
+		}
 	}
 
 	//update for in game, logic tbd
 	update=function(){
-			console.log(player.x + "and" + player.y);
+			//console.log(player.x + "and" + player.y);
             if (screen == 'overworld' && !inTown) {
                   campusBoundaries();
                   if (player.x < -25) {
