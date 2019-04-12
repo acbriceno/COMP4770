@@ -11,7 +11,6 @@ Entity=function(type,id,x,y,w,h,img){
 		h:h,
 		img:img,
 	};
-	self.isActor=false;
 	self.update=function(){
 		self.updatePosition();
 		self.draw();
@@ -121,7 +120,10 @@ Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
 	self.weap=1;
 	self.xSpd=0;
 	self.ySpd=0;
-	self.isActor=true;
+	self.KB=false;
+	self.KBCnt=0;
+	self.invinc=false;
+	self.jumped=false;
 
 	/*self.draw=function() {
 		if(screen=='game'){
@@ -195,6 +197,17 @@ Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
 
             }
 		//console.log(self.ySpd);
+		if(self.KB){
+			self.KBCnt++;
+			console.log(self.KBCnt);
+			if(self.KBCnt==20){
+				self.KB=false;
+				self.KBCnt=0;
+				self.invinc=false;
+			}
+			self.y-=7;
+			self.x-=4;
+		}
 		let leftBump={x:self.x-32,y:self.y,width:10,height:10};
 		let rightBump={x:self.x+32,y:self.y,width:10,height:10};
 		let upBump={x:self.x,y:self.y-32,width:10,height:10};
@@ -203,6 +216,7 @@ Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
 			if(self.testCollisionBB(downBump,Platform.list[key11])){
 				moveG=false;
 				self.ySpd=0;
+				self.jumped=false;
 			}
 		}
 		if(moveG){
@@ -239,14 +253,17 @@ Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
 			}
 		}
 		if(screen=='game'){
-			if(self.upPress){
+			if(self.upPress&&self.jumped==false){
 				for(let key11 in Platform.list){
 					if(self.testCollisionBB(upBump,Platform.list[key11])){
 						move=false;
 					}
 					if(self.ySpd!==0){
 							move=false;
-						}
+					}
+					else{
+						self.jumped=true;
+					}
 				}
 				if(move){
 					self.ySpd=3*self.maxSpd;
@@ -309,6 +326,11 @@ Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
 		}
 	}
 
+	self.dmgKB=function(){
+		//console.log('even closer');
+		
+	}
+	
 	return self;
 
 }
@@ -339,8 +361,10 @@ Enemy=function(id,x,y,w,h,img,hp,atkSpd,dmg,code){
 
 		self.rightPress = diffX > 3;
 		self.leftPress = diffX < -3;
-		self.downPress = diffY > 3;
-		self.upPress = diffY < -3;
+		if(self.code=='m'||self.code=='l'){
+			self.downPress = diffY > 3;
+			self.upPress = diffY < -3;
+		}
 	}
 	self.onDeath=function(){
 		self.remove=true;
@@ -374,7 +398,7 @@ Enemy.generate=function(x,y){
 	let w=64;
 	let id=Math.random();
 	let hp=10;
-	let atkSpd=0.5;
+	let atkSpd=0;
 	let dmg=1;
 	//using player img as placeholder
 	if(FAC=="phil"){
@@ -430,7 +454,7 @@ Assignment.generate=function(x,y){
 	let w=64;
 	let id=Math.random();
 	let hp=30;
-	let atkSpd=1;
+	let atkSpd=0.2;
 	let dmg=3;
 	let img=Img.ass;
 	Assignment(id,x,y,w,h,img,hp,atkSpd,dmg);
@@ -443,21 +467,23 @@ Midterm=function(id,x,y,w,h,img,hp,atkSpd,dmg){
       self.onDeath=function(){
             self.remove=true;
             //console.log(saveLevel(username, "comp1000", 0, mousePos.xma, mousePos.ymax));
-            console.log(getCourses());
-			let courses = getCourses();
-			console.log(campaignLevelName);
-			for(let x=0; x<courses.length;x++){
-				if(courses[x] != null){
-					if(campaignLevelName == courses[x].Levelname){
-						//console.log(player.x + "and" + player.y);
-						let levelCode = saveLevel(username, courses[x].Levelname, 0, courses[x].Width, courses[x].Height);
-						courses[x].Level = levelCode.Level;
-						courses[x].midterm = true;
-						courses[x].midtermTime = cTime;
-						courses[x].grade = 100;// need fxn to calculate grade
-						//console.log(saveLevel(username, courses[x].Levelname, 0, courses[x].Width, courses[x].Height));
+			if(fromLe==false){
+				console.log(getCourses());
+				let courses = getCourses();
+				console.log(campaignLevelName);
+				for(let x=0; x<courses.length;x++){
+					if(courses[x] != null){
+						if(campaignLevelName == courses[x].Levelname){
+							//console.log(player.x + "and" + player.y);
+							let levelCode = saveLevel(username, courses[x].Levelname, 0, courses[x].Width, courses[x].Height);
+							courses[x].Level = levelCode.Level;
+							courses[x].midterm = true;
+							courses[x].midtermTime = cTime;
+							courses[x].grade = 100;// need fxn to calculate grade
+							//console.log(saveLevel(username, courses[x].Levelname, 0, courses[x].Width, courses[x].Height));
 						
-						saveCurrentCampaignGame(courses, getInventory());
+							saveCurrentCampaignGame(courses, getInventory());
+						}
 					}
 				}
 			}
@@ -486,7 +512,7 @@ Midterm.generate=function(x,y){
 	let w=64;
 	let id=Math.random();
 	let hp=50;
-	let atkSpd=1;
+	let atkSpd=0.5;
 	let dmg=5;
 	let img=Img.midterm;
 	Midterm(id,x,y,w,h,img,hp,atkSpd,dmg);
@@ -521,7 +547,7 @@ Final.generate=function(x,y){
 	let h=64;
 	let w=64;
 	let id=Math.random();
-	let hp=10;
+	let hp=100;
 	let atkSpd=1;
 	let dmg=7;
 	let img=Img.final;
@@ -530,7 +556,7 @@ Final.generate=function(x,y){
 
 Player=function(x,y){
 	let img=Img.playerLevel;
-	let self=Actor('Player','myId',x,y,64,64,img,30,5,5,'p');
+	let self=Actor('Player','myId',x,y,64,64,img,30,3,5,'p');
 	self.maxSpd=5;
 	self.lMouseClick=false;
 	self.rMouseClick=false;
@@ -540,6 +566,7 @@ Player=function(x,y){
 	self.weap=1;
 	self.meleeCnt=0;
 	self.melee=false;
+	invinc=false;
 
 	let super_update=self.update;
 	self.update=function(){
@@ -562,6 +589,13 @@ Player=function(x,y){
 				self.performAttack();
 				//console.log('is get here?');
 			}
+			if(self.KB){
+				self.invinc=true;
+			}
+			else{
+				self.invinc=false;
+			}
+			self.dmgCollision();
 		}
 		if(screen=='overworld'){
 			if(self.rightPress||self.leftPress||self.upPress||self.downPress){
@@ -668,7 +702,27 @@ Player=function(x,y){
 			//console.log(self.meleeCnt);
 		}
 	}
-	
+	self.dmgCollision=function(){
+		for(let key4770 in Enemy.list){
+			let e=Enemy.list[key4770];
+			
+			if(self.testCollision(e)){
+				//console.log('almost working');
+				if(self.melee){
+					if(e.invinc==false){
+						e.hp-=self.dmg;
+						e.KB=true;
+					}
+				}
+				else{
+					if(self.invinc==false){
+						self.hp-=e.dmg;
+						self.KB=true;
+					}
+				}
+			}
+		}
+	}
 	self.onDeath=function(){
 		if(screen=='game'){
 			levelFailed();
@@ -791,20 +845,21 @@ Upgrade.list={}
 
 Upgrade.update=function(){
 	for(let key5 in Upgrade.list){
-		Upgrade.list[key5].update();
-		let collision=player.testCollision(Upgrade.list[key5]);
+		let u=Upgrade.list[key5];
+		u.update();
+		let collision=player.testCollision(u);
 		if(collision){
-			//add information fro what happens based on what kind of upgrade
-			Upgrade.list[key5].remove = true;
+			
+			u.remove = true;
 		}
-            if (Upgrade.list[key5].remove) {
+            if (u.remove) {
                   delete Upgrade.list[key5];
             }
 	}
 }
 
 Upgrade.generate=function(enemy){
-      console.log("Upgrade.generate");
+    //console.log("Upgrade.generate");
 	let x=enemy.x;
 	let y=enemy.y;
 	let h=32;
@@ -812,16 +867,23 @@ Upgrade.generate=function(enemy){
 	let id=Math.random();
 	let randy=Math.random();
 	let cat;
+	let img=Img.upgrade;
 	let img1=Img.gUpgrade;
 	let img2=Img.bUpgrade;
-	if (randy<0.5){
+	if (randy<0.3){
 		cat='gun';
 		Upgrade(id,x,y,w,h,cat,img1);
 	}
-	else{
+	else if(randy>0.7){
 		cat='book';
 		Upgrade(id,x,y,w,h,cat,img2);
 	}
+	else{
+		cat='gen';
+		Upgrade(id,x,y,w,h,cat,img);
+	}
+	console.log(cat);
+	
 
 }
 
