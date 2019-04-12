@@ -1086,6 +1086,7 @@ save.onclick = function () {
 				elem=document.getElementById("passLevelHeading");
 				completeLevel(campaignLevelName);
 		     	succsessScreen.style.display = 'inline-block';
+				completeLevel(campaignLevelName);
             }
             else {
 				elem=document.getElementById("passLevelHeadingLE");
@@ -1276,6 +1277,7 @@ completeLevel = function(courseName){
 		if(courses[x] != null){
 			if(courses[x].Levelname == courseName){
 				courses[x].complete = true;
+				//courses[x].bestTime = 
 			}
 
 			if(courses[x].Levelname == unlockedLevel){
@@ -1308,10 +1310,11 @@ completeLevel = function(courseName){
 					}
 					courses.push(courseLevel);
 					saveCurrentCampaignGame(courses, getInventory());
-					console.log(getCourses());
+
 				}
 				});
 			}
+			
 
 
 	}
@@ -1322,7 +1325,10 @@ completeLevel = function(courseName){
 }
 
 
+
  loadCourseLevel  = function(courseName){
+	var gotInLevel = false;
+	var gotMoney = false;
           console.log("HERE");
 
 		  let courses = getCourses();
@@ -1339,14 +1345,21 @@ completeLevel = function(courseName){
 	for(let x=0; x<courses.length;x++){
 		if(courses[x] != null){
 			if(courseName == courses[x].Levelname){
+				gotInLevel = true;
 				if(courses[x].midterm == true){
-					//cTime = 8;//courses[x].midtermTime;
+<<<<<<< HEAD
+					start = start+courses[x].midtermTime;
+					gotMoney = true;
+=======
+					start = Date.now()-courses[x].midtermTime;
+>>>>>>> 650066bc5960f51a4300a5602b6ea58f38873782
 					deathScreenControl =1;
 					loadLevel(courses[x].Level, courses[x].Width);
 		          	console.log("Makes it to loaded level");
 		            screen='game';
 				}else{
 					if((money -1000) >= 0){
+						gotMoney = true;
 						money = money - 1000
 						saveCurrentCampaignGame(courses, getInventory());
 						console.log("dbtime" + courses[x].midtermTime);
@@ -1357,10 +1370,17 @@ completeLevel = function(courseName){
 			            screen='game';
 					}
 				}
-
 				//deathScreenControl = 0;
 			}
 		}
+	}
+
+	if(!gotInLevel){
+		alert("You don't meet the prerequisites!");
+	}
+
+	else if(!gotMoney){
+		alert("You don't have enough money!");
 	}
 
 
