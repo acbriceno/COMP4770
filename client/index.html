@@ -340,7 +340,7 @@ function globalChange(x){
 	  let totAss=0;
 	let grade=0;
 	let compTime=Date.now();
-	
+
 	let  snd = new Audio("music/Good Will Hunting OST - 02 The Theorem.mp3");
          let  snd2 = new Audio("music/Winterbells Extended Original song.mp3");
 	let  snd3 = new Audio("music/Mario Death Sound Effect.mp3");
@@ -487,7 +487,7 @@ function globalChange(x){
       updateDad = function() {
             console.log("dadCredit before: " + dadCredit);
             if (dadCredit != 0) {
-                  let randMoney = Math.floor(Math.random() * (400 - 50 + 1)) + 50;
+                  let randMoney = Math.floor(Math.random() * (800 - 400 + 1)) + 400;
                   console.log("Got " + randMoney + " from Dad!");
                   money = money + randMoney;
                   dadCredit--;
