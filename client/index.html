@@ -688,7 +688,7 @@
 
         //update for in game, logic tbd
         update = function() {
-            console.log(player.x + "and" + player.y);
+            //console.log(player.x + "and" + player.y);
             if (screen == 'overworld' && !inTown) {
                 campusBoundaries();
                 if (player.x < -25) {
@@ -696,16 +696,12 @@
                     player.x = 1200;
                 }
                 if ((player.x > 630 && player.x < 690) && (player.y > 160 && player.y < 180)) {
-                    console.log("Entered CS Building");
                     enterRoom("COMP");
                 } else if ((player.x > 940 && player.x < 980) && (player.y > 190 && player.y < 210)) {
-                    console.log("Entered Physics Building");
                     enterRoom("PHYS");
                 } else if ((player.x > 960 && player.x < 1050) && (player.y > 650 && player.y < 670)) {
-                    console.log("Entered Math Building");
                     enterRoom("MATH");
                 } else if ((player.x > 640 && player.x < 670) && (player.y > 645 && player.y < 670)) {
-                    console.log("Entered Philosophy Building");
                     enterRoom("PHIL");
                 }
             } else if (inTown && screen == 'overworld') {
@@ -715,20 +711,14 @@
                     player.x = 25;
                 }
                 if ((player.x < 140 && player.x > 60) && (player.y < 435 && player.y > 295)) {
-                    console.log("Entered Work");
                     enterRoom("LAND");
                 } else if ((player.x > 520 && player.x < 560) && (player.y > 470 && player.y < 525)) {
-                    console.log("Entered Grandmas");
                     enterRoom("GRANDMA");
                 } else if ((player.x > 45 && player.x < 75) && (player.y > 640 && player.y < 655)) {
-                    console.log("entered winery");
                     enterRoom("WINE");
-
                 } else if ((player.x > 285 && player.x < 320) && (player.y > 440 && player.y < 455)) {
-                    console.log("entered Dad's");
                     enterRoom("DAD");
                 } else if ((player.x > 635 && player.x < 660) && (player.y > 115 && player.y < 130)) {
-                    console.log("Fishing");
                     enterRoom("FISH");
                 }
             }
@@ -1181,7 +1171,7 @@
                 if (courses[x] != null) {
                     if (courses[x].Levelname == courseName) {
                         courses[x].complete = true;
-                        //courses[x].bestTime = 
+                        //courses[x].bestTime =
                     }
 
                     if (courses[x].Levelname == unlockedLevel) {
@@ -1347,7 +1337,6 @@
                 dadHouse.style.display = 'none';
                 fishHouse.style.display = 'none';
                 checkonGrandma();
-                console.log("Make it to Grandmas")
                     //screen = menu;
             } else if (roomName == "WINE") {
                 compMenu.style.display = 'none';

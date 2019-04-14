@@ -1,5 +1,4 @@
 saveLevel=function(username,levelname,difficulty,w,h){
-      console.log("saveLevel gets called")
 	level="";
 	let x=0;
 	let y=0;
@@ -9,11 +8,9 @@ saveLevel=function(username,levelname,difficulty,w,h){
 	console.log(fac)
 	for(let i=0;i<(w+1)*(h+1);i++){
 		let code="0";
-		console.log("x: "+x+", y: "+y);
 		for(let key in Entity.list){
 			if(Entity.list[key].x==x&&Entity.list[key].y==y){
 				code=Entity.list[key].code;
-				console.log("code : " + code);
 			}
 		}
 		level+=code;
