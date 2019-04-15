@@ -1,7 +1,12 @@
+// levelEditor provides index with the level editor functionality. It provides
+// the codes needed to recognize which entiry to draw to each coodinate block.
+// also provides faculty codes and enables scroling to make large levels.
+
+
 let mousePos;
 let currentLevel;
 let moveScreen;
-
+// calculates mouse position and adjusts based on 64px grid
 MousePos = function(x,y,xoff,yoff,code) {
     let self ={x:x,
 		y:y,
@@ -19,8 +24,6 @@ MousePos = function(x,y,xoff,yoff,code) {
 		let y=self.y-(self.yoff*64);
 		x=(Math.floor(x/64))*64;
 		y=(Math.floor(y/64))*64;
-		//console.log('mousepos.draw is working');
-        //console.log(x + "," + y);
 		if((x/64)>self.xmax){
 			self.xmax=x/64;
 		}
@@ -37,7 +40,7 @@ MousePos = function(x,y,xoff,yoff,code) {
 				e.remove=true;
 			}
 		}
-			
+
 		if(self.code=='p'){
 			//console.log('player should draw');
 			player.x=x;
