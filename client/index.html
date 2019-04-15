@@ -1,8 +1,13 @@
 <!-- COMP 4770 Final Project Submission
-      Authors and student numbers:
+      Authors and student numbers: Matthew Gilchrist, 200942688, 
 
       This program uses HTML5, JavaScript, and CSS to utilize the Bootstrap library,
-      Express.js and MongoDB to create a game that runs in the Google Chrome browser.
+      Express.js and MongoDB to create a game that runs in the Google Chrome browser
+      on an HTML5 canvas. For each player a unique collection within the database
+      is created and the progress of the player is stored. Also included in the
+      database is the custom levels that have been created by the user. Therefore
+      this game allows the player to progress through levels using different
+      weapons while facing different kinds of enemeies.
 
       This game is called Uni_X and it explores the life of a student while attending
       university. The player will experience various challenges that come with
@@ -27,7 +32,7 @@
       because with each request for money she becomes more worried and she won't
       be around forever.
 
-      Each
+
       -->
 <!DOCTYPE HTML>
 <HTML>
@@ -49,14 +54,9 @@
 <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
 
 <body>
-
+    <!--  The following divs are for the various menu screens in the game  -->
     <div id="menuWrapper">
-        <!-- wrapper for centering Menus -->
-
-        <!--- Sign in Div Below -->
-
         <div id="menuDiv">
-            <!-- This is for the main menus -->
             <div id="logoIMG">
                 <img src="./img/Uni_X.png" alt="game logo">
             </div>
@@ -89,13 +89,8 @@
                 <button class="button3" id="startNewGame">Start New Game</button>
             </div>
 
-            <!-- All files had the same id
-												Will need to connect to database -->
             <div id="loadFile" style="display:none;">
                 <p>Campaigns</p>
-                <!-- <button id="file">File One</button>
-													<button id="file">File Two</button>
-													<button id="file">File Three</button> -->
             </div>
 
             <div id="playerProfile" style="display:none;">
@@ -125,7 +120,9 @@
         </div>
 
     </div>
-
+      <!-- The following divs are for success and failure screens for <thead>
+           level editor and for campaign gameplay.
+      -->
     <div id="deathScreen" style="display:none;">
         <div id="logoIMG">
             <img src="./img/FAIL.png" alt="game logo">
@@ -161,7 +158,9 @@
         </div>
         <button onclick="aftersuccessLE()" class="button3"> Go Back to Level Editor </button>
     </div>
-
+    <!--This coursesButtonGroup div houses the level selection of each of the
+        faculties as well as the main places of work.
+    -->
     <div id="coursesButtonGroup">
         <div id="mathMenu" style="display:none;">
 
@@ -210,7 +209,9 @@
             <button class="button3" id="backCourse">Back</button>
 
         </div>
-
+        <!-- The following divs are the menus for the various sources of income
+            in the game
+        -->
         <div id="landscapingWork" style="display:none;">
 
             <h2 id="levelHeading">Welcome to your Dad's Landscaping</h2>
@@ -258,7 +259,7 @@
 
         </div>
     </div>
-
+    <!-- Main game div -->
     <div id="gameDiv" style="display:none;">
         <button class="specialBack" onclick="backMainMenu()">Back</button>
         <div id="game" style="position:absolute;width:1280px;height:720px">
@@ -269,13 +270,11 @@
 
     <script>
         var globalValueButton = "null"
-
         function globalChange(x) {
-            console.log(x)
             globalValueButton = x;
         }
     </script>
-
+    <!-- Level Editor div -->
     <div id="levelEditor" style="display:none;">
         <div id="editor" style="position:absolute;width:1280px;height:720px;">
             <canvas id="ctxLE" width="1280" height="720" style="position:absolute;border:1px solid #000000;"></canvas>
@@ -344,14 +343,6 @@
 
     </div>
 
-    <!-- <div id="selections" style ="display:none;">
-      <select>
-            <option value="asset1">asset1</option>
-            <option value="asset2">asset2</option>
-            <option value="asset3">asset3</option>
-      </select>
-</div> -->
-
     <script>
         var username = "";
         var token = "";
@@ -369,11 +360,9 @@
         let totAss = 0;
         let grade = 0;
         let compTime = Date.now();
-
         let snd = new Audio("music/Good Will Hunting OST - 02 The Theorem.mp3");
         let snd2 = new Audio("music/Winterbells Extended Original song.mp3");
         let snd3 = new Audio("music/Mario Death Sound Effect.mp3");
-
         let deathY = 0;
         let start = Date.now();
         let signDivSignIn = document.getElementById('signDiv-signIn');
@@ -382,7 +371,6 @@
         let loadGame = document.getElementById('loadGame');
         let levelEditorB = document.getElementById('levelEditorB');
         let loadFile = document.getElementById('loadFile');
-        //let file = document.getElementById('file');
         let a1 = document.getElementById('selections');
         let a3 = document.getElementById('selections2');
         let userControls = document.getElementById('controlSelect');
@@ -416,7 +404,6 @@
         let check = true
         let leDraw = false;
         let levelEditorLevels;
-        //moveScreen=MoveScreen(0,0,);
         let campaign;
         let campaignInput = document.getElementById('campaignInput');
         let startNewGame = document.getElementById('startNewGame');
@@ -430,6 +417,7 @@
         let land = document.getElementById('LandscapeButton');
         let cTime = 0;
         let campaignLevelName;
+        // Images import
         var Img = {};
         Img.playerLevel = new Image();
         Img.playerLevel.src = "img/player_level.png";
@@ -473,20 +461,27 @@
         Img.town.src = "img/town.png";
         Img.campus = new Image();
         Img.campus.src = "img/campus.png";
-
         let bg = "img/math1.png";
         let deathScreenControl = 0;
-        let updateMoney = function() {
+
+        // The next set of update functions provide funtionality for when the players
+        // recieve money from various parts of the game. They each update the players'
+        // money and save the game. Most also check a condition which will determine
+        // if a player's moneyw will be updated or not.
+
+        // updateMoney checks workCredit and give the player money for completing
+        // work at the landscaping company
+        updateMoney = function() {
             if (workCredit > 0) {
-                console.log("Money before: " + money);
                 money = money + 400;
-                console.log("Money after: " + money);
                 workCredit--;
             } else {
                 levelFailed();
             }
+            saveCurrentCampaignGame(getCourses(), getInventory());
         }
-
+        // checkonGrandma gets called every time money is borrowed from grandma,
+        // it checks grandma's hp and determines if she remains available.
         checkonGrandma = function() {
 
             if (gammaHP != 0) {
@@ -498,45 +493,41 @@
             }
             saveCurrentCampaignGame(getCourses(), getInventory());
         }
-
+        // updateGrandma checks grandma's hp and updates the players money.
         updateGrandma = function() {
-            console.log("gammaHP before: " + gammaHP);
             if (gammaHP != 0) {
                 money = money + 1500;
                 gammaHP--;
             }
             saveCurrentCampaignGame(getCourses(), getInventory());
-            console.log("gammaHP after: " + gammaHP);
         }
-
+        // updateDad checks dadCredits and gives player a random amount of money
+        //  between $800 and $400
         updateDad = function() {
-            console.log("dadCredit before: " + dadCredit);
             if (dadCredit != 0) {
                 let randMoney = Math.floor(Math.random() * (800 - 400 + 1)) + 400;
-                console.log("Got " + randMoney + " from Dad!");
                 money = money + randMoney;
                 dadCredit--;
             }
             saveCurrentCampaignGame(getCourses(), getInventory());
         }
-
+        // updateWinery checks workCredit and updates players' money by $1000
         updateWinery = function() {
             if (workCredit > 0) {
-                console.log("Money before: " + money);
                 money = money + 1000;
-                console.log("Money after: " + money);
                 workCredit = workCredit - 2;
             }
             saveCurrentCampaignGame(getCourses(), getInventory());
         }
-
+        // updateFish updates the players money by a random number between $700
+        // and $300 no matter what. Only unlimited source of income in the game.
         updateFish = function() {
             let randFish = Math.floor(Math.random() * (700 - 300 + 1)) + 300;
-            console.log("Got $" + randFish + "!");
             money = money + randFish;
             saveCurrentCampaignGame(getCourses(), getInventory());
         }
-
+        // clickHandler for the buttons accociated with menus that provied money
+        // to player.
         var isFirxFox = function() {
             return navigator.userAgent.indexOf("Firefox") > 0 ? true : false;
         }
@@ -545,7 +536,7 @@
             if (target == "backCourse") {
                 leaveRoom();
             } else if (target == "LandscapeButton") {
-                updateMoney(); // make update money
+                updateMoney();
                 leaveRoom();
             } else if (target == "GrandmaButton") {
                 updateGrandma();
@@ -587,19 +578,14 @@
             return rect1.x <= rect2.x + rect2.width && rect2.x <= rect1.x + rect1.width && rect1.y <= rect2.y + rect2.height && rect2.y <= rect1.y + rect1.height;
         }
 
-        //action listeners, logic tbd
+        //action listeners for mouse
         document.onmousedown = function(mouse) {
             if (mouse.which == 1) {
                 if (screen == 'game' || screen == 'overworld') {
                     player.lMouseClick = true;
                 } else if (screen == 'le') {
-                    let selection = globalValueButton; //change for the toolbar to work
-                    //let selection = selections.options[selections.selectedIndex].value;
+                    let selection = globalValueButton;
                     mousePos.code = selection;
-                    console.log(mousePos.code);
-                    //let x=mousePos.x-moveScreen.right*64;
-                    //let y=mousePos.y-moveScreen.down*64;
-                    //console.log(x+', '+y);
                     if (leDraw) {
                         mousePos.draw();
                     }
@@ -630,9 +616,7 @@
 
                 if (mouseY > 18 && mouseY < 738 && mouseX > 0 && mouseX < 1280) {
                     mousePos.x = mouseX;
-                    // mousePos.y=mouseY-3+moveScreen.left*64;
                     mousePos.y = mouseY;
-                    //console.log("mouseX: " + mouseX + "mouseY: " + mouseY);
                     leDraw = true;
                 } else {
                     leDraw = false;
@@ -650,9 +634,7 @@
                     player.rightPress = true;
                 } else if (event.keyCode == keyLeft) {
                     player.leftPress = true;
-                } else if (event.keyCode == keyPause) {
-                    //add logic to pause
-                } else if (event.keyCode == keyGrapple) {
+                }  else if (event.keyCode == keyGrapple) {
                     player.grapplePress = true;
                 } else if (event.keyCode == keyChange) {
                     if (player.weap == 0) {
@@ -696,9 +678,7 @@
                 player.rightPress = false;
             else if (event.keyCode == keyLeft)
                 player.leftPress = false;
-            else if (event.keyCode == keyPause) {
-                //add logic to pause
-            } else if (event.keyCode == keyGrapple)
+            else if (event.keyCode == keyGrapple)
                 player.grapplePress = false;
             if (screen == 'game') {
                 if (event.keyCode == applyPowerUp) {
@@ -717,9 +697,10 @@
             }
         }
 
-        //update for in game, logic tbd
+        // Main game update function. All primary checks and triggers that need to be
+        // done on a frame by frame basis come from here.
         update = function() {
-            //console.log(player.x + "and" + player.y);
+            // main triggers for overworld
             if (screen == 'overworld' && !inTown) {
                 campusBoundaries();
                 if (player.x < -25) {
@@ -753,7 +734,7 @@
                     enterRoom("FISH");
                 }
             }
-
+            // setting background image
             let bgImg = new Image();
             if (screen == "le" || screen == "game") {
                 if (FAC == "math") {
@@ -772,6 +753,7 @@
                     bgImg.src = 'img/town.png';
                 }
             }
+            // HUD for various screen states
             if (screen == 'game' || screen == 'overworld') {
                 ctx.clearRect(0, 0, W, H);
                 ctx.drawImage(bgImg, 0, 0, W, H);
@@ -786,13 +768,7 @@
                     if (campaign != null) {
                         ctxui.fillText("WPU :" + weaponPowerUp, 50, 170);
                         ctxui.fillText("PU :" + powerUp, 50, 130);
-                    } else {
-                        //ctxui.fillText("WPU :" + weaponPowerUp, 50, 90);
-                        //ctxui.fillText("PU :" + powerUp, 50, 130);
-
                     }
-                    //ctxui.fillstyle = "white";
-
                 }
                 if (screen == 'overworld') {
                     ctxui.fillText("Money: " + money, 50, 50);
@@ -806,6 +782,7 @@
                 ctxLE.clearRect(0, 0, W, H);
                 ctxLE.drawImage(bgImg, 0, 0, W, H);
             }
+            // entiry update calls
             player.update();
             Enemy.update();
             Projectile.update();
@@ -815,12 +792,8 @@
             }
 
             Upgrade.update();
-            //console.log("Player (X,Y): " + "(" + player.x + ", " + player.y + ")");
-            //console.log("Player aim angle is: "+player.aimAngle);
-            //console.log("Grapple key = "+player.grapplePress);
-            //console.log("Attack Speed: "+player.atkSpd+" Attack Counter "+player.atkCnt);
         }
-
+        // faculty change sets bacground and enemy appearence
         let facChange = function() {
             if (document.getElementById('background').value == 'img/math1.png') {
                 FAC = 'math';
@@ -836,7 +809,7 @@
                 Enemy.facChange();
             }
         }
-
+        // checks to make sure that a valid username and password are entered
         function valid(userName, pass) {
             if (!isEmpty(userName) && !isEmpty(pass)) {
                 return true;
@@ -848,6 +821,7 @@
             return (!str || 0 === str.length);
         }
 
+        // creates player profile in database on signUp
         signDivSignUp.onclick = function() {
 
             user = document.getElementById('signDiv-username').value;
@@ -865,7 +839,7 @@
                 });
             }
         }
-
+        // chekcs for players' existing data on login.
         signDivSignIn.onclick = function() {
             console.log("signDivSignIn HIT")
             console.log(controls);
@@ -883,14 +857,9 @@
                 });
 
                 socket.on('signedIn', function(message) { //AccountManager
-                    console.log(message);
-
                     msg = message;
                     token = message.token;
-
-                    console.log(message.signedIn);
                     if (message.signedIn == true) {
-
                         username = message.userName;
                         token = message.token;
                         usernameText.value = username;
@@ -899,29 +868,16 @@
                         let diffuculty = "hard";
                         let progress = "false"; //used for mid-term
                         let inventory = "1001";
-
-                        // saveLevelText.value=saveLevel("john","mario","mission","hard","true","10001",0,0,0,0);
-
-                        console.log("welcome  : " + message.userName);
-                        console.log("your token is  :" + message.token);
-
                         document.getElementById('signDiv-password').value;
                         signDiv.style.display = 'none';
                         mainMenu.style.display = 'inline-block';
-
-                        //playerProfile.style.display = 'inline-block';
                         back.style.display = 'inline';
                         Entity.clear();
-                        //screen='menu';
-
                     }
-
                 });
-
             }
-
         }
-
+        // implements the back button for various screen states
         function backMainMenu() {
             console.log("s " + screen);
             if (screen == "menu") {
@@ -948,25 +904,20 @@
                 selections.style.display = 'none';
                 loadFile.style.display = 'none';
                 gameDiv.style.display = 'none';
-
                 back.style.display = 'none';
-
-                //gameDiv.style.display = 'inline-block';
                 menuWrapper.style.display = "inline-block";
                 mainMenu.style.display = 'inline-block';
                 back.style.display = 'inline';
                 screen = "menu";
             }
-            //console.log("count " + count);
+
 
         }
-
+        // implements save functionality of level editor
         save.onclick = function() {
             let socket = io();
-            console.log("save button HIT");
             level = prompt("Please enter your Level name ", "enter new Level name :");
             if (level != null) {
-                console.log("level name " + level);
                 socket.emit('saveLevel', {
                     username: username,
                     levels: saveLevel(username, level, 2, mousePos.xmax, mousePos.ymax),
@@ -974,35 +925,32 @@
                 getSavedUserLevels();
             }
         }
-
+        // implements the laod level functionality in level editor
         loadButton.onclick = function() {
             loadLevel(levelEditorLevels[a3.options[a3.selectedIndex].index].Level, levelEditorLevels[a3.options[a3.selectedIndex].index].Width);
-            //loadLevel("e0e0e0e000e0e0e000000000000f0000000f0000f00000000000000000p0000",9);
         }
-
+        // provides the level Failed screen for level editor and campaign
         levelFailed = function() {
             screen = "menu";
             gameDiv.style.display = 'none';
             signDiv.style.display = 'none';
             landscapingWork.style.display = 'none';
             snd3.play();
-            //menuWrapper.style.display='inline-block'; //Reapperaing menu wrapper
-            //mainMenu.style.display = 'inline-block';
-            console.log("LEVEL FAILED")
             if (fromLe == false) {
                 deathScreen.style.display = 'inline-block';
             } else {
                 deathScreenLE.style.display = 'inline-block';
-                //fromLe = false;
             }
         }
-
+        // house keeping after the player dies to make sure that level is exited
+        // smoothly in campaign
         function afterdeath() {
             deathScreen.style.display = 'none';
             leaveRoom();
             Entity.clear();
         }
-
+        // house keeping after the player dies to make sure that level is exited
+        // smoothly in levelEditor
         afterdeathLE = function() {
             deathScreenLE.style.display = 'none';
             Entity.clear();
@@ -1010,12 +958,12 @@
             screen = "le";
             loadLevel(levelSTR, levelW);
         }
-
+        // level completed menu displays when the player defeats a final.
+        // level time is displayed and grade is calculated.
         levelCompleted = function() {
             screen = "menu";
             gameDiv.style.display = 'none';
             signDiv.style.display = 'none';
-            console.log("LEVEL PASS")
             gradeCalculator();
             let elem;
             if (fromLe == false) {
@@ -1027,19 +975,14 @@
                 elem = document.getElementById("passLevelHeadingLE");
                 succsessScreenLE.style.display = 'inline-block';
             }
-
-            //menuWrapper.style.display='inline-block'; //Reapperaing menu wrapper
-            //mainMenu.style.display = 'inline-block';
-            //screen='menu';
             compTime = Date.now() - start;
             console.log('Completed level in ' + compTime + ' ms.');
             compTime = compTime / 1000;
-            //let elem=document.getElementById("levelHeading");
             let str = 'Completed level in ' + compTime + "</br>" + "Completed with a grade of :" + grade;
             elem.innerHTML = str;
             Entity.clear();
         }
-
+        // housekeeping after a player wins a level
         function aftersuccess() {
             succsessScreen.style.display = 'none';
             leaveRoom();
@@ -1054,30 +997,24 @@
             loadLevel(levelSTR, levelW);
 
         }
-
-        //console.log("string :" + saveLevel(0,0,0,0));
-
+        // invoked when play is selected from level editor. Saves level and begins
+        // play time.
         play.onclick = function() {
             fromLe = true;
-            console.log("mousePos.xmax: " + mousePos.xmax + ", " + "mousePos.ymax: " + mousePos.ymax);
             saveLevelLE(mousePos.xmax, mousePos.ymax);
-            console.log("LevelSTR: " + levelSTR + ", LevelW: " + levelW);
             gameDiv.style.display = "inline-block";
             menuWrapper.style.display = "none"; //Getting rid of the menu wrapper
             levelEditor.style.display = 'none';
-            // save.style.display = 'none';
-            // backLE.style.display="none";
-            // play.style.display="none";
             screen = 'game';
             start = Date.now();
         }
-
+        // when new game is selected updates screen state
         newGame.onclick = function() {
             screen = "newGame";
             campaignInput.style.display = "flex";
             mainMenu.style.display = "none";
         }
-
+        // creates new game and campaign collection in database
         startNewGame.onclick = function() {
             let socket = io();
             menuWrapper.style.display = "none";
@@ -1085,11 +1022,9 @@
                 playerName: document.getElementById('playerName').value,
                 difficulty: document.querySelector('input[name=difficulty]:checked').value
             };
-            //let playerNameCheat = checkCampaignPlayerNameCheat(document.getElementById('playerName').value);
             if (checkCampaignPlayerNameCheat(document.getElementById('playerName').value) == true) {
                 info.difficulty = 3;
             }
-            console.log(info);
             socket.emit('createCampaign', {
                 username: username,
                 info: info
@@ -1097,13 +1032,9 @@
             });
 
             socket.on('campaignCreated', function(message) {
-                console.log(message);
                 campaign = message.campaign;
-                console.log(campaign);
                 gammaHP = message.campaign.SaveFile.saves[0].gammaHP;
-                console.log("gammaHP" + gammaHP);
                 money = message.campaign.SaveFile.saves[0].money;
-                console.log("money" + money);
                 dadCredit = message.campaign.SaveFile.saves[0].dadCredit;
                 workCredit = message.campaign.SaveFile.saves[0].workCredit;
                 weaponPowerUp = message.campaign.SaveFile.saves[0].inventory.weaponPowerUps[0].itemName;
@@ -1111,16 +1042,7 @@
             });
             gameDiv.style.display = "inline-block";
             campaignInput.style.display = "none";
-            // player.x = 300;
-            // player.y = 350;
-            // if (player.x < 0) {
-            //       console.log("o");
-            // }
-            // screen = 'overworld';
-
             loadOverworld();
-            //loadCourseLevel("PHYS1000");
-
         }
 
         loadOverworld = function() {
@@ -1141,43 +1063,13 @@
             menuWrapper.style.display = "none";
             gameDiv.style.display = "inline-block";
             loadFile.style.display = "none";
-
             player.x = 300;
             player.y = 350;
-            if (player.x < 0) {
-                console.log("o");
-            }
             screen = 'overworld';
         }
 
-        // loadCourseLevel  = function(courseName){
-        //                 console.log("HERE");
-        // 		let socket=io();
-        //   		socket.emit('loadSystemCourseLevel',{
-        // 			courseName: courseName
-        //   		});
-        //
-        // 		socket.on('systemCourseLevelFound', function(message){
-        // 			//console.log(message.courseLevel);
-        //
-        //
-        // 			gameDiv.style.display="inline-block";
-        // 			menuWrapper.style.display ='none'; //hiding menu wrapper
-        // 			levelEditor.style.display = 'none';
-        // 			save.style.display = 'none';
-        // 			backLE.style.display="none";
-        // 			play.style.display="none";
-        // 			campaignInput.style.display="none";
-        // 			start=Date.now();
-        // 			campaignLevelName = message.courseLevel.Levelname;
-        // 			loadLevel(message.courseLevel.Level, message.courseLevel.Width);
-        // 		//	loadLevel('00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000l0000000000000000000000000000000000000000000000000000e0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000p00000000000000e000000000000000000000000000000000000000000000000000000m0000000000000a0000000000000000000000000000000000000000000000000000000000000000000000000000000e000000000000000000000000000000000000000000a000000000bb0b0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000ffffff0000000000000000bbbb0bbbbb000b00000000ffff000000000000000000000000000000000bbbbbb0000ffff0fff0000000000000000000000000000000000000000000000000000000000000000000000f0000000000000000000000f000000000000000000000000000000000000000000000000000000000000000000000000000000000b0e000000000000000000ff0000000000000000000ff000000e000000000000f0ff00000000000000000000000000000fffff0000000000000000000f0fff000000000000000000000b00b0000000000000000000fff00000000ffffff0000000000000000000000000000000000000000000ffffffffffffff00fa00f00000fff000000000000000000000000000000000000bbbbb00b00000be00000000ffff0000000000000000f0f0f0000000000000000000000000000000000000000000000000000f000f00000befe0000000000000000000000000000000000bbb0a000bbfffffbbb000000ffff0000000000000000000000000ee0000000000000000000fef00f0000000000000000000f0f000000000fff00000000f00000000f00f00000fffffffffffffffffffffffffffffffffffffffffffff000000ffffffffffffffffffffff00fffffffffffffffffffffffffffffffffffffffffffffffffffff000ffffffffffffffffffw',148);
-        //                   console.log("Makes it to loaded level");
-        //                   screen='game';
-        //
-        // 		});
-        // 	  }
 
+        // loads course levels from database bases on name and brings them to client
         getSystemCampaignLevel = function(courseName) {
             let socket = io();
             socket.emit('loadSystemCourseLevel', {
@@ -1185,16 +1077,15 @@
             });
 
             socket.on('systemCourseLevelFound', function(message) {
-                //console.log(message.courseLevel);
                 return message.courseLevel;
             });
 
         }
-
+        // housekeeping for completing a level. Adds to work credits, adds to
+        // completed courses, saves game state.
         completeLevel = function(courseName) {
             dadCredit++;
             workCredit++;
-            console.log(getCourses());
             let courses = getCourses();
             let unlockedLevel = getUnlockedCourseName(courseName);
             let control = 0;
@@ -1202,9 +1093,7 @@
                 if (courses[x] != null) {
                     if (courses[x].Levelname == courseName) {
                         courses[x].complete = true;
-                        //courses[x].bestTime =
                     }
-
                     if (courses[x].Levelname == unlockedLevel) {
                         control = 1;
                     }
@@ -1212,16 +1101,13 @@
             }
 
             if (unlockedLevel != 'none') {
-
                 if (control == 0) {
                     let socket = io();
                     socket.emit('loadSystemCourseLevel', {
                         courseName: unlockedLevel
                     });
-
                     socket.on('systemCourseLevelFound', function(message) {
                         let courseLevel = message.courseLevel;
-
                         if (courseLevel != null) {
                             courseLevel.midterm = false;
                             courseLevel.midtermTime = 0;
@@ -1234,7 +1120,6 @@
                             }
                             courses.push(courseLevel);
                             saveCurrentCampaignGame(courses, getInventory());
-
                         }
                     });
                 }
@@ -1242,14 +1127,12 @@
             } else {
                 saveCurrentCampaignGame(courses, getInventory());
             }
-
         }
-
+        // loads course level from database, updates money accordingly, starts level time,
+        //  saves game
         loadCourseLevel = function(courseName) {
             var gotInLevel = false;
             var gotMoney = false;
-            console.log("HERE");
-
             let courses = getCourses();
             gameDiv.style.display = "inline-block";
             menuWrapper.style.display = 'none'; //hiding menu wrapper
@@ -1260,35 +1143,25 @@
             campaignInput.style.display = "none";
             start = Date.now();
             campaignLevelName = courseName;
-
             for (let x = 0; x < courses.length; x++) {
                 if (courses[x] != null) {
                     if (courseName == courses[x].Levelname) {
                         gotInLevel = true;
                         if (courses[x].midterm == true) {
-
                             gotMoney = true;
-                            //console.log(courses[x].midtermTime)
-                            //cTime = courses[x].midtermTime;
-
                             deathScreenControl = 1;
                             loadLevel(courses[x].Level, courses[x].Width);
-                            console.log("Makes it to loaded level");
                             screen = 'game';
                         } else {
                             if ((money - 1000) >= 0) {
                                 gotMoney = true;
                                 money = money - 1000
                                 saveCurrentCampaignGame(courses, getInventory());
-                                console.log("dbtime" + courses[x].midtermTime);
-                                console.log("time" + cTime);
                                 deathScreenControl = 1;
                                 loadLevel(courses[x].Level, courses[x].Width);
-                                console.log("Makes it to loaded level");
                                 screen = 'game';
                             }
                         }
-                        //deathScreenControl = 0;
                     }
                 }
             }
@@ -1298,11 +1171,8 @@
             } else if (!gotMoney) {
                 alert("You don't have enough money!");
             }
-
-            //	loadLevel('00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000l0000000000000000000000000000000000000000000000000000e0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000p00000000000000e000000000000000000000000000000000000000000000000000000m0000000000000a0000000000000000000000000000000000000000000000000000000000000000000000000000000e000000000000000000000000000000000000000000a000000000bb0b0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000ffffff0000000000000000bbbb0bbbbb000b00000000ffff000000000000000000000000000000000bbbbbb0000ffff0fff0000000000000000000000000000000000000000000000000000000000000000000000f0000000000000000000000f000000000000000000000000000000000000000000000000000000000000000000000000000000000b0e000000000000000000ff0000000000000000000ff000000e000000000000f0ff00000000000000000000000000000fffff0000000000000000000f0fff000000000000000000000b00b0000000000000000000fff00000000ffffff0000000000000000000000000000000000000000000ffffffffffffff00fa00f00000fff000000000000000000000000000000000000bbbbb00b00000be00000000ffff0000000000000000f0f0f0000000000000000000000000000000000000000000000000000f000f00000befe0000000000000000000000000000000000bbb0a000bbfffffbbb000000ffff0000000000000000000000000ee0000000000000000000fef00f0000000000000000000f0f000000000fff00000000f00000000f00f00000fffffffffffffffffffffffffffffffffffffffffffff000000ffffffffffffffffffffff00fffffffffffffffffffffffffffffffffffffffffffffffffffff000ffffffffffffffffffw',148);
-
         }
-
+        // trigger for laod game button
         loadGame.onclick = function() {
             mainMenu.style.display = 'none';
             loadFile.style.display = 'inline-block';
@@ -1310,12 +1180,7 @@
             loadUserCampaigns();
 
         }
-
-        // file.onclick = function () {
-        //       loadFile.style.display = 'none';
-        //       gameDiv.style.display = 'inline-block';
-        // }
-
+        //  onclick for profile menu button
         profile.onclick = function() {
             playerProfile.style.display = 'inline-block';
             mainMenu.style.display = 'none';
@@ -1324,7 +1189,8 @@
             buildUserInputDropDown();
             buildControlsTable();
         }
-
+        // enterRoom manages the screen state when enter in a building from them
+        // overworld
         enterRoom = function(roomName) {
             coursesButtonGroup.style.display = 'inline';
             if (roomName == "COMP") {
@@ -1355,7 +1221,6 @@
                 dadHouse.style.display = 'none';
                 fishHouse.style.display = 'none';
                 landscapingWork.style.display = 'inline-block';
-                //screen = menu;
             } else if (roomName == "GRANDMA") {
                 compMenu.style.display = 'none';
                 mathMenu.style.display = 'none';
@@ -1368,7 +1233,6 @@
                 dadHouse.style.display = 'none';
                 fishHouse.style.display = 'none';
                 checkonGrandma();
-                    //screen = menu;
             } else if (roomName == "WINE") {
                 compMenu.style.display = 'none';
                 mathMenu.style.display = 'none';
@@ -1409,33 +1273,25 @@
             }
 
         }
-
+        // clears menu screens when exiting a building calls load overworld
         leaveRoom = function(roomName) {
             coursesButtonGroup.style.display = 'none';
             loadOverworld();
         }
-
+        // retrieves user created levels for display and editing in the level editor
         getSavedUserLevels = function() {
             let socket = io();
-            console.log("load button HIT");
-
             if (username == "system") {
-
                 socket.emit('loadAllSystemCourses', {});
-
                 socket.on('systemLevelsFound', function(message) {
-                    //console.log(message.courseLevel);
-                    console.log(message);
                     levelEditorLevels = message.Levels;
                     a3.innerHTML = "";
                     var option = document.createElement("s");
                     for (var x = 0; x < message.Levels.length; x++) {
-                        console.log(message.Levels[x].Levelname);
                         let optionLevel = document.createElement("option");
                         optionLevel.text = message.Levels[x].Levelname;
                         a3.add(optionLevel);
                     }
-                    console.log(message);
                 });
 
             } else {
@@ -1452,26 +1308,22 @@
                         optionLevel.text = message.Levels[x].Levelname;
                         a3.add(optionLevel);
                     }
-                    console.log(message);
                 });
             }
 
         }
-
+        // loads players' campaign from the database
         loadUserCampaigns = function() {
             let socket = io();
             socket.emit('getUserCampaigns', {
                 token: token
             });
-            console.log("Makes it to loadUserCampaigns");
             socket.on('loadUserCampaigns', function(message) {
-                console.log(message.campaigns);
                 Campaigns = message.campaigns;
                 loadFile.innerHTML = "";
                 for (var x = 0; x < message.campaigns.length; x++) {
                     buildCampaignListButton(message.campaigns[x]);
                 }
-
             });
         }
         let savesCounter = 0;
@@ -1482,11 +1334,9 @@
             let t = document.createTextNode("Saves From Campaign " + campaignNumber);
             saveHeader.appendChild(t);
             if (savesCounter == 0) {
-                //loadFile.innerHTML = "";
                 loadFile.appendChild(saveHeader);
                 savesCounter = 1;
             } else {
-                //console.log(loadFile);
                 loadFile.removeChild(loadFile.lastElementChild);
                 loadFile.removeChild(loadFile.lastElementChild);
                 loadFile.appendChild(saveHeader);
@@ -1502,9 +1352,8 @@
                 }
                 userSaves = message.saves;
             });
-
         }
-
+        // creates saves button for selection upon loading a game
         buildSavesButton = function(saveInfo) {
             var save = document.createElement("button");
             var t = document.createTextNode("Save " + saveInfo.saveNumber);
@@ -1512,7 +1361,8 @@
             save.appendChild(t);
             loadFile.appendChild(save);
         }
-
+        // main laod game function. retrieves campaign data from database and
+        //  brings it to client
         loadSavedGame = function(saveNumber) {
             let count = 0;
             for (var x = 0; x < userSaves.length; x++) {
@@ -1527,12 +1377,11 @@
                     powerUp = userSaves[x].inventory.powerUps[0].itemName;
                     deathScreenControl = 1;
                     loadOverworld();
-
                 }
             }
             userSaves = userSaves[count];
         }
-
+        //  cretes the campaign number button when loading a game
         buildCampaignListButton = function(CampaignInfo) {
             var campaignButton = document.createElement("button");
             var t = document.createTextNode(CampaignInfo.campaignNumber);
@@ -1563,7 +1412,7 @@
                 saveCurrentGame(campaign.SaveFile.saves[0]);
             }
         }
-
+        // saaves game to database
         saveCurrentGame = function(save) {
             let socket = io();
             socket.emit('saveCurrentGame', {
@@ -1596,7 +1445,7 @@
                 saveNewCampaignSave(campaign.SaveFile.saves[0]);
             }
         }
-
+        // saves new game to database
         saveNewCampaignSave = function(save) {
             let socket = io();
             socket.emit('saveNewSave', {
@@ -1605,7 +1454,7 @@
                 save: save
             });
         }
-
+        // gets players progress from database
         getCourses = function() {
             if (campaign == null) {
                 return userSaves.Courses;
@@ -1613,7 +1462,7 @@
                 return campaign.SaveFile.saves[0].Courses;
             }
         }
-
+        //  gets players inventory from database
         getInventory = function() {
             if (campaign == null) {
                 return userSaves.inventory;
@@ -1621,7 +1470,7 @@
                 return campaign.SaveFile.saves[0].inventory;
             }
         }
-
+        // allows player to cycle through weapon power ups
         cycleWeaponPowerUps = function() {
             wPUCount++;
             if (campaign == null) {
@@ -1629,15 +1478,11 @@
                     wPUCount = 0;
                 }
                 weaponPowerUp = userSaves.inventory.weaponPowerUps[wPUCount].itemName;
-                console.log(userSaves.inventory.weaponPowerUps[wPUCount].itemName);
-                //ctxui.strokeText("PU :" + campaign.SaveFile.saves[0].inventory.powerUps[0].itemName, 50, 130);
             } else {
                 if (wPUCount > campaign.SaveFile.saves[0].inventory.weaponPowerUps.length - 1) {
                     wPUCount = 0;
                 }
                 weaponPowerUp = campaign.SaveFile.saves[0].inventory.weaponPowerUps[wPUCount].itemName;
-                console.log(campaign.SaveFile.saves[0].inventory.weaponPowerUps[wPUCount].itemName + wPUCount)
-
             }
         }
 
@@ -1648,25 +1493,19 @@
                     PUCount = 0;
                 }
                 powerUp = userSaves.inventory.powerUps[PUCount].itemName;
-                console.log(userSaves.inventory.powerUps[PUCount].itemName);
-                //ctxui.strokeText("PU :" + campaign.SaveFile.saves[0].inventory.powerUps[0].itemName, 50, 130);
             } else {
                 if (PUCount > campaign.SaveFile.saves[0].inventory.powerUps.length - 1) {
                     PUCount = 0;
                 }
                 powerUp = campaign.SaveFile.saves[0].inventory.powerUps[PUCount].itemName;
-                console.log(campaign.SaveFile.saves[0].inventory.powerUps[PUCount].itemName + PUCount)
-
             }
         }
 
         buildUserInputDropDown = function() {
-            console.log(controls);
             for (var control in controls) {
                 let optionControl = document.createElement("option");
                 optionControl.text = control;
                 userControls.add(optionControl);
-
             }
         }
 
@@ -1674,14 +1513,12 @@
 
             var table = document.getElementById("controlsTable");
             table.innerHTML = "";
-
             for (var control in controls) {
                 var row = table.insertRow(0);
                 var cell1 = row.insertCell(0);
                 var cell2 = row.insertCell(1);
                 cell1.innerHTML = control;
                 cell2.innerHTML = outputControls(controls[control]);;
-
             }
             var row = table.insertRow(0);
             var cell1 = row.insertCell(0);
@@ -1689,7 +1526,7 @@
             cell1.innerHTML = "Action";
             cell2.innerHTML = "Control";
         }
-
+        // listener for level editor button
         levelEditorB.onclick = function() {
             Entity.clear();
             deathScreenControl = 1;
@@ -1716,15 +1553,12 @@
                 ctx_uiLE.lineTo(1280, i);
                 ctx_uiLE.stroke();
             }
-
             snd2.muted = true;
             snd.play();
-
-            //play.style.display="inline-block";
             screen = 'le';
-            console.log(screen);
         }
 
+        // loads collision boundaries for overworld map
         campusBoundaries = function() {
             for (let key in Platform.list) {
                 delete Platform.list[key];
@@ -1778,7 +1612,6 @@
             Platform.generate(90, 528);
             Platform.generate(90, 592);
             Platform.generate(90, 656);
-
             screen = 'overworld';
         }
 
@@ -1817,7 +1650,7 @@
             Platform.generate(943, 271);
             Platform.generate(1007, 271);
             Platform.generate(1061, 271);
-            Platform.generate(1125, 271); //bridge
+            Platform.generate(1125, 271);
             Platform.generate(950, 450);
             Platform.generate(990, 514);
             Platform.generate(1054, 578);
@@ -1825,32 +1658,9 @@
 
         }
 
-        // <!--  drawing to canvus and moving -->
-
-        //let ctx = document.getElementById('ctx').getContext('2d');
-
-        // let player = {
-        //       x:50,
-        //       y:50,
-        // };
         player = Player(-64, -64);
         mousePos = MousePos(0, 0, 0, 0, 'p');
-        //var img = new Image()
-
-        // img.onload = function() {
-        //
-        //
-        //     ctx.drawImage(img, 0, 0);
-        //
-        // };
-
-        //img.src = "img/Armature_Idle_12.png";
-
-        //if(gameDiv.style.display!="none"){
         setInterval(update, 30);
-        //}
-
-        //ctx.fillRect(Player.x, player.y, 20, 20);
 
         let gradeCalculator = function() {
             let hpRat = player.hp / player.hpTot;
@@ -1863,12 +1673,4 @@
         }
     </script>
 </body>
-<!-- <style>
-      selections {
-            position: absolute;
-            right: 1290px;
-
-      }
-</style> -->
-
 </HTML>
