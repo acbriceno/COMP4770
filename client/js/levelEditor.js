@@ -42,10 +42,8 @@ MousePos = function(x,y,xoff,yoff,code) {
 		}
 
 		if(self.code=='p'){
-			//console.log('player should draw');
 			player.x=x;
 			player.y=y;
-			//console.log(player.x+", "+player.y);
 			player.update();
 
 		}
@@ -87,9 +85,7 @@ CurrentLevel=function(){
 		w:20,
 		h:11,
 		fac:'cs',
-		//level:level[][],
 	};
-	//logic to send level data to to levelSave.js
 	self.save=function(){
 
 	}

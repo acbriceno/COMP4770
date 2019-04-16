@@ -1,6 +1,17 @@
+// Entity.js uses inheritance to provide the stats and qualities of each of
+// the entities in the game which includes the Actor, Entity, Enemy, Midterm,
+// Player, Assignment, Projectile, Upgrade and Final classes.
+
+// Each class has its own unique behaviour for drawing and generating that can be
+// conditionional on the screen state.
+
+// Each of the main entity classes are also organized in upon creation and
+// removed from the list upon destruction. The main classes also contain an
+// Entitiy.clear function. This removes all elementes in the list.
+
 let player;
 
-
+// Entity class
 Entity=function(type,id,x,y,w,h,img){
 	let self={
 		type:type,
@@ -18,7 +29,6 @@ Entity=function(type,id,x,y,w,h,img){
 
 	self.draw=function(){
 		if(screen=='game'){
-			//console.log('hi');
 			ctx.save();
 			let x = self.x - player.x;
 			let y = self.y - player.y;
@@ -30,7 +40,6 @@ Entity=function(type,id,x,y,w,h,img){
 			ctx.restore();
 		}
 		else if(screen=='le'){
-			//console.log('good so far');
 			ctxLE.save();
 			let x = self.x;
 			let y = self.y;
@@ -82,11 +91,12 @@ Entity=function(type,id,x,y,w,h,img){
 
 	self.updatePosition=function(){}
 
+      // adds entity to list
 	Entity.list[id]=self;
 
 	return self;
 }
-
+// clears the list of entiies
 Entity.clear=function(){
 	for(let key96 in Entity.list){
 		let e=Entity.list[key96];
@@ -126,63 +136,6 @@ Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
 	self.invinc=false;
 	self.jumped=false;
 
-	/*self.draw=function() {
-		if(screen=='game'){
-			ctx.save();
-		}
-		else if(screen=='le'){
-			ctxLE.save();
-		}
-		let x=self.x-player.x;
-		let y=self.y-player.y;
-		x+=W/2;
-		y+=H/2;
-		x-=self.w/2;
-		y-=self.h/2;
-
-
-		let framew=self.img.width/4;
-		let frameh=self.img.height/28;
-		//console.log('can i find');
-		/*if(self.type='p'){
-			frameh=frameh/2
-		}*//*
-		let aim=self.aimAngle;
-		if(aim<0){
-			aim=aim+360;;
-		}
-		let dir=0;
-		if(aim>=90&&aim<270){
-			dir=1;
-		}
-		//console.log(img);
-		let cnt=Math.floor(self.spriteCnt)%4;
-		if(self.weap==0){
-			if(dir==0){
-				dir=6;
-			}
-			else{
-				dir=13;
-			}
-		}
-		else{
-			if(dir==0){
-				dir=20;
-			}
-			else{
-				dir=27;
-			}
-		}
-		if(screen=='game'){
-			ctx.drawImage(self.img,cnt*framew,dir*frameh,framew,frameh,x,y,self.w,self.h);
-			ctx.restore();
-		}
-		else if(screen=='le'){
-			ctxLE.drawImage(self.img,cnt*framew,dir*frameh,framew,frameh,self.x,self.y,self.w,self.h);
-			ctxLE.restore();
-		}
-	}*/
-
 	self.updatePosition=function() {
 		let move=true;
 		let moveG=true;
@@ -197,10 +150,8 @@ Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
                   moveG = false;
 
             }
-		//console.log(self.ySpd);
 		if(self.KB){
 			self.KBCnt++;
-			//console.log(self.KBDir);
 			if(self.KBCnt==20){
 				self.KB=false;
 				self.KBCnt=0;
@@ -214,6 +165,7 @@ Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
 				self.x-=4;
 			}
 		}
+            // collision handling
 		let leftBump={x:self.x-32,y:self.y,width:10,height:10};
 		let rightBump={x:self.x+32,y:self.y,width:10,height:10};
 		let upBump={x:self.x,y:self.y-32,width:10,height:10};
@@ -277,7 +229,7 @@ Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
 					self.y-=self.ySpd;
 				}
 				else{
-					//self.y+=self.maxSpd;
+
 				}
 			}
 		}
@@ -333,10 +285,10 @@ Actor=function(type,id,x,y,w,h,img,hp,atkSpd,dmg,code){
 	}
 
 	self.dmgKB=function(){
-		//console.log('even closer');
-		
+
+
 	}
-	
+
 	return self;
 
 }
@@ -406,7 +358,6 @@ Enemy.generate=function(x,y){
 	let hp=5;
 	let atkSpd=0;
 	let dmg=1;
-	//using player img as placeholder
 	if(FAC=="phil"){
 		let img1=Img.philEnemy;
 		Enemy(id,x,y,w,h,img1,hp,atkSpd,dmg,'e');
@@ -467,39 +418,25 @@ Assignment.generate=function(x,y){
 }
 
 async function deadMidterm(){
-	//
-	// let promise = new Promise((res, rej) => {
-	//         setTimeout(() => res("Now it's done!"), 1)
-	//     });
-
-	    // wait until the promise returns us a value
-	 
-	
-		console.log("hello");
 	if(fromLe==false){
-		//console.log(getCourses());
 		let courses = getCourses();
-		//console.log(campaignLevelName);
 		for(let x=0; x<courses.length;x++){
 			if(courses[x] != null){
 				if(campaignLevelName == courses[x].Levelname){
-					//console.log(player.x + "and" + player.y);
 					let levelCode = saveLevel(username, courses[x].Levelname, 0, courses[x].Width, courses[x].Height);
 					courses[x].Level = levelCode.Level;
 					courses[x].midterm = true;
 					courses[x].midtermTime = cTime;
-					courses[x].grade = 100;// need fxn to calculate grade
-					//console.log(saveLevel(username, courses[x].Levelname, 0, courses[x].Width, courses[x].Height));
-				
+					courses[x].grade = 100;
 					saveCurrentCampaignGame(courses, getInventory());
 				}
 			}
 		}
 	}
 
-	
-    
-	
+
+
+
 }
 
 
@@ -510,27 +447,6 @@ Midterm=function(id,x,y,w,h,img,hp,atkSpd,dmg){
       self.onDeath=function(){
             self.remove=true;
 			deadMidterm();
-            //console.log(saveLevel(username, "comp1000", 0, mousePos.xma, mousePos.ymax));
-			// if(fromLe==false){
-	// 			//console.log(getCourses());
-	// 			let courses = getCourses();
-	// 			//console.log(campaignLevelName);
-	// 			for(let x=0; x<courses.length;x++){
-	// 				if(courses[x] != null){
-	// 					if(campaignLevelName == courses[x].Levelname){
-	// 						//console.log(player.x + "and" + player.y);
-	// 						let levelCode = saveLevel(username, courses[x].Levelname, 0, courses[x].Width, courses[x].Height);
-	// 						courses[x].Level = levelCode.Level;
-	// 						courses[x].midterm = true;
-	// 						courses[x].midtermTime = cTime;
-	// 						courses[x].grade = 100;// need fxn to calculate grade
-	// 						//console.log(saveLevel(username, courses[x].Levelname, 0, courses[x].Width, courses[x].Height));
-	//
-	// 						saveCurrentCampaignGame(courses, getInventory());
-	// 					}
-	// 				}
-	// 			}
-	// 		}
       }
 
 }
@@ -543,8 +459,6 @@ Midterm.update=function(){
 	}
 	for(let key8 in Midterm.list){
 		if(Midterm.list[key8].remove){
-
-			//logic to save progress
 			player.mid=true;
 			delete Midterm.list[key8];
 		}
@@ -581,9 +495,6 @@ Final.update=function(){
 	for(let key9 in Final.list){
 		if(Final.list[key9].remove){
 			delete Final.list[key9];
-			//if(screen=='game'){
-				//levelCompleted();
-			//}
 		}
 	}
 }
@@ -619,8 +530,6 @@ Player=function(x,y){
 	self.update=function(){
 		super_update();
 		if(screen=='game'){
-			//console.log(self.usePU);
-			//console.log(self.useWPU);
 			if(self.rightPress||self.leftPress){
 				self.spriteCnt+=0.2;
 			}
@@ -632,11 +541,10 @@ Player=function(x,y){
 					self.onDeath();
 					deathScreenControl = 0;
 				}
-				
+
 			}
 			if(self.melee){
 				self.performAttack();
-				//console.log('is get here?');
 			}
 			if(self.KB){
 				self.invinc=true;
@@ -646,10 +554,10 @@ Player=function(x,y){
 			}
 			self.dmgCollision();
 			if(self.usePU){
-				
+
 			}
 			if(self.useWPU){
-				
+
 			}
 		}
 		if(screen=='overworld'){
@@ -680,16 +588,8 @@ Player=function(x,y){
 			x+=mousePos.xoff*64;
 			y+=mousePos.yoff*64;
 		}
-            //console.log(x + ", " + y);
-            if (x < -25) {
-                  //console.log("over the edge");
-            }
 		let framew=self.img.width/4;
 		let frameh=self.img.height/28;
-		//console.log('can i find');
-		/*if(self.type='p'){
-			frameh=frameh/2
-		}*/
 		let aim=self.aimAngle;
 		if(aim<0){
 			aim=aim+360;;
@@ -698,7 +598,6 @@ Player=function(x,y){
 		if(aim>=90&&aim<270){
 			dir=1;
 		}
-		//console.log(img);
 		let cnt=Math.floor(self.spriteCnt)%4;
 		if(self.weap==0){
 			if(dir==0){
@@ -719,8 +618,6 @@ Player=function(x,y){
 		if(screen=='game' || screen == 'overworld'){
 			if(self.melee){
 				let mlCnt=Math.floor(self.meleeCnt)%4;
-				//console.log(mlCnt);
-				//ctx.drawImage(self.img,
 				if (dir==6){
 					dir=0;
 				}
@@ -743,14 +640,6 @@ Player=function(x,y){
 
 	let super_performAttack=self.performAttack;
 	self.performAttack=function(){
-		/*if(self.usePU){
-			
-		}
-		else{
-			if(self.useWPU){
-				
-			}
-			else{*/
 				if(self.weap==1){
 					super_performAttack();
 				}
@@ -762,20 +651,18 @@ Player=function(x,y){
 						self.melee=false;
 						self.meleeCnt=0;
 					}
-					//console.log(self.meleeCnt);
+
 				}
-			//}
-		//}
+
+
 	}
 	self.dmgCollision=function(){
 		for(let key4770 in Enemy.list){
 			let e=Enemy.list[key4770];
-			
+
 			if(self.testCollision(e)){
-				//console.log('almost working');
 				if(self.melee){
 					if(e.invinc==false){
-						//console.log(self.x-e.x);
 						if(self.x-e.x<0){
 							e.KBDir=0;
 						}
@@ -788,7 +675,6 @@ Player=function(x,y){
 				}
 				else{
 					if(self.invinc==false){
-						//console.log(self.x-e.x);
 						if(self.x-e.x<0){
 							self.KBDir=1;
 						}
@@ -928,7 +814,7 @@ Upgrade.update=function(){
 		u.update();
 		let collision=player.testCollision(u);
 		if(collision){
-			
+
 			u.remove = true;
 		}
             if (u.remove) {
@@ -962,7 +848,7 @@ Upgrade.generate=function(enemy){
 		Upgrade(id,x,y,w,h,cat,img);
 	}
 	//console.log(cat);
-	
+
 
 }
 

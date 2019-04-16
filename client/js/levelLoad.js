@@ -1,3 +1,8 @@
+// levelLoad.js contains the function loadLevel. This function takes in the level
+// sting along with the level's width. Baed on the level string the levelLoad
+// function decodes the sting of block codes and places entities in the coordesponding
+// blocks based on their code.
+
 loadLevel=function(level,width){
 
 	Entity.clear();
@@ -54,7 +59,6 @@ loadLevel=function(level,width){
 
 	mousePos.xmax=width;
 	mousePos.ymax=yCnt;
-	
-	console.log(facCode)
+
 
 }
